@@ -7,6 +7,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/assignments', 'HomeController@index');
     Route::get('/exams', 'HomeController@index');
     Route::get('/billing', 'HomeController@index');
+    Route::get('/calender', 'HomeController@getCalender');
     });
 
 

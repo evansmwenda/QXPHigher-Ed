@@ -39,4 +39,7 @@ class HomeController extends Controller
         //landing page for the user's dashboard
         return view('students.home_user');
     }
+    public function getCalender(){
+        return view('students.calender');
+    }
 }
