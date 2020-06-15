@@ -42,4 +42,7 @@ class HomeController extends Controller
     public function getCalender(){
         return view('students.calender');
     }
+    public function getExams(){
+        return view('students.exams');
+    }
 }

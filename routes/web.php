@@ -5,7 +5,7 @@ Route::get('/', 'HomeController@landing');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/courses', 'HomeController@index');
     Route::get('/assignments', 'HomeController@index');
-    Route::get('/exams', 'HomeController@index');
+    Route::get('/exams', 'HomeController@getExams');
     Route::get('/billing', 'HomeController@index');
     Route::get('/calender', 'HomeController@getCalender');
     });
