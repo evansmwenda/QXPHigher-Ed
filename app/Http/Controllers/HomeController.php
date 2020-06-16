@@ -6,6 +6,9 @@ use App\Course;
 use App\EnrolledCourses;
 use DB;
 use App\Lesson;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class HomeController extends Controller
 {
@@ -46,8 +49,129 @@ class HomeController extends Controller
         //get the month and the year
         $month_year = date("F Y", time());
 
+        $current_time = date("Y-m-01",time());//first day of current month
+        $end_time = date("Y-m-t",time());//last day of the current month
+
+        $begin = new \DateTime( $current_time );
+        $end = new \DateTime( $end_time);
+        $end = $end->modify( '+1 day' );
+
+        $interval = new \DateInterval('P1D');
+        $daterange = new \DatePeriod($begin, $interval ,$end);
+
+
+
+        // <ul class="days">
+        //                         <li class="day">
+        //                             <div class="date">3</div>                       
+        //                         </li>
+        //                         <li class="day">
+        //                             <div class="date">4</div>                       
+        //                         </li>
+        //                         <li class="day">
+        //                             <div class="date">5</div>                       
+        //                         </li>
+        //                         <li class="day">
+        //                             <div class="date">6</div>                       
+        //                         </li>
+        //                         <li class="day">
+        //                             <div class="date">7</div>
+        //                             <div class="event">
+        //                                 <div class="event-desc">
+        //                                     Group Project meetup
+        //                                 </div>
+        //                                 <div class="event-time">
+        //                                     6:00pm to 8:30pm
+        //                                 </div>
+        //                             </div>                      
+        //                         </li>
+        //                         <li class="day">
+        //                             <div class="date">8</div>                       
+        //                         </li>
+        //                         <li class="day">
+        //                             <div class="date">9</div>                       
+        //                         </li>
+        //                     </ul>
+
+        $month_dates ="";  
+        
+        
+        $day_html =  "<ul class='days'>
+                                <li class='day'>
+                                    <div class='date'>X</div>                       
+                                </li>
+                      </ul>";
+                      // dd($daterange);
+        $startDate = reset($daterange);   
+        // dd($startDate) ;  
+        if($startDate->format("N") == "1"){
+            # monday
+            $month_dates .= $day_html;
+        }else if($startDate->format("N") == "2") {
+            # tuesday
+            $month_dates .= $day_html.$day_html;
+        }else if($startDate->format("N") == "3") {
+            # wednesday
+            $month_dates .= $day_html.$day_html.$day_html;            
+        }else if($startDate->format("N") == "4") {
+            # thursday
+            $month_dates .= $day_html.$day_html.$day_html.$day_html;            
+        }else if($startDate->format("N") == "5") {
+            # friday
+            $month_dates .= $day_html.$day_html.$day_html.$day_html.$day_html;            
+        }else if($startDate->format("N") == "6") {
+            # saturday
+            $month_dates .= $day_html.$day_html.$day_html.$day_html.$day_html.$day_html;            
+        }  
+
+
+        $events_array = array("7","13","4","23","29");
+        foreach($daterange as $date){
+            if(in_array($date->format("d"), $events_array)){
+                //display the associated event
+                $month_dates .= "<ul class='days'>
+                                <li class='day'>
+                                    <div class='date'>".$date->format("d")."</div>
+                                    <div class='event'>
+                                        <div class='event-desc'>
+                                            Group Project meetup
+                                        </div>
+                                        <div class='event-time'>
+                                            6:00pm to 8:30pm
+                                        </div>
+                                    </div>                      
+                                </li>
+                            </ul>";
+            }else{
+                //display it as a blank date
+                $month_dates .= "<ul class='days'>
+                                <li class='day'>
+                                    <div class='date'>".$date->format("d")."</div>                       
+                                </li>
+                            </ul>";
+            }
+            
+
+            
+            //echo $date->format("Ymd") . "<br>";
+        }
+        $month_dates = "
+                        <div id='calendar'>
+                            <ul class='weekdays'>
+                                <li>Sunday</li>
+                                <li>Monday</li>
+                                <li>Tuesday</li>
+                                <li>Wednesday</li>
+                                <li>Thursday</li>
+                                <li>Friday</li>
+                                <li>Saturday</li>
+                            </ul>
+                            ".$month_dates."
+                        </div>    ";
+       
+
         //match the dates to days
-        return view('students.calender')->with(compact('month_year'));
+        return view('students.calender')->with(compact('month_year','month_dates'));
     }
     public function getExams(){
         return view('students.exams');
