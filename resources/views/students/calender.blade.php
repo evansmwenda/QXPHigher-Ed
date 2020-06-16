@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <div id="calendar-wrap">
 			    		<header>
-			    			<h1>December 2017</h1>
+			    			<h1>{{ $month_year }}</h1>
 			    		</header>
 			    		<div id="calendar">
 			    			<ul class="weekdays">

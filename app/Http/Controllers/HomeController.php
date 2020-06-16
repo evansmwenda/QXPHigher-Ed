@@ -43,7 +43,11 @@ class HomeController extends Controller
         return view('students.home_user');
     }
     public function getCalender(){
-        return view('students.calender');
+        //get the month and the year
+        $month_year = date("F Y", time());
+
+        //match the dates to days
+        return view('students.calender')->with(compact('month_year'));
     }
     public function getExams(){
         return view('students.exams');
