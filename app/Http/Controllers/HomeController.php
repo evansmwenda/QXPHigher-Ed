@@ -47,9 +47,6 @@ class HomeController extends Controller
         return view('students.home_user');
     }
     public function getCalender(){
-        $purchased_courses = Events::get();
-
-
         $month = date('m');
         $monthly = DB::table('events')
                     ->whereMonth('event_start_time', $month)->get();//has events data for the current month
@@ -141,10 +138,7 @@ class HomeController extends Controller
                                 </li>
                             </ul>";
             }
-            
 
-            
-            //echo $date->format("Ymd") . "<br>";
         }
         $month_dates = "
                         <div id='calendar'>
