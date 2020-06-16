@@ -63,7 +63,7 @@ class HomeController extends Controller
             $eventDates_array .= $date_value .",";
             
         }
-        dd($eventDates_array);
+        
 
         //get the month and the year
         $month_year = date("F Y", time());
@@ -109,15 +109,26 @@ class HomeController extends Controller
         }  
 
 
-        
+        $eventDates_array =explode(",", $eventDates_array);
+        // dd($eventDates_array);
         foreach($daterange as $date){
             if(in_array($date->format("d"), $eventDates_array)){
+                //get the key of the date value
+                $key = array_search($date->format("d"), $eventDates_array);
+                $title = $monthly[$key]->title;
+                $start_time = explode(" ",$monthly[$key]->event_start_time);//"2020-06-17 13:00:00"
+                $begin =$start_time[1];
+                $end_time = explode(" ",$monthly[$key]->event_end_time);//"2020-06-17 13:00:00"
+                $end =$end_time[1];
+                dd($end);
                 //display the associated event
                 $month_dates .= "<ul class='days'>
                                 <li class='day'>
                                     <div class='date'>".$date->format("d")."</div>
                                     <div class='event'>
-                                        <div class='event-desc'>
+                                        <div class='event-desc'>"
+                                        .$monthly[$key]->title.
+                                        "
                                             Group Project meetup
                                         </div>
                                         <div class='event-time'>
