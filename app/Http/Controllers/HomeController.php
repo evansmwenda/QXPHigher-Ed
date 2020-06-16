@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\EnrolledCourses;
+use DB;
+use App\Lesson;
 
 class HomeController extends Controller
 {
@@ -44,5 +47,31 @@ class HomeController extends Controller
     }
     public function getExams(){
         return view('students.exams');
+    }
+    public function enrollCourse($course_id){
+        //enroll to this course
+        //get user id
+        // $course_details = Course::where(['published'=> 1,'id'=>$course_id])->get();
+        // dd($course_details[0]);
+        if (\Auth::check()) {
+            $course_details = Course::where(['published'=> 1,'id'=>$course_id])->get();
+            $total_lessons = Lesson::where(['course_id'=> $course_details[0]->id])->get();
+            $total_lessons = $total_lessons->count();
+
+            $newEnrolledCourse = [
+                'course_id' => $course_details[0]->id,
+                'lesson_id' => "1",
+                'user_id' => \Auth::id(),
+                'total_lessons' => $total_lessons
+            ];
+
+            $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
+            if($newEnrolledCourse){
+                //course enrolled
+                return redirect()->back()->with('flash_message_success','You have enrolled to course successfully');
+            }
+        }
+        
+
     }
 }

@@ -3,6 +3,20 @@
 @section('main')
 
     <h2>{{ $course->title }}</h2>
+    @if(Session::has("flash_message_error")) 
+            <div class="alert alert-error alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_error') !!}</strong>
+            </div> 
+          @endif 
+
+    @if(Session::has("flash_message_success")) 
+        <div class="alert alert-info alert-block">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>{!! session('flash_message_success') !!}</strong>
+        </div> 
+    @endif
+
 
     @if ($purchased_course)
         Rating: {{ $course->rating }} / 5
@@ -27,7 +41,12 @@
 
     <p>
         @if (\Auth::check())
-            @if ($course->students()->where('user_id', \Auth::id())->count() == 0)
+            @if($course->price == null)
+                <a href="/enroll/{{$course->id}}"
+               class="btn btn-primary">Enroll course Now</a>
+            @endif   
+
+            @if ($course->students()->where('user_id', \Auth::id())->count() == 0 &&$course->price != null)
             <form action="{{ route('courses.payment') }}" method="POST">
                 <input type="hidden" name="course_id" value="{{ $course->id }}" />
                 <input type="hidden" name="amount" value="{{ $course->price * 100 }}" />
@@ -36,7 +55,7 @@
                     data-key="{{ env('PUB_STRIPE_API_KEY') }}"
                     data-amount="{{ $course->price * 100 }}"
                     data-currency="usd"
-                    data-name="Quick LMS"
+                    data-name="QXP LMS"
                     data-label="Buy course (${{ $course->price }})"
                     data-description="Course: {{ $course->title }}"
                     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
@@ -46,9 +65,10 @@
                 {{ csrf_field() }}
             </form>
             @endif
+            
         @else
             <a href="{{ route('auth.register') }}?redirect_url={{ route('courses.show', [$course->slug]) }}"
-               class="btn btn-primary">Buy course (${{ $course->price }})</a>
+               class="btn btn-primary">Buy course (${{ $course->price }})</a>   
         @endif
     </p>
 

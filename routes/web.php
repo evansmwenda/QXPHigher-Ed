@@ -8,6 +8,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/exams', 'HomeController@getExams');
     Route::get('/billing', 'HomeController@index');
     Route::get('/calender', 'HomeController@getCalender');
+
+    //enroll to a free course
+    Route::get('enroll/{id}', 'HomeController@enrollCourse');
+
+
     });
 
 
