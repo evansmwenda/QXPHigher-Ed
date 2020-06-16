@@ -116,23 +116,19 @@ class HomeController extends Controller
                 //get the key of the date value
                 $key = array_search($date->format("d"), $eventDates_array);
                 $title = $monthly[$key]->title;
-                $start_time = explode(" ",$monthly[$key]->event_start_time);//"2020-06-17 13:00:00"
-                $begin =$start_time[1];
-                $end_time = explode(" ",$monthly[$key]->event_end_time);//"2020-06-17 13:00:00"
-                $end =$end_time[1];
-                dd($end);
+                $start_time = date("H:i",strtotime($monthly[$key]->event_start_time));//"2020-06-17 13:00:00"
+                $end_time =date("H:i",strtotime($monthly[$key]->event_end_time));//"2020-06-17 13:00:00"
                 //display the associated event
                 $month_dates .= "<ul class='days'>
                                 <li class='day'>
                                     <div class='date'>".$date->format("d")."</div>
                                     <div class='event'>
                                         <div class='event-desc'>"
-                                        .$monthly[$key]->title.
+                                        .$title.
                                         "
-                                            Group Project meetup
                                         </div>
                                         <div class='event-time'>
-                                            6:00pm to 8:30pm
+                                        ".$start_time." to ".$end_time."
                                         </div>
                                     </div>                      
                                 </li>
