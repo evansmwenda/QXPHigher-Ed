@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\EnrolledCourses;
+use App\Events;
 use DB;
 use App\Lesson;
 use DateTime;
@@ -46,6 +47,24 @@ class HomeController extends Controller
         return view('students.home_user');
     }
     public function getCalender(){
+        $purchased_courses = Events::get();
+
+
+        $month = date('m');
+        $monthly = DB::table('events')
+                    ->whereMonth('event_start_time', $month)->get();//has events data for the current month
+        
+
+        $eventDates_array = "";
+        foreach($monthly as $event){
+            //store the event date in array
+            $event_start_date = $event->event_start_time;//"2020-06-17 13:00:00"
+            $date_value =date('d',strtotime($event_start_date)); 
+            $eventDates_array .= $date_value .",";
+            
+        }
+        dd($eventDates_array);
+
         //get the month and the year
         $month_year = date("F Y", time());
 
@@ -59,42 +78,7 @@ class HomeController extends Controller
         $interval = new \DateInterval('P1D');
         $daterange = new \DatePeriod($begin, $interval ,$end);
 
-
-
-        // <ul class="days">
-        //                         <li class="day">
-        //                             <div class="date">3</div>                       
-        //                         </li>
-        //                         <li class="day">
-        //                             <div class="date">4</div>                       
-        //                         </li>
-        //                         <li class="day">
-        //                             <div class="date">5</div>                       
-        //                         </li>
-        //                         <li class="day">
-        //                             <div class="date">6</div>                       
-        //                         </li>
-        //                         <li class="day">
-        //                             <div class="date">7</div>
-        //                             <div class="event">
-        //                                 <div class="event-desc">
-        //                                     Group Project meetup
-        //                                 </div>
-        //                                 <div class="event-time">
-        //                                     6:00pm to 8:30pm
-        //                                 </div>
-        //                             </div>                      
-        //                         </li>
-        //                         <li class="day">
-        //                             <div class="date">8</div>                       
-        //                         </li>
-        //                         <li class="day">
-        //                             <div class="date">9</div>                       
-        //                         </li>
-        //                     </ul>
-
-        $month_dates ="";  
-        
+        $month_dates ="";
         
         $day_html =  "<ul class='days'>
                                 <li class='day'>
@@ -125,9 +109,9 @@ class HomeController extends Controller
         }  
 
 
-        $events_array = array("7","13","4","23","29");
+        
         foreach($daterange as $date){
-            if(in_array($date->format("d"), $events_array)){
+            if(in_array($date->format("d"), $eventDates_array)){
                 //display the associated event
                 $month_dates .= "<ul class='days'>
                                 <li class='day'>
