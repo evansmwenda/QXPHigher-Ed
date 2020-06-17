@@ -23,6 +23,7 @@ class LessonsController extends Controller
         }
 
         $test_result = NULL;
+
         if ($lesson->test) {
             $test_result = TestsResult::where('test_id', $lesson->test->id)
                 ->where('user_id', \Auth::id())
@@ -43,9 +44,10 @@ class LessonsController extends Controller
         if ($lesson->test && $lesson->test->questions->count() > 0) {
             $test_exists = TRUE;
         }
+        $questions_count = count($lesson->test->questions);
 
         return view('lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
-            'purchased_course', 'test_exists'));
+            'purchased_course', 'test_exists','questions_count'));
     }
 
     public function test($lesson_slug, Request $request)

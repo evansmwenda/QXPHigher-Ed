@@ -20,23 +20,28 @@
 
         @if ($test_exists)
             <hr />
-            <h3>Test: {{ $lesson->test->title }}</h3>
-            @if (!is_null($test_result))
-                <div class="alert alert-info">Your test score: {{ $test_result->test_result }}</div>
-            @else
-            <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
-                {{ csrf_field() }}
-                @foreach ($lesson->test->questions as $question)
-                    <b>{{ $loop->iteration }}. {{ $question->question }}</b>
-                    <br />
-                    @foreach ($question->options as $option)
-                        <input type="radio" name="questions[{{ $question->id }}]" value="{{ $option->id }}" /> {{ $option->option_text }}<br />
+            <h4><b>This test has {{ $questions_count }} questions</b></h4>
+            <button onclick="myFunction()" type="button" class="btn btn-primary btn-lg">Start Quiz</button>
+            <div id="quizDiv" style="display:none;">
+                <h3>Test: {{ $lesson->test->title }}</h3>
+                @if (!is_null($test_result))
+                    <div class="alert alert-info">Your test score: {{ $test_result->test_result }}</div>
+                @else
+                <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
+                    {{ csrf_field() }}
+                    @foreach ($lesson->test->questions as $question)
+                        <b>{{ $loop->iteration }}. {{ $question->question }}</b>
+                        <br />
+                        @foreach ($question->options as $option)
+                            <input type="radio" name="questions[{{ $question->id }}]" value="{{ $option->id }}" /> {{ $option->option_text }}<br />
+                        @endforeach
+                        <br />
                     @endforeach
-                    <br />
-                @endforeach
-                <input type="submit" value=" Submit results " />
-            </form>
-            @endif
+                    <input type="submit" value=" Submit results " />
+                </form>
+                @endif
+            </div>
+            
             <hr />
         @endif
     @else

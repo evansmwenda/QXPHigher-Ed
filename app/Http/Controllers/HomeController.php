@@ -18,8 +18,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $purchased_courses = NULL;
         if (\Auth::check()) {
             $purchased_courses = Course::whereHas('students', function($query) {

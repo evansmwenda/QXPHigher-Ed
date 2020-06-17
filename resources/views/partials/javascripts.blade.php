@@ -21,6 +21,17 @@
     window._token = '{{ csrf_token() }}';
 </script>
 
+<script type="text/javascript">
+	function myFunction() {
+	  var x = document.getElementById("quizDiv");
+	  if (x.style.display === "none") {
+	    x.style.display = "block";
+	  } else {
+	    x.style.display = "none";
+	  }
+	}
+</script>
+
 
 
 @yield('javascript')
