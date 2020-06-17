@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\EnrolledCourses;
 use App\Events;
+use App\Test;
+use App\TestsResult;
 use DB;
 use App\Lesson;
 use DateTime;
@@ -44,8 +46,22 @@ class HomeController extends Controller
     public function landing(){
         //landing page for the user's dashboard
 
-        //get the user's quizes
-        return view('students.home_user');
+        //get the user's quizzes
+        
+        $test_results = TestsResult::where(['user_id'=> \Auth::id() ])->get();
+        // $categories = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
+        dd($test_results);
+        foreach ($test_results as $test ) {
+            echo ($test->id);
+            //retrieve details about the test
+            $test_details = Test::where(['id'=> $test->id ])->get();
+
+            # code...
+        }
+        die();
+        // $categories = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
+        dd($test_details);
+        return view('students.home_user')->with(compact('test_details'));
     }
     public function getCalender(){
         $month = date('m');

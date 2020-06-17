@@ -1,8 +1,9 @@
 <?php
-Route::get('/', 'HomeController@landing');
+
 // Route::get('/index', 'HomeController@index');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', 'HomeController@landing');
     Route::get('/courses', 'HomeController@index');
     Route::get('/assignments', 'HomeController@index');
     Route::get('/exams', 'HomeController@getExams');
