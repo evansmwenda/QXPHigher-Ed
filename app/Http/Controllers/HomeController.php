@@ -46,8 +46,6 @@ class HomeController extends Controller
     public function landing(){
         //landing page for the user's dashboard
 
-        //get the user's quizzes
-
         // $test_results = TestsResult::where(['user_id'=> \Auth::id() ])->get();
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
         $tests_ids="";
@@ -56,36 +54,37 @@ class HomeController extends Controller
         foreach ($test_results as $test ) {
             $tests_ids .= $test->test_id.",";
 
-            // $GET = [];
-            // $GET += ['one' => 1];
             $result_array += [
                 $test->test_id => $test->test_result,
             ];
 
-            // if (strpos($my_results, $test->test_result) !== false) {
-            //     //
-            // }else{
-            //     $my_results .= $test->test_result.",";//test_result
-            // }
-
         }
-        // dd($result_array[51]);
 
-        // $my_array=array();
         $my_test_ids = explode(",",$tests_ids);//convert to array
-        $test_details = DB::table('tests')
-              ->whereIn('id', $my_test_ids)
-              ->get();
-        // dd($data);
         // dd($my_test_ids);
-        // foreach($my_test_ids as $my_test){
-        //     $test_details  .= Test::where(['id'=> $test->test_id ])->get();
-        //     // dd($test_details);
-        // }
-        // dd($test_details);
-        // die();
-        // $categories = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
-        //dd($test_details);
+
+        // $classes = DB::table('tbl_scheduled_classes')
+        //     ->select('tbl_scheduled_classes.id as class_id','tbl_scheduled_classes.title as title','tbl_scheduled_classes.meetingID as meetingID','tbl_users.name as name','tbl_users.id as user_id')
+        //     ->join('tbl_users', 'tbl_users.id', '=', 'tbl_scheduled_classes.owner')
+        //     ->where('tbl_scheduled_classes.owner',$user['id'])
+        //     ->orderBy('tbl_scheduled_classes.id','DESC')->get();
+
+        $test_details = DB::table('tests')
+                    ->select('tests.id as test_id','tests.title as title','tests.course_id as course_id','courses.title as name','courses.id as course_id')
+                    ->join('courses', 'courses.id', '=', 'tests.course_id')
+                    ->whereIn('tests.id', $my_test_ids)
+                    ->get();
+                    // dd($test_details);
+
+
+              // ->whereIn('id', $my_test_ids)
+              // ->get(); 
+        // dd($test_details);   
+
+        // $test_details = DB::table('tests')
+        //       ->whereIn('id', $my_test_ids)
+        //       ->get();
+
         return view('students.home_user')->with(compact('test_details','result_array'));
     }
     public function getCalender(){

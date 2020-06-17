@@ -78,9 +78,9 @@
                                     <tr>
                                         <td>
                                             <p style="margin-bottom: 0px !important">{{ $test->title }}</p>
-                                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Basics of HTML</span>
+                                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{ $test->name }}</span>
                                         </td>
-                                        <td><span class="badge progress-bar-warning" style="float: right;">Good {{ $result_array[$test->id]}}</span></td>
+                                        <td><span class="badge progress-bar-warning" style="float: right;">Good {{ $result_array[$test->test_id]}}</span></td>
                                     </tr>
 
                                 @endforeach
