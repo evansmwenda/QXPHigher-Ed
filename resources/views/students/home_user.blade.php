@@ -73,14 +73,19 @@
                     <div class="col-sm-12">
                         <table class="table">
                           <tbody>
-                            <tr>
-                                  <td>
-                                    <p style="margin-bottom: 0px !important">Level 1 HTML</p>
-                                    <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Basics of HTML</span>
-                                  </td>
-                                  <td><span class="badge progress-bar-warning" style="float: right;">Good 5.8</span></td>
-                            </tr>
-                            <tr>
+
+                                @foreach($test_details as $test)
+                                    <tr>
+                                        <td>
+                                            <p style="margin-bottom: 0px !important">{{ $test->title }}</p>
+                                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Basics of HTML</span>
+                                        </td>
+                                        <td><span class="badge progress-bar-warning" style="float: right;">Good {{ $result_array[$test->id]}}</span></td>
+                                    </tr>
+
+                                @endforeach
+
+                            <!-- <tr>
                               <td>
                                 <p style="margin-bottom: 0px !important">Level 2 Angular</p>
                                 <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Angular in steps</span>
@@ -93,7 +98,7 @@
                                 <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Bootstrap Foundation</span>
                               </td>
                               <td><span class="badge progress-bar-danger" style="float: right;">Failed 2.8</span></td>
-                            </tr>
+                            </tr> -->
 
 
                           </tbody>
