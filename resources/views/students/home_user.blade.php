@@ -60,6 +60,9 @@
                             </tr>
                           </tbody>
                         </table>
+                        <div style="text-align: center">
+                            <a href="/courses">View All Courses</a>
+                        </div>
                     </div>
                 </div>
             </div>

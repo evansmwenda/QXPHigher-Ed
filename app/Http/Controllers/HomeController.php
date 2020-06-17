@@ -43,6 +43,8 @@ class HomeController extends Controller
 
     public function landing(){
         //landing page for the user's dashboard
+
+        //get the user's quizes
         return view('students.home_user');
     }
     public function getCalender(){
