@@ -61,25 +61,13 @@ class HomeController extends Controller
         }
 
         $my_test_ids = explode(",",$tests_ids);//convert to array
-        // dd($my_test_ids);
-
-        // $classes = DB::table('tbl_scheduled_classes')
-        //     ->select('tbl_scheduled_classes.id as class_id','tbl_scheduled_classes.title as title','tbl_scheduled_classes.meetingID as meetingID','tbl_users.name as name','tbl_users.id as user_id')
-        //     ->join('tbl_users', 'tbl_users.id', '=', 'tbl_scheduled_classes.owner')
-        //     ->where('tbl_scheduled_classes.owner',$user['id'])
-        //     ->orderBy('tbl_scheduled_classes.id','DESC')->get();
 
         $test_details = DB::table('tests')
                     ->select('tests.id as test_id','tests.title as title','tests.course_id as course_id','courses.title as name','courses.id as course_id')
                     ->join('courses', 'courses.id', '=', 'tests.course_id')
                     ->whereIn('tests.id', $my_test_ids)
                     ->get();
-                    // dd($test_details);
 
-
-              // ->whereIn('id', $my_test_ids)
-              // ->get(); 
-        // dd($test_details);   
 
         // $test_details = DB::table('tests')
         //       ->whereIn('id', $my_test_ids)
