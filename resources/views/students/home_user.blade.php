@@ -7,63 +7,28 @@
                 <div class="panel-heading" style="text-decoration: bold;color: #000;">In Progress<span style="font-size: .8em;color: grey;"><br>Your recent courses</span></div>
 
                 <div class="panel-body">
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
                         <table class="table">
                           <tbody>
-                            
+                            @foreach($enrolled_course as $key => $course)
+                            <?php 
+                                $_class ="badge ".$progress_array[$key];
+                            ?>
 
                                 <tr>
                                   <td>
-                                    <p>View All Cou</p>
+                                    <p>{{ $course->title}}</p>
                                     <div class="progress progress-xs">
-                                      <div class="progress-bar progress-bar-primary" role="progressbar"
+                                      <div class="{{ $progress_array[$key] }}" role="progressbar"
                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
                                         <span class="sr-only">40% Complete (success)</span>
                                       </div>
                                     </div>
                                   </td>
-                                  <td><span class="badge bg-danger">40%</span></td>
+                                  <td><span class="{{ $badge_array[$key] }}">{{ $course_progress[$key]}}%</span></td>
                                 </tr>
-                            
 
-
-
-                            <tr>
-                              <td>
-                                <p>Angular in steps</p>
-                                <div class="progress progress-xs">
-                                  <div class="progress-bar progress-bar-success" role="progressbar"
-                                       aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                    <span class="sr-only">20% Complete</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td><span class="badge bg-danger">20%</span></td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <p>ES6 foundation</p>
-                                <div class="progress progress-xs">
-                                  <div class="progress-bar progress-bar-warning" role="progressbar"
-                                       aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                    <span class="sr-only">60% Complete (warning)</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td><span class="badge bg-danger">20%</span></td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <p>Biology 101</p>
-                                <div class="progress progress-xs">
-                                  <div class="progress-bar progress-bar-danger " role="progressbar"
-                                       aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                    <span class="sr-only">60% Complete (warning)</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td><span class="badge bg-danger">60%</span></td>
-                            </tr>
+                            @endforeach
                           </tbody>
                         </table>
                         <div style="text-align: center">

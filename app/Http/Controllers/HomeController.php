@@ -61,20 +61,45 @@ class HomeController extends Controller
         // ->join('lessons', 'lessons.course_id', '=', 'courses.id')
         ->where('enrolled_courses.user_id', '=', \Auth::id())
         ->get();
-        dd($enrolled_course);
-        $course_progress=[];
+        // dd($enrolled_course);
+        $course_progress=[];//with different course progresses
+        $progress_array=[];
+        $badge_array=[];
         foreach($enrolled_course as $course){
             //get the lesson ids and calculate percentage done
             $ids = explode(",", $course->lesson_id);
             $count = count(array_unique($ids));
 
-            $percentage = ($count/$course->total_lessons)*100;
-            $course_progress += [
-                 $percentage,
-            ];
+            $percentage = round(($count/$course->total_lessons)*100);
+            switch ($percentage) {
+                case $percentage > 90:
+                    $progress_class="progress-bar progress-bar-success";
+                    $badge_class="badge progress-bar-success";
+                    break;
+                case $percentage > 60:
+                    $progress_class="progress-bar progress-bar-primary";
+                    $badge_class="badge progress-bar-primary";
+                    break;
+                case $percentage > 30:
+                    $progress_class="progress-bar progress-bar-warning";
+                    $badge_class="badge progress-bar-warning";
+                    break;
+                case $percentage < 30:
+                    $progress_class="progress-bar progress-bar-danger";
+                    $badge_class="badge progress-bar-danger";
+                    break;  
+                default:
+                    $progress_class="progress-bar progress-bar-primary";
+                    $badge_class="badge progress-bar-primary";
+                    break;
+            }
+            array_push($badge_array, $badge_class);
+            array_push($progress_array, $progress_class);
+            array_push($course_progress, $percentage);
 
+            // $classed="progress-bar progress-bar-primary";
         }
-        dd($course_progress);
+        // dd($course_progress);
 
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
         $tests_ids="";
@@ -102,7 +127,7 @@ class HomeController extends Controller
         //       ->whereIn('id', $my_test_ids)
         //       ->get();
 
-        return view('students.home_user')->with(compact('test_details','result_array','enrolled_course'));
+        return view('students.home_user')->with(compact('test_details','result_array','enrolled_course','course_progress','progress_array','badge_array'));
     }
     public function getCalender(){
         $month = date('m');
