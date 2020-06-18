@@ -45,9 +45,23 @@ class HomeController extends Controller
     }
 
     public function landing(){
-        $enrolled_course = EnrolledCourses::with('course','lesson')
-                                ->where(['user_id' => \Auth::id()])->get(); 
-        dd($enrolled_course);
+        // $enrolled_course = EnrolledCourses::with('course','lesson')
+        //                         ->where(['user_id' => \Auth::id()])->get();\
+
+
+    //     $shares = DB::table('shares')
+    // ->join('users', 'users.id', '=', 'shares.user_id')
+    // ->join('follows', 'follows.user_id', '=', 'users.id')
+    // ->where('follows.follower_id', '=', 3)
+    // ->get();
+
+
+        $enrolled_course = DB::table('enrolled_courses')
+        ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
+        // ->join('lessons', 'lessons.course_id', '=', 'courses.id')
+        ->where('enrolled_courses.user_id', '=', \Auth::id())
+        ->get();
+        //dd($enrolled_course);
 
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
         $tests_ids="";

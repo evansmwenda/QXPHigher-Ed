@@ -44,7 +44,14 @@ class LessonsController extends Controller
         if ($lesson->test && $lesson->test->questions->count() > 0) {
             $test_exists = TRUE;
         }
-        $questions_count = count($lesson->test->questions);
+
+        //dd($lesson->test);
+        if($lesson->test == null){
+            $questions =0;
+        }else{
+            $questions_count = count($lesson->test->questions);
+        }
+        
 
         return view('lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
             'purchased_course', 'test_exists','questions_count'));

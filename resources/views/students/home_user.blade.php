@@ -10,11 +10,11 @@
                     <div class="col-sm-9">
                         <table class="table">
                           <tbody>
-                            @foreach($enrolled_course as $course)
+                            
 
                                 <tr>
                                   <td>
-                                    <p>{{ $course->course->title}}</p>
+                                    <p>View All Cou</p>
                                     <div class="progress progress-xs">
                                       <div class="progress-bar progress-bar-primary" role="progressbar"
                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
@@ -24,7 +24,7 @@
                                   </td>
                                   <td><span class="badge bg-danger">40%</span></td>
                                 </tr>
-                            @endforeach    
+                            
 
 
 
