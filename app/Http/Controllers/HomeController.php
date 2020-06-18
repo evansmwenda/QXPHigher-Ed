@@ -76,17 +76,13 @@ class HomeController extends Controller
                     $progress_class="progress-bar progress-bar-success";
                     $badge_class="badge progress-bar-success";
                     break;
-                case $percentage > 60:
+                case $percentage < 90 && $percentage > 30:
                     $progress_class="progress-bar progress-bar-primary";
                     $badge_class="badge progress-bar-primary";
                     break;
-                case $percentage > 30:
+                case $percentage < 30:
                     $progress_class="progress-bar progress-bar-warning";
                     $badge_class="badge progress-bar-warning";
-                    break;
-                case $percentage < 30:
-                    $progress_class="progress-bar progress-bar-danger";
-                    $badge_class="badge progress-bar-danger";
                     break;  
                 default:
                     $progress_class="progress-bar progress-bar-primary";
@@ -96,11 +92,10 @@ class HomeController extends Controller
             array_push($badge_array, $badge_class);
             array_push($progress_array, $progress_class);
             array_push($course_progress, $percentage);
-
-            // $classed="progress-bar progress-bar-primary";
         }
-        // dd($course_progress);
 
+        //
+        //get results of any attempted quizes
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
         $tests_ids="";
         $my_results="";
