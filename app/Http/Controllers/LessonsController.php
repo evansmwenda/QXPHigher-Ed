@@ -20,11 +20,11 @@ class LessonsController extends Controller
         //uget the current lesson_ids column of enrolled courses
         $update_lesson = DB::table('enrolled_courses')
             ->where('course_id',$course_id)
-            ->where('user_id', '2')
+            ->where('user_id', \Auth::id())
             ->get();
 
         //update the value of lesson ids    
-        $cour = EnrolledCourses::where('course_id',$course_id)->where('user_id', '2')->update(['lesson_id'=>$update_lesson[0]->lesson_id.",".$lesson->id]);
+        $cour = EnrolledCourses::where('course_id',$course_id)->where('user_id', \Auth::id())->update(['lesson_id'=>$update_lesson[0]->lesson_id.",".$lesson->id]);
   
 
         if (\Auth::check())

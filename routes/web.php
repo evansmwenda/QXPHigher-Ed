@@ -1,10 +1,11 @@
 <?php
 
 // Route::get('/index', 'HomeController@index');
-Route::get('/', 'Auth\LoginController@showLoginForm');
+// Route::get('/', 'Auth\LoginController@showLoginForm');
+Route::get('/', 'HomeController@landing');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', 'HomeController@landing');
+    // Route::get('/', 'HomeController@landing');
     Route::get('/courses', 'HomeController@index');
     Route::get('/assignments', 'HomeController@index');
     Route::get('/exams', 'HomeController@getExams');
