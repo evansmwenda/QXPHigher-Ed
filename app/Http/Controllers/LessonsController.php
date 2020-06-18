@@ -6,7 +6,9 @@ use App\Lesson;
 use App\Question;
 use App\QuestionsOption;
 use App\TestsResult;
+use App\EnrolledCourses;
 use Illuminate\Http\Request;
+use DB;
 
 class LessonsController extends Controller
 {
@@ -14,6 +16,16 @@ class LessonsController extends Controller
     public function show($course_id, $lesson_slug)
     {
         $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->firstOrFail();
+
+        //uget the current lesson_ids column of enrolled courses
+        $update_lesson = DB::table('enrolled_courses')
+            ->where('course_id',$course_id)
+            ->where('user_id', '2')
+            ->get();
+
+        //update the value of lesson ids    
+        $cour = EnrolledCourses::where('course_id',$course_id)->where('user_id', '2')->update(['lesson_id'=>$update_lesson[0]->lesson_id.",".$lesson->id]);
+  
 
         if (\Auth::check())
         {

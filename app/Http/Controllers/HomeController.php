@@ -61,7 +61,20 @@ class HomeController extends Controller
         // ->join('lessons', 'lessons.course_id', '=', 'courses.id')
         ->where('enrolled_courses.user_id', '=', \Auth::id())
         ->get();
-        //dd($enrolled_course);
+        dd($enrolled_course);
+        $course_progress=[];
+        foreach($enrolled_course as $course){
+            //get the lesson ids and calculate percentage done
+            $ids = explode(",", $course->lesson_id);
+            $count = count(array_unique($ids));
+
+            $percentage = ($count/$course->total_lessons)*100;
+            $course_progress += [
+                 $percentage,
+            ];
+
+        }
+        dd($course_progress);
 
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
         $tests_ids="";
