@@ -7,8 +7,9 @@ use App\EnrolledCourses;
 use App\Events;
 use App\Test;
 use App\TestsResult;
-use DB;
 use App\Lesson;
+use App\LessonStudent;
+use DB;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -46,7 +47,7 @@ class HomeController extends Controller
     public function landing(){
         $enrolled_course = EnrolledCourses::with('course','lesson')
                                 ->where(['user_id' => \Auth::id()])->get(); 
-        //dd($enrolled_course[1]->total_lessons);
+        dd($enrolled_course);
 
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
         $tests_ids="";

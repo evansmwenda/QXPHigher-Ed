@@ -14,7 +14,7 @@
 
                                 <tr>
                                   <td>
-                                    <p>Learn Vue.js fundamentals</p>
+                                    <p>{{ $course->course->title}}</p>
                                     <div class="progress progress-xs">
                                       <div class="progress-bar progress-bar-primary" role="progressbar"
                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
