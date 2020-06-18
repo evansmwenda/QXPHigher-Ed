@@ -116,6 +116,7 @@ class HomeController extends Controller
                     ->select('tests.id as test_id','tests.title as title','tests.course_id as course_id','courses.title as name','courses.id as course_id')
                     ->join('courses', 'courses.id', '=', 'tests.course_id')
                     ->whereIn('tests.id', $my_test_ids)
+                    ->orderBy('tests.id','DESC')
                     ->get();
 
 
