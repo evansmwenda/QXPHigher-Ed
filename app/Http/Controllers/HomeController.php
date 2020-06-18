@@ -44,9 +44,10 @@ class HomeController extends Controller
     }
 
     public function landing(){
-        //landing page for the user's dashboard
+        $enrolled_course = EnrolledCourses::with('course','lesson')
+                                ->where(['user_id' => \Auth::id()])->get(); 
+        //dd($enrolled_course[1]->total_lessons);
 
-        // $test_results = TestsResult::where(['user_id'=> \Auth::id() ])->get();
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
         $tests_ids="";
         $my_results="";
@@ -73,7 +74,7 @@ class HomeController extends Controller
         //       ->whereIn('id', $my_test_ids)
         //       ->get();
 
-        return view('students.home_user')->with(compact('test_details','result_array'));
+        return view('students.home_user')->with(compact('test_details','result_array','enrolled_course'));
     }
     public function getCalender(){
         $month = date('m');

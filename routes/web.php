@@ -1,6 +1,7 @@
 <?php
 
 // Route::get('/index', 'HomeController@index');
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@landing');
