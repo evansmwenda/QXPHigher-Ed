@@ -11,17 +11,14 @@
                         <table class="table">
                           <tbody>
                             @foreach($enrolled_course as $key => $course)
-                            <?php 
-                                $_class ="badge ".$progress_array[$key];
-                            ?>
 
                                 <tr>
                                   <td>
                                     <p>{{ $course->title}}</p>
                                     <div class="progress progress-xs">
                                       <div class="{{ $progress_array[$key] }}" role="progressbar"
-                                           aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                        <span class="sr-only">40% Complete (success)</span>
+                                           aria-valuenow="{{ $course_progress[$key]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $course_progress[$key]}}%">
+                                        <span class="sr-only">{{ $course_progress[$key]}}% Complete (success)</span>
                                       </div>
                                     </div>
                                   </td>
