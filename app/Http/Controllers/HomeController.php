@@ -96,7 +96,8 @@ class HomeController extends Controller
 
         //
         //get results of any attempted quizes
-        $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->get();
+        $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->orderBy('id','DESC')->get();
+        // dd($test_results);
         $tests_ids="";
         $my_results="";
         $result_array =[];
