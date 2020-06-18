@@ -54,6 +54,11 @@ class HomeController extends Controller
     // ->join('follows', 'follows.user_id', '=', 'users.id')
     // ->where('follows.follower_id', '=', 3)
     // ->get();
+        if(\Auth::check()){
+            $logged_in=true;
+        }else{
+            $logged_in = false;
+        }
 
 
         $enrolled_course = DB::table('enrolled_courses')
@@ -97,7 +102,7 @@ class HomeController extends Controller
         //
         //get results of any attempted quizes
         $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->orderBy('id','DESC')->get();
-        // dd($test_results);
+        //dd($test_results);
         $tests_ids="";
         $my_results="";
         $result_array =[];

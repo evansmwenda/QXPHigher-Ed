@@ -69,12 +69,27 @@
                 </a>
             </li>
 
-            <li>
+            
+
+            @if(\Auth::check())
+                <li>
                 <a href="#logout" onclick="$('#logout').submit();">
                     <i class="fa fa-arrow-left"></i>
                     <span class="title">@lang('global.app_logout')</span>
                 </a>
             </li>
+            @else
+            <li>
+                <a href="/login">
+                    <i class="fa fa-arrow-right"></i>
+                    <span class="title">Login</span>
+                </a>
+            </li>
+
+            @endif
+
+
+
         </ul>
     </section>
 </aside>
