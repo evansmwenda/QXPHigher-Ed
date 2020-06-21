@@ -29,45 +29,49 @@
                 </a>
             </li>
 
-            
-            <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="/courses">
-                    <i class="fa fa-gears"></i>
-                    <span class="title">@lang('global.courses.title')</span>
-                </a>
-            </li>
-            <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="/calender">
-                    <i class="fa fa-newspaper-o"></i>
-                    <span class="title">Calender</span>
-                </a>
-            </li>
-            <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="/assignments">
-                    <i class="fa fa-edit"></i>
-                    <span class="title">Assignments</span>
-                </a>
-            </li>
-            <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="/exams">
-                    <i class="fa fa-briefcase"></i>
-                    <span class="title">Exams</span>
-                </a>
-            </li>
-            <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="/billing">
-                    <i class="fa fa-dollar"></i>
-                    <span class="title">Billing</span>
-                </a>
-            </li>
-            
+            <!-- ensure user logged in to view this -->
+            @if(\Auth::check())
+                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                    <a href="/courses">
+                        <i class="fa fa-gears"></i>
+                        <span class="title">@lang('global.courses.title')</span>
+                    </a>
+                </li>
+                
+                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                    <a href="/calender">
+                        <i class="fa fa-newspaper-o"></i>
+                        <span class="title">Calender</span>
+                    </a>
+                </li>
 
-            <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="{{ route('auth.change_password') }}">
-                    <i class="fa fa-key"></i>
-                    <span class="title">Change password</span>
-                </a>
-            </li>
+                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                    <a href="/assignments">
+                        <i class="fa fa-edit"></i>
+                        <span class="title">Assignments</span>
+                    </a>
+                </li>
+                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                    <a href="/exams">
+                        <i class="fa fa-briefcase"></i>
+                        <span class="title">Exams</span>
+                    </a>
+                </li>
+                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                    <a href="/billing">
+                        <i class="fa fa-dollar"></i>
+                        <span class="title">Billing</span>
+                    </a>
+                </li>
+                
+
+                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                    <a href="{{ route('auth.change_password') }}">
+                        <i class="fa fa-key"></i>
+                        <span class="title">Change password</span>
+                    </a>
+                </li>
+            @endif
 
             
 
