@@ -112,7 +112,7 @@
             <li class="">
                 <a href="#">
                     <i class="fa fa-newspaper-o"></i>
-                    <span class="title">Calender</span>
+                    <span class="title">Calendar</span>
                 </a>
             </li>
             
