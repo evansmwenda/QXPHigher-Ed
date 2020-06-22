@@ -13,7 +13,11 @@ use DB;
 use DateTime;
 use DateInterval;
 use DatePeriod;
-use Illuminate\Support\Facades\Request;
+use Auth;
+use Session;
+// use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+use App\Http\Requests;
 
 
 class HomeController extends Controller
@@ -237,8 +241,37 @@ class HomeController extends Controller
         return view('students.calender')->with(compact('month_year','month_dates'));
     }
     public function getAssignments(Request $request){
-        if(Request::isMethod('post')){
+        if($request->isMethod('post')){
             $method = "POST";
+            $data=$request->all();
+            // dd($request->all());
+            // $request->validate([
+            // 'file' => 'required|mimes:pdf,xlx,csv|max:2048',
+            // ]);
+            // $fileName = time().'.'.$request->file->extension();
+            //upload the image
+            // dd($request->hasFile('assignment'));
+            if($request->hasFile('assignment')){
+                $image_tmp = $request->file('assignment');
+
+                $extension = $image_tmp->getClientOriginalExtension();
+                dd($extension);
+                $filename = rand(111,99999).'.'.$extension;
+
+                $large_image_path  = 'images/backend_images/products/large/'.$filename;
+                $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                $small_image_path  = 'images/backend_images/products/small/'.$filename;
+
+                //Resize the images
+                Image::make($image_tmp)->save($large_image_path);
+                Image::make($image_tmp)->resize(600,600)->save($medium_image_path);
+                Image::make($image_tmp)->resize(300,300)->save($small_image_path);
+
+                //store into products table
+                $product->image = $filename;
+            } 
+   
+            // $request->file->move(public_path('uploads'), $fileName)
         }else{
             $method="GET";
         }

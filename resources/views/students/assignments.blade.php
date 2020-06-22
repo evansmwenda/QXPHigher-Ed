@@ -18,7 +18,7 @@
               </div> 
           @endif
 
-          
+
             <div class="panel panel-default">
                 <div class="panel-heading">Assignments - {{ $method }}</div>
 
@@ -37,13 +37,12 @@
                             <div class="panel-body">Assignment on research of the different methods of gathering scientific data<br>
                             <a href="test_file.zip" download>Download File</a>
                             <p style="padding-top: 20px;">Once completed, you can submit the assignment from the section below</p>
-                            <form role="form" method="POST" action="/assignments" enctype="multipart/form-data">
-                              {{csrf_field() }}
+                            <form role="form" enctype="multipart/form-data" method="post" action="{{('/assignments')}}" novalidate="novalidate"> {{csrf_field() }}
                                <div class="form-group">
                                 <label for="exampleInputFile">Choose Assignment</label>
                                 <div class="input-group">
                                   <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile">
+                                    <input type="file" name="assignment" class="custom-file-input" id="assignment" >
                                     <!-- <label class="custom-file-label" for="exampleInputFile">Choose file</label> -->
                                   </div>
                                   <!-- <div class="input-group-append">
