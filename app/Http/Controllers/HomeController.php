@@ -9,6 +9,8 @@ use App\Test;
 use App\TestsResult;
 use App\Lesson;
 use App\LessonStudent;
+use App\Assignments;
+use App\SubmittedAssignments;
 use DB;
 use DateTime;
 use DateInterval;
@@ -241,6 +243,7 @@ class HomeController extends Controller
         return view('students.calender')->with(compact('month_year','month_dates'));
     }
     public function getAssignments(Request $request){
+        // dd(\Auth::id());
         if($request->isMethod('post')){
             $method = "POST";
             $data=$request->all();
@@ -255,6 +258,15 @@ class HomeController extends Controller
 
                 $image_tmp->move('uploads/assignments/Biology_101/', $filename);
                 //store the filename into the db
+
+                $flight = new Flight;
+                $flight->name = $request->name;
+                $flight->save();
+
+                $my_assignment = new SubmittedAssignments;
+                $my_assignment->assignment_id=5;
+                $my_assignment->user_id=\Auth::id();
+                $my_assignment->filename=$filename;
    
                 return back()
                     ->with('flash_message_success','You have successfully submitted your assignment.');
@@ -265,7 +277,22 @@ class HomeController extends Controller
    
             // $request->file->move(public_path('uploads'), $fileName)
         }else{
+
+            //step1. get the courses where the student is enrolled in and store ids in string
+            $my_courses = EnrolledCourses::where(['user_id'=>\Auth::id()])->get();
+            $my_course_ids="";
+            foreach($my_courses as $course){
+                $my_course_ids .= $course->course_id .","; 
+            }
+
+            
+
+            //step2. fetch the assignments in the course ids of student
+            $ids_array = explode(",", $my_course_ids);
+            $assignments = Assignments::whereIn('course_id', [$ids_array])->get();
+            dd($assignments);
             $method="GET";
+            //$assignments = Assignments::
         }
         return view('students.assignments')->with(compact('method'));
     }
