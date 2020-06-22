@@ -26,6 +26,7 @@
 
                 	<div class="col-sm-10">
                       <div class="panel-group" id="accordion">
+
                         @foreach($assignments as $assignment)
                         <div class="panel panel-default">
                           <div class="panel-heading">
@@ -34,9 +35,9 @@
                               {{ $assignment->course->title}}</a>
                             </h4>
                           </div>
-                          <div id="collapse{{ $assignment->id }}" class="panel-collapse collapse in">
+                          <div id="collapse{{ $assignment->id }}" class="panel-collapse collapse">
                             <div class="panel-body">
-                              <h6>{{ $assignment->title }}</h6><br>
+                              <h4>{{ $assignment->title }}</h4><br>
                               {{ $assignment->description }}<br>
                             <a href="{{url('uploads/assignments/'.$assignment->course->slug.'/'.$assignment->media)}}" download>Download File</a>
                             <p style="padding-top: 20px;">Once completed, you can submit the assignment from the section below</p>
