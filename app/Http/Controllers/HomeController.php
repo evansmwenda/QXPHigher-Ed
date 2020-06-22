@@ -13,6 +13,8 @@ use DB;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use Illuminate\Support\Facades\Request;
+
 
 class HomeController extends Controller
 {
@@ -234,7 +236,15 @@ class HomeController extends Controller
         //match the dates to days
         return view('students.calender')->with(compact('month_year','month_dates'));
     }
-    public function getAssignments(){
+    public function getAssignments(Request $request){
+        if(Request::isMethod('post')){
+            $method = "POST";
+        }else{
+            $method="GET";
+        }
+        return view('students.assignments')->with(compact('method'));
+    }
+    public function postAssignments(){
         return view('students.assignments');
     }
     public function getExams(){
