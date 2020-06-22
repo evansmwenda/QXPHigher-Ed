@@ -41,14 +41,14 @@
                               {{ $assignment->description }}<br>
                             <a href="{{url('uploads/assignments/'.$assignment->course->slug.'/'.$assignment->media)}}" download>Download File</a>
                             <p style="padding-top: 20px;">Once completed, you can submit the assignment from the section below</p>
-                            <form role="form" enctype="multipart/form-data" method="post" action="{{('/assignments')}}" novalidate="novalidate"> {{csrf_field() }}
+                            <form role="form" enctype="multipart/form-data" method="post" action="{{('/assignments')}}"> {{csrf_field() }}
                                <div class="form-group">
                                 <input type="hidden" id="assignment_id" name="assignment_id" value="{{ $assignment->id }}">
                                 <input type="hidden" id="slug" name="slug" value="{{ $assignment->course->slug }}">
                                 <label for="exampleInputFile">Choose Assignment</label>
                                 <div class="input-group">
                                   <div class="custom-file">
-                                    <input type="file" name="assignment" class="custom-file-input" id="assignment" >
+                                    <input type="file" name="assignment" class="custom-file-input" id="assignment" required>
                                   </div>
                                 </div>
                               </div>
