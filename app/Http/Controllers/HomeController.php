@@ -258,29 +258,32 @@ class HomeController extends Controller
                 $filename = time().'.'.$extension;//1592819807.txt
 
                 $storage_dir = 'uploads/assignments/'.$data['slug'].'/';
-                dd($storage_dir);
+                // dd($storage_dir);
 
-                $image_tmp->move($storage_dir, $filename);
+                $uploaded = $image_tmp->move($storage_dir, $filename);
                 //store the filename into the db
 
-                $flight = new Flight;
-                $flight->name = $request->name;
-                $flight->save();
+                // $flight = new Flight;
+                // $flight->name = $request->name;
+                // $flight->save();
 
-                $my_assignment = new SubmittedAssignments;
-                $my_assignment->assignment_id=$data['assignment_id'];
-                $my_assignment->user_id=\Auth::id();
-                $my_assignment->filename=$filename;
-   
-                return back()
-                    ->with('flash_message_success','You have successfully submitted your assignment.');
-
-                //store into products table
-                //$product->image = $filename;
+                if($uploaded){
+                    //file was uploaded->insert to db
+                    $my_assignment = new SubmittedAssignments;
+                    $my_assignment->assignment_id=$data['assignment_id'];
+                    $my_assignment->user_id=\Auth::id();
+                    $my_assignment->filename=$filename;
+                    $my_assignment->save();
+       
+                    return back()
+                        ->with('flash_message_success','You have successfully submitted your assignment.');
+                }else{
+                    //file was not uploaded dont insert to db
+                    return back()->with('flash_message_error','Sorry, there was an error uploading your assigment');
+                }
             } 
    
-            // $request->file->move(public_path('uploads'), $fileName)
-        }else{
+           }else{
 
             //step1. get the courses where the student is enrolled in and store ids in string
             $my_courses = EnrolledCourses::where(['user_id'=>\Auth::id()])->get();
