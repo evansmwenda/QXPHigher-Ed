@@ -101,6 +101,20 @@
                 </a>
             </li>
             @endcan
+
+            <li class="">
+                <a href="#">
+                    <i class="fa fa-briefcase"></i>
+                    <span class="title">Exams</span>
+                </a>
+            </li>
+
+            <li class="">
+                <a href="#">
+                    <i class="fa fa-newspaper-o"></i>
+                    <span class="title">Calender</span>
+                </a>
+            </li>
             
 
             
