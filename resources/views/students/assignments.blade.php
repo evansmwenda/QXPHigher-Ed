@@ -26,6 +26,43 @@
 
                 	<div class="col-sm-10">
                       <div class="panel-group" id="accordion">
+                        @foreach($assignments as $assignment)
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                              {{ $assignment->course->title}}</a>
+                            </h4>
+                          </div>
+                          <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                              <h6>{{ $assignment->title }}</h6><br>
+                              {{ $assignment->description }}<br>
+                            <a href="{{url('uploads/assignments/'.$assignment->course->slug.'/'.$assignment->media)}}" download>Download File</a>
+                            <p style="padding-top: 20px;">Once completed, you can submit the assignment from the section below</p>
+                            <form role="form" enctype="multipart/form-data" method="post" action="{{('/assignments')}}" novalidate="novalidate"> {{csrf_field() }}
+                               <div class="form-group">
+                                <input type="hidden" id="assignment_id" name="assignment_id" value="{{ $assignment->id }}">
+                                <input type="hidden" id="slug" name="slug" value="{{ $assignment->course->slug }}">
+                                <label for="exampleInputFile">Choose Assignment</label>
+                                <div class="input-group">
+                                  <div class="custom-file">
+                                    <input type="file" name="assignment" class="custom-file-input" id="assignment" >
+                                  </div>
+                                </div>
+                              </div>
+
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                          </div>
+                          </div>
+                        </div>
+                        @endforeach
+
+                        
+
+
+
                         <div class="panel panel-default">
                           <div class="panel-heading">
                             <h4 class="panel-title">

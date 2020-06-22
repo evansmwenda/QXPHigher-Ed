@@ -243,10 +243,11 @@ class HomeController extends Controller
         return view('students.calender')->with(compact('month_year','month_dates'));
     }
     public function getAssignments(Request $request){
-        // dd(\Auth::id());
+         
         if($request->isMethod('post')){
             $method = "POST";
             $data=$request->all();
+             // dd($data);
             // $request->validate([
             // 'file' => 'required|mimes:pdf,xlx,csv|max:2048',
             // ]);
@@ -256,7 +257,10 @@ class HomeController extends Controller
                 $extension = $image_tmp->getClientOriginalExtension();//txt,pdf,csv
                 $filename = time().'.'.$extension;//1592819807.txt
 
-                $image_tmp->move('uploads/assignments/Biology_101/', $filename);
+                $storage_dir = 'uploads/assignments/'.$data['slug'].'/';
+                dd($storage_dir);
+
+                $image_tmp->move($storage_dir, $filename);
                 //store the filename into the db
 
                 $flight = new Flight;
@@ -264,7 +268,7 @@ class HomeController extends Controller
                 $flight->save();
 
                 $my_assignment = new SubmittedAssignments;
-                $my_assignment->assignment_id=5;
+                $my_assignment->assignment_id=$data['assignment_id'];
                 $my_assignment->user_id=\Auth::id();
                 $my_assignment->filename=$filename;
    
@@ -285,16 +289,18 @@ class HomeController extends Controller
                 $my_course_ids .= $course->course_id .","; 
             }
 
-            
-
-            //step2. fetch the assignments in the course ids of student
+           //step2. fetch the assignments in the enrolled courses of student
             $ids_array = explode(",", $my_course_ids);
-            $assignments = Assignments::whereIn('course_id', [$ids_array])->get();
-            dd($assignments);
+
+            // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
+            $assignments = Assignments::with(['course'])->whereIn('course_id', $ids_array)->get();
+            //dd($assignments);
+
+            
             $method="GET";
             //$assignments = Assignments::
         }
-        return view('students.assignments')->with(compact('method'));
+        return view('students.assignments')->with(compact('method','assignments'));
     }
     public function postAssignments(){
         return view('students.assignments');
