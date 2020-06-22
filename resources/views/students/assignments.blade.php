@@ -38,7 +38,7 @@
                             <a href="test_file.zip" download>Download File</a>
                             <p style="padding-top: 20px;">Once completed, you can submit the assignment from the section below</p>
                             <form role="form" method="POST" action="/assignments" enctype="multipart/form-data">
-                              <?php csrf_token(); ?>
+                              {{csrf_field() }}
                                <div class="form-group">
                                 <label for="exampleInputFile">Choose Assignment</label>
                                 <div class="input-group">
