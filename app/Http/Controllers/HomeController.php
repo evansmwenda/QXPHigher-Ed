@@ -244,31 +244,22 @@ class HomeController extends Controller
         if($request->isMethod('post')){
             $method = "POST";
             $data=$request->all();
-            // dd($request->all());
             // $request->validate([
             // 'file' => 'required|mimes:pdf,xlx,csv|max:2048',
             // ]);
-            // $fileName = time().'.'.$request->file->extension();
-            //upload the image
-            // dd($request->hasFile('assignment'));
             if($request->hasFile('assignment')){
                 $image_tmp = $request->file('assignment');
 
-                $extension = $image_tmp->getClientOriginalExtension();
-                dd($extension);
-                $filename = rand(111,99999).'.'.$extension;
+                $extension = $image_tmp->getClientOriginalExtension();//txt,pdf,csv
+                $filename = time().'.'.$extension;//1592819807.txt
 
-                $large_image_path  = 'images/backend_images/products/large/'.$filename;
-                $medium_image_path = 'images/backend_images/products/medium/'.$filename;
-                $small_image_path  = 'images/backend_images/products/small/'.$filename;
-
-                //Resize the images
-                Image::make($image_tmp)->save($large_image_path);
-                Image::make($image_tmp)->resize(600,600)->save($medium_image_path);
-                Image::make($image_tmp)->resize(300,300)->save($small_image_path);
+                $image_tmp->move('uploads/assignments/Biology_101/', $filename);
+   
+                return back()
+                    ->with('flash_message_success','You have successfully your assignment.');
 
                 //store into products table
-                $product->image = $filename;
+                //$product->image = $filename;
             } 
    
             // $request->file->move(public_path('uploads'), $fileName)
