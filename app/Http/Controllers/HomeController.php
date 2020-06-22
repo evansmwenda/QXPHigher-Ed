@@ -45,15 +45,6 @@ class HomeController extends Controller
     }
 
     public function landing(){
-        // $enrolled_course = EnrolledCourses::with('course','lesson')
-        //                         ->where(['user_id' => \Auth::id()])->get();\
-
-
-    //     $shares = DB::table('shares')
-    // ->join('users', 'users.id', '=', 'shares.user_id')
-    // ->join('follows', 'follows.user_id', '=', 'users.id')
-    // ->where('follows.follower_id', '=', 3)
-    // ->get();
         if(\Auth::check()){
             $logged_in=true;
         }else{
@@ -242,6 +233,9 @@ class HomeController extends Controller
 
         //match the dates to days
         return view('students.calender')->with(compact('month_year','month_dates'));
+    }
+    public function getAssignments(){
+        return view('students.assignments');
     }
     public function getExams(){
         return view('students.exams');
