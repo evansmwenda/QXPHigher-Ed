@@ -19,7 +19,6 @@ class CreateAssignmentsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('media');
-            $table->string('submitted');
             $table->timestamps();
         });
     }

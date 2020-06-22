@@ -9,5 +9,5 @@ class Assignments extends Model
     //
     public $timestamps = false;
     protected $table = 'assignments';
-    public $fillable = ['id','course_id','title','description','media','submitted','created_at','updated_at']; 
+    public $fillable = ['id','course_id','title','description','media','created_at','updated_at']; 
 }

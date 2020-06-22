@@ -254,9 +254,10 @@ class HomeController extends Controller
                 $filename = time().'.'.$extension;//1592819807.txt
 
                 $image_tmp->move('uploads/assignments/Biology_101/', $filename);
+                //store the filename into the db
    
                 return back()
-                    ->with('flash_message_success','You have successfully your assignment.');
+                    ->with('flash_message_success','You have successfully submitted your assignment.');
 
                 //store into products table
                 //$product->image = $filename;
