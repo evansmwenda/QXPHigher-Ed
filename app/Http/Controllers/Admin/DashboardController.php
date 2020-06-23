@@ -44,6 +44,7 @@ class DashboardController extends Controller
         $course_ids = explode(",", $course_ids);
         
         $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
+        // dd($my_assignments);
 
         $assignment_ids="";
         foreach ($my_assignments as $key => $value) {
@@ -51,16 +52,12 @@ class DashboardController extends Controller
         }
         $assignment_ids = explode(",", $assignment_ids);
         $submitted_assignments = SubmittedAssignments::with(['user'])->whereIn('assignment_id',$assignment_ids)->get();
-        // $my_assignments = DB::table('assignments')
-        // ->join('courses', 'courses.id', '=', 'assignments.course_id')
-        // ->join('submitted_assignments', 'submitted_assignments.assignment_id', '=', 'assignments.id')
-        // ->whereIn('assignments.course_id',$course_ids)
-        // ->get();
-        dd($submitted_assignments);
+        
+        // dd($submitted_assignments);
         // dd($my_events);
         //dd($my_courses[0]->course->title);//"Biology 101"
 
-        return view('admin.assignments.index')->with(compact('my_events'));
+        return view('admin.assignments.index')->with(compact('my_assignments','submitted_assignments'));
     }
 
     public function createAssignments(Request $request){
