@@ -52,6 +52,9 @@
 
                 </form>
             </div>
+            <p>
+                <a href="{{ url('/admin/events') }}" class="btn btn-default">Back to list</a>
+            </p>
             
         </div>
     </div>

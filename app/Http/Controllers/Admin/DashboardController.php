@@ -44,17 +44,6 @@ class DashboardController extends Controller
         $course_ids = explode(",", $course_ids);
         
         $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
-        // dd($my_assignments);
-
-        // $result_array =[];
-        // foreach ($test_results as $test ) {
-        //     $tests_ids .= $test->test_id.",";
-
-        //     $result_array += [
-        //         $test->test_id => $test->test_result,
-        //     ];
-
-        // }
 
 
         $submitted_assignments_array =[];
@@ -73,24 +62,25 @@ class DashboardController extends Controller
         // dd($submitted_assignments_array[1]);//all assignments submitted to assignment with id of 1
 
 
-        $assignment_ids = explode(",", $assignment_ids);
-        $submitted_assignments = SubmittedAssignments::with(['user'])->whereIn('assignment_id',$assignment_ids)->get();
+        // $assignment_ids = explode(",", $assignment_ids);
+        // $submitted_assignments = SubmittedAssignments::with(['user'])->whereIn('assignment_id',$assignment_ids)->get();
         
         // dd($submitted_assignments);
         // dd($my_events);
         //dd($my_courses[0]->course->title);//"Biology 101"
 
-        return view('admin.assignments.index')->with(compact('my_assignments','submitted_assignments','submitted_assignments_array'));
+        return view('admin.assignments.index')->with(compact('my_assignments','submitted_assignments_array'));
     }
 
     public function createAssignments(Request $request){
         // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         //dd($my_courses[0]->course->title);//"Biology 101"
+        // dd($my_courses);
 
         if($request->isMethod('post')){
             $data=$request->all();
-            // dd($data);
+            dd($data);
 
             $event_start_end = $data['event_start_end'];
             
@@ -112,7 +102,7 @@ class DashboardController extends Controller
             return redirect('/admin/events')->with('flash_message_success','Event created successfully ');
         }
          //get
-        return view('admin.events.create')->with(compact('my_courses'));
+        return view('admin.assignments.create')->with(compact('my_courses'));
 
     }
 

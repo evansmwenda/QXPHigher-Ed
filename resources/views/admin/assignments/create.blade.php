@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Assignments</h3>
-    <p>
-        <a href="{{ url('/admin/events/create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
-    </p>
-    
+    <h3 class="page-title">Assignments</h3>    
     @if(Session::has("flash_message_error")) 
             <div class="alert alert-error alert-block">
                 <button type="button" class="close" data-dismiss="alert">x</button>
@@ -55,7 +51,12 @@
 	                
 
                 </form>
+    
             </div>
+                <p>
+			        <a href="{{ url('/admin/assignments') }}" class="btn btn-default">Back to list</a>
+			    </p>
+    
             
         </div>
     </div>
