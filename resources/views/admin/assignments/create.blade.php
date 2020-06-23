@@ -23,12 +23,19 @@
         
         <div class="panel-body">
             <div class="row">
-            	<form method="post" action="/admin/events/create">{{ csrf_field() }}
+
+
+
+
+
+
+
+            	<form method="post" enctype="multipart/form-data" action="/admin/assignments/create">{{ csrf_field() }}
             		<div class="col-xs-12 form-group">
 	                	<div class="form-group">
 	                        <label>Select Course</label>
 	                        <select class="form-control" name="course_id" required>
-	                        	<option>Select Course</option>
+	                        	<option value="0">Select Course</option>
 	                        	@foreach($my_courses as $course)
 	                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
 	                        	@endforeach
@@ -36,17 +43,25 @@
 	                    </div> 
 	                </div>
 	                <div class="col-xs-12 form-group">
-                    	<label for="exampleInputEmail1">Event Title</label>
-                    	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
+                    	<label for="exampleInputEmail1">Assignment Title</label>
+                    	<input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
+	                </div>
+	                <div class="col-xs-12 form-group">
+	                	<label for="exampleDescription">Description</label>
+	                	<textarea name="description" class="form-control" id="exampleDescription" rows="3"></textarea>
 	                </div>
 
 	                <div class="col-xs-12 form-group">
-	                	<label for="exampleInputEmail1">Start/End Time</label>
-	                	<input type="text" id="endDate"  name="event_start_end" style="padding:6px;width: 100%"required/>
-        
+	                	<div class="input-group">
+	                      <div class="custom-file">
+	                        <input type="file" name="assignment" class="custom-file-input" id="assignment" required>
+	                      </div>
+	                    </div>
 	                </div>
+
+	                
 	                <div class="col-xs-12 form-group">
-	                	<button type="submit" class="btn btn-primary"> Create Event</button>
+	                	<button type="submit" class="btn btn-primary"> Create Assignment</button>
 	                </div>
 	                
 

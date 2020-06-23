@@ -80,6 +80,9 @@ class DashboardController extends Controller
 
         if($request->isMethod('post')){
             $data=$request->all();
+            if($data['course_id'] == "0"){
+                return back()->with('flash_message_error','Please choose a course from the dropdown');
+            }
             dd($data);
 
             $event_start_end = $data['event_start_end'];
