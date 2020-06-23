@@ -70,7 +70,7 @@
       timePicker: true,
       timePickerIncrement: 5,
       locale: {
-        format: 'MM/DD/YYYY HH:mm'
+        format: 'YYYY-MM-DD HH:mm:ss'
       }
     });
     </script>
