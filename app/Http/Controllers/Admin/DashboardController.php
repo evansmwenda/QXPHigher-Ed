@@ -80,29 +80,47 @@ class DashboardController extends Controller
 
         if($request->isMethod('post')){
             $data=$request->all();
+            // dd($data);
             if($data['course_id'] == "0"){
                 return back()->with('flash_message_error','Please choose a course from the dropdown');
             }
-            dd($data);
+            $slug =  DB::table('courses')->where('id', $data['course_id'])->value('slug');
+            // dd($slug);
+            if($request->hasFile('assignment')){
+                $image_tmp = $request->file('assignment');
 
-            $event_start_end = $data['event_start_end'];
-            
-            $event_start_end = explode(" - ", $event_start_end);
-             // 0 => "2020-06-23 00:00:00"
-             // 1 => "2020-06-23 23:59:59"
-            // dd($event_start_end);
+                $extension = $image_tmp->getClientOriginalExtension();//txt,pdf,csv
+                $filename = time().'.'.$extension;//1592819807.txt
 
-            
+                $storage_dir = 'uploads/assignments/'.$slug.'/';
+                // dd($storage_dir);
 
-            $my_event = new Events;
-            $my_event->title=$data['event_title'];
-            $my_event->course_id=$data['course_id'];
-            $my_event->event_start_time=$event_start_end[0];
-            $my_event->event_end_time=$event_start_end[1];
+                $uploaded = $image_tmp->move($storage_dir, $filename);
+                //store the filename into the db
 
-            // dd($my_event);
-            $my_event->save();
-            return redirect('/admin/events')->with('flash_message_success','Event created successfully ');
+                // $flight = new Flight;
+                // $flight->name = $request->name;
+                // $flight->save();
+
+                if($uploaded){
+                    // 'id','course_id','title','description','media','created_at','updated_at']
+                    //file was uploaded->insert to db
+                    $my_assignment = new Assignments;
+                    $my_assignment->course_id=$data['course_id'];
+                    $my_assignment->title=$data['title'];
+                    $my_assignment->description=$data['description'];
+                    $my_assignment->media=$filename;
+
+                    // dd($my_assignment);
+                    $my_assignment->save();
+       
+                    return redirect('/admin/assignments')
+                        ->with('flash_message_success','You have successfully created your assignment.');
+                }else{
+                    //file was not uploaded dont insert to db
+                    return back()->with('flash_message_error','Sorry, there was an error uploading your assigment');
+                }
+            }
         }
          //get
         return view('admin.assignments.create')->with(compact('my_courses'));

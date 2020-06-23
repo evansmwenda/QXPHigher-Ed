@@ -24,12 +24,6 @@
         <div class="panel-body">
             <div class="row">
 
-
-
-
-
-
-
             	<form method="post" enctype="multipart/form-data" action="/admin/assignments/create">{{ csrf_field() }}
             		<div class="col-xs-12 form-group">
 	                	<div class="form-group">

@@ -35,37 +35,42 @@
                           <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $assignment->id }}">
-                              {{ $assignment->course->title}} - {{ $assignment->course->id}}</a>
+                              {{ $assignment->course->title}}</a>
                             </h4>
                           </div>
                           <div id="collapse{{ $assignment->id }}" class="panel-collapse collapse">
                             <div class="panel-body">
-                              <table class="table table-bordered table-striped datatable">
-                                <thead>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>Student Name</th>
-                                        <th>File</th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody>
-                                    @if (count($submitted_assignments_array[$assignment->id]) > 0)
-                                        @foreach($submitted_assignments_array[$assignment->id] as $submitted_assignment)
-                                            <tr data-entry-id="{{ $submitted_assignment->id }}">
-                                                <td>{{ $submitted_assignment->id }}</td>
-                                                <td>{{ $submitted_assignment->user->name }}</td>
-                                                <td>{{ $submitted_assignment->filename}}</td>
-                                            </tr>
-                                        @endforeach
-                                        
-                                    @else
+                              @if(count($submitted_assignments_array[$assignment->id]) > 0 )
+                                <table class="table table-bordered table-striped {{ count($submitted_assignments_array) > 0 ? 'datatable' : '' }}">
+                                    <thead>
                                         <tr>
-                                            <td colspan="10">No students have submitted</td>
+                                            <th>id</th>
+                                            <th>Student Name</th>
+                                            <th>File</th>
                                         </tr>
-                                    @endif
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        @if (count($submitted_assignments_array[$assignment->id]) > 0)
+                                            @foreach($submitted_assignments_array[$assignment->id] as $submitted_assignment)
+                                                <tr data-entry-id="{{ $submitted_assignment->id }}">
+                                                    <td>{{ $submitted_assignment->id }}</td>
+                                                    <td>{{ $submitted_assignment->user->name }}</td>
+                                                    <td>{{ $submitted_assignment->filename}}</td>
+                                                </tr>
+                                            @endforeach
+                                            
+                                        @else
+                                            <tr>
+                                                <td colspan="10">No students have submitted</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                              @else
+                                <p>No student has submitted their assignment</p>  
+                              @endif  
+                              
                           </div>
                           </div>
                         </div>
