@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('global.tests.title')</h3>
+    <h3 class="page-title">Events</h3>
     @if(Session::has("flash_message_error")) 
             <div class="alert alert-error alert-block">
                 <button type="button" class="close" data-dismiss="alert">x</button>
@@ -45,7 +45,10 @@
 	                	<input id="endDate"  name="event_start_end"/>
         
 	                </div>
-	                <button type="submit" class="btn btn-primary"> Create Event</button>
+	                <div class="col-xs-12 form-group">
+	                	<button type="submit" class="btn btn-primary"> Create Event</button>
+	                </div>
+	                
 
                 </form>
             </div>

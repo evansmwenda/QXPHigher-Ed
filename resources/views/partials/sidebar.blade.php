@@ -110,7 +110,7 @@
             </li>
 
             <li class="">
-                <a href="#">
+                <a href="/admin/events/create">
                     <i class="fa fa-newspaper-o"></i>
                     <span class="title">Calendar</span>
                 </a>
