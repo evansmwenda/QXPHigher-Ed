@@ -56,7 +56,8 @@
                                                 <tr data-entry-id="{{ $submitted_assignment->id }}">
                                                     <td>{{ $submitted_assignment->id }}</td>
                                                     <td>{{ $submitted_assignment->user->name }}</td>
-                                                    <td>{{ $submitted_assignment->filename}}</td>
+                                                    <td>
+                                                      <a href="{{url('uploads/assignments/'.$assignment->course->slug.'/'.$submitted_assignment->filename)}}" download>Download File</a></td>
                                                 </tr>
                                             @endforeach
                                             
