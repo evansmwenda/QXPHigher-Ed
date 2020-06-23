@@ -37,7 +37,7 @@ class DashboardController extends Controller
 
         if($request->isMethod('post')){
             $data=$request->all();
-            dd($data);
+            // dd($data);
 
             $event_start_end = $data['event_start_end'];
             
@@ -50,6 +50,7 @@ class DashboardController extends Controller
 
             $my_event = new Events;
             $my_event->title=$data['event_title'];
+            $my_event->course_id=$data['course_id'];
             $my_event->event_start_time=$event_start_end[0];
             $my_event->event_end_time=$event_start_end[1];
 
