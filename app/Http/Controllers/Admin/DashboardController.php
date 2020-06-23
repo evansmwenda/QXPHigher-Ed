@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events;
+use App\CourseUser;
 
 class DashboardController extends Controller
 {
@@ -30,9 +31,13 @@ class DashboardController extends Controller
     }
 
     public function getEvents(Request $request){
+        // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=>'3'])->get();
+        //dd($my_courses[0]->course->title);//"Biology 101"
 
         if($request->isMethod('post')){
             $data=$request->all();
+            dd($data);
 
             $event_start_end = $data['event_start_end'];
             
@@ -53,6 +58,6 @@ class DashboardController extends Controller
             return back()->with('flash_message_success','Event created successfully ');
         }
          //get
-        return view('admin.events.create');
+        return view('admin.events.create')->with(compact('my_courses'));
     }
 }

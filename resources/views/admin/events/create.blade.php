@@ -27,22 +27,22 @@
             		<div class="col-xs-12 form-group">
 	                	<div class="form-group">
 	                        <label>Select Course</label>
-	                        <select class="form-control" name="course_id">
-	                          <option>Select Course</option>
-	                          <option value="2">option 3</option>
-	                          <option value="3">option 4</option>
-	                          <option value="4">option 5</option>
+	                        <select class="form-control" name="course_id" required>
+	                        	<option>Select Course</option>
+	                        	@foreach($my_courses as $course)
+	                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
+	                        	@endforeach
 	                        </select>
 	                    </div> 
 	                </div>
 	                <div class="col-xs-12 form-group">
-                    	<label for="exampleInputEmail1">Email address</label>
-                    	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title">
+                    	<label for="exampleInputEmail1">Event Title</label>
+                    	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
 	                </div>
 
 	                <div class="col-xs-12 form-group">
 	                	<label for="exampleInputEmail1">Start/End Time</label>
-	                	<input id="endDate"  name="event_start_end"/>
+	                	<input id="endDate"  name="event_start_end" required/>
         
 	                </div>
 	                <div class="col-xs-12 form-group">
