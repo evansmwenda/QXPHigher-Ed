@@ -319,14 +319,19 @@ class HomeController extends Controller
         if (\Auth::check()) {
             $course_details = Course::where(['published'=> 1,'id'=>$course_id])->get();
             $total_lessons = Lesson::where(['course_id'=> $course_details[0]->id])->get();
-            $total_lessons = $total_lessons->count();
+            
+            // dd($total_lessons);
+
+            // $total_lessons = $total_lessons->count();
 
             $newEnrolledCourse = [
                 'course_id' => $course_details[0]->id,
-                'lesson_id' => "1",
+                'lesson_id' => $total_lessons[0]->id,
                 'user_id' => \Auth::id(),
-                'total_lessons' => $total_lessons
+                'total_lessons' => $total_lessons->count()
             ];
+            // dd($newEnrolledCourse);
+
 
             $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
             if($newEnrolledCourse){
