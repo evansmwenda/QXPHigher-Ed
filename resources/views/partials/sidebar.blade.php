@@ -6,7 +6,7 @@
         <ul class="sidebar-menu">
 
             <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
-                <a href="{{ url('/') }}">
+                <a href="{{ url('/admin/home') }}">
                     <i class="fa fa-wrench"></i>
                     <span class="title">@lang('global.app_dashboard')</span>
                 </a>
@@ -110,7 +110,7 @@
             </li>
 
             <li class="">
-                <a href="/admin/events/create">
+                <a href="/admin/events">
                     <i class="fa fa-newspaper-o"></i>
                     <span class="title">Calendar</span>
                 </a>
