@@ -27,4 +27,8 @@ class DashboardController extends Controller
     {
         return view('home');
     }
+
+    public function getEvents(){
+        return view('admin.events.create');
+    }
 }

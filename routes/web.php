@@ -15,6 +15,8 @@ Route::group(['middleware' => 'auth'], function () {
     //enroll to a free course
     Route::get('enroll/{id}', 'HomeController@enrollCourse');
 
+    //admin create blade events
+
 
     });
 
@@ -90,5 +92,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::delete('tests_perma_del/{id}', ['uses' => 'Admin\TestsController@perma_del', 'as' => 'tests.perma_del']);
     Route::post('/spatie/media/upload', 'Admin\SpatieMediaController@create')->name('media.upload');
     Route::post('/spatie/media/remove', 'Admin\SpatieMediaController@destroy')->name('media.remove');
+
+    Route::get('events/create','Admin\DashboardController@getEvents');
 
 });
