@@ -35,29 +35,37 @@
                           <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $assignment->id }}">
-                              {{ $assignment->course->title}}</a>
+                              {{ $assignment->course->title}} - {{ $assignment->course->id}}</a>
                             </h4>
                           </div>
                           <div id="collapse{{ $assignment->id }}" class="panel-collapse collapse">
                             <div class="panel-body">
-                              <h4>{{ $assignment->title }}</h4><br>
-                              {{ $assignment->description }}<br>
-                            <a href="{{url('uploads/assignments/'.$assignment->course->slug.'/'.$assignment->media)}}" download>Download File</a>
-                            <p style="padding-top: 20px;">Once completed, you can submit the assignment from the section below</p>
-                            <form role="form" enctype="multipart/form-data" method="post" action="{{('/assignments')}}"> {{csrf_field() }}
-                               <div class="form-group">
-                                <input type="hidden" id="assignment_id" name="assignment_id" value="{{ $assignment->id }}">
-                                <input type="hidden" id="slug" name="slug" value="{{ $assignment->course->slug }}">
-                                <label for="exampleInputFile">Choose Assignment</label>
-                                <div class="input-group">
-                                  <div class="custom-file">
-                                    <input type="file" name="assignment" class="custom-file-input" id="assignment" required>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
+                              <table class="table table-bordered table-striped datatable">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Student Name</th>
+                                        <th>File</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    @if (count($submitted_assignments_array[$assignment->course->id]) > 0)
+                                        @foreach($submitted_assignments_array[$assignment->course->id] as $submitted_assignment)
+                                            <tr data-entry-id="{{ $submitted_assignment->id }}">
+                                                <td>{{ $submitted_assignment->id }}</td>
+                                                <td>{{ $submitted_assignment->title }}</td>
+                                                <td>{{ $submitted_assignment->course->title}}</td>
+                                            </tr>
+                                        @endforeach
+                                        
+                                    @else
+                                        <tr>
+                                            <td colspan="10">No students have submitted</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
                           </div>
                           </div>
                         </div>
@@ -65,7 +73,7 @@
                     @else
                       <div class="panel-heading">
                         <h4 class="panel-title">
-                          <p>You don't have any assignments</p>
+                          <p>You have not created any assignments</p>
                         </h4>
                       </div>
                     @endif

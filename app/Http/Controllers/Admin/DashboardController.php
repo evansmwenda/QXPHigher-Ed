@@ -46,10 +46,33 @@ class DashboardController extends Controller
         $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
         // dd($my_assignments);
 
+        // $result_array =[];
+        // foreach ($test_results as $test ) {
+        //     $tests_ids .= $test->test_id.",";
+
+        //     $result_array += [
+        //         $test->test_id => $test->test_result,
+        //     ];
+
+        // }
+
+
+        $submitted_assignments_array =[];
         $assignment_ids="";
         foreach ($my_assignments as $key => $value) {
             $assignment_ids .= $value->id .",";
+
+            $submitted_assignments = SubmittedAssignments::with(['user'])
+            ->where(['assignment_id'=>$value->id])->get();
+
+            $submitted_assignments_array += [
+                $value->id => $submitted_assignments,
+            ];
         }
+
+        // dd($submitted_assignments_array[1]);//all assignments submitted to assignment with id of 1
+
+
         $assignment_ids = explode(",", $assignment_ids);
         $submitted_assignments = SubmittedAssignments::with(['user'])->whereIn('assignment_id',$assignment_ids)->get();
         
@@ -57,7 +80,7 @@ class DashboardController extends Controller
         // dd($my_events);
         //dd($my_courses[0]->course->title);//"Biology 101"
 
-        return view('admin.assignments.index')->with(compact('my_assignments','submitted_assignments'));
+        return view('admin.assignments.index')->with(compact('my_assignments','submitted_assignments','submitted_assignments_array'));
     }
 
     public function createAssignments(Request $request){
