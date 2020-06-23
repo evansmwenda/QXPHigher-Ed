@@ -115,6 +115,12 @@
                     <span class="title">Calendar</span>
                 </a>
             </li>
+            <li class="">
+                <a href="/admin/assignments">
+                    <i class="fa fa-edit"></i>
+                    <span class="title">Assignments</span>
+                </a>
+            </li>
             
 
             

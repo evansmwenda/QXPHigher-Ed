@@ -15,4 +15,7 @@ class Assignments extends Model
     {
         return $this->belongsTo('App\Course');
     }
+    public function submitted_assignments(){
+    	return $this->belongsTo('App\SubmittedAssignments');
+    }
 }
