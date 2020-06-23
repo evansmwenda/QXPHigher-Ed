@@ -25,38 +25,38 @@
             @lang('global.app_create')
         </div>
         
-        <div class="panel-body">
-            <div class="row">
-            	<form method="post" action="/admin/events/create">{{ csrf_field() }}
-            		<div class="col-xs-12 form-group">
-	                	<div class="form-group">
-	                        <label>Select Course</label>
-	                        <select class="form-control" name="course_id" required>
-	                        	<option>Select Course</option>
-	                        	@foreach($my_courses as $course)
-	                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
-	                        	@endforeach
-	                        </select>
-	                    </div> 
-	                </div>
-	                <div class="col-xs-12 form-group">
-                    	<label for="exampleInputEmail1">Event Title</label>
-                    	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
-	                </div>
-
-	                <div class="col-xs-12 form-group">
-	                	<label for="exampleInputEmail1">Start/End Time</label>
-	                	<input type="text" id="endDate"  name="event_start_end" style="padding:6px;width: 100%"required/>
-        
-	                </div>
-	                <div class="col-xs-12 form-group">
-	                	<button type="submit" class="btn btn-primary"> Create Event</button>
-	                </div>
-	                
-
-                </form>
-            </div>
-            
+        <div class="panel-body table-responsive">
+            <table class="table table-bordered table-striped {{ count($my_events) > 0 ? 'datatable' : '' }}">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Event Title</th>
+                        <th>Course</th>
+                        <th>Event Time</th>
+                        <th>Action(s)</th>
+                     
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if (count($my_events) > 0)
+                    	@foreach($my_events as $event)
+                    		<tr data-entry-id="{{ $event->id }}">
+	                            <td>{{ $event->id }}</td>
+	                            <td>{{ $event->title }}</td>
+	                            <td>{{ $event->id}}</td>
+	                            <td>{{ $event->id}}</td>
+	                            <td>{{ $event->id}}</td>
+	                        </tr>
+                    	@endforeach
+                        
+                    @else
+                        <tr>
+                            <td colspan="10">@lang('global.app_no_entries_in_table')</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
         </div>
     </div>
 
