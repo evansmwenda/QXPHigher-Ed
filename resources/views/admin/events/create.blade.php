@@ -41,8 +41,8 @@
 	                </div>
 
 	                <div class="col-xs-12 form-group">
-	                	<label for="exampleInputEmail1">Start/End Time</label>
-	                	<input id="endDate"  name="event_start_end" required/>
+	                	<label for="exampleInputEmail1">Start/End Time</label><br>
+	                	<input type="text" id="endDate"  name="event_start_end" style="width: 100%;" required/>
         
 	                </div>
 	                <div class="col-xs-12 form-group">
