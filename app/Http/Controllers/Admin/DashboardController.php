@@ -28,7 +28,12 @@ class DashboardController extends Controller
         return view('home');
     }
 
-    public function getEvents(){
+    public function getEvents(Request $request){
+
+        if($request->isMethod('post')){
+            dd($request);
+        }
+         //get
         return view('admin.events.create');
     }
 }
