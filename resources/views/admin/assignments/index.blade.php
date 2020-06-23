@@ -50,12 +50,12 @@
                                 </thead>
                                 
                                 <tbody>
-                                    @if (count($submitted_assignments_array[$assignment->course->id]) > 0)
-                                        @foreach($submitted_assignments_array[$assignment->course->id] as $submitted_assignment)
+                                    @if (count($submitted_assignments_array[$assignment->id]) > 0)
+                                        @foreach($submitted_assignments_array[$assignment->id] as $submitted_assignment)
                                             <tr data-entry-id="{{ $submitted_assignment->id }}">
                                                 <td>{{ $submitted_assignment->id }}</td>
-                                                <td>{{ $submitted_assignment->title }}</td>
-                                                <td>{{ $submitted_assignment->course->title}}</td>
+                                                <td>{{ $submitted_assignment->user->name }}</td>
+                                                <td>{{ $submitted_assignment->filename}}</td>
                                             </tr>
                                         @endforeach
                                         
