@@ -131,13 +131,28 @@ class HomeController extends Controller
         return view('students.home_user')->with(compact('test_details','result_array','enrolled_course','course_progress','progress_array','badge_array'));
     }
     public function getCalender(){
+        //step2. fetch the assignments in the enrolled courses of student
+            // $ids_array = explode(",", $my_course_ids);
+
+            // // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
+            // $assignments = C::with(['course'])->whereIn('course_id', $ids_array)->get();
+        $course_ids="";
+        $enrolled_courses =  EnrolledCourses::where(['user_id'=>\Auth::id()])->get(); 
+        foreach ($enrolled_courses as $key => $course) {
+            $course_ids .= $course->course_id .",";
+               # code...
+          }  
+        $course_ids = explode(",", $course_ids);
+
         $month = date('m');
         $monthly = DB::table('events')
+                    ->whereIn('course_id',$course_ids)
                     ->whereMonth('event_start_time', $month)->get();//has events data for the current month
+        // dd($monthly);
         
 
         $eventDates_array = "";
-        foreach($monthly as $event){
+        foreach($monthly as $key=>$event){
             //store the event date in array
             $event_start_date = $event->event_start_time;//"2020-06-17 13:00:00"
             $date_value =date('d',strtotime($event_start_date)); 
@@ -157,7 +172,8 @@ class HomeController extends Controller
         $end = $end->modify( '+1 day' );
 
         $interval = new \DateInterval('P1D');
-        $daterange = new \DatePeriod($begin, $interval ,$end);
+        $daterange = new \DatePeriod($begin, $interval ,$end);//has days in the current month(1..31)
+        // dd($daterange);
 
         $month_dates ="";
         
@@ -191,11 +207,14 @@ class HomeController extends Controller
 
 
         $eventDates_array =explode(",", $eventDates_array);
-        // dd($eventDates_array);
+        
         foreach($daterange as $date){
             if(in_array($date->format("d"), $eventDates_array)){
+                // this day has event(s) connected to it
+
                 //get the key of the date value
                 $key = array_search($date->format("d"), $eventDates_array);
+                // dd($key);
                 $title = $monthly[$key]->title;
                 $start_time = date("H:i",strtotime($monthly[$key]->event_start_time));//"2020-06-17 13:00:00"
                 $end_time =date("H:i",strtotime($monthly[$key]->event_end_time));//"2020-06-17 13:00:00"
@@ -211,7 +230,8 @@ class HomeController extends Controller
                                         <div class='event-time'>
                                         ".$start_time." to ".$end_time."
                                         </div>
-                                    </div>                      
+                                    </div> 
+
                                 </li>
                             </ul>";
             }else{
