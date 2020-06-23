@@ -30,9 +30,25 @@ class DashboardController extends Controller
         return view('home');
     }
 
-    public function getEvents(Request $request){
+    public function getEvents(){
         // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
-        $my_courses = CourseUser::with(['course'])->where(['user_id'=>'3'])->get();
+        $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
+        $course_ids="";
+        foreach ($my_courses as $key => $value) {
+            $course_ids .= $value->course_id .",";
+        }
+        $course_ids = explode(",", $course_ids);
+        $my_events = Events::whereIn('course_id',$course_ids)->get();
+        dd($my_events);
+        //dd($my_courses[0]->course->title);//"Biology 101"
+
+        
+         //get
+        return view('admin.events.index')->with(compact('my_events'));
+    }
+    public function createEvents(Request $request){
+        // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         //dd($my_courses[0]->course->title);//"Biology 101"
 
         if($request->isMethod('post')){
