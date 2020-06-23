@@ -72,7 +72,7 @@ class DashboardController extends Controller
 
             // dd($my_event);
             $my_event->save();
-            return back()->with('flash_message_success','Event created successfully ');
+            return redirect('/admin/events')->with('flash_message_success','Event created successfully ');
         }
          //get
         return view('admin.events.create')->with(compact('my_courses'));
