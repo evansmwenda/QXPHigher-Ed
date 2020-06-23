@@ -31,7 +31,8 @@ class DashboardController extends Controller
     public function getEvents(Request $request){
 
         if($request->isMethod('post')){
-            dd($request);
+            $data=$request->all();
+            dd($data);
         }
          //get
         return view('admin.events.create');
