@@ -40,11 +40,15 @@
                     	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
 	                </div>
 
-	                <div class="col-xs-12 form-group">
+	                <!-- <div class="col-xs-12 form-group">
                             <label for="endDate">Start/End Time</label>
-                        <input type="text" id="endDate"  name="event_start_end" style="width: 100%" required />
-        
-	                </div>
+                        <input type="text" id="endDate"   />
+	                </div> -->
+
+                    <div class="col-xs-12 form-group">
+                        <label for="mydate">Start/End Time</label>
+                        <input type="text" id="mydate" class="daterange" name="event_start_end" style="width: 100%;padding: 6px" required />
+                    </div>
 
 	                <div class="col-xs-12 form-group">
 	                	<button type="submit" class="btn btn-primary"> Create Event</button>
@@ -63,7 +67,7 @@
 @endsection
 @section('javascript')
     @parent
-<script>
+<!-- <script>
         var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
         $('#startDate').datepicker({
             timePicker: true,
@@ -81,7 +85,19 @@
         format: 'YYYY-MM-DD HH:mm:ss'
       }
     });
-    </script>
+    </script> -->
+<script>
+$(function() {
+  $('.daterange').daterangepicker({
+    timePicker: true,
+    startDate: moment().startOf('hour'),
+    endDate: moment().startOf('hour').add(32, 'hour'),
+    locale: {
+      format: 'Y/M/DD HH:mm:ss'
+    }
+  });
+});
+</script>
 
 @stop
 

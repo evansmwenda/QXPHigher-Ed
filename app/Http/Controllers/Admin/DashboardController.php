@@ -153,11 +153,13 @@ class DashboardController extends Controller
             // dd($data);
 
             $event_start_end = $data['event_start_end'];
+            // dd($event_start_end);
             
             $event_start_end = explode(" - ", $event_start_end);
              // 0 => "2020-06-23 00:00:00"
              // 1 => "2020-06-23 23:59:59"
-            // dd($event_start_end);
+            // dd($event_start_end[0]);
+            // dd(date("H:i", strtotime("04:25 PM"));)
 
             
 
