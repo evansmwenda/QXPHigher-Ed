@@ -60,10 +60,12 @@ class CoursesController extends Controller
      */
     public function store(StoreCoursesRequest $request)
     {
+        //dd($request->all());die();
         if (! Gate::allows('course_create')) {
             return abort(401);
         }
         $request = $this->saveFiles($request);
+
         $course = Course::create($request->all());
         $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);

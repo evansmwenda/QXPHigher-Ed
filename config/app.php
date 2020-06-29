@@ -78,6 +78,7 @@ return [
 
      'date_format' => 'Y-m-d',
      'date_format_js' => 'yy-mm-dd',
+     'lms_date_format' => 'dd-mm-yy',
 
     /*
     |--------------------------------------------------------------------------

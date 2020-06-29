@@ -41,10 +41,11 @@
 	                </div>
 
 	                <div class="col-xs-12 form-group">
-	                	<label for="exampleInputEmail1">Start/End Time</label>
-	                	<input type="text" id="endDate"  name="event_start_end" style="padding:6px;width: 100%"required/>
+                            <label for="endDate">Start/End Time</label>
+                        <input type="text" id="endDate"  name="event_start_end" style="width: 100%" required />
         
 	                </div>
+
 	                <div class="col-xs-12 form-group">
 	                	<button type="submit" class="btn btn-primary"> Create Event</button>
 	                </div>
@@ -59,5 +60,28 @@
         </div>
     </div>
 
-@endsection    
+@endsection
+@section('javascript')
+    @parent
+<script>
+        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+        $('#startDate').datepicker({
+            timePicker: true,
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            minDate: today,
+            maxDate: function () {
+                return $('#endDate').val();
+            }
+        });
+        $('#endDate').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 5,
+      locale: {
+        format: 'YYYY-MM-DD HH:mm:ss'
+      }
+    });
+    </script>
+
+@stop
 
