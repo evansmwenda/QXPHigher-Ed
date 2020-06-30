@@ -148,6 +148,62 @@ class HomeController extends Controller
         $monthly = DB::table('events')
                     ->whereIn('course_id',$course_ids)
                     ->whereMonth('event_start_time', $month)->get();//has events data for the current month
+         
+
+      //    +"id": 1
+      // +"title": "HTML 5 lecture with Brad Traversy from Eduonix"
+      // +"course_id": 6
+      // +"event_start_time": "2020-06-17 13:00:00"
+      // +"event_end_time": "2020-06-17 15:00:00"
+      // +"created_at": null
+      // +"updated_at": null
+
+        //             $books = array(
+        //     array(
+        //         "title" => "All Day Event",
+        //         "start" => "2020-06-01",
+        //         "backgroundColor" => "#f56954",
+        //         "borderColor" => "#f56954",
+        //     ),
+        //     array(
+        //         "title" => "Long Event",
+        //         "start" => "2020-06-22",
+        //         "backgroundColor" => "#f39c12",
+        //         "borderColor" => "#f39c12",
+        //     ),
+        // );
+
+         //$myarray[] = array("id"=>$theid, "name"=>name($id), "text"=>$row2[text]);
+        foreach($monthly as $event){
+            $event_array [] = array(
+                "title" => $event->title,
+                "start" => $event->event_start_time,
+                "backgroundColor" => "#".$event->color,
+                "borderColor" => "#".$event->color,
+                );
+        }            
+
+        //match the dates to days
+        return view('students.calender')->with(compact('event_array','month_year','month_dates'));
+    }
+    public function getCalenderOld(){
+        //step2. fetch the assignments in the enrolled courses of student
+            // $ids_array = explode(",", $my_course_ids);
+
+            // // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
+            // $assignments = C::with(['course'])->whereIn('course_id', $ids_array)->get();
+        $course_ids="";
+        $enrolled_courses =  EnrolledCourses::where(['user_id'=>\Auth::id()])->get(); 
+        foreach ($enrolled_courses as $key => $course) {
+            $course_ids .= $course->course_id .",";
+               # code...
+          }  
+        $course_ids = explode(",", $course_ids);
+
+        $month = date('m');
+        $monthly = DB::table('events')
+                    ->whereIn('course_id',$course_ids)
+                    ->whereMonth('event_start_time', $month)->get();//has events data for the current month
         // dd($monthly);
         
 
@@ -260,7 +316,7 @@ class HomeController extends Controller
        
 
         //match the dates to days
-        return view('students.calender')->with(compact('month_year','month_dates'));
+        return view('students.calender2')->with(compact('month_year','month_dates'));
     }
     public function getAssignments(Request $request){
          

@@ -23,6 +23,32 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <!-- end of added scripts for events -->
 
+
+
+<!-- script added for the admin lte calender -->
+<!-- jQuery -->
+<!-- <script src="../plugins/jquery/jquery.min.js"></script> -->
+<!-- Bootstrap -->
+<!-- <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+<!-- jQuery UI -->
+<!-- <script src="../plugins/jquery-ui/jquery-ui.min.js"></script> -->
+<!-- AdminLTE App -->
+<script src="{{ url('adminlte/myplugins/js/adminlte.min.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ url('adminlte/myplugins/js/demo.js') }}"></script>
+<!-- fullCalendar 2.2.5 -->
+<!-- <script src="../plugins/moment/moment.min.js"></script> -->
+<script src="{{ url('adminlte/myplugins/fullcalendar/main.min.js') }}"></script>
+<script src="{{ url('adminlte/myplugins/fullcalendar-daygrid/main.min.js') }}"></script>
+<script src="{{ url('adminlte/myplugins/fullcalendar-timegrid/main.min.js') }}"></script>
+<script src="{{ url('adminlte/myplugins/fullcalendar-interaction/main.min.js') }}"></script>
+<script src="{{ url('adminlte/myplugins/fullcalendar-bootstrap/main.min.js') }}"></script>
+<!-- end of scripts from admin lte calender -->
+
+
+
+
+
 <script>
     window._token = '{{ csrf_token() }}';
 </script>

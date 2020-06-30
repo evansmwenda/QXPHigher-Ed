@@ -178,6 +178,42 @@ class DashboardController extends Controller
     }
 
     public function getExams(){
-        return view('admin.exams.index');
+
+        // PHP array
+        $books = array(
+            array(
+                "title" => "All Day Event",
+                "start" => "2020-06-01",
+                "backgroundColor" => "#f56954",
+                "borderColor" => "#f56954",
+            ),
+            array(
+                "title" => "Long Event",
+                "start" => "2020-06-22",
+                "backgroundColor" => "#f39c12",
+                "borderColor" => "#f39c12",
+            ),
+            array(
+                "title" => "Birthday party from 12pm to 3pm",
+                "start" => "2020-06-23 08:00:00",
+                "backgroundColor" => "#00c0ef",
+                "borderColor" => "#00c0ef",
+            ),
+            array(
+                "title" => "Initiation",
+                "start" => "2020-06-24 09:00:00",
+                "backgroundColor" => "#0073b7",
+                "borderColor" => "#0073b7",
+            ),
+            array(
+                "title" => "Live classroom",
+                "start" => "2020-06-21 10:00:00",
+                "backgroundColor" => "#00a65a",
+                "borderColor" => "#00a65a",
+            )
+        );
+
+
+        return view('admin.exams.index')->with(compact('books'));
     }
 }

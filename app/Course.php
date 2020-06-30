@@ -103,5 +103,9 @@ class Course extends Model
     {
         return $this->hasMany('App\Assignments');
     }
+    
+    public function events(){
+        return $this->hasMany('App\Events');
+    }
 
 }

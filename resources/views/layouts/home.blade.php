@@ -40,7 +40,7 @@
                 
                 <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
                     <a href="/calender">
-                        <i class="fa fa-newspaper-o"></i>
+                        <i class="fa fa-calendar-alt"></i>
                         <span class="title">Calender</span>
                     </a>
                 </li>

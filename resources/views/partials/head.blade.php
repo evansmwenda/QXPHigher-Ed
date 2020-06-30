@@ -42,6 +42,28 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>
 
+
+
 <!-- file below added to provide styling for create events time range picker -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 <!-- end of create events time range picker -->
+
+
+
+<!-- file below added for the admin lte calendar with month-day-week view -->
+<!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url('adminlte/myplugins/fontawesome-free/css/all.min.css') }}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- fullCalendar -->
+  <link rel="stylesheet" href="{{ url('adminlte/myplugins/fullcalendar/main.min.css') }}">
+  <link rel="stylesheet" href="{{ url('adminlte/myplugins/fullcalendar-daygrid/main.min.css') }}">
+  <link rel="stylesheet" href="{{ url('adminlte/myplugins/fullcalendar-timegrid/main.min.css') }}">
+  <link rel="stylesheet" href="{{ url('adminlte/myplugins/fullcalendar-bootstrap/main.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ url('adminlte/css/AdminLTE.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+<!-- end of admin lte calendar css -->

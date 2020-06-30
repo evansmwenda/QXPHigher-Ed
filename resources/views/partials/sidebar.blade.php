@@ -111,7 +111,7 @@
 
             <li class="">
                 <a href="/admin/events">
-                    <i class="fa fa-newspaper-o"></i>
+                    <i class="fa fa-calendar-alt"></i>
                     <span class="title">Calendar</span>
                 </a>
             </li>
