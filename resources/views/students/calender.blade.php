@@ -11,8 +11,8 @@
 					    <section class="content">
 					      <div class="container-fluid">
 					        <div class="row">
-					          <div class="col-md-3">
-					            <div class="sticky-top mb-3" style="visibility: none">
+					          <div class="col-md-2">
+					            <div class="sticky-top mb-3">
 					              <div class="card">
 					                <div class="card-header">
 					                  <h4 class="card-title">My Events</h4>
@@ -31,7 +31,7 @@
 					            </div>
 					          </div>
 					          <!-- /.col -->
-					          <div class="col-md-9">
+					          <div class="col-md-10">
 					            <div class="card card-primary">
 					              <div class="card-body p-0">
 					                <!-- THE CALENDAR -->
