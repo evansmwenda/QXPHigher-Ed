@@ -12,57 +12,22 @@
 					      <div class="container-fluid">
 					        <div class="row">
 					          <div class="col-md-3">
-					            <div class="sticky-top mb-3">
+					            <div class="sticky-top mb-3" style="visibility: none">
 					              <div class="card">
 					                <div class="card-header">
-					                  <h4 class="card-title">Draggable Events</h4>
+					                  <h4 class="card-title">My Events</h4>
 					                </div>
 					                <div class="card-body">
 					                  <!-- the events -->
 					                  <div id="external-events">
-					                    <div class="external-event" style="background-color: green;color:white">Lunch</div>
-					                    <div class="external-event alert-warning">Go home</div>
-					                    <div class="external-event alert-info">Do homework</div>
-					                    <div class="external-event bg-primary">Work on UI design</div>
-					                    <div class="external-event alert-danger">Sleep tight</div>
-					                    <div class="checkbox">
-					                      <label for="drop-remove">
-					                        <input type="checkbox" id="drop-remove">
-					                        remove after drop
-					                      </label>
-					                    </div>
+					                    <div class="external-event" ></div>
+					                    
 					                  </div>
 					                </div>
 					                <!-- /.card-body -->
 					              </div>
 					              <!-- /.card -->
-					              <div class="card">
-					                <div class="card-header">
-					                  <h3 class="card-title">Create Event</h3>
-					                </div>
-					                <div class="card-body">
-					                  <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-					                    <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-					                    <ul class="fc-color-picker" id="color-chooser">
-					                      <li><a style="color: blue" href="#"><i class="fas fa-square"></i></a></li>
-					                      <li><a style="color: green" href="#"><i class="fas fa-square"></i></a></li>
-					                      <li><a style="color: orange" href="#"><i class="fas fa-square"></i></a></li>
-					                      <li><a style="color: red" href="#"><i class="fas fa-square"></i></a></li>
-					                      <li><a style="color: yellow" href="#"><i class="fas fa-square"></i></a></li>
-					                    </ul>
-					                  </div>
-					                  <!-- /btn-group -->
-					                  <div class="input-group">
-					                    <input id="new-event" type="text" class="form-control" placeholder="Event Title">
-
-					                    <div class="input-group-append">
-					                      <button id="add-new-event" type="button" class="btn btn-primary">Add</button>
-					                    </div>
-					                    <!-- /btn-group -->
-					                  </div>
-					                  <!-- /input-group -->
-					                </div>
-					              </div>
+					              
 					            </div>
 					          </div>
 					          <!-- /.col -->
@@ -95,9 +60,9 @@
 
 <script>
 	console.log("my Name is evans");
-	var books = <?php echo json_encode($books, JSON_PRETTY_PRINT) ?>;
-	console.log( books[1]); // David Flanagan
-	console.log(String(books).replace(/['"]+/g, ''));
+	var event_array = <?php echo json_encode($event_array, JSON_PRETTY_PRINT) ?>;
+	console.log( event_array[1]); // David Flanagan
+	console.log(String(event_array).replace(/['"]+/g, ''));
   $(function () {
 
     /* initialize the external events
@@ -181,7 +146,7 @@
       // }
       
       // ],
-      events: books,
+      events: event_array,
        // events : <?php //echo json_encode($books, JSON_PRETTY_PRINT);?>,
       // events    : [
       //   {
@@ -230,8 +195,8 @@
       //     borderColor    : '#3c8dbc' //Primary (light-blue)
       //   }
       // ],
-      editable  : true,
-      droppable : true, // this allows things to be dropped onto the calendar !!!
+      editable  : false,//true
+      droppable : false, //true // this allows things to be dropped onto the calendar !!!
       drop      : function(info) {
         // is the "remove after drop" checkbox checked?
         if (checkbox.checked) {

@@ -6,11 +6,22 @@ Route::get('/', 'HomeController@landing');
 
 Route::group(['middleware' => 'auth'], function () {
     // Route::get('/', 'HomeController@landing');
+
+    //courses
     Route::get('/courses', 'HomeController@index');
+
+    //assignments
     Route::match(['get', 'post'],'/assignments', 'HomeController@getAssignments');
+
+    //exams
     Route::get('/exams', 'HomeController@getExams');
+
+    //billing
     Route::get('/billing', 'HomeController@index');
+
+    //calendar(s)
     Route::get('/calender', 'HomeController@getCalender');
+    Route::get('/calender2', 'HomeController@getCalenderOld');
 
     //enroll to a free course
     Route::get('enroll/{id}', 'HomeController@enrollCourse');

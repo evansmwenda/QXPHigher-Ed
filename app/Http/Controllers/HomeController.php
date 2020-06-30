@@ -131,11 +131,6 @@ class HomeController extends Controller
         return view('students.home_user')->with(compact('test_details','result_array','enrolled_course','course_progress','progress_array','badge_array'));
     }
     public function getCalender(){
-        //step2. fetch the assignments in the enrolled courses of student
-            // $ids_array = explode(",", $my_course_ids);
-
-            // // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
-            // $assignments = C::with(['course'])->whereIn('course_id', $ids_array)->get();
         $course_ids="";
         $enrolled_courses =  EnrolledCourses::where(['user_id'=>\Auth::id()])->get(); 
         foreach ($enrolled_courses as $key => $course) {
@@ -150,41 +145,19 @@ class HomeController extends Controller
                     ->whereMonth('event_start_time', $month)->get();//has events data for the current month
          
 
-      //    +"id": 1
-      // +"title": "HTML 5 lecture with Brad Traversy from Eduonix"
-      // +"course_id": 6
-      // +"event_start_time": "2020-06-17 13:00:00"
-      // +"event_end_time": "2020-06-17 15:00:00"
-      // +"created_at": null
-      // +"updated_at": null
-
-        //             $books = array(
-        //     array(
-        //         "title" => "All Day Event",
-        //         "start" => "2020-06-01",
-        //         "backgroundColor" => "#f56954",
-        //         "borderColor" => "#f56954",
-        //     ),
-        //     array(
-        //         "title" => "Long Event",
-        //         "start" => "2020-06-22",
-        //         "backgroundColor" => "#f39c12",
-        //         "borderColor" => "#f39c12",
-        //     ),
-        // );
-
-         //$myarray[] = array("id"=>$theid, "name"=>name($id), "text"=>$row2[text]);
         foreach($monthly as $event){
             $event_array [] = array(
                 "title" => $event->title,
                 "start" => $event->event_start_time,
+                "end" => $event->event_end_time,
                 "backgroundColor" => "#".$event->color,
                 "borderColor" => "#".$event->color,
                 );
-        }            
+        }  
+        // dd($range);          
 
         //match the dates to days
-        return view('students.calender')->with(compact('event_array','month_year','month_dates'));
+        return view('students.calender')->with(compact('event_array'));
     }
     public function getCalenderOld(){
         //step2. fetch the assignments in the enrolled courses of student
