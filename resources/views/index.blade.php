@@ -30,7 +30,7 @@
     <h3>All courses</h3>
     <div class="row">
     @foreach($courses as $course)
-        <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="col-sm-4 col-md-4 col-lg-4">
             <div class="thumbnail">
                 <img src="http://placehold.it/320x150" alt="">
                 <div class="caption">
