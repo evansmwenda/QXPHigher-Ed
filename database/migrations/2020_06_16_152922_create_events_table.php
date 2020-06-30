@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->string('course_id');
             $table->string('event_start_time');
             $table->string('event_end_time');
+            $table->string('color')
             $table->timestamps();
         });
     }
