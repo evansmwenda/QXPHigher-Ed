@@ -176,4 +176,8 @@ class DashboardController extends Controller
          //get
         return view('admin.events.create')->with(compact('my_courses'));
     }
+
+    public function getExams(){
+        return view('admin.exams.index');
+    }
 }

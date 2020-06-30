@@ -103,7 +103,7 @@
             @endcan
 
             <li class="">
-                <a href="#">
+                <a href="/admin/exams">
                     <i class="fa fa-briefcase"></i>
                     <span class="title">Exams</span>
                 </a>
