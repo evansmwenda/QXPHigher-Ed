@@ -219,6 +219,7 @@ class DashboardController extends Controller
     }
 
     public function createExams(){
-        return view('admin.exams.create');
+         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        return view('admin.exams.create')->with(compact('my_courses'));
     }
 }
