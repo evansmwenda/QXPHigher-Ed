@@ -74,7 +74,12 @@ class HomeController extends Controller
             $ids = explode(",", $course->lesson_id);
             $count = count(array_unique($ids));
 
-            $percentage = round(($count/$course->total_lessons)*100);
+            $percentage = $count/$course->total_lessons)*100;
+            if($percentage > 100){
+                $percentage = 100.0;
+            }
+
+            $percentage = round($percentage);
             switch ($percentage) {
                 case $percentage > 90:
                     $progress_class="progress-bar progress-bar-success";
