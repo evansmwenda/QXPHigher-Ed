@@ -217,4 +217,8 @@ class DashboardController extends Controller
 
         return view('admin.exams.index')->with(compact('books'));
     }
+
+    public function createExams(){
+        return view('admin.exams.create');
+    }
 }
