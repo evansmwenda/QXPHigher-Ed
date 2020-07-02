@@ -140,18 +140,19 @@ class HomeController extends Controller
         $course_ids = explode(",", $course_ids);
 
         $month = date('m');
+        // dd($month);
         $monthly = DB::table('events')
                     ->whereIn('course_id',$course_ids)
                     ->whereMonth('event_start_time', $month)->get();//has events data for the current month
-         
+         // dd($monthly);
 
         foreach($monthly as $event){
             $event_array [] = array(
                 "title" => $event->title,
                 "start" => $event->event_start_time,
                 "end" => $event->event_end_time,
-                "backgroundColor" => "#".$event->color,
-                "borderColor" => "#".$event->color,
+                "backgroundColor" => $event->color,
+                "borderColor" => $event->color,
                 );
         }  
         // dd($range);          

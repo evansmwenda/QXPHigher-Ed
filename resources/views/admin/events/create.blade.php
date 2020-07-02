@@ -50,6 +50,11 @@
                         <input type="text" id="mydate" class="daterange" name="event_start_end" style="width: 100%;padding: 6px" required />
                     </div>
 
+                    <div class="col-xs-12 form-group">
+                        <label for="favcolor">Select color:</label>
+                        <input type="color" id="favcolor" name="favcolor" value="#00c0ef" >
+                    </div>
+
 	                <div class="col-xs-12 form-group">
 	                	<button type="submit" class="btn btn-primary"> Create Event</button>
 	                </div>
