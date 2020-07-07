@@ -40,7 +40,7 @@
                     	<input type="text" name="exam_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
 	                </div>
 
-                    <div class="col-xs-12 form-group">
+                    <!-- <div class="col-xs-12 form-group">
                         <table class="table table-bordered" id="dynamic_field">  
                             <tr>
                                 <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td> 
@@ -48,23 +48,31 @@
                                     <td>
                                         <input type="text" name="name2[]" placeholder="Option 1" class="form-control" />
                                     </td> 
-                                </tr>
-                                <tr >  
-                                    <td style="width: 50%">
-                                        <input type="text" name="name2[]" placeholder="Option 1" class="form-control" />
-                                    </td> 
                                 </tr> 
-                                <tr>  
-                                    <td style="width: 50%">
-                                        <input type="text" name="name2[]" placeholder="Option 1" class="form-control" />
-                                    </td> 
-                                </tr>  
                             </tr>
                             <td><button type="button" name="add" id="add2" class="btn btn-success">Add Answer</button></td> 
 
                         </table>
                         <button type="button" name="add" id="add" class="btn btn-success">Add More</button> 
-                    </div>
+                    </div> -->
+
+                    <table class="table table-bordered" id="dynamic_field">
+                        <!-- <div class="col-xs-12 form-group"> -->
+                            <tr>
+                                <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td> 
+                                <div class="col-xs-12 form-group" id="dynamic_field2">
+                                    <tr>  
+                                        <td>
+                                            <input type="text" name="name2[]" placeholder="Option 1" class="form-control" />
+                                        </td> 
+                                    </tr>
+                                </div>
+                                 
+                            </tr>
+                            <td><button type="button" name="add" id="add2" class="btn btn-success">Add Answer</button></td>
+                        <!-- </div> -->
+                    </table>
+                    <button type="button" name="add" id="add" class="btn btn-success">Add Question</button> 
 
                              
                            <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />  
@@ -94,7 +102,7 @@
       });
       $('#add2').click(function(){  
            i++;  
-           $('#dynamic_field2').append('<tr id="row'+i+'"><td><input type="text" name="name[]" placeholder="Option 2" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field2').append('<tr id="row'+i+'"><td><input type="text" name="name2[]" placeholder="Option 2" class="form-control" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       }); 
       $(document).on('click', '.btn_remove', function(){  
            var button_id = $(this).attr("id");   
