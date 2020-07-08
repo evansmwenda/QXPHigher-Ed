@@ -9,7 +9,13 @@
         @foreach($purchased_courses as $course)
             <div class="col-sm-4 col-lg-4 col-md-4">
                 <div class="thumbnail">
-                    <img src="http://placehold.it/320x150" alt="">
+                    @if($course->course_image)
+                        <img src="{{asset('uploads/'.$course->course_image)}}" alt="{{ 
+                    $course->title }}" style="width: 320px;height: 150px;">
+                    @else
+                        <img src="https://placehold.it/320x150" alt="{{ 
+                    $course->title }}">
+                    @endif
                     <div class="caption">
                         <h4><a href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
                         </h4>
@@ -31,7 +37,7 @@
     <div class="row">
     @foreach($courses as $course)
         <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="thumbnail">
+            <div class="thumbnail" style="height: 345px;">
                 @if($course->course_image)
                     <img src="{{asset('uploads/'.$course->course_image)}}" alt="{{ 
                 $course->title }}" style="width: 320px;height: 150px;">
@@ -39,13 +45,13 @@
                     <img src="https://placehold.it/320x150" alt="{{ 
                 $course->title }}">
                 @endif
-                <div class="caption">
+                <div class="caption" style="height: 150px;">
                     <h4 class="pull-right">${{ $course->price }}</h4>
                     <h4><a href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
                     </h4>
-                    <p>{{ $course->description }}</p>
+                    <p>{{ \Illuminate\Support\Str::limit($course->description, 200, $end='...') }}</p>
                 </div>
-                <div class="ratings">
+                <div class="ratings" style="height: 35px;">
                     <p class="pull-right">Students: {{ $course->students()->count() }}</p>
                     <p>
                         @for ($star = 1; $star <= 5; $star++)
