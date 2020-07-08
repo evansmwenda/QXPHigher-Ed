@@ -32,7 +32,13 @@
     @foreach($courses as $course)
         <div class="col-sm-4 col-md-4 col-lg-4">
             <div class="thumbnail">
-                <img src="http://placehold.it/320x150" alt="">
+                @if($course->course_image)
+                    <img src="{{asset('uploads/'.$course->course_image)}}" alt="{{ 
+                $course->title }}" style="width: 320px;height: 150px;">
+                @else
+                    <img src="https://placehold.it/320x150" alt="{{ 
+                $course->title }}">
+                @endif
                 <div class="caption">
                     <h4 class="pull-right">${{ $course->price }}</h4>
                     <h4><a href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
