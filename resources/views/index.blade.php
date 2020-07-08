@@ -19,7 +19,7 @@
                     <div class="caption">
                         <h4><a href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
                         </h4>
-                        <p>{{ $course->description }}</p>
+                        <p>{{ \Illuminate\Support\Str::limit($course->description, 200, $end='...') }}</p>
                     </div>
                     <div class="ratings">
                         <p>Progress: {{ Auth::user()->lessons()->where('course_id', $course->id)->count() }}

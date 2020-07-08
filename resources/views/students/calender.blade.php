@@ -127,7 +127,8 @@
       header    : {
         left  : 'prev,next today',
         center: 'title',
-        right : 'dayGridMonth,timeGridWeek,timeGridDay'
+        // right : 'dayGridMonth,timeGridWeek,timeGridDay',
+        right : 'timeGridDay,timeGridWeek,dayGridMonth'
       },
       //Random default events
       // events : [ 
@@ -206,6 +207,7 @@
       }    
     });
 
+    calendar.changeView('timeGridDay');
     calendar.render();
     // $('#calendar').fullCalendar()
 
