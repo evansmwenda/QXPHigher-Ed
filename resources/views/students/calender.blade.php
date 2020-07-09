@@ -59,7 +59,6 @@
     @parent
 
 <script>
-	console.log("my Name is evans");
 	var event_array = <?php echo json_encode($event_array, JSON_PRETTY_PRINT) ?>;
 	console.log( event_array[1]); // David Flanagan
 	console.log(String(event_array).replace(/['"]+/g, ''));

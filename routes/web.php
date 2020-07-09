@@ -108,6 +108,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     //for creating events
     Route::get('events','Admin\DashboardController@getEvents');
     Route::match(['get', 'post'],'events/create','Admin\DashboardController@createEvents');
+    Route::post('events/edit/{id}','Admin\DashboardController@editEvents');
 
     //for assignments
     Route::get('assignments','Admin\DashboardController@getAssignments');
