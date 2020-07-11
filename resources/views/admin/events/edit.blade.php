@@ -23,21 +23,21 @@
         
         <div class="panel-body">
             <div class="row">
-            	<form method="post" action="/admin/events/edit/{{$event_details->id}}">{{ csrf_field() }}
+            	<form method="post" action="/admin/events/edit/{{ $event_details->id }}">{{ csrf_field() }}
             		<div class="col-xs-12 form-group">
 	                	<div class="form-group">
 	                        <label>Select Course</label>
 	                        <select class="form-control" name="course_id" required>
 	                        	<option>Select Course</option>
 	                        	@foreach($my_courses as $course)
-	                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
+	                        		<option value="{{ $course->course_id }}">{{ $course->course->title}}</option>
 	                        	@endforeach
 	                        </select>
 	                    </div> 
 	                </div>
 	                <div class="col-xs-12 form-group">
                     	<label for="exampleInputEmail1">Event Title</label>
-                    	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
+                    	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" value="{{ $event_details->title }}" required>
 	                </div>
 
 	                <!-- <div class="col-xs-12 form-group">
@@ -47,12 +47,12 @@
 
                     <div class="col-xs-12 form-group">
                         <label for="mydate">Start/End Time</label>
-                        <input type="text" id="mydate" class="daterange" name="event_start_end" style="width: 100%;padding: 6px" required />
+                        <input type="text" id="mydate" class="daterange" name="event_start_end" style="width: 100%;padding: 6px" value="{{ $event_details->event_start_time }} {{ $event_details->event_end_time }}" required />
                     </div>
 
                     <div class="col-xs-12 form-group">
                         <label for="favcolor">Select color:</label>
-                        <input type="color" id="favcolor" name="favcolor" value="#00c0ef" >
+                        <input type="color" id="favcolor" name="favcolor" value="{{ $event_details->color }}" >
                     </div>
 
 	                <div class="col-xs-12 form-group">

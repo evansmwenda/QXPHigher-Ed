@@ -46,7 +46,7 @@
 	                            <td>{{ $event->title }}</td>
 	                            <td>{{ $event->course->title}}</td>
 	                            <td>{{ $event->event_start_time}}</td>
-	                            <td><a href="#" class="btn btn-primary btn-sm">Edit</a> | <a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+	                            <td><a href="{{ url('/admin/events/delete/'.$event->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
 	                        </tr>
                     	@endforeach
                         
