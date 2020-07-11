@@ -23,7 +23,7 @@
         
         <div class="panel-body">
             <div class="row">
-            	<form method="post" action="/admin/events/create">{{ csrf_field() }}
+            	<form method="post" action="/admin/events/edit/{{$event_details->id}}">{{ csrf_field() }}
             		<div class="col-xs-12 form-group">
 	                	<div class="form-group">
 	                        <label>Select Course</label>

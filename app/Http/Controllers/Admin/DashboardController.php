@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events;
 use App\CourseUser;
+use App\Course;
 use App\Assignments;
 use App\SubmittedAssignments;
 use DB;
@@ -177,6 +178,42 @@ class DashboardController extends Controller
          //get
         return view('admin.events.create')->with(compact('my_courses'));
     }
+    public function editEvents(Request $request,string $id){
+        // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        $event_details = Events::with(['course'])->where(['id' => $id])->get();
+        dd($event_details);
+        //dd($my_courses[0]->course->title);//"Biology 101"
+
+        if($request->isMethod('post')){
+            $data=$request->all();
+             // dd($data);
+
+            $event_start_end = $data['event_start_end'];
+            // dd($event_start_end);
+            
+            $event_start_end = explode(" - ", $event_start_end);
+             // 0 => "2020-06-23 00:00:00"
+             // 1 => "2020-06-23 23:59:59"
+            // dd($event_start_end[0]);
+            // dd(date("H:i", strtotime("04:25 PM"));)
+
+            
+
+            $my_event = new Events;
+            $my_event->title=$data['event_title'];
+            $my_event->course_id=$data['course_id'];
+            $my_event->event_start_time=$event_start_end[0];
+            $my_event->event_end_time=$event_start_end[1];
+            $my_event->color=$data['favcolor'];
+
+            // dd($my_event);
+            $my_event->save();
+            return redirect('/admin/events')->with('flash_message_success','Event created successfully ');
+        }
+         //get
+        return view('admin.events.edit')->with(compact('my_courses','event_details'));
+    }
 
     public function getExams(){
 
@@ -184,31 +221,31 @@ class DashboardController extends Controller
         $books = array(
             array(
                 "title" => "All Day Event",
-                "start" => "2020-06-01",
+                "start" => "2020-07-01",
                 "backgroundColor" => "#f56954",
                 "borderColor" => "#f56954",
             ),
             array(
                 "title" => "Long Event",
-                "start" => "2020-06-22",
+                "start" => "2020-07-22",
                 "backgroundColor" => "#f39c12",
                 "borderColor" => "#f39c12",
             ),
             array(
                 "title" => "Birthday party from 12pm to 3pm",
-                "start" => "2020-06-23 08:00:00",
+                "start" => "2020-07-23 08:00:00",
                 "backgroundColor" => "#00c0ef",
                 "borderColor" => "#00c0ef",
             ),
             array(
                 "title" => "Initiation",
-                "start" => "2020-06-24 09:00:00",
+                "start" => "2020-07-24 09:00:00",
                 "backgroundColor" => "#0073b7",
                 "borderColor" => "#0073b7",
             ),
             array(
                 "title" => "Live classroom",
-                "start" => "2020-06-21 10:00:00",
+                "start" => "2020-07-21 10:00:00",
                 "backgroundColor" => "#00a65a",
                 "borderColor" => "#00a65a",
             )
@@ -219,7 +256,7 @@ class DashboardController extends Controller
     }
 
     public function createExams(){
-         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         return view('admin.exams.create')->with(compact('my_courses'));
     }
 }

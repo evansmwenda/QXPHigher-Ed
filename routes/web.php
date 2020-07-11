@@ -105,10 +105,10 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::post('/spatie/media/remove', 'Admin\SpatieMediaController@destroy')->name('media.remove');
 
 
-    //for creating events
+    //for  events
     Route::get('events','Admin\DashboardController@getEvents');
     Route::match(['get', 'post'],'events/create','Admin\DashboardController@createEvents');
-    Route::post('events/edit/{id}','Admin\DashboardController@editEvents');
+    Route::match(['get', 'post'],'events/edit/{id}','Admin\DashboardController@editEvents');
 
     //for assignments
     Route::get('assignments','Admin\DashboardController@getAssignments');
