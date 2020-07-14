@@ -67,6 +67,32 @@
 
 <!-- end of admin lte calendar css -->
 
-<style type="text/css">
+<!-- Optional theme for exams page inputs -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" 
+  crossorigin="anonymous">
 
+<style type="text/css">
+  .hidden {
+      display: none;
+  }
+  #demo {
+      -webkit-transition: width 1s ease;
+      -moz-transition: width 1s ease;
+      -o-transition: width 1s ease;
+      transition: width 1s ease;
+      
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+/*                background: blue;
+*/                vertical-align: middle;
+      line-height: 30px;
+      height: 40px;
+
+      width: 0px;
+  }
+  #demo.in {
+      width: 220px;
+  }
 </style>
