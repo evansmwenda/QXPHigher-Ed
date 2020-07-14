@@ -23,67 +23,52 @@
         
         <div class="panel-body">
             <div class="row">
-            	<form method="post" action="/admin/events/create">{{ csrf_field() }}
-            		<div class="col-xs-12 form-group">
-	                	<div class="form-group">
-	                        <label>Select Course</label>
-	                        <select class="form-control" name="course_id" required>
-	                        	<option>Select Course</option>
-	                        	@foreach($my_courses as $course)
-	                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
-	                        	@endforeach
-	                        </select>
-	                    </div> 
-	                </div>
-	                <div class="col-xs-12 form-group">
-                    	<label for="exampleInputEmail1">Exam Title</label>
-                    	<input type="text" name="exam_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
-	                </div>
+              <form id="question-form" method="post">{{ csrf_field() }}
+                  <div class="col-xs-12 form-group">
+                    <div class="form-group">
+                          <label>Select Course</label>
+                          <select class="form-control" name="course_id" required>
+                            <option>Select Course</option>
+                            @foreach($my_courses as $course)
+                              <option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
+                            @endforeach
+                          </select>
+                      </div> 
+                  </div>
 
-                    <!-- <div class="col-xs-12 form-group">
-                        <table class="table table-bordered" id="dynamic_field">  
-                            <tr>
-                                <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td> 
-                                <tr id="dynamic_field2" style="width: 50%">  
-                                    <td>
-                                        <input type="text" name="name2[]" placeholder="Option 1" class="form-control" />
-                                    </td> 
-                                </tr> 
-                            </tr>
-                            <td><button type="button" name="add" id="add2" class="btn btn-success">Add Answer</button></td> 
+                  <div class="col-xs-12 form-group">
+                      <label for="examTitle">Exam Title</label>
+                      <input type="text" name="exam_title" id="examTitle" class="form-control" placeholder="Enter Title" required>
+                  </div>
 
-                        </table>
-                        <button type="button" name="add" id="add" class="btn btn-success">Add More</button> 
-                    </div> -->
+                  <div id="question-wrapper">
+                  </div>
 
-                    <table class="table table-bordered" id="dynamic_field">
-                        <!-- <div class="col-xs-12 form-group"> -->
-                            <tr>
-                                <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td> 
-                                <div class="col-xs-12 form-group" id="dynamic_field2">
-                                    <tr>  
-                                        <td>
-                                            <input type="text" name="name2[]" placeholder="Option 1" class="form-control" />
-                                        </td> 
-                                    </tr>
-                                </div>
-                                 
-                            </tr>
-                            <td><button type="button" name="add" id="add2" class="btn btn-success">Add Answer</button></td>
-                        <!-- </div> -->
-                    </table>
-                    <button type="button" name="add" id="add" class="btn btn-success">Add Question</button> 
+                  <div class="col-xs-12 form-group">
+                      <button type="button" class="btn btn-info btn-sm" 
+                      data-toggle="toggle" data-target="#demo">
+                          <i class="glyphicon glyphicon-plus"></i>&nbsp;Question
+                      </button>
 
-                             
-                           <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />  
-	                
+                      <div id="demo" class="">
+                          <button class="btn btn-default add-question" type="button" style="margin: 5px 0px;">
+                              <span class="glyphicon glyphicon-record" style="color:green;"></span> Choice
+                          </button>
+                          <button class="btn btn-default add-question-text" type="button" style="margin: 5px 0px;">
+                              <span class="glyphicon glyphicon-comment" style="color:green;"></span> Text
+                          </button>
+                      </div>
 
-	                <!-- <div class="col-xs-12 form-group">
-	                	<button type="submit" class="btn btn-primary"> Create Exam</button>
-	                </div> -->
-	                
+                  </div>
 
-                </form>
+                  <div class="col-xs-12 form-group">
+                      <!-- <button class="btn btn-primary add-question" type="button">Add Question</button> -->
+                      <!-- <button type="submit">Submit</button> -->
+                      <input type="submit" value="Submit" class="btn btn-primary" />
+                  </div>
+              </form>
+
+
             </div>
             <p>
                 <a href="{{ url('/admin/exams') }}" class="btn btn-default">Back to list</a>
@@ -124,7 +109,7 @@
                   </div>
                   <div class="option-wrapper"></div>
                   <div class="form-group" style="padding-left:20px;">
-                      <button type="button" class="btn btn-secondary">Add Answer</button>
+                      <button type="button" class="btn btn-secondary" style="display:none">Add Answer</button>
                       <button type="button" id="${count}" class="btn btn-secondary open-modal add-option-${count}">Add Options</button>
                       <select name="option" id="optionSelect-${count}" class="optionSelect hidden">
                           <option disabled>Number of options</option>
