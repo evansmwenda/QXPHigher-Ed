@@ -256,8 +256,19 @@ class DashboardController extends Controller
             )
         );
 
+        // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
+        $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
+        $course_ids="";
+        foreach ($my_courses as $key => $value) {
+            $course_ids .= $value->course_id .",";
+        }
+        $course_ids = explode(",", $course_ids);
+        $my_events = Events::with(['course'])->whereIn('course_id',$course_ids)->get();
+        // dd($my_events);
+        //dd($my_courses[0]->course->title);//"Biology 101"
 
-        return view('admin.exams.index')->with(compact('books'));
+
+        return view('admin.exams.index')->with(compact('books','my_events'));
     }
 
     public function createExams(){
