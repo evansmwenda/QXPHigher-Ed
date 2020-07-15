@@ -53,10 +53,10 @@
 
                       <div id="demo" class="">
                           <button class="btn btn-default add-question" type="button" style="margin: 5px 0px;">
-                              <span class="glyphicon glyphicon-record" style="color:green;"></span> Choice
+                              <span class="glyphicon glyphicon-record" style=""></span> Choice
                           </button>
                           <button class="btn btn-default add-question-text" type="button" style="margin: 5px 0px;">
-                              <span class="glyphicon glyphicon-comment" style="color:green;"></span> Text
+                              <span class="glyphicon glyphicon-comment" style=""></span> Text
                           </button>
                       </div>
 
