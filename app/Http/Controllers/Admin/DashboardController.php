@@ -275,4 +275,39 @@ class DashboardController extends Controller
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         return view('admin.exams.create')->with(compact('my_courses'));
     }
+
+    public function storeExams(){
+        //get the exams data and store to text file then db
+
+        header("Content-Type: application/json");
+
+        // build a PHP variable from JSON sent using POST method
+        $v = json_decode(stripslashes(file_get_contents("php://input")));
+        // build a PHP variable from JSON sent using GET method
+        // $v = json_decode(stripslashes($_GET["data"]));
+        // encode the PHP variable to JSON and send it back on client-side
+
+
+            //2.create reply and return back
+
+        $myfile = fopen("testfile.txt", "w") or die("Unable to open file!");
+        $txt = "John mwenda\n";
+        fwrite($myfile, $txt);
+        $evans= json_encode($v);
+        fwrite($myfile, $evans);
+        $txt = date("Y-m-d H:i:s")."\n============================================================\n";
+        fwrite($myfile, $txt);
+        fclose($myfile);
+            
+
+
+
+            $arr = array('success' => true, 
+                'status' => "Successfulle", 
+                'sent' => $evans,
+                'd' => 4, 
+                'e' => 5);
+
+         echo json_encode($arr);
+    }
 }

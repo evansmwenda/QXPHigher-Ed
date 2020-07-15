@@ -25,6 +25,7 @@
             <div class="row">
               <form id="question-form" method="post">{{ csrf_field() }}
                   <div class="col-xs-12 form-group">
+                    <meta name="csrf-token" content='{{ csrf_token() }}'/>
                     <div class="form-group">
                           <label>Select Course</label>
                           <select class="form-control" name="course_id" id="course_id" required>
@@ -242,22 +243,25 @@
 
 
               //Submit the data.
-              // $.ajax({
-              //   url: 'delete.php',
-              //   type: 'POST',
-              //   dataType: 'json',
-              //   data: JSON.stringify(form_data),
+              $.ajax({
+                url: '/admin/exams/save',
+                type: 'POST',
+                beforeSend: function (request) {
+                  return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                dataType: 'json',
+                data: JSON.stringify(form_data),
 
-              // })
-              // .done(function(response) {
-              //   console.log("we have liftoff->"+response.status);
-              //   console.log("data->"+response.sent);
-              //   $("#mypar").html(response.success);
-              //   //$('#question-form')[0].reset();
-              // })
-              // .fail(function(response) {
-              //   console.log("error->"+response);
-              // });
+              })
+              .done(function(response) {
+                console.log("we have liftoff->"+response.status);
+                console.log("data->"+response.sent);
+                $("#mypar").html(response.success);
+                //$('#question-form')[0].reset();
+              })
+              .fail(function(response) {
+                console.log("error->"+response);
+              });
 
               //end of ajax submit
 

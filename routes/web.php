@@ -118,5 +118,6 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     //for exams creating
     Route::match(['get', 'post'],'exams','Admin\DashboardController@getExams');
     Route::get('exams/create','Admin\DashboardController@createExams');
+    Route::match(['get', 'post'],'exams/save','Admin\DashboardController@storeExams');
 
 });

@@ -1,0 +1,3 @@
+John mwenda
+[{"question-1":{"name":"question-1","value":"which of the following is not a mammal?"},"options":[{"name":"1","value":"study of plansts"},{"name":"2","value":"Duck billed dophus"}],"total":3,"course_id":"6","exam_title":"my name"},{"question-2":{"name":"question-2","value":"Who was the second president of Kenya"},"options":[{"name":"1","value":"Spiny ant eater"},{"name":"2","value":"Uhuru Kenyatta"}],"total":3,"course_id":"6","exam_title":"my name"},{"question-3":{"name":"question-3","value":"Are you yourself lately?"},"options":[],"total":3,"course_id":"6","exam_title":"my name"}]2020-07-15 13:21:32
+============================================================
