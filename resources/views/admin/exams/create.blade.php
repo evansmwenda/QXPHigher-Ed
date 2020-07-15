@@ -27,7 +27,7 @@
                   <div class="col-xs-12 form-group">
                     <div class="form-group">
                           <label>Select Course</label>
-                          <select class="form-control" name="course_id" required>
+                          <select class="form-control" name="course_id" id="course_id" required>
                             <option>Select Course</option>
                             @foreach($my_courses as $course)
                               <option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
@@ -38,7 +38,7 @@
 
                   <div class="col-xs-12 form-group">
                       <label for="examTitle">Exam Title</label>
-                      <input type="text" name="exam_title" id="examTitle" class="form-control" placeholder="Enter Title" required>
+                      <input type="text" name="exam_title" id="exam_title" class="form-control" placeholder="Enter Title" required>
                   </div>
 
                   <div id="question-wrapper">
@@ -231,8 +231,8 @@
                   },
                   "options": temp_o_data,
                   "total":count,
-                  "course_id":"1",
-                  "exam_title": "Biology Exam"
+                  "course_id": $('#course_id').val(),
+                  "exam_title":  $('#exam_title').val()
                 });
                 
               }); //end of foreaach
