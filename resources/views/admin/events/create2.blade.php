@@ -245,10 +245,14 @@
       droppable : true, // this allows things to be dropped onto the calendar !!!
       drop      : function(info) {
         // is the "remove after drop" checkbox checked?
+        console.log(info);
         if (checkbox.checked) {
           // if so, remove the element from the "Draggable Events" list
           info.draggedEl.parentNode.removeChild(info.draggedEl);
         }
+      },
+      eventDragStop : function (changeInfo){
+        console.log(changeInfo);
       }    
     });
 

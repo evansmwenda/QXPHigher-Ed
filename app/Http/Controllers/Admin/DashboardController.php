@@ -209,6 +209,7 @@ class DashboardController extends Controller
             ),
             array(
                 "title" => "Live classroom",
+                "description" => "lecture",
                 "start" => "2020-07-21 10:00:00",
                 "backgroundColor" => "#00a65a",
                 "borderColor" => "#00a65a",
