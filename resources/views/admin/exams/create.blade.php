@@ -230,7 +230,9 @@
                     "value": q_value
                   },
                   "options": temp_o_data,
-                  "total":count
+                  "total":count,
+                  "course_id":"1",
+                  "exam_title": "Biology Exam"
                 });
                 
               }); //end of foreaach
@@ -238,28 +240,30 @@
 
              console.log(JSON.stringify(form_data));
 
-              //Submit the data.
-              $.ajax({
-                url: 'delete.php',
-                type: 'POST',
-                dataType: 'json',
-                data: JSON.stringify(form_data),
 
-              })
-              .done(function(response) {
-                console.log("we have liftoff->"+response.status);
-                console.log("data->"+response.sent);
-                $("#mypar").html(response.success);
-                //$('#question-form')[0].reset();
-              })
-              .fail(function(response) {
-                console.log("error->"+response);
-              });
+              //Submit the data.
+              // $.ajax({
+              //   url: 'delete.php',
+              //   type: 'POST',
+              //   dataType: 'json',
+              //   data: JSON.stringify(form_data),
+
+              // })
+              // .done(function(response) {
+              //   console.log("we have liftoff->"+response.status);
+              //   console.log("data->"+response.sent);
+              //   $("#mypar").html(response.success);
+              //   //$('#question-form')[0].reset();
+              // })
+              // .fail(function(response) {
+              //   console.log("error->"+response);
+              // });
 
               //end of ajax submit
 
-
+              // window.location.reload();
             })
+      // window.location.reload();
 
   })
 </script>
