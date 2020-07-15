@@ -195,73 +195,71 @@
         });
 
       $('#question-form').submit(function (argument) {
-        argument.preventDefault();
+              argument.preventDefault();
 
-        // Parent element containing each question and it's related options.
-        let temp_d = $(`#question-wrapper .q-wrap`);
+              // Parent element containing each question and it's related options.
+              let temp_d = $(`#question-wrapper .q-wrap`);
 
-        // Cycle through all 'containers', gather each question and it's option/s.
-        $(temp_d).each(function () {
-          // Variable definitions.
-          let form_data = [];
-          // To hold question related data.
-          let q_name;
-          let q_value;
-          // To hold input data.
-          let temp_o_data = [];
-          let temp_q = $(this).find('div.q-wrapper .form-group input');
-          let temp_o = $(this).find('div.option-wrapper .form-group input');
-          q_name = $(temp_q).attr("name");
-          q_value = $(temp_q).val();
+              let form_data = [];
+              // Cycle through all 'containers', gather each question and it's option/s.
+              $(temp_d).each(function () {
+                // Variable definitions.
+                // let form_data = [];
 
-          // Loop through the options/s (incase there's more than one).
-          $(temp_o).each(function () {
-            let _name= $(this).attr('name');
-            let _value = $(this).val();
-            temp_o_data.push({"name": _name, "value": _value});
-          })
+                // To hold question related data.
+                let q_name;
+                let q_value;
+                // To hold input data.
+                let temp_o_data = [];
+                let temp_q = $(this).find('div.q-wrapper .form-group input');
+                let temp_o = $(this).find('div.option-wrapper .form-group input');
+                q_name = $(temp_q).attr("name");
+                q_value = $(temp_q).val();
 
-          // Format the data as a JSON object for submitting.
-          form_data.push({
-            [q_name]: {
-              "name": q_name,
-              "value": q_value
-            },
-            "options": temp_o_data
-          });
-          // console.log(form_data);
+                // Loop through the options/s (incase there's more than one).
+                $(temp_o).each(function () {
+                  let _name= $(this).attr('name');
+                  let _value = $(this).val();
+                  temp_o_data.push({"name": _name, "value": _value});
+                })
 
-          //Submit the data.
-          $.ajax({
-            url: 'delete.php',
-            type: 'POST',
-            dataType: 'json',
-            data: form_data,
+                // Format the data as a JSON object for submitting.
+                form_data.push({
+                  [q_name]: {
+                    "name": q_name,
+                    "value": q_value
+                  },
+                  "options": temp_o_data,
+                  "total":count
+                });
+                
+              }); //end of foreaach
 
-          })
-          .done(function(response) {
-            console.log("we have liftoff->"+response.status);
-            $("#mypar").html(response.success);
-            $('#question-form')[0].reset();
-          })
-          .fail(function(response) {
-            console.log("error->"+response);
-          })
-          // $.ajax({
-          //   type: "POST",
-          //   url: 'delete.php',
-          //   dataType: "json",
-          //   success: function(response){
-          //       //if request if made successfully then the response represent the data
-          //         console.log("we have liftoff->"+response.status);
-          //         $("#mypar").html(response.success);
-          //         $('#question-form')[0].reset();
-          //       // $( "#result" ).empty().append( response );
-          //   }
-          // });
-          
-        })
-      })
+
+             console.log(JSON.stringify(form_data));
+
+              //Submit the data.
+              $.ajax({
+                url: 'delete.php',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(form_data),
+
+              })
+              .done(function(response) {
+                console.log("we have liftoff->"+response.status);
+                console.log("data->"+response.sent);
+                $("#mypar").html(response.success);
+                //$('#question-form')[0].reset();
+              })
+              .fail(function(response) {
+                console.log("error->"+response);
+              });
+
+              //end of ajax submit
+
+
+            })
 
   })
 </script>

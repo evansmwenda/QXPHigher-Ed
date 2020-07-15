@@ -108,6 +108,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     //for  events
     Route::get('events','Admin\DashboardController@getEvents');
     Route::match(['get', 'post'],'events/create','Admin\DashboardController@createEvents');
+    Route::match(['get', 'post'],'events/create2','Admin\DashboardController@getExams');
     Route::match(['get', 'post'],'events/delete/{id}','Admin\DashboardController@deleteEvents');
 
     //for assignments
