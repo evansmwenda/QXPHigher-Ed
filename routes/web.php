@@ -108,16 +108,17 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     //for  events
     Route::get('events','Admin\DashboardController@getEvents');
     Route::match(['get', 'post'],'events/create','Admin\DashboardController@createEvents');
-    Route::match(['get', 'post'],'events/create2','Admin\DashboardController@getExams');
+    Route::match(['get', 'post'],'events/create2','Admin\DashboardController@createEvents2');
     Route::match(['get', 'post'],'events/delete/{id}','Admin\DashboardController@deleteEvents');
 
     //for assignments
     Route::get('assignments','Admin\DashboardController@getAssignments');
     Route::match(['get', 'post'],'assignments/create','Admin\DashboardController@createAssignments');
 
-    //for exams creating
+    //for exams 
     Route::match(['get', 'post'],'exams','Admin\DashboardController@getExams');
     Route::get('exams/create','Admin\DashboardController@createExams');
     Route::match(['get', 'post'],'exams/save','Admin\DashboardController@storeExams');
+    Route::match(['get', 'post'],'exams/delete/{id}','Admin\DashboardController@deleteExams');
 
 });

@@ -26,7 +26,7 @@
         </div>
         
         <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped {{ count($my_events) > 0 ? 'datatable' : '' }}">
+            <table class="table table-bordered table-striped {{ count($my_tests) > 0 ? 'datatable' : '' }}">
                 <thead>
                     <tr>
                         <th>id</th>
@@ -39,14 +39,14 @@
                 </thead>
                 
                 <tbody>
-                    @if (count($my_events) > 0)
-                    	@foreach($my_events as $event)
-                    		<tr data-entry-id="{{ $event->id }}">
-	                            <td>{{ $event->id }}</td>
-	                            <td>{{ $event->title }}</td>
-	                            <td>{{ $event->course->title}}</td>
-	                            <td>{{ $event->event_start_time}}</td>
-	                            <td><a href="{{ url('/admin/events/delete/'.$event->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                    @if (count($my_tests) > 0)
+                    	@foreach($my_tests as $test)
+                    		<tr data-entry-id="{{ $test->id }}">
+	                            <td>{{ $test->id }}</td>
+	                            <td>{{ $test->title }}</td>
+	                            <td>{{ $test->course->title}}</td>
+	                            <td>{{ $test->published}}</td>
+	                            <td><a href="{{ url('/admin/exams/delete/'.$test->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
 	                        </tr>
                     	@endforeach
                         

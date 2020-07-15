@@ -9,6 +9,7 @@ use App\Events;
 use App\CourseUser;
 use App\Course;
 use App\Assignments;
+use App\Test;
 use App\SubmittedAssignments;
 use DB;
 
@@ -178,6 +179,55 @@ class DashboardController extends Controller
          //get
         return view('admin.events.create')->with(compact('my_courses'));
     }
+    public function createEvents2(){
+
+        // PHP array
+        $books = array(
+            array(
+                "title" => "All Day Event",
+                "start" => "2020-07-01",
+                "backgroundColor" => "#f56954",
+                "borderColor" => "#f56954",
+            ),
+            array(
+                "title" => "Long Event",
+                "start" => "2020-07-22",
+                "backgroundColor" => "#f39c12",
+                "borderColor" => "#f39c12",
+            ),
+            array(
+                "title" => "Birthday party from 12pm to 3pm",
+                "start" => "2020-07-23 08:00:00",
+                "backgroundColor" => "#00c0ef",
+                "borderColor" => "#00c0ef",
+            ),
+            array(
+                "title" => "Initiation",
+                "start" => "2020-07-24 09:00:00",
+                "backgroundColor" => "#0073b7",
+                "borderColor" => "#0073b7",
+            ),
+            array(
+                "title" => "Live classroom",
+                "start" => "2020-07-21 10:00:00",
+                "backgroundColor" => "#00a65a",
+                "borderColor" => "#00a65a",
+            )
+        );
+
+        // //1.get all course_ids belonging to this user
+        // $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
+
+        // $course_ids="";
+        // foreach ($my_courses as $key => $value) {
+        //     $course_ids .= $value->course_id .",";
+        // }
+        // $course_ids = explode(",", $course_ids);
+        // $my_tests = Test::with(['course'])->whereIn('course_id',$course_ids)->get();
+        // dd($my_tests);
+        //dd($my_courses[0]->course->title);//"Biology 101"
+        return view('admin.events.create2')->with(compact('books'));
+    }
     public function deleteEvents(Request $request,string $id){
         // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
@@ -256,19 +306,18 @@ class DashboardController extends Controller
             )
         );
 
-        // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
+        //1.get all course_ids belonging to this user
         $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
+
         $course_ids="";
         foreach ($my_courses as $key => $value) {
             $course_ids .= $value->course_id .",";
         }
         $course_ids = explode(",", $course_ids);
-        $my_events = Events::with(['course'])->whereIn('course_id',$course_ids)->get();
-        // dd($my_events);
+        $my_tests = Test::with(['course'])->whereIn('course_id',$course_ids)->get();
+        // dd($my_tests);
         //dd($my_courses[0]->course->title);//"Biology 101"
-
-
-        return view('admin.exams.index')->with(compact('books','my_events'));
+        return view('admin.exams.index')->with(compact('my_tests'));
     }
 
     public function createExams(){
@@ -312,5 +361,11 @@ class DashboardController extends Controller
                 'e' => 5);
 
          echo json_encode($arr);
+    }
+    public function deleteExams(Request $request,string $id){
+        $test = Test::find($id);
+        $test->delete();
+
+        return back()->with('flash_message_success','Your exam was deleted!');
     }
 }
