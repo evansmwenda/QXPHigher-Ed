@@ -284,113 +284,30 @@ class DashboardController extends Controller
         // build a PHP variable from JSON sent using POST method
         $v = json_decode(stripslashes(file_get_contents("php://input")),TRUE);
 
-
-        $jsonData= '[
-{"name":"Bill Smith", "city":"Fort Lauderdale", "state":"Florida"}, 
-{"name":"Vanessa Halls", "city":"New York City", "state":"New York"},
-{"name":"Ryan Mitchells", "city":"Miami", "state":"Florida"}
-]';
-
-$people= json_decode($jsonData, true);
-
-
-
-
-
-        // $v1 = stripslashes(file_get_contents("php://input"));
-        // $v = stripslashes(file_get_contents("php://input"));
-        // build a PHP variable from JSON sent using GET method
-        // $v = json_decode(stripslashes($_GET["data"]));
         // encode the PHP variable to JSON and send it back on client-side
 
         $myfile = fopen("testfile.txt", "w") or die("Unable to open file!");
         //     //2.create reply and return back
 
         foreach ($v as $key => $question) {
-            # code...
-            // $evans =json_encode($question);
             //for questions -> $question["question"]["value"]
             //for options -> $question["options"][0]["value"]
-            //for questions -> $question["options"][0]["name"]
+
             fwrite($myfile,"\n".$question["question"]["value"]."\n");
           
 
             foreach ($question["options"]  as $key => $question_details) {
                 # code...
                 $question_options = $question_details["value"];
-                fwrite($myfile,"\n".$question_options."\n\n\n");
-            }
-
-
-            
+                fwrite($myfile,"\n".$question_options."\n");
+            }    
         }
-        // for($i=0; $i<count($v); $i++) {//$obj['reviews']
-        //     // echo "Rating is " . $obj['reviews'][$i]["rating"] . " and the excerpt is " . $obj['reviews'][$i]["excerpt"] . "<BR>";
-
-        //     // $current_question = "question-".$i+1;
-        //     $evans =json_encode($v[$i]);
-        //     // $evans = json_decode( $evans,TRUE);
-        //     // $evans_q = $evans->options;
-        //     // $evans= json_encode($evans);
-        //     fwrite($myfile,"\n".$evans."\n\n");
-        // }
-
-        // [{"question-1":{"name":"question-1","value":"which of the following is not a mammal?"},"options":[{"name":"1","value":"study of plansts"},{"name":"2","value":"Duck billed dophus"}],"total":3,"course_id":"6","exam_title":"my name"},{"question-2":{"name":"question-2","value":"Who was the second president of Kenya"},"options":[{"name":"1","value":"Spiny ant eater"},{"name":"2","value":"Uhuru Kenyatta"}],"total":3,"course_id":"6","exam_title":"my name"},{"question-3":{"name":"question-3","value":"Are you yourself lately?"},"options":[],"total":3,"course_id":"6","exam_title":"my name"}]
-// [
-//    {
-//       "question":{
-//          "name":"question-1",
-//          "value":"which of the following is not a mammal?"
-//       },
-//       "options":[
-//          {
-//             "name":"1",
-//             "value":"study of plansts"
-//          },
-//          {
-//             "name":"2",
-//             "value":"Duck billed dophus"
-//          }
-//       ],
-//       "total":3,
-//       "course_id":"6",
-//       "exam_title":"my name"
-//    },
-//    {
-//       "question-3":{
-//          "name":"question-3",
-//          "value":"Are you yourself lately?"
-//       },
-//       "options":[
-
-//       ],
-//       "total":3,
-//       "course_id":"6",
-//       "exam_title":"my name"
-//    }
-// ]
-
-
-
-
-
-
-
         
-        $txt = "John mwenda count->> ".count($v)."\n";
-        fwrite($myfile, $txt);
-        $evans= json_encode($v);
-        fwrite($myfile, $evans);
-        $txt = "\n".date("Y-m-d H:i:s")."\n========================================================\n";
-        fwrite($myfile, $txt);
         fclose($myfile);
             
-
-
-
             $arr = array('success' => true, 
-                'status' => "Successfulle", 
-                'sent' => $evans,
+                'status' => "Successful", 
+                'sent' => json_encode($v),
                 'd' => 4, 
                 'e' => 5);
 

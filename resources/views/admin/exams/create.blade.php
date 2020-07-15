@@ -257,7 +257,7 @@
                 console.log("we have liftoff->"+response.status);
                 console.log("data->"+response.sent);
                 $("#mypar").html(response.success);
-                //$('#question-form')[0].reset();
+                $('#question-form')[0].reset();
               })
               .fail(function(response) {
                 console.log("error->"+response);
