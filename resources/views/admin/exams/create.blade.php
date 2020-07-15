@@ -226,7 +226,7 @@
 
                 // Format the data as a JSON object for submitting.
                 form_data.push({
-                  [q_name]: {
+                  /*[q_name]*/ "question": {
                     "name": q_name,
                     "value": q_value
                   },
