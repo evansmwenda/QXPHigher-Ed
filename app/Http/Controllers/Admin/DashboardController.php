@@ -10,6 +10,8 @@ use App\CourseUser;
 use App\Course;
 use App\Assignments;
 use App\Test;
+use App\Question;
+use App\QuestionsOption;
 use App\SubmittedAssignments;
 use DB;
 
@@ -349,6 +351,7 @@ class DashboardController extends Controller
         $my_test->save();
 
         fwrite($myfile, "\nnewest test id->".$my_test->id."\n");//test id
+        $question_ids_array="";
 
         foreach ($v as $key => $question) {
             //for questions -> $question["question"]["value"]
@@ -356,15 +359,34 @@ class DashboardController extends Controller
             
 
             fwrite($myfile,"\n".$question["question"]["value"]."\n");//question
-            //2.insert the question to db and s
-          
+            //2.insert the questions to questions table
+            $my_question = new Question;
+            $my_question->question = $question["question"]["value"];
+            $my_question->score    = "1";
+            $my_question->save();
+            
+            $question_ids_array .= $my_question->id .",";
+            fwrite($myfile, "\nnewest question id->".$my_question->id."\n");//question id
+
 
             foreach ($question["options"]  as $key => $question_details) {
-                # code...
+                #3. store the question options(answers) to the question options table
                 $question_options = $question_details["value"];
-                fwrite($myfile,"\n".$question_options."\n");
+                if(!empty($question_options)){
+                    //we have options->store them
+                    fwrite($myfile,"\n".$question_options."\n");
+                    $my_question_options = new QuestionsOption;
+                    $my_question_options->question_id = $my_question->id;//its parent question id
+                    $my_question_options->option_text = $question_options;
+                    $my_question_options->correct     = "0";
+                    $my_question_options->save();
+
+                }
+                
+
             }    
         }
+        fwrite($myfile, "\nquestions array->".$question_ids_array."\n");//question ids
         
         fclose($myfile);
             
