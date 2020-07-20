@@ -41,6 +41,10 @@
                       <label for="examTitle">Exam Title</label>
                       <input type="text" name="exam_title" id="exam_title" class="form-control" placeholder="Enter Title" required>
                   </div>
+                  <div class="col-xs-12 form-group">
+                    <label for="exampleDescription">Description</label>
+                    <textarea name="description" class="form-control" id="exampleDescription" rows="3"></textarea>
+                  </div>
 
                   <div id="question-wrapper">
                   </div>
