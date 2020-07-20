@@ -1,14 +1,14 @@
 
+description->we want yu to know how to cook
+
+course_id->9
+
+exam_title->Cooking final exam 
+
+ newest test id->55
+
 which of the following is not a mammal?
 
 study of plansts
 
-Zambia 2
-
-Who was the second president of Kenya
-
-Spiny ant eater
-
-Duck billed dophus
-
-Are you yourself lately?
+Uhuru Kenyatta

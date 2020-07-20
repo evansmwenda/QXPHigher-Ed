@@ -334,16 +334,29 @@ class DashboardController extends Controller
         // build a PHP variable from JSON sent using POST method
         $v = json_decode(stripslashes(file_get_contents("php://input")),TRUE);
 
-        // encode the PHP variable to JSON and send it back on client-side
 
         $myfile = fopen("testfile.txt", "w") or die("Unable to open file!");
-        //     //2.create reply and return back
+        //1.create the test/exam in the tests table
+        fwrite($myfile, "\ndescription->".$v[0]["description"]."\n");//description
+        fwrite($myfile, "\ncourse_id->".$v[0]["course_id"]."\n");//course_id
+        fwrite($myfile, "\nexam_title->".$v[0]["exam_title"]."\n");//exam_title
+
+        $my_test = new Test;
+        $my_test->course_id   = $v[0]["course_id"];
+        $my_test->title       = $v[0]["exam_title"];
+        $my_test->description = $v[0]["description"];
+        $my_test->published   = "1";
+        $my_test->save();
+
+        fwrite($myfile, "\nnewest test id->".$my_test->id."\n");//test id
 
         foreach ($v as $key => $question) {
             //for questions -> $question["question"]["value"]
             //for options -> $question["options"][0]["value"]
+            
 
-            fwrite($myfile,"\n".$question["question"]["value"]."\n");
+            fwrite($myfile,"\n".$question["question"]["value"]."\n");//question
+            //2.insert the question to db and s
           
 
             foreach ($question["options"]  as $key => $question_details) {

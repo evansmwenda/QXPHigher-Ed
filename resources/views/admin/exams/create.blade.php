@@ -43,7 +43,7 @@
                   </div>
                   <div class="col-xs-12 form-group">
                     <label for="exampleDescription">Description</label>
-                    <textarea name="description" class="form-control" id="exampleDescription" rows="3"></textarea>
+                    <textarea name="description" class="form-control" id="exam_description" rows="3"></textarea>
                   </div>
 
                   <div id="question-wrapper">
@@ -237,7 +237,8 @@
                   "options": temp_o_data,
                   "total":count,
                   "course_id": $('#course_id').val(),
-                  "exam_title":  $('#exam_title').val()
+                  "exam_title":  $('#exam_title').val(),
+                  "description":  $('#exam_description').val()
                 });
                 
               }); //end of foreaach
@@ -261,7 +262,7 @@
                 console.log("we have liftoff->"+response.status);
                 console.log("data->"+response.sent);
                 $("#mypar").html(response.success);
-                $('#question-form')[0].reset();
+                // $('#question-form')[0].reset();
               })
               .fail(function(response) {
                 console.log("error->"+response);
