@@ -364,6 +364,9 @@ class HomeController extends Controller
         return view('students.assignments');
     }
     public function getExams(){
+        #1. get the courses student is taking
+        #2. get the exams in those courses and display them.
+        #3.give opporturnity for the student to submit
         return view('students.exams');
     }
     public function enrollCourse($course_id){
