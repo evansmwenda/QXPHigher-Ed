@@ -401,7 +401,7 @@ class HomeController extends Controller
             $questions_array = explode(",", $my_questions_ids);
             #2. get the questions and check in question_options for their options
             $exams = Question::with(['options'])->whereIn('id', $questions_array)->get();
-            dd($exams);
+            // dd($exams);
             
             return view('students.exams_attempt')->with(compact('exams','test_details','id')); 
         }

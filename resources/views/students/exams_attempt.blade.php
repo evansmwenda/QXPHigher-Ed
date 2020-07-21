@@ -17,7 +17,7 @@
               </div> 
           @endif
             <div class="panel panel-default">
-                <div class="panel-heading">{{ $test_details->title - $test_details->course->title }}</div>
+                <div class="panel-heading">{{ $test_details->title }} - {{ $test_details->course->title }}</div>
 
                 <div class="panel-body">
 
@@ -26,99 +26,47 @@
 
                         @if(count($exams) >0)
                           <form role="form" method="post" action="{{('/exams/save/'.$id)}}"> {{csrf_field() }}
+
                            @foreach($exams as $key=>$exam)
-                            <div class="form-group">
+                            <div class="col-xs-12 form-group">
                               <p>{{ $key+1 }}. {{ $exam->question}}</p>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radio1">
-                                <label class="form-check-label">Elephant</label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radio1">
-                                <label class="form-check-label">Hippopotamus</label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radio1">
-                                <label class="form-check-label">Buffalo</label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radio1">
-                                <label class="form-check-label">Shark</label>
-                              </div>
+                              @if(count($exam->options) > 0)
+                                <!-- has multiple choices-->
+                                @foreach($exam->options as $option)
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="answer{{$key}}[]">
+                                    <label class="form-check-label">{{ $option->option_text}}</label>
+                                  </div>
+                                @endforeach  
+                              @else
+                                <!-- open ended question -->
+                                <div class="col-xs-9 form-group">
+                                  <label for="exampleDescription">Description</label>
+                                  <textarea name="answer{{$key}}" class="form-control" id="exam_description" rows="3"></textarea>
+                                </div>
+                              @endif
                             </div>
-                           @endforeach 
-                          </form>  
+                           @endforeach
+
+                           <div class="col-xs-12 form-group">
+                              <input type="submit" value="Submit" class="btn btn-primary" />
+                            </div>
+                          </form> 
 
                         @else
                           <div class="panel-heading">
                             <h4 class="panel-title">
-                              <p>You don't have any exams</p>
+                              <p>No questions found.</p>
                             </h4>
                           </div>
                         @endif
 
+                        <p>
+                          <a href="{{ url('/exams') }}" class="btn btn-default">Back to list</a>
+                        </p>
+
                         
                       </div>
-                      <!-- radio -->
-                      <!-- <div class="form-group">
-                      	<p>1. Which one of the following animals is known for strength?</p>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio1">
-                          <label class="form-check-label">Elephant</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio1">
-                          <label class="form-check-label">Hippopotamus</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio1">
-                          <label class="form-check-label">Buffalo</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio1">
-                          <label class="form-check-label">Shark</label>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                      	<p>2. Which one of the following animals is known for speed?</p>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio2">
-                          <label class="form-check-label">Bear</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio2">
-                          <label class="form-check-label">Cheetah</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio2">
-                          <label class="form-check-label">Leopard</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio2">
-                          <label class="form-check-label">Eagle</label>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                      	<p>3. Which one of the following animals is known for faithfulness?</p>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio3">
-                          <label class="form-check-label">Antelope</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio3">
-                          <label class="form-check-label">Dog</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio3">
-                          <label class="form-check-label">Rabbit</label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="radio3">
-                          <label class="form-check-label">Elephant</label>
-                        </div>
-                      </div> -->
                     </div>
 
 
