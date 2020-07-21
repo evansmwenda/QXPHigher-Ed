@@ -263,6 +263,7 @@
                 console.log("data->"+response.sent);
                 $("#mypar").html(response.success);
                 $('#question-form')[0].reset();
+                window.location.replace("/admin/exams");
               })
               .fail(function(response) {
                 console.log("error->"+response);

@@ -1,26 +1,26 @@
 
-description->we want yu to know how to cook
-course_id->9
-exam_title->Cooking final exam 
-newest test id->62
+description->This is the first and only test on this course. Attempt all questions to the best of your ability
+course_id->7
+exam_title->Introduction to Maths
+newest test id->63
 
 which of the following is not a mammal?
-newest question id->78
-study of plansts
+newest question id->81
+Zambia 1
 Uhuru Kenyatta
 
 Who was the second president of Kenya
-newest question id->79
-Spiny ant eater
-Uhuru Kenyatta
+newest question id->82
 
 Are you yourself lately?
-newest question id->80
-questions array->78,79,80,
-questions array itself->78,79,80,
+newest question id->83
+!false
+not really
+questions array->81,82,83,
+questions array itself->81,82,83,
 
-question->78 test_id->62
+question->81 test_id->63
 
-question->79 test_id->62
+question->82 test_id->63
 
-question->80 test_id->62
+question->83 test_id->63
