@@ -376,10 +376,22 @@ class HomeController extends Controller
 
         // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
         $exams = Test::with(['course'])->whereIn('course_id', $ids_array)->get();
-        dd($exams);
+        // dd($exams);
         
-        #3.give opporturnity for the student to submit
         return view('students.exams')->with(compact('exams'));
+    }
+    public function postExams(Request $request,$id=null){
+        if($request->isMethod('post')){
+            $method = "POST";
+            $data=$request->all();
+        }else{
+            $exam = Test::with(['course'])->where('id', $id)->get();
+            dd($exam);
+            
+            return view('students.exams_attempt')->with(compact('exam')); 
+        }
+        
+        
     }
     public function enrollCourse($course_id){
         //enroll to this course

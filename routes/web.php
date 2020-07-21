@@ -15,6 +15,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //exams
     Route::get('/exams', 'HomeController@getExams');
+    Route::match(['get', 'post'],'/exams/save/{id}', 'HomeController@postExams');
 
     //billing
     Route::get('/billing', 'HomeController@index');
