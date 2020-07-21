@@ -385,6 +385,14 @@ class HomeController extends Controller
             $method = "POST";
             $data=$request->all();
         }else{
+            #1. get the questions in that test id
+            $my_questions = Test::where(['test_id'=>0])->get();
+            dd($my_questions);
+            $my_course_ids="";
+            foreach($my_courses as $course){
+                $my_course_ids .= $course->course_id .","; 
+            }
+            #2. get the questions and check in question_options for their options
             $exam = Test::with(['course'])->where('id', $id)->get();
             dd($exam);
             

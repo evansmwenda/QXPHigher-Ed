@@ -24,7 +24,7 @@
                                 <div class="panel-body">
                                   <h4>{{ $exam->title }}</h4><br>
                                   {{ $exam->description }}<br>
-                                <a href="{{url('/exams/save/'.$exam->id')}}" download>Attempt Exam</a>
+                                <a href="{{url('/exams/save/'.$exam->id)}}">Attempt Exam</a>
                                 
                               </div>
                               </div>
