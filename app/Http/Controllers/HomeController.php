@@ -365,9 +365,21 @@ class HomeController extends Controller
     }
     public function getExams(){
         #1. get the courses student is taking
-        #2. get the exams in those courses and display them.
+        $my_courses = EnrolledCourses::where(['user_id'=>\Auth::id()])->get();
+        $my_course_ids="";
+        foreach($my_courses as $course){
+            $my_course_ids .= $course->course_id .","; 
+        }
+
+       #2. get the exams in those courses and display them.
+        $ids_array = explode(",", $my_course_ids);
+
+        // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
+        $exams = Test::with(['course'])->whereIn('course_id', $ids_array)->get();
+        dd($exams);
+        
         #3.give opporturnity for the student to submit
-        return view('students.exams');
+        return view('students.exams')->with(compact('exams'));
     }
     public function enrollCourse($course_id){
         //enroll to this course
