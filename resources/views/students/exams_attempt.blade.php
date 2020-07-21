@@ -33,7 +33,7 @@
                               @if(count($exam->options) > 0)
                                 <!-- has multiple choices-->
                                 @foreach($exam->options as $option)
-                                  <div class="form-check">
+                                  <div class="col-xs-12 form-check">
                                     <input class="form-check-input" type="radio" name="answer{{$key}}[]">
                                     <label class="form-check-label">{{ $option->option_text}}</label>
                                   </div>
