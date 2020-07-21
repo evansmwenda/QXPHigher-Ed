@@ -388,9 +388,7 @@ class HomeController extends Controller
             $data=$request->all();
         }else{
             //get the course details
-            $course = Test::with(['course'])->where('id', $id)->first();
-            $course_details = $course->course;
-            dd($course_details);
+            $test_details = Test::with(['course'])->where('id', $id)->first();
 
             #1. get the questions in that test id
             $my_questions_test = QuestionTest::where(['test_id'=>$id])->get();
@@ -402,10 +400,10 @@ class HomeController extends Controller
             
             $questions_array = explode(",", $my_questions_ids);
             #2. get the questions and check in question_options for their options
-            $exam = Question::whereIn('id', $questions_array)->get();
-            dd($exam);
+            $exams = Question::with(['options'])->whereIn('id', $questions_array)->get();
+            dd($exams);
             
-            return view('students.exams_attempt')->with(compact('exam','course_details')); 
+            return view('students.exams_attempt')->with(compact('exams','test_details','id')); 
         }
         
         
