@@ -11,6 +11,8 @@ use App\Lesson;
 use App\LessonStudent;
 use App\Assignments;
 use App\SubmittedAssignments;
+use App\QuestionTest;
+use App\Question;
 use DB;
 use DateTime;
 use DateInterval;
@@ -385,18 +387,25 @@ class HomeController extends Controller
             $method = "POST";
             $data=$request->all();
         }else{
+            //get the course details
+            $course = Test::with(['course'])->where('id', $id)->first();
+            $course_details = $course->course;
+            dd($course_details);
+
             #1. get the questions in that test id
-            $my_questions = Test::where(['test_id'=>0])->get();
-            dd($my_questions);
-            $my_course_ids="";
-            foreach($my_courses as $course){
-                $my_course_ids .= $course->course_id .","; 
+            $my_questions_test = QuestionTest::where(['test_id'=>$id])->get();
+            
+            $my_questions_ids="";
+            foreach($my_questions_test as $question){
+                $my_questions_ids .= $question->question_id .","; 
             }
+            
+            $questions_array = explode(",", $my_questions_ids);
             #2. get the questions and check in question_options for their options
-            $exam = Test::with(['course'])->where('id', $id)->get();
+            $exam = Question::whereIn('id', $questions_array)->get();
             dd($exam);
             
-            return view('students.exams_attempt')->with(compact('exam')); 
+            return view('students.exams_attempt')->with(compact('exam','course_details')); 
         }
         
         
