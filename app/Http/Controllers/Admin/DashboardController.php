@@ -337,11 +337,11 @@ class DashboardController extends Controller
         $v = json_decode(stripslashes(file_get_contents("php://input")),TRUE);
 
 
-        $myfile = fopen("testfile.txt", "w") or die("Unable to open file!");
-        #1.create the test/exam in the tests table
-        fwrite($myfile, "\ndescription->".$v[0]["description"]);//description
-        fwrite($myfile, "\ncourse_id->".$v[0]["course_id"]);//course_id
-        fwrite($myfile, "\nexam_title->".$v[0]["exam_title"]);//exam_title
+        // $myfile = fopen("testfile.txt", "w") or die("Unable to open file!");
+        // #1.create the test/exam in the tests table
+        // fwrite($myfile, "\ndescription->".$v[0]["description"]);//description
+        // fwrite($myfile, "\ncourse_id->".$v[0]["course_id"]);//course_id
+        // fwrite($myfile, "\nexam_title->".$v[0]["exam_title"]);//exam_title
 
         $my_test = new Test;
         $my_test->course_id   = $v[0]["course_id"];
@@ -351,7 +351,7 @@ class DashboardController extends Controller
         $my_test->save();
 
         $my_test_id = $my_test->id;
-        fwrite($myfile, "\nnewest test id->".$my_test_id);//test id
+        // fwrite($myfile, "\nnewest test id->".$my_test_id);//test id
         $question_ids="";
 
         foreach ($v as $key => $question) {
@@ -359,7 +359,7 @@ class DashboardController extends Controller
             //for options -> $question["options"][0]["value"]
             
 
-            fwrite($myfile,"\n\n".$question["question"]["value"]);//question
+            // fwrite($myfile,"\n\n".$question["question"]["value"]);//question
             #2.insert the questions to questions table
             $my_question = new Question;
             $my_question->question = $question["question"]["value"];
@@ -367,7 +367,7 @@ class DashboardController extends Controller
             $my_question->save();
             
             $question_ids .= $my_question->id .",";
-            fwrite($myfile, "\nnewest question id->".$my_question->id);//question id
+            // fwrite($myfile, "\nnewest question id->".$my_question->id);//question id
 
 
             foreach ($question["options"]  as $key => $question_details) {
@@ -375,7 +375,7 @@ class DashboardController extends Controller
                 $question_options = $question_details["value"];
                 if(!empty($question_options)){
                     //we have options->store them
-                    fwrite($myfile,"\n".$question_options);
+                    // fwrite($myfile,"\n".$question_options);
                     $my_question_options = new QuestionsOption;
                     $my_question_options->question_id = $my_question->id;//its parent question id
                     $my_question_options->option_text = $question_options;
@@ -385,12 +385,12 @@ class DashboardController extends Controller
                 }
             }//end of answers loop
         }//end of questions loop
-        fwrite($myfile, "\nquestions array->".$question_ids);//question ids
+        // fwrite($myfile, "\nquestions array->".$question_ids);//question ids
 
         #4. store the question ids in question tests table
         $dataSet = [];
         $question_ids_array = explode(",", $question_ids);
-        fwrite($myfile, "\nquestions array itself->".$question_ids );//question ids
+        // fwrite($myfile, "\nquestions array itself->".$question_ids );//question ids
         foreach ($question_ids_array as $question_test) {
             if(!empty($question_test)){
                 //question available->store
@@ -398,7 +398,7 @@ class DashboardController extends Controller
                 'question_id'  => $question_test,
                 'test_id'    => $my_test_id
             ];
-            fwrite($myfile, "\n\nquestion->".$question_test." test_id->".$my_test_id);
+            // fwrite($myfile, "\n\nquestion->".$question_test." test_id->".$my_test_id);
             }
             
         }
