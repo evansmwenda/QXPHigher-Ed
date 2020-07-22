@@ -386,7 +386,7 @@ class HomeController extends Controller
         if($request->isMethod('post')){
             $method = "POST";
             $data=$request->all();
-            return back()->with('flash_message_success','Exam submitted successfully');
+            return redirect('/exams')->with('flash_message_success','Exam submitted successfully');
         }else{
             //get the course details
             $test_details = Test::with(['course'])->where('id', $id)->first();
