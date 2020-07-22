@@ -405,7 +405,7 @@ class DashboardController extends Controller
 
         DB::table('question_test')->insert($dataSet);
 
-        fclose($myfile);
+        // fclose($myfile);
             
         $arr = array('success' => true, 
             'status' => "Successful", 
