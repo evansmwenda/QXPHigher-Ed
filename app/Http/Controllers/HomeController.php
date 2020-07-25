@@ -386,6 +386,7 @@ class HomeController extends Controller
         if($request->isMethod('post')){
             $method = "POST";
             $data=$request->all();
+            dd($data);
             return redirect('/exams')->with('flash_message_success','Exam submitted successfully');
         }else{
             //get the course details
