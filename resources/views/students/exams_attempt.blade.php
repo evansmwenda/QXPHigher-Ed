@@ -26,10 +26,13 @@
 
                         @if(count($exams) >0)
                           <form role="form" method="post" action="{{('/exams/save/'.$id)}}"> {{csrf_field() }}
+                            <input type="hidden" name="_count" value="{{$questions_count}}">
+                            <input type="hidden" name="test_id" value="{{$test_details->id}}">
 
                            @foreach($exams as $key=>$exam)
                             <div class="col-xs-12 form-group">
                               <p>{{ $key+1 }}. {{ $exam->question}}</p>
+                              <input type="hidden" name="question{{$key}}" value="{{$exam->id}}">
                               @if(count($exam->options) > 0)
                                 <!-- has multiple choices-->
                                 @foreach($exam->options as $option)

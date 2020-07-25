@@ -386,7 +386,28 @@ class HomeController extends Controller
         if($request->isMethod('post')){
             $method = "POST";
             $data=$request->all();
-            dd($data);
+
+            
+            // array:9 [▼
+            //   "_token" => "e7bm1BiFUIRuEwoXox9k3ZhjRg4QMYMtUIIE3uDy"
+            //   "_count" => "3"
+            //   "test_id" => "63"
+            //   "question0" => "81"
+            //   "answer0" => array:1 [▼
+            //     0 => "Uhuru Kenyatta"
+            //   ]
+            //   "question1" => "82"
+            //   "answer1" => "Daniel"
+            //   "question2" => "83"
+            //   "answer2" => array:1 [▼
+            //     0 => "!false"
+            //   ]
+            // ]
+            $count = $data['_count'];
+            $test_id= $data['test_id'];
+            dd($count);
+
+
             return redirect('/exams')->with('flash_message_success','Exam submitted successfully');
         }else{
             //get the course details
@@ -403,9 +424,10 @@ class HomeController extends Controller
             $questions_array = explode(",", $my_questions_ids);
             #2. get the questions and check in question_options for their options
             $exams = Question::with(['options'])->whereIn('id', $questions_array)->get();
-            // dd($exams);
+            // dd();
+            $questions_count =count($exams); 
             
-            return view('students.exams_attempt')->with(compact('exams','test_details','id')); 
+            return view('students.exams_attempt')->with(compact('exams','test_details','id','questions_count')); 
         }
         
         
