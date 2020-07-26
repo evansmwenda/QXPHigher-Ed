@@ -11,10 +11,17 @@ class QuestionTest extends Model
     protected $table = 'question_test';
     public $fillable = ['question_id','test_id']; 
 
+    public function test()
+    {
+        return $this->belongsTo('App\Test');
+    }
+
     // public function course()
     // {
     //     return $this->belongsTo('App\Course');
     // }
+
+
     // public function submitted_assignments(){
     // 	return $this->belongsTo('App\SubmittedAssignments');
     // }

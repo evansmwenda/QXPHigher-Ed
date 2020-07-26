@@ -17,6 +17,7 @@ use App\ExamSubmits;
 use App\ExamAnswers;
 use App\User;
 use App\QuestionTest;
+use App\TestsResult;
 use DB;
 
 class DashboardController extends Controller
@@ -431,8 +432,12 @@ class DashboardController extends Controller
         return view('admin.exams.attempts')->with(compact('students','id','test'));
     }
     public function attemptedExamsByStudent(String $test_id=null,String $student_id=null){
+        //get student details
+        $student_details = User::find($student_id);
+
         //get list of questions & ids
-        $questions = QuestionTest::where('test_id',$test_id)->get();
+        $questions = QuestionTest::with(['test'])->where('test_id',$test_id)->get();
+        // dd($questions);
         $question_ids="";
         foreach($questions as $question){
             $question_ids .= $question->question_id. ',';
@@ -447,10 +452,21 @@ class DashboardController extends Controller
 
         //get the answers that the student submitted for a particular test
         $question_answers = ExamAnswers::where(['test_id'=>$test_id,'user_id'=>$student_id])->get();
+
+        //get test result if any
+        $test_result = TestsResult::where(['test_id'=>$test_id,'user_id'=>$student_id])->get();
+        if(count($test_result) < 1){
+            $test_result="N/A";
+        }else{
+            $test_result=$test_result[0]->test_result;
+        }
        
-        return view('admin.exams.attempts_student')->with(compact('question_options','question_answers'));
-
-
+        return view('admin.exams.attempts_student')->with(compact('question_options','question_answers','questions','student_details','test_result'));
+    }
+    public function postStudentGrade(Request $request){
+        $data=$request->all();
+        dd($data);
+        return back()->with('flash_message_success','Your exam was deleted!');
     }
     public function deleteExams(Request $request,string $id){
         $test = Test::find($id);

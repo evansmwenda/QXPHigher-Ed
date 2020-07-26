@@ -123,5 +123,6 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::get('exams/attempts/{id}','Admin\DashboardController@attemptedExams');
     Route::match(['get', 'post'],'exams/attempts/{test_id}/{student_id}','Admin\DashboardController@attemptedExamsByStudent');
     Route::match(['get', 'post'],'exams/delete/{id}','Admin\DashboardController@deleteExams');
+    Route::post('exams/grade/save','Admin\DashboardController@postStudentGrade');
 
 });
