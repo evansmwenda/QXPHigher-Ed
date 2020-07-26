@@ -16,6 +16,7 @@ use App\SubmittedAssignments;
 use App\ExamSubmits;
 use App\ExamAnswers;
 use App\User;
+use App\QuestionTest;
 use DB;
 
 class DashboardController extends Controller
@@ -429,21 +430,25 @@ class DashboardController extends Controller
 
         return view('admin.exams.attempts')->with(compact('students','id','test'));
     }
-    public function attemptedExamsByStudent(String $id=null){
-        //get list of students who attempt test
-        $exam_submits =ExamSubmits::with('exam')->where('test_id',$id)->get();
-        $test = Test::with('questions','options')->where('id',$id)->get();
-        // $answer =QuestionsOption
-
-        $enrolled_course = DB::table('enrolled_courses')
-        ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
-        // ->join('lessons', 'lessons.course_id', '=', 'courses.id')
-        ->where('enrolled_courses.user_id', '=', \Auth::id())
-        ->get();
-
-
+    public function attemptedExamsByStudent(String $test_id=null,String $student_id=null){
+        //get list of questions & ids
+        $questions = QuestionTest::where('test_id',$test_id)->get();
+        $question_ids="";
+        foreach($questions as $question){
+            $question_ids .= $question->question_id. ',';
+        }
         
-        dd($test);
+        //and answers in the test
+        $question_array =explode(",", $question_ids);
+
+        //get the questions with their options for the test id supplied
+        $question_options = Question::with(['options'])->whereIn('id',$question_array)->get();
+
+
+        //get the answers that the student submitted for a particular test
+        $question_answers = ExamAnswers::where(['test_id'=>$test_id,'user_id'=>$student_id])->get();
+       
+        return view('admin.exams.attempts_student')->with(compact('question_options','question_answers'));
 
 
     }
