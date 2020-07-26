@@ -19,7 +19,7 @@ class CreateExamAnswersTable extends Migration
             $table->string('question_id');
             $table->text('answer');
             $table->string('user_id');
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
     }
 

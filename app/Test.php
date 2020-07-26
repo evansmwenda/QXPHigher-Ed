@@ -53,5 +53,9 @@ class Test extends Model
     {
         return $this->belongsToMany(Question::class, 'question_test')->withTrashed();
     }
+
+    public function options(){
+        return $this->hasMany(QuestionsOption::class, 'question_id')->withTrashed();
+    }
     
 }

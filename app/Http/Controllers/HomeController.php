@@ -13,6 +13,8 @@ use App\Assignments;
 use App\SubmittedAssignments;
 use App\QuestionTest;
 use App\Question;
+use App\ExamSubmits;
+use App\ExamAnswers;
 use DB;
 use DateTime;
 use DateInterval;
@@ -389,7 +391,7 @@ class HomeController extends Controller
 
             
             // array:9 [▼
-            //   "_token" => "e7bm1BiFUIRuEwoXox9k3ZhjRg4QMYMtUIIE3uDy"
+            //   "_token" => "e7bm1BiFUIR&YToXox9k3ZhjRg4QMYMtUIIE3uDy"
             //   "_count" => "3"
             //   "test_id" => "63"
             //   "question0" => "81"
@@ -405,7 +407,75 @@ class HomeController extends Controller
             // ]
             $count = $data['_count'];
             $test_id= $data['test_id'];
-            dd($count);
+
+            // dd($data['answer1'][0]);
+            #1.insert into exam-submits table
+            $my_submits_row = ExamSubmits::where('test_id',$test_id)->get()->first();
+            // dd($my_submits_row['id']);
+            $my_submits = ExamSubmits::where('test_id',$test_id)->value('user_id');
+            if(is_null($my_submits)){
+                //no student has attempted this test before->insert to row
+
+                $exam_submits = new ExamSubmits;
+                $exam_submits->test_id = $test_id;
+                $exam_submits->user_id = \Auth::id() . ',';
+                $exam_submits->save();
+
+            }else{
+                //student(s) have attempted the test 
+                //append student user id
+                $my_submits .= \Auth::id() . ',';
+                //update the  column
+                $exam_submits = ExamSubmits::find($my_submits_row['id']);
+                $exam_submits->user_id = $my_submits;
+                $exam_submits->save();
+            }
+            // dd($my_submits);
+
+            $question_array="";
+            $my_data = [];
+            for($i=0;$i<$count;$i++){
+
+                //get current question id
+                $question = 'question'.$i;
+                $question_id= $data[$question];
+
+                //get current answer
+                $answer = 'answer'.$i;
+                $answer= $data[$answer];
+                //check if array
+                if(is_array($answer)){
+                    //get the first object in array
+                    $my_answer = $answer[0];
+                }else{
+                    $my_answer = $answer;
+                }
+
+                //store all the fields in array
+                $my_answers = array(
+                    "test_id"     => $test_id,
+                    "question_id" => $question_id,
+                    "answer"      => $my_answer,
+                    "user_id"     => \Auth::id()
+                );
+                array_push($my_data, $my_answers);
+
+                // $question_array .= $my_answer.',';
+
+                // $my_answers = new ExamAnswers;
+                // $my_answers->test_id=$test_id;
+                // $my_answers->question_id=$question_id;
+                // $my_answers->answer=$my_answer;
+                // $my_answers->user_id=\Auth::id();
+                // $my_answers->save();
+
+                
+                // $question_array .= $question_id.',';
+
+                //loop through the answers
+            }
+            ExamAnswers::insert($my_data);
+            // dd($my_data);
 
 
             return redirect('/exams')->with('flash_message_success','Exam submitted successfully');

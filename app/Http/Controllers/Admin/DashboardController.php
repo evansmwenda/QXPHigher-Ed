@@ -13,6 +13,9 @@ use App\Test;
 use App\Question;
 use App\QuestionsOption;
 use App\SubmittedAssignments;
+use App\ExamSubmits;
+use App\ExamAnswers;
+use App\User;
 use DB;
 
 class DashboardController extends Controller
@@ -414,6 +417,33 @@ class DashboardController extends Controller
             'e' => 5);
 
          echo json_encode($arr);
+    }
+    public function attemptedExams(String $id=null){
+        //get list of students who attempt test
+        $student_ids =ExamSubmits::with('exam')->where('test_id',$id)->value('user_id');
+        $students_array = explode(",", $student_ids);
+        $students = User::whereIn('id',$students_array)->get();
+        dd($students);
+
+        return view('admin.exams.attempts')->with(compact('students'));
+    }
+    public function attemptedExamsByStudent(String $id=null){
+        //get list of students who attempt test
+        $exam_submits =ExamSubmits::with('exam')->where('test_id',$id)->get();
+        $test = Test::with('questions','options')->where('id',$id)->get();
+        // $answer =QuestionsOption
+
+        $enrolled_course = DB::table('enrolled_courses')
+        ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
+        // ->join('lessons', 'lessons.course_id', '=', 'courses.id')
+        ->where('enrolled_courses.user_id', '=', \Auth::id())
+        ->get();
+
+
+        
+        dd($test);
+
+
     }
     public function deleteExams(Request $request,string $id){
         $test = Test::find($id);
