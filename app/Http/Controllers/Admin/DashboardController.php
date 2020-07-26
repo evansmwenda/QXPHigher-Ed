@@ -465,8 +465,30 @@ class DashboardController extends Controller
     }
     public function postStudentGrade(Request $request){
         $data=$request->all();
-        dd($data);
-        return back()->with('flash_message_success','Your exam was deleted!');
+        // dd($data);
+
+        //insert new or update
+        $match_these = ['test_id'=>$data['t_id'],'user_id'=>$data['u_id']];
+        TestsResult::updateOrCreate($match_these,['test_result'=>$data['marks']]);
+
+        // $test_result = new TestsResult;
+        // $test_result->test_id    = $data['t_id'];
+        // $test_result->user_id    = $data['u_id'];
+        // $test_result->test_result= $data['marks'];
+
+
+
+
+        // $my_event = new Events;
+        //     $my_event->title=$data['event_title'];
+        //     $my_event->course_id=$data['course_id'];
+        //     $my_event->event_start_time=$event_start_end[0];
+        //     $my_event->event_end_time=$event_start_end[1];
+        //     $my_event->color=$data['favcolor'];
+
+        //     // dd($my_event);
+        //     $my_event->save();
+        return back()->with('flash_message_success','Exam grade updated successfully!');
     }
     public function deleteExams(Request $request,string $id){
         $test = Test::find($id);
