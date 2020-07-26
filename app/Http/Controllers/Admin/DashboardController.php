@@ -420,6 +420,7 @@ class DashboardController extends Controller
 
          echo json_encode($arr);
     }
+
     public function attemptedExams(String $id=null){
         //get list of students who attempt test
         $test = Test::where('id',$id)->get()->first();
@@ -431,6 +432,7 @@ class DashboardController extends Controller
 
         return view('admin.exams.attempts')->with(compact('students','id','test'));
     }
+
     public function attemptedExamsByStudent(String $test_id=null,String $student_id=null){
         //get student details
         $student_details = User::find($student_id);
@@ -463,33 +465,18 @@ class DashboardController extends Controller
        
         return view('admin.exams.attempts_student')->with(compact('question_options','question_answers','questions','student_details','test_result'));
     }
+
     public function postStudentGrade(Request $request){
         $data=$request->all();
-        // dd($data);
-
+        
         //insert new or update
         $match_these = ['test_id'=>$data['t_id'],'user_id'=>$data['u_id']];
         TestsResult::updateOrCreate($match_these,['test_result'=>$data['marks']]);
 
-        // $test_result = new TestsResult;
-        // $test_result->test_id    = $data['t_id'];
-        // $test_result->user_id    = $data['u_id'];
-        // $test_result->test_result= $data['marks'];
 
-
-
-
-        // $my_event = new Events;
-        //     $my_event->title=$data['event_title'];
-        //     $my_event->course_id=$data['course_id'];
-        //     $my_event->event_start_time=$event_start_end[0];
-        //     $my_event->event_end_time=$event_start_end[1];
-        //     $my_event->color=$data['favcolor'];
-
-        //     // dd($my_event);
-        //     $my_event->save();
         return back()->with('flash_message_success','Exam grade updated successfully!');
     }
+
     public function deleteExams(Request $request,string $id){
         $test = Test::find($id);
         $test->delete();
