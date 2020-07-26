@@ -420,12 +420,14 @@ class DashboardController extends Controller
     }
     public function attemptedExams(String $id=null){
         //get list of students who attempt test
+        $test = Test::where('id',$id)->get()->first();
+        // dd($test);
         $student_ids =ExamSubmits::with('exam')->where('test_id',$id)->value('user_id');
         $students_array = explode(",", $student_ids);
         $students = User::whereIn('id',$students_array)->get();
-        dd($students);
+        // dd($students);
 
-        return view('admin.exams.attempts')->with(compact('students'));
+        return view('admin.exams.attempts')->with(compact('students','id','test'));
     }
     public function attemptedExamsByStudent(String $id=null){
         //get list of students who attempt test
