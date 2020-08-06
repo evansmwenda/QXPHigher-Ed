@@ -154,7 +154,7 @@ class HomeController extends Controller
                     ->whereIn('course_id',$course_ids)
                     ->whereMonth('event_start_time', $month)->get();//has events data for the current month
          // dd($monthly);
-
+        $event_array = (array) null; 
         foreach($monthly as $event){
             $event_array [] = array(
                 "title" => $event->title,
@@ -164,7 +164,7 @@ class HomeController extends Controller
                 "borderColor" => $event->color,
                 );
         }  
-        // dd($range);          
+        // dd($event_array);          
 
         //match the dates to days
         return view('students.calender')->with(compact('event_array'));
