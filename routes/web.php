@@ -5,7 +5,11 @@
 Route::get('/', 'HomeController@landing');
 
 //we have been redirected from QXP->initiate receipt
+// Route::group(['middleware' => ['guest']], function () {
+//     Route::post('/redirect', 'HomeController@getRedirect');
+// });
 Route::post('/redirect', 'HomeController@getRedirect');
+Route::get('/redirect2', 'HomeController@loginRedirect');
 
 Route::group(['middleware' => 'auth'], function () {
     // Route::get('/', 'HomeController@landing');
@@ -60,12 +64,14 @@ Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => '
 
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
+
+$this->post('mylogin', 'Auth\LoginController@login')->name('auth.mylogin');
 $this->post('login', 'Auth\LoginController@login')->name('auth.login');
-// $this->post('mylogin', 'Auth\LoginController@login')->name('auth.login');
 $this->post('logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 // Registration Routes...
 $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('auth.register');
+$this->post('myregister', 'Auth\RegisterController@register')->name('auth.myregister');
 $this->post('register', 'Auth\RegisterController@register')->name('auth.register');
 
 // Change Password Routes...

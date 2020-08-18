@@ -24,11 +24,14 @@ use Auth;
 use Session;
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
+// use Request;
 use App\Http\Requests;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 
 class HomeController extends Controller
 {
+    use AuthenticatesUsers;
     /**
      * Show the application dashboard.
      *
@@ -39,22 +42,58 @@ class HomeController extends Controller
         // "name" => "Test Corporate"
         // "email" => "evansmwenda.em@gmail.com"
         // "password" => "password1"
-        // dd($_POST);
+        // dd($request);
         //cross check the details against users table
         $user = User::where('email',$_POST['email'])->get();
-        
+
+        // $request = new \Illuminate\Http\Request($_POST);
+        // $request = new Illuminate\Http\Request($test_array);
+
         //if it exists,login the user
-        if(is_null($user)){
+        if($user->isEmpty()){
             //user doesnt exists->register user
             echo "please register me";die();
         }else{
             //user exists->login user
-            dd($user);
+            // dd($_POST);
+            Session::put('username', $_POST['name']);
+            Session::put('useremail', $_POST['email']);
+            Session::put('userpassword', $_POST['password']);
+
+            return redirect('/redirect2');
+
+
+
+            // $myRequest = new \Illuminate\Http\Request();
+            // $myRequest->setMethod('POST');
+            // $myRequest->request->add([
+            //     'name' => $_POST['name'],
+            //     'email' => $_POST['email'],
+            //     'password' => $_POST['password']]);
+            // // dd($myRequest);
+            // $this->login($myRequest);
+            // $this->loginRedirect();
+            // app('App\Http\Controllers\Auth\LoginController')->login($_POST);
+            // dd($user);
         }
 
         //issues will be when the user changes their password
         //let them know to use the same password as the one in QXP
         //dont give them option of changing the password, in case they do, let them contact support
+    }
+    public function loginRedirect(){
+        $data = Session::all();
+        // dd($dsata);
+        $myRequest = new \Illuminate\Http\Request();
+        $myRequest->setMethod('POST');
+        $myRequest->request->add([
+            'name' => $data['username'],
+            'email' => $data['useremail'],
+            'password' => $data['userpassword']]);
+        $this->login($myRequest);
+
+
+        // app('App\Http\Controllers\Auth\LoginController')->login($request);
     }
 
     public function index(){
