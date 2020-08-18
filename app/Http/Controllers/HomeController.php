@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Course;
 use App\EnrolledCourses;
 use App\Events;
@@ -35,10 +36,22 @@ class HomeController extends Controller
      */
     public function getRedirect(){
         //here we get the form details of the user from the QXP platform
-        dd($_POST);
+        // "name" => "Test Corporate"
+        // "email" => "evansmwenda.em@gmail.com"
+        // "password" => "password1"
+        // dd($_POST);
         //cross check the details against users table
+        $user = User::where('email',$_POST['email'])->get();
+        
         //if it exists,login the user
-        //if it doesnt, register->login->redirect to dashboard
+        if(is_null($user)){
+            //user doesnt exists->register user
+            echo "please register me";die();
+        }else{
+            //user exists->login user
+            dd($user);
+        }
+
         //issues will be when the user changes their password
         //let them know to use the same password as the one in QXP
         //dont give them option of changing the password, in case they do, let them contact support
