@@ -33,6 +33,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getRedirect(){
+        //here we get the form details of the user from the QXP platform
+        dd($_POST);
+        //cross check the details against users table
+        //if it exists,login the user
+        //if it doesnt, register->login->redirect to dashboard
+        //issues will be when the user changes their password
+        //let them know to use the same password as the one in QXP
+        //dont give them option of changing the password, in case they do, let them contact support
+    }
+
     public function index(){
         $purchased_courses = NULL;
         if (\Auth::check()) {

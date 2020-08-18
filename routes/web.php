@@ -7,6 +7,9 @@ Route::get('/', 'HomeController@landing');
 Route::group(['middleware' => 'auth'], function () {
     // Route::get('/', 'HomeController@landing');
 
+    //we have been redirected from QXP->initiate receipt
+    Route::post('/redirect', 'HomeController@getRedirect');
+
     //courses
     Route::get('/courses', 'HomeController@index');
 
@@ -58,6 +61,7 @@ Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => '
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
 $this->post('login', 'Auth\LoginController@login')->name('auth.login');
+$this->post('mylogin', 'Auth\LoginController@login')->name('auth.login');
 $this->post('logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 // Registration Routes...
