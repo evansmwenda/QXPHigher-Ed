@@ -57,20 +57,20 @@
                         <span class="title">Exams</span>
                     </a>
                 </li>
-                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                <!-- <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
                     <a href="/billing">
                         <i class="fa fa-dollar"></i>
                         <span class="title">Billing</span>
                     </a>
-                </li>
+                </li> -->
                 
 
-                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                <!-- <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
                     <a href="{{ route('auth.change_password') }}">
                         <i class="fa fa-key"></i>
                         <span class="title">Change password</span>
                     </a>
-                </li>
+                </li> -->
             @endif
 
             
