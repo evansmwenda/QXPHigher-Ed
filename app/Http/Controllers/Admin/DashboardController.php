@@ -490,8 +490,6 @@ class DashboardController extends Controller
         return view('admin.classes.index');
     }
     public function scheduleLiveClass(Request $request){
-       
-        // dd($request);
         $user = \Auth::user();
         $title="";
         //in order to schedule a class happens
@@ -598,7 +596,7 @@ class DashboardController extends Controller
             LiveClassRecordings::create($classRecord);
 
             if($newLiveClass){
-                $url = url('user/live/'.$meetingID);
+                $url = url('admin/live-classes/live/'.$meetingID);
                 //successful
                 //UNCOMMENT THIS
                 // $update = User::where('email',$user['email'])->update(['token'=>$meetingID]);
@@ -608,16 +606,86 @@ class DashboardController extends Controller
 
                 // return redirect()->back()->with('msg',trans('main.thanks_class'));
                 // $class_string = 'Meeting created successfully!. Share -> '.$meetingID.' for others to join. Meeting details sent to your E-mail Address';
-                $class_string = "Meeting created successfully!. Share -> ".$meetingID." for others to join.\r\n<a href='$url'>$url</a>";
+                $class_string = "Meeting created successfully! Share -> ".$meetingID." for others to join or click the link <a href='$url'>$url</a>";
                 return redirect()->back()->with('flash_message_success',$class_string);
 
             }else{
                 //not successful
-                return redirect()->back()->with('msg',"An error occurred, please try again");
+                return redirect()->back()->with('flash_message_error',"An error occurred, please try again");
             }
         }else{
            //not successful
-           return redirect()->back()->with('msg',"An error occurred, please try again"); 
+           return redirect()->back()->with('flash_message_error',"An error occurred, please try again"); 
         }  
+    }
+    public function joinLiveClass($meetingID){
+        $user = \Auth::user();
+        $currentUser="";
+
+        //get the secure salt
+        $salt = env("BBB_SALT", "0");
+        //get BBB server
+        $bbb_server = env("BBB_SERVER", "0");
+
+        //1.get the details of the logged in user
+        $currentUserArray= explode(" ", $user->name);
+        // dd($user);
+
+        if(count($currentUserArray) > 1){
+            //has firstname lastname
+            $currentUser=$currentUserArray[0]."_".$currentUserArray[1];//"test_user"
+        }else{
+            $currentUser=$currentUserArray[0];//"test"
+        }
+        
+
+        //get the details of the live class
+        $live_class = LiveClasses::where('meetingID',$meetingID)->first();
+        // dd($live_class->title); = "First Class"
+        if($live_class == null){
+            return redirect()->back()->with('flash_message_error','An error occurred when trying to join the class');
+        }
+
+        //check if user is presenter by default or not 
+        //if not owner of class assign role of attendee
+        $userPass=$user->id == $live_class['owner'] ? 
+        $live_class->moderatorPW: $live_class->attendeePW ;   
+
+        // dd($meetingID);     
+
+        //2.get the checksum(to be computer) and store it in column
+        $join_string="fullName=$currentUser&meetingID=$meetingID&password=$userPass";
+
+        $newJoinString="join".$join_string;
+
+        //(b)==> append the secret salt to end of the new query string with the action
+            //secret salt: 639259d4-9dd8-4b25-bf01-95f9567eaf4b
+            // $newString = createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444639259d4-9dd8-4b25-bf01-95f9567eaf4b
+        //$newString = "createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW".$salt;
+            
+
+        //(c)==> get the sha1 of the new string and save it as checksum
+        $checksumJoin=sha1($newJoinString.$salt);
+
+        $joinURL = $join_string."&checksum=".$checksumJoin;
+        $getJoinURL= $bbb_server.'join?'.$joinURL;
+
+        // dd($getJoinURL);
+        $names=array();
+        //save details into the liveclassrecordings table
+        $names = DB::table('live_class_recordings')->where('meetingID', $meetingID)->value('users');
+        $namesArray = explode(",", $names);
+        array_push($namesArray,$user['id']);
+        $newlist=implode(",", $namesArray);
+        // dd($newlist);
+
+
+        $liveRecord=LiveClassRecordings::where('meetingID',$meetingID)->update(['users'=>$newlist]);
+
+        // dd($getJoinURL);
+        return redirect()->away($getJoinURL);
+    }
+    public function joinClassByID(Request $request){
+        return $this->joinLiveClass($request->meetingID);
     }
 }

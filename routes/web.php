@@ -140,7 +140,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
 
     //for live classes
     Route::get('live-classes','Admin\DashboardController@liveClasses');
-     Route::post('live-classes/create','Admin\DashboardController@scheduleLiveClass');
+    Route::post('live-classes/create','Admin\DashboardController@scheduleLiveClass');
+    Route::post('live-classes/join','Admin\DashboardController@joinClassByID');
+    Route::get('live-classes/live/{meetingID}','Admin\DashboardController@joinLiveClass');
 
 
 });
