@@ -593,7 +593,9 @@ class HomeController extends Controller
                 return redirect()->back()->with('flash_message_success','You have enrolled to course successfully');
             }
         }
-        
+    }
 
+    public function getLiveClass(){
+        return view('students.liveclasses');
     }
 }

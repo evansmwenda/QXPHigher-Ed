@@ -57,12 +57,12 @@
                         <span class="title">Exams</span>
                     </a>
                 </li>
-                <!-- <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                    <a href="/billing">
-                        <i class="fa fa-dollar"></i>
-                        <span class="title">Billing</span>
+                <li>
+                    <a href="/live-classes">
+                        <i class="fa fa-recording"></i>
+                        <span class="title">Live Classes</span>
                     </a>
-                </li> -->
+                </li>
                 
 
                 <!-- <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">

@@ -17,6 +17,9 @@ Route::group(['middleware' => 'auth'], function () {
     //courses
     Route::get('/courses', 'HomeController@index');
 
+    //live classes
+    Route::get('/live-classes', 'HomeController@getLiveClass');
+
     //assignments
     Route::match(['get', 'post'],'/assignments', 'HomeController@getAssignments');
 
