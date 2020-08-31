@@ -18,6 +18,8 @@ use App\ExamAnswers;
 use App\User;
 use App\QuestionTest;
 use App\TestsResult;
+use App\LiveClasses;
+use App\LiveClassRecordings;
 use DB;
 use GuzzleHttp\Client;
 
@@ -546,12 +548,34 @@ class DashboardController extends Controller
 
         //3.create a meeting
         //make get request to create live class
-        $client = new Client();
-        $response = $client->request('GET', $getCreateURL);
+        $url = $getCreateURL;
+
+
+        //  Initiate curl
+        $ch = curl_init();
+        // Disable SSL verification
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // Will return the response, if false it print the response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Set the url
+        curl_setopt($ch, CURLOPT_URL,$url);
+        // Execute
+        $result=curl_exec($ch);
+        // Closing
+        curl_close($ch);
+        // dd($result);
+        // Print the return data
+        // print_r(json_decode($result, true));
+        // dd($url);
+        // die();
+
+
+        // $client = new Client();
+        // $response = $client->request('GET', $getCreateURL);
         // $response = $client->request('GET', 'http://bbb.teledogs.com/bigbluebutton/api/create?name=Flirting&meetingID=quest&attendeePW=ap&checksum=bcfb49cc9dac7b0834c90f1604c7005b9079da7b');
 
-        $body = $response->getBody(); 
-        $xml = simplexml_load_string($body);
+        // $body = $response->getBody(); 
+        $xml = simplexml_load_string($result);
 
         //.4 join the meeting(not now)
         if($xml->returncode == "SUCCESS"){
@@ -589,11 +613,11 @@ class DashboardController extends Controller
 
             }else{
                 //not successful
-                return redirect()->back()->with('msg',trans('main.error_class'));
+                return redirect()->back()->with('msg',"An error occurred, please try again");
             }
         }else{
            //not successful
-           return redirect()->back()->with('msg',trans('main.error_class')); 
+           return redirect()->back()->with('msg',"An error occurred, please try again"); 
         }  
     }
 }
