@@ -25,7 +25,7 @@
                 		<form class="form-horizontal"
                           role="form"
                           method="POST"
-                          action="/user/dojoin">
+                          action="/live-classes/join">
 	                        <input type="hidden"
 	                               name="_token"
 	                               value="{{ csrf_token() }}">
@@ -44,7 +44,7 @@
 
 
 	                        <div class="form-group">
-	                            <div class="col-md-6 col-md-offset-4">
+	                            <div class="col-md-6 col-md-offset-5">
 	                                <button type="submit"
 	                                        class="btn btn-primary"
 	                                        style="margin-right: 15px;">
