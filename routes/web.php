@@ -139,6 +139,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::post('exams/grade/save','Admin\DashboardController@postStudentGrade');
 
     //for live classes
-    Route::match(['get', 'post'],'live-classes','Admin\DashboardController@createLiveClasses');
+    Route::get('live-classes','Admin\DashboardController@liveClasses');
+     Route::post('live-classes/create','Admin\DashboardController@scheduleLiveClass');
+
 
 });

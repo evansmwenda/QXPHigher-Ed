@@ -19,6 +19,7 @@ use App\User;
 use App\QuestionTest;
 use App\TestsResult;
 use DB;
+use GuzzleHttp\Client;
 
 class DashboardController extends Controller
 {
@@ -483,7 +484,116 @@ class DashboardController extends Controller
 
         return back()->with('flash_message_success','Your exam was deleted!');
     }
-    public function createLiveClasses(){
+    public function liveClasses(){
         return view('admin.classes.index');
+    }
+    public function scheduleLiveClass(Request $request){
+       
+        // dd($request);
+        $user = \Auth::user();
+        $title="";
+        //in order to schedule a class happens
+        //1.get the details of the future class
+
+        $title_array=explode(" ", $request->title);
+        //check if name is has more than one
+        $count=count($title_array);
+        if($count > 1){
+            //this is an array -> loop and get the elements and underscore them
+            $title=$title_array[0];
+            for($i=1;$i<$count;$i++){
+                $title=$title."-".$title_array[$i];
+            }
+        }else{
+            //the title is one word e.g "testing"
+            $title=$title_array[0];
+        }
+
+
+        
+        $meetingID=str_random(6);
+        $attendeePW=str_random(6);//"ap";//$request->attendeePW;
+        $moderatorPW=str_random(6);//"mp";//$request->moderatorPW;
+
+
+        //get the secure salt
+        $salt = env("BBB_SALT", "0");
+        //get BBB server
+        $bbb_server = env("BBB_SERVER", "0");
+
+        //2.get the checksum(to be computer) and store it in column
+        
+            //name=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
+            //(a)==> prepend the action to the entire query
+        $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW";
+
+        $newCreateString="create".$create_string;
+                // createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444
+        //createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
+
+            //(b)==> append the secret salt to end of the new query string with the action
+                //secret salt: 639259d4-9dd8-4b25-bf01-95f9567eaf4b
+                // $newString = createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444639259d4-9dd8-4b25-bf01-95f9567eaf4b
+        //$newString = "createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW".$salt;
+            //(c)==> get the sha1 of the new string and save it as checksum
+        $checksumCreate=sha1($newCreateString.$salt);
+        // echo $newCreateString;
+        // echo "<br/>".$checksumCreate;
+
+
+        $createURL = $create_string."&checksum=".$checksumCreate;
+        $getCreateURL= $bbb_server.'create?'.$createURL;
+
+        //3.create a meeting
+        //make get request to create live class
+        $client = new Client();
+        $response = $client->request('GET', $getCreateURL);
+        // $response = $client->request('GET', 'http://bbb.teledogs.com/bigbluebutton/api/create?name=Flirting&meetingID=quest&attendeePW=ap&checksum=bcfb49cc9dac7b0834c90f1604c7005b9079da7b');
+
+        $body = $response->getBody(); 
+        $xml = simplexml_load_string($body);
+
+        //.4 join the meeting(not now)
+        if($xml->returncode == "SUCCESS"){
+            //successful on bbb server
+            $newLiveClass= [
+            'title'=>$title,//class title
+            'meetingID'=>$meetingID,//meeting ID
+            'attendeePW'=>$attendeePW,//attendee password 
+            'moderatorPW'=>$moderatorPW,//moderator password
+            'owner'=>$user->id
+            ];
+
+            $classRecord = [
+            'meetingID'=>$meetingID,
+            'users'=>$user->id
+            ];
+
+
+            $newLiveClass = LiveClasses::create($newLiveClass);
+            LiveClassRecordings::create($classRecord);
+
+            if($newLiveClass){
+                $url = url('user/live/'.$meetingID);
+                //successful
+                //UNCOMMENT THIS
+                // $update = User::where('email',$user['email'])->update(['token'=>$meetingID]);
+
+
+                // sendMail(['template'=>get_option('user_create_meeting_email'),'recipent'=>[$user['email']]]);
+
+                // return redirect()->back()->with('msg',trans('main.thanks_class'));
+                // $class_string = 'Meeting created successfully!. Share -> '.$meetingID.' for others to join. Meeting details sent to your E-mail Address';
+                $class_string = "Meeting created successfully!. Share -> ".$meetingID." for others to join.\r\n<a href='$url'>$url</a>";
+                return redirect()->back()->with('flash_message_success',$class_string);
+
+            }else{
+                //not successful
+                return redirect()->back()->with('msg',trans('main.error_class'));
+            }
+        }else{
+           //not successful
+           return redirect()->back()->with('msg',trans('main.error_class')); 
+        }  
     }
 }

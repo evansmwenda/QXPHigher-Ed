@@ -2,10 +2,7 @@
 
 @section('content')
     <h3 class="page-title">Live Classes</h3>
-    <p>
-        <a href="{{ url('/admin/exams/create') }}" class="btn btn-success">Create</a>
-    </p>
-    
+
     @if(Session::has("flash_message_error")) 
             <div class="alert alert-error alert-block">
                 <button type="button" class="close" data-dismiss="alert">x</button>
@@ -41,7 +38,7 @@
                 		<form class="form-horizontal" 
                           role="form"
                           method="POST"
-                          action="/user/dojoin">
+                          action="/admin/live-classes/join">
 	                        <input type="hidden"
 	                               name="_token"
 	                               value="{{ csrf_token() }}">    
@@ -80,7 +77,7 @@
                 		<form class="form-horizontal" 
                           role="form"
                           method="POST"
-                          action="/user/dojoin">
+                          action="/admin/live-classes/create">
 	                        <input type="hidden"
 	                               name="_token"
 	                               value="{{ csrf_token() }}">    
