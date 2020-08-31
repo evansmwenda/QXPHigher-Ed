@@ -138,4 +138,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::match(['get', 'post'],'exams/delete/{id}','Admin\DashboardController@deleteExams');
     Route::post('exams/grade/save','Admin\DashboardController@postStudentGrade');
 
+    //for live classes
+    Route::match(['get', 'post'],'live-classes','Admin\DashboardController@createLiveClasses');
+
 });

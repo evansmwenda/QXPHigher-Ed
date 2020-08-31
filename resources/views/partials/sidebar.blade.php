@@ -121,6 +121,12 @@
                     <span class="title">Assignments</span>
                 </a>
             </li>
+            <li>
+                <a href="/admin/live-classes">
+                    <i class="fa fa-key"></i>
+                    <span class="title">Live Classes</span>
+                </a>
+            </li>
             
 
             

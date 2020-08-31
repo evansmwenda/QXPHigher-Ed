@@ -483,4 +483,7 @@ class DashboardController extends Controller
 
         return back()->with('flash_message_success','Your exam was deleted!');
     }
+    public function createLiveClasses(){
+        return view('admin.classes.index');
+    }
 }
