@@ -41,6 +41,34 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function tRegister(Request $request){
+        //get details of the teacher and register them here
+        // DB::table('users')->insert(
+        //     ['email' => 'john@example.com', 'votes' => 0]
+        // );
+
+        // $user = User::create([
+        //     'name' => $request['name'],
+        //     'email' => $request['email'],
+        //     'password' => bcrypt($request['password']),
+        // ]);
+
+        // DB::table('role_user')->insert(
+        //     ['role_id' => 2, 'user_id' => $user->id]
+        // );
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $user->role()->sync([2]);
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($request->input('redirect_url'));
+
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *

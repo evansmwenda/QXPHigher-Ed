@@ -39,6 +39,23 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function tRegister(Request $request){
+        //get details of the teacher and register them here
+        // DB::table('users')->insert(
+        //     ['email' => 'john@example.com', 'votes' => 0]
+        // );
+
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+        ]);
+
+        DB::table('role_user')->insert(
+            ['role_id' => 2, 'user_id' => $user->id]
+        );
+
+    }
     public function getRedirect(){
         //here we get the form details of the user from the QXP platform
         // "name" => "Test Corporate"

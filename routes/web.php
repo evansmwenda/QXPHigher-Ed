@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('enroll/{id}', 'HomeController@enrollCourse');
 
     //tregister a teacher automatically from QXP
-    Route::get('tregister', 'HomeController@tregister');
+    // Route::post('tregister', 'Auth\RegisterController@register')->name('auth.tregister');;
 
 
     });
@@ -78,6 +78,7 @@ $this->post('logout', 'Auth\LoginController@logout')->name('auth.logout');
 // Registration Routes...
 $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('auth.register');
 $this->post('myregister', 'Auth\RegisterController@register')->name('auth.myregister');
+$this->post('tregister', 'Auth\RegisterController@tRegister')->name('auth.tregister');;
 $this->post('register', 'Auth\RegisterController@register')->name('auth.register');
 
 // Change Password Routes...

@@ -16,5 +16,6 @@ class VerifyCsrfToken extends BaseVerifier
         'mylogin/',
         'myregister/',
         'redirect/',
+        'tregister/',
     ];
 }
