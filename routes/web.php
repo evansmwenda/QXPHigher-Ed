@@ -39,7 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     //enroll to a free course
     Route::get('enroll/{id}', 'HomeController@enrollCourse');
 
-    //admin create blade events
+    //tregister a teacher automatically from QXP
+    Route::get('tregister', 'HomeController@tregister');
 
 
     });
