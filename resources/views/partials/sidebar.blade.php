@@ -123,7 +123,7 @@
             </li>
             <li>
                 <a href="/admin/live-classes">
-                    <i class="fa fa-key"></i>
+                    <i class="fa fa-headset"></i>
                     <span class="title">Live Classes</span>
                 </a>
             </li>
