@@ -598,6 +598,23 @@ class HomeController extends Controller
             // $total_lessons = Lesson::where(['course_id'=> '14'])->get();
             
             // dd($total_lessons);
+            //add course to my courses section
+            $myCourse = DB::table('course_student')
+            ->updateOrInsert(
+            [
+                'course_id' => $course_details[0]->id,
+                'user_id' => \Auth::id(),
+                'rating' => '5'
+            ]
+            );
+
+            // $myCourse = [
+            //     'course_id' => $course_details[0]->id,
+            //     'user_id' => \Auth::id(),
+            //     'rating' => '4'
+            // ];
+
+            
 
             // $total_lessons = $total_lessons->count();
 
