@@ -588,10 +588,14 @@ class HomeController extends Controller
         //enroll to this course
         //get user id
         // $course_details = Course::where(['published'=> 1,'id'=>$course_id])->get();
-        // dd($course_details[0]);
+        // dd($course_id);
         if (\Auth::check()) {
             $course_details = Course::where(['published'=> 1,'id'=>$course_id])->get();
-            $total_lessons = Lesson::where(['course_id'=> $course_details[0]->id])->get();
+            // dd($course_details[0]->id);
+            $course_id = strval($course_details[0]->id);
+            // dd($course_id);
+            $total_lessons = Lesson::where(['course_id'=> $course_id])->get();
+            // $total_lessons = Lesson::where(['course_id'=> '14'])->get();
             
             // dd($total_lessons);
 

@@ -15,6 +15,7 @@ class CoursesController extends Controller
     {
         $course = Course::where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
         $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
+        // dd($course);
 
         return view('course', compact('course', 'purchased_course'));
     }

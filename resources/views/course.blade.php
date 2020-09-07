@@ -11,9 +11,9 @@
           @endif 
 
     @if(Session::has("flash_message_success")) 
-        <div class="alert alert-info alert-block">
+        <div class="alert progress-bar-success alert-block">
             <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>{!! session('flash_message_success') !!}</strong>
+            <strong style="color:white;">{!! session('flash_message_success') !!}</strong>
         </div> 
     @endif
 
