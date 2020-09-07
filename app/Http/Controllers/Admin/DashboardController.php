@@ -510,7 +510,28 @@ class DashboardController extends Controller
             $title=$title_array[0];
         }
 
-        //1.5 create a live class as an event 
+        //1.5 create a live class as an event
+        $course_id = $request['course_id'];
+        $event_start_end = $request['event_start_end'];
+
+        $event_start_end = explode(" - ", $event_start_end);
+         // 0 => "2020-06-23 00:00:00"
+         // 1 => "2020-06-23 23:59:59"
+        // dd($event_start_end[0]);
+        // dd(date("H:i", strtotime("04:25 PM"));)
+
+
+        $my_event = new Events;
+        $my_event->title=$request['title'];
+        $my_event->course_id=$course_id;
+        $my_event->event_start_time=$event_start_end[0];
+        $my_event->event_end_time=$event_start_end[1];
+        $my_event->color="#00c0ef";
+        $my_event->save();
+
+        // dd($event_start_end);
+        
+        
 
 
         
