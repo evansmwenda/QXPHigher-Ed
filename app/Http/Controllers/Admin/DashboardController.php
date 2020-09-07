@@ -487,7 +487,8 @@ class DashboardController extends Controller
         return back()->with('flash_message_success','Your exam was deleted!');
     }
     public function liveClasses(){
-        return view('admin.classes.index');
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();        
+        return view('admin.classes.index')->with(compact('my_courses'));
     }
     public function scheduleLiveClass(Request $request){
         $user = \Auth::user();
@@ -508,6 +509,8 @@ class DashboardController extends Controller
             //the title is one word e.g "testing"
             $title=$title_array[0];
         }
+
+        //1.5 create a live class as an event 
 
 
         

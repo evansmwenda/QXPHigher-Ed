@@ -80,7 +80,22 @@
                           action="/admin/live-classes/create">
 	                        <input type="hidden"
 	                               name="_token"
-	                               value="{{ csrf_token() }}">    
+	                               value="{{ csrf_token() }}">
+
+	                        <div class="col-xs-12 form-group">
+			                	<div class="form-group">
+			                        <label class="col-md-4 control-label">Select Course</label>
+			                        <div class="col-md-8">
+			                        	<select class="form-control" name="course_id" required>
+				                        	<option>Select Course</option>
+				                        	@foreach($my_courses as $course)
+				                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
+				                        	@endforeach
+				                        </select>
+			                        </div>
+			                        
+			                    </div> 
+			                </div>       
 
 	                        <div class="form-group">
 	                            <label class="col-md-4 control-label">Title</label>
@@ -93,6 +108,14 @@
 	                                       required>
 	                            </div>
 	                        </div>
+
+	                        <div class="col-xs-12 form-group">
+	                        	<label class="col-md-4 control-label" for="mydate">Start/End Time</label>
+		                        <div class="col-md-8">
+		                        	<input type="text" id="mydate" class="daterange" name="event_start_end" style="width:100%;padding: 6px" required />
+		                        </div>
+		                        
+		                    </div>
 
 
 	                        <div class="form-group">
@@ -136,4 +159,16 @@
     }
 
 </script>
-@stop   
+<script>
+$(function() {
+  $('.daterange').daterangepicker({
+    timePicker: true,
+    startDate: moment().startOf('hour'),
+    endDate: moment().startOf('hour').add(32, 'hour'),
+    locale: {
+      format: 'Y/M/DD HH:mm:ss'
+    }
+  });
+});
+</script>
+@stop

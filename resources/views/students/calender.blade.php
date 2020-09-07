@@ -147,6 +147,7 @@
       
       // ],
       events: event_array,
+      eventTextColor: '#fff',
        // events : <?php //echo json_encode($books, JSON_PRETTY_PRINT);?>,
       // events    : [
       //   {
@@ -237,8 +238,9 @@
       event.css({
         'background-color': currColor,
         'border-color'    : currColor,
-        'color'           : '#fff'
-      }).addClass('external-event')
+        'color'           : '#fff',
+        'eventTextColor'  : '#fff'
+       }).addClass('external-event')
       event.html(val)
       $('#external-events').prepend(event)
 
