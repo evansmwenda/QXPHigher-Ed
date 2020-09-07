@@ -14,4 +14,8 @@ class Events extends Model
     public function course(){
     	return $this->belongsTo('App\Course');
     }
+
+    public function liveclasses(){
+    	return $this->hasMany('App\LiveClasses');
+    }
 }

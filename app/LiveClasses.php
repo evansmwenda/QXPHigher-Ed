@@ -10,4 +10,9 @@ class LiveClasses extends Model
     public $timestamps = false;
     protected $table = 'live_classes';
     public $fillable = ['id','title','meetingID','attendeePW','moderatorPW','owner'];  
+
+
+    public function events(){
+        return $this->belongsTo('App\Events');
+    }
 }
