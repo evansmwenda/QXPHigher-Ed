@@ -63,6 +63,12 @@
                         <span class="title">Live Classes</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/faq">
+                        <i class="fa fa-headset"></i>
+                        <span class="title">Live Classes</span>
+                    </a>
+                </li>
                 
 
                 <!-- <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">

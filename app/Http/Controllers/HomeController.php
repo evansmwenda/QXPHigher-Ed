@@ -39,6 +39,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getFAQ(){
+        //display the faqs
+        return view('student.faq');
+    }
     public function tRegister(Request $request){
         //get details of the teacher and register them here
         // DB::table('users')->insert(

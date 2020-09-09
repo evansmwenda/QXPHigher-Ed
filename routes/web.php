@@ -17,6 +17,9 @@ Route::group(['middleware' => 'auth'], function () {
     //courses
     Route::get('/courses', 'HomeController@index');
 
+    //faq
+    Route::get('/faq', 'HomeController@getFAQ');
+
     //live classes
     Route::get('/live-classes', 'HomeController@getLiveClass');
     Route::post('live-classes/join','HomeController@joinClassByID');
