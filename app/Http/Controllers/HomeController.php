@@ -42,7 +42,7 @@ class HomeController extends Controller
 
     public function getFAQ(){
         //display the faqs
-        return view('student.faq');
+        return view('students.faq');
     }
     public function tRegister(Request $request){
         //get details of the teacher and register them here

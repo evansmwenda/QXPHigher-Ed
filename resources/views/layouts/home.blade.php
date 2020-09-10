@@ -65,8 +65,8 @@
                 </li>
                 <li>
                     <a href="/faq">
-                        <i class="fa fa-headset"></i>
-                        <span class="title">Live Classes</span>
+                        <i class="fa fa-question"></i>
+                        <span class="title">FAQs</span>
                     </a>
                 </li>
                 
