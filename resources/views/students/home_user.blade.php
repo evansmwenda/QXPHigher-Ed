@@ -52,24 +52,6 @@
                                   </td>
                               </tr>
                             @endforeach
-                            <tr>
-                                <td>
-                                    <p style="margin-bottom: 0px !important">Intro to Biology Live Class Meeting </p>
-                                    <p style="margin-bottom: 0px !important">When: <b>2020-10-18 09:00AM</b></p>
-                                    <p style="margin-bottom: 0px !important">Meeting ID: <b>Mhdfj4</b></p>
-                                    <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a><br/>
-                                    <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Biology 101</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p style="margin-bottom: 0px !important">Intro to Nature Q/A </p>
-                                    <p style="margin-bottom: 0px !important">When: <b>2020-11-18 11:00AM</b></p>
-                                    <p style="margin-bottom: 0px !important">Meeting ID: <b>M90fj4</b></p>
-                                    <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/M90fj4">https:/qxpacademy.com/user/live/M90fj4</a><br/>
-                                    <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Prof. King Ortix</span>
-                                </td>
-                            </tr>
                           </tbody>
                         </table>
                     </div>

@@ -59,7 +59,6 @@ class HomeController extends Controller
         DB::table('role_user')->insert(
             ['role_id' => 2, 'user_id' => $user->id]
         );
-
     }
 
     public function index(){
@@ -171,7 +170,7 @@ class HomeController extends Controller
         $assignments = $this->fetchAssignments();
         // dd($assignments);
 
-        $monthly = $this->fetchMonthlyEvents();
+        $monthly = $this->fetchFutureEvents();
 
         return view('students.home_user')->with(compact(
             'test_details',
@@ -188,7 +187,7 @@ class HomeController extends Controller
     public function getCalender(){
 
         $monthly = $this->fetchMonthlyEvents();
-         dd($monthly);
+         // dd($monthly);
         $event_array = (array) null; 
         foreach($monthly as $event){
             $event_array [] = array(
@@ -667,21 +666,27 @@ class HomeController extends Controller
         $courseIdsArray = explode(",", $course_ids);
         return $courseIdsArray;
     }
+    public function fetchFutureEvents(){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+
+        $month = date('m');
+
+        $monthly = DB::table('events')
+                    ->select('events.id as id','events.title as title','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title')
+                    ->join('courses', 'courses.id', '=', 'events.course_id')
+                    ->whereIn('course_id',$course_ids)
+                    ->where(function($q) {
+                        $q->where('event_start_time', '>=', date("Y-m-d"))
+                          ->orWhereNull('event_start_time');
+                    })
+                    ->orderBy('event_start_time','DESC')
+                    ->get();//has events data for the current month
+        return $monthly;            
+    }
     public function fetchMonthlyEvents(){
         $course_ids =$this->fetchEnrolledCourseIDs();
 
         $month = date('m');
-        // dd($month);
-        // $blog = Blog::whereMonth('created_at', $month)->get();
-
-        // $monthly = Events::whereMonth('event_start_time', $month)->whereIn('course_id',$course_ids)->get();
-        // DB::table('tests')
-        //             ->select('tests.id as test_id','tests.title as title','tests.course_id as course_id','courses.title as name','courses.id as course_id')
-        //             ->join('courses', 'courses.id', '=', 'tests.course_id')
-        //             ->whereIn('tests.id', $my_test_ids)
-        //             ->orderBy('tests.id','DESC')
-        //             ->get();
-
 
         $monthly = DB::table('events')
                     ->select('events.id as id','events.title as title','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title')
