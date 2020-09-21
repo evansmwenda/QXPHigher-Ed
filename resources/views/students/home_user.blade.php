@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-7">
             <div class="panel panel-default">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">In Progress<span style="font-size: .8em;color: grey;"><br>Your recent courses</span></div>
+                <div class="panel-heading" style="text-decoration: bold;color: #000;">Course Progress<span style="font-size: .8em;color: grey;"><br>Your recent courses</span></div>
 
                 <div class="panel-body">
                     <div class="col-sm-12">
@@ -41,19 +41,26 @@
                     <div class="col-sm-12">
                         <table class="table">
                           <tbody>
-                            @foreach($monthly as $key=>$event)
-                              <tr>
-                                  <td>
-                                      <p style="margin-bottom: 0px !important">{{$event->title}} </p>
-                                      <p style="margin-bottom: 0px !important">When: <b>{{ $event->event_start_time }}</b></p>
-                                      <p style="margin-bottom: 0px !important">Meeting ID: <b>Mhdfj4</b></p>
-                                      <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a><br/>
-                                      <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$event->course_title}}</span>
-                                  </td>
-                              </tr>
-                            @endforeach
+                            @if(count($monthly)<=0)
+                              <p style="text-align: center">You have no events</p> 
+                            @else
+                              @foreach($monthly as $key=>$event)
+                                <tr>
+                                    <td>
+                                        <p style="margin-bottom: 0px !important">{{$event->title}} </p>
+                                        <p style="margin-bottom: 0px !important">When: <b>{{ $event->event_start_time }}</b></p>
+                                        <p style="margin-bottom: 0px !important">Meeting ID: <b>Mhdfj4</b></p>
+                                        <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a><br/>
+                                        <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$event->course_title}}</span>
+                                    </td>
+                                </tr>
+                              @endforeach
+                            @endif
                           </tbody>
                         </table>
+                        <div style="text-align: center">
+                            <a href="/calender">View All Events</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,18 +79,25 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($test_details as $key=>$test)
-                            <tr>
-                              <td>{{++$key}}</td>
-                                <td>
-                                    <p style="margin-bottom: 0px !important">{{ $test->title }}</p>
-                                    <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{ $test->name }}</span>
-                                </td>
-                                <td><span class="badge progress-bar-info" style="float: right;padding-left:10px;padding-right:10px;padding-top:4px;padding-bottom:4px;">{{ $result_array[$test->test_id]}}</span></td>
-                            </tr>
-                        @endforeach
+                        @if(count($test_details)<=0)
+                          <p style="text-align: center">You have no Quizzes</p> 
+                        @else
+                          @foreach($test_details as $key=>$test)
+                              <tr>
+                                <td>{{++$key}}</td>
+                                  <td>
+                                      <p style="margin-bottom: 0px !important">{{ $test->title }}</p>
+                                      <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{ $test->name }}</span>
+                                  </td>
+                                  <td><span class="badge progress-bar-info" style="float: right;padding-left:10px;padding-right:10px;padding-top:4px;padding-bottom:4px;">{{ $result_array[$test->test_id]}}</span></td>
+                              </tr>
+                          @endforeach
+                        @endif
                       </tbody>
                     </table>
+                    <div style="text-align: center">
+                            <a href="/exams">View All Quizzes</a>
+                        </div>
                 </div>
             </div>
             <div class="panel panel-default">
@@ -99,20 +113,27 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($assignments as $key=>$assignment)
-                          <tr>
-                            <td>{{++$key}}</td>
-                            <td>
-                              <p style="margin-bottom: 0px !important">{{$assignment['title']}}</p>
-                              <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$assignment->course->title}}</span>
-                            </td>
-                            <td>
-                              <p>12-08-2019</p> 
-                            </td>
-                          </tr>
-                        @endforeach
+                        @if(count($assignments)<=0)
+                          <p style="text-align: center">You have no assignments</p> 
+                        @else
+                          @foreach($assignments as $key=>$assignment)
+                            <tr>
+                              <td>{{++$key}}</td>
+                              <td>
+                                <p style="margin-bottom: 0px !important">{{$assignment['title']}}</p>
+                                <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$assignment->course->title}}</span>
+                              </td>
+                              <td>
+                                <p>12-08-2019</p> 
+                              </td>
+                            </tr>
+                          @endforeach
+                        @endif  
                       </tbody>
                     </table>
+                    <div style="text-align: center">
+                            <a href="/assignments">View All Assignments</a>
+                        </div>
                 </div>
             </div>
         </div>
