@@ -15,7 +15,7 @@
                                 <tr>
                                   <td>
                                     <p>{{ $course->title}}</p>
-                                    <div class="progress progress-xs">
+                                    <div class="{{ $prog_parent[$key] }}">
                                       <div class="{{ $progress_array[$key] }}" role="progressbar"
                                            aria-valuenow="{{ $course_progress[$key]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $course_progress[$key]}}%">
                                         <span class="sr-only">{{ $course_progress[$key]}}% Complete (success)</span>
@@ -77,19 +77,29 @@
         </div>
         <div class="col-md-5">
             <div class="panel panel-default">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">Recent Activity</div>
+                <div class="panel-heading" style="text-decoration: bold;color: #000;">My Quizzes<span style="font-size: .8em;color: grey;"><br>CATs,exams</span></div>
 
                 <div class="panel-body">
                     <table class="table table-striped">
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
+                          <th>Quiz</th>
+                          <th>Score</th>
                           <th style="width: 40px">Label</th>
                         </tr>
                       </thead>
                       <tbody>
+                        @foreach($test_details as $test)
+                            <tr>
+                              <td>0.</td>
+                                <td>
+                                    <p style="margin-bottom: 0px !important">{{ $test->title }}</p>
+                                    <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{ $test->name }}</span>
+                                </td>
+                                <td><span class="badge progress-bar-warning" style="float: right;">Good {{ $result_array[$test->test_id]}}</span></td>
+                            </tr>
+                        @endforeach
                         <tr>
                           <td>1.</td>
                           <td>Update software</td>
@@ -135,62 +145,40 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">Skills</div>
+                <div class="panel-heading" style="text-decoration: bold;color: #000;">My Assignments</div>
 
                 <div class="panel-body">
                     <table class="table table-striped">
                       <thead>
                         <tr>
                           <th style="width: 40px">#</th>
-                          <th>Progress</th>
+                          <th>Name</th>
+                          <th>Due date</th>
                           <th style="width: 10px">Label</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>HTML5</td>
+                          <td>1.</td>
                           <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                            </div>
+                            <p style="margin-bottom: 0px !important">Introduction Assigno</p>
+                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Biology 101</span>
+                          </td>
+                          <td>
+                            <p>12-08-2019</p> 
                           </td>
                           <td><span class="badge progress-bar-danger">55%</span></td>
                         </tr>
                         <tr>
-                          <td>SCC/SCSS</td>
+                          <td>2.</td>
                           <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar progress-bar-warning" style="width: 70%"></div>
-                            </div>
+                            <p style="margin-bottom: 0px !important">Introduction Assigno</p>
+                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Test Course</span>
                           </td>
-                          <td><span class="badge progress-bar-warning">70%</span></td>
-                        </tr>
-                        <tr>
-                          <td>JAVASCRIPT</td>
                           <td>
-                            <div class="progress progress-xs ">
-                              <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                            </div>
+                            <p>12-08-2029</p> 
                           </td>
-                          <td><span class="badge progress-bar-primary">30%</span></td>
-                        </tr>
-                        <tr>
-                          <td>RUBY</td>
-                          <td>
-                            <div class="progress progress-xs ">
-                              <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge progress-bar-success">90%</span></td>
-                        </tr>
-                        <tr>
-                          <td>VUE.JS</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar progress-bar-warning" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge progress-bar-warning">90%</span></td>
+                          <td><span class="badge progress-bar-warning">45%</span></td>
                         </tr>
                       </tbody>
                     </table>

@@ -160,31 +160,44 @@ class HomeController extends Controller
         $course_progress=[];//with different course progresses
         $progress_array=[];
         $badge_array=[];
+        $prog_parent=[];
+        
         foreach($enrolled_course as $course){
             //get the lesson ids and calculate percentage done
             $ids = explode(",", $course->lesson_id);
             $count = count(array_unique($ids));
+            
 
             $percentage = ($count/$course->total_lessons)*100;
             if($percentage > 100){
                 $percentage = 100.0;
             }
 
+
             $percentage = round($percentage);
             switch ($percentage) {
+                case $percentage == 100:
+                    $progress_parent = "progress progress-xs";
+                    $progress_class="progress-bar progress-bar-success";
+                    $badge_class="badge progress-bar-success";
+                    break;
                 case $percentage > 90:
+                    $progress_parent = "progress progress-xs progress-striped active";
                     $progress_class="progress-bar progress-bar-success";
                     $badge_class="badge progress-bar-success";
                     break;
                 case $percentage < 90 && $percentage > 30:
+                    $progress_parent = "progress progress-xs progress-striped active";
                     $progress_class="progress-bar progress-bar-primary";
                     $badge_class="badge progress-bar-primary";
                     break;
                 case $percentage < 30:
+                    $progress_parent = "progress progress-xs progress-striped active";
                     $progress_class="progress-bar progress-bar-warning";
                     $badge_class="badge progress-bar-warning";
                     break;  
                 default:
+                    $progress_parent = "progress progress-xs progress-striped active";
                     $progress_class="progress-bar progress-bar-primary";
                     $badge_class="badge progress-bar-primary";
                     break;
@@ -192,7 +205,9 @@ class HomeController extends Controller
             array_push($badge_array, $badge_class);
             array_push($progress_array, $progress_class);
             array_push($course_progress, $percentage);
+            array_push($prog_parent, $progress_parent);
         }
+        // dd($progress_array);
 
         //
         //get results of any attempted quizes
@@ -224,7 +239,14 @@ class HomeController extends Controller
         //       ->whereIn('id', $my_test_ids)
         //       ->get();
 
-        return view('students.home_user')->with(compact('test_details','result_array','enrolled_course','course_progress','progress_array','badge_array'));
+        return view('students.home_user')->with(compact(
+            'test_details',
+            'result_array',
+            'enrolled_course',
+            'course_progress',
+            'progress_array',
+            'badge_array',
+            'prog_parent'));
     }
     public function getCalender(){
         $course_ids="";

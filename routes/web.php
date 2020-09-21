@@ -49,21 +49,6 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 
-// Route::get('/evans', 'HomeController@evans');
-
-// Route::name('testing')->post('/evans', function(){
-//     $_POST['email'] = 'evansmwenda.em@gmail.com';
-//     $_POST['password'] = 'password';
-//     return redirect()->action('Auth\LoginController@login',$_POST);
-// });
-
-// Route::get('redirect',function(){
-//    return redirect()->route('testing');
-// });
-
-
-
-
 Route::get('course/{slug}', ['uses' => 'CoursesController@show', 'as' => 'courses.show']);
 Route::post('course/payment', ['uses' => 'CoursesController@payment', 'as' => 'courses.payment']);
 Route::post('course/{course_id}/rating', ['uses' => 'CoursesController@rating', 'as' => 'courses.rating']);
