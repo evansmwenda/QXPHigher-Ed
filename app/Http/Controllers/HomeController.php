@@ -61,64 +61,6 @@ class HomeController extends Controller
         );
 
     }
-    public function getRedirect(){
-        //here we get the form details of the user from the QXP platform
-        // "name" => "Test Corporate"
-        // "email" => "evansmwenda.em@gmail.com"
-        // "password" => "password1"
-        // dd($request);
-        //cross check the details against users table
-        $user = User::where('email',$_POST['email'])->get();
-
-        // $request = new \Illuminate\Http\Request($_POST);
-        // $request = new Illuminate\Http\Request($test_array);
-
-        //if it exists,login the user
-        if($user->isEmpty()){
-            //user doesnt exists->register user
-            echo "please register me";die();
-        }else{
-            //user exists->login user
-            // dd($_POST);
-            Session::put('username', $_POST['name']);
-            Session::put('useremail', $_POST['email']);
-            Session::put('userpassword', $_POST['password']);
-
-            return redirect('/redirect2');
-
-
-
-            // $myRequest = new \Illuminate\Http\Request();
-            // $myRequest->setMethod('POST');
-            // $myRequest->request->add([
-            //     'name' => $_POST['name'],
-            //     'email' => $_POST['email'],
-            //     'password' => $_POST['password']]);
-            // // dd($myRequest);
-            // $this->login($myRequest);
-            // $this->loginRedirect();
-            // app('App\Http\Controllers\Auth\LoginController')->login($_POST);
-            // dd($user);
-        }
-
-        //issues will be when the user changes their password
-        //let them know to use the same password as the one in QXP
-        //dont give them option of changing the password, in case they do, let them contact support
-    }
-    public function loginRedirect(){
-        $data = Session::all();
-        // dd($dsata);
-        $myRequest = new \Illuminate\Http\Request();
-        $myRequest->setMethod('POST');
-        $myRequest->request->add([
-            'name' => $data['username'],
-            'email' => $data['useremail'],
-            'password' => $data['userpassword']]);
-        $this->login($myRequest);
-
-
-        // app('App\Http\Controllers\Auth\LoginController')->login($request);
-    }
 
     public function index(){
         $purchased_courses = NULL;
@@ -132,15 +74,6 @@ class HomeController extends Controller
         }
         $courses = Course::where('published', 1)->orderBy('id', 'desc')->get();
         return view('index', compact('courses', 'purchased_courses'));
-    }
-
-    public function evans(){
-        $_POST['email'] = 'evansmwenda.em@gmail.com';
-        $_POST['password'] = 'password';
-
-        return redirect()->route('/', [$_POST]);
-
-       // dd($_POST);
     }
 
     public function landing(){
@@ -235,9 +168,10 @@ class HomeController extends Controller
                     ->get();
 
 
-        // $test_details = DB::table('tests')
-        //       ->whereIn('id', $my_test_ids)
-        //       ->get();
+        $assignments = $this->fetchAssignments();
+        // dd($assignments);
+
+        $monthly = $this->fetchMonthlyEvents();
 
         return view('students.home_user')->with(compact(
             'test_details',
@@ -246,23 +180,15 @@ class HomeController extends Controller
             'course_progress',
             'progress_array',
             'badge_array',
-            'prog_parent'));
+            'prog_parent',
+            'assignments',
+            'monthly'
+        ));
     }
     public function getCalender(){
-        $course_ids="";
-        $enrolled_courses =  EnrolledCourses::where(['user_id'=>\Auth::id()])->get(); 
-        foreach ($enrolled_courses as $key => $course) {
-            $course_ids .= $course->course_id .",";
-               # code...
-          }  
-        $course_ids = explode(",", $course_ids);
 
-        $month = date('m');
-        // dd($month);
-        $monthly = DB::table('events')
-                    ->whereIn('course_id',$course_ids)
-                    ->whereMonth('event_start_time', $month)->get();//has events data for the current month
-         // dd($monthly);
+        $monthly = $this->fetchMonthlyEvents();
+         dd($monthly);
         $event_array = (array) null; 
         foreach($monthly as $event){
             $event_array [] = array(
@@ -452,21 +378,7 @@ class HomeController extends Controller
             } 
    
            }else{
-
-            //step1. get the courses where the student is enrolled in and store ids in string
-            $my_courses = EnrolledCourses::where(['user_id'=>\Auth::id()])->get();
-            $my_course_ids="";
-            foreach($my_courses as $course){
-                $my_course_ids .= $course->course_id .","; 
-            }
-
-           //step2. fetch the assignments in the enrolled courses of student
-            $ids_array = explode(",", $my_course_ids);
-
-            // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
-            $assignments = Assignments::with(['course'])->whereIn('course_id', $ids_array)->get();
-            //dd($assignments);
-
+            $assignments = $this->fetchAssignments();
             
             $method="GET";
             //$assignments = Assignments::
@@ -734,5 +646,50 @@ class HomeController extends Controller
     }
     public function joinClassByID(Request $request){
         return $this->joinLiveClass($request->meetingID);
+    }
+
+    public function fetchAssignments(){
+        $ids_array = $this->fetchEnrolledCourseIDs();
+
+        // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
+        $assignments = Assignments::with(['course'])->whereIn('course_id', $ids_array)->get();
+        //dd($assignments);
+        return $assignments;
+    }
+    public function fetchEnrolledCourseIDs(){
+        //step1. get the courses where the student is enrolled in and store ids in string
+        $course_ids="";
+        $enrolled_courses =  EnrolledCourses::where(['user_id'=>\Auth::id()])->get(); 
+        foreach ($enrolled_courses as $key => $course) {
+            $course_ids .= $course->course_id .",";
+               # code...
+          }  
+        $courseIdsArray = explode(",", $course_ids);
+        return $courseIdsArray;
+    }
+    public function fetchMonthlyEvents(){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+
+        $month = date('m');
+        // dd($month);
+        // $blog = Blog::whereMonth('created_at', $month)->get();
+
+        // $monthly = Events::whereMonth('event_start_time', $month)->whereIn('course_id',$course_ids)->get();
+        // DB::table('tests')
+        //             ->select('tests.id as test_id','tests.title as title','tests.course_id as course_id','courses.title as name','courses.id as course_id')
+        //             ->join('courses', 'courses.id', '=', 'tests.course_id')
+        //             ->whereIn('tests.id', $my_test_ids)
+        //             ->orderBy('tests.id','DESC')
+        //             ->get();
+
+
+        $monthly = DB::table('events')
+                    ->select('events.id as id','events.title as title','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title')
+                    ->join('courses', 'courses.id', '=', 'events.course_id')
+                    ->whereIn('course_id',$course_ids)
+                    ->whereMonth('event_start_time', $month)
+                    ->orderBy('event_start_time','DESC')
+                    ->get();//has events data for the current month
+        return $monthly;            
     }
 }

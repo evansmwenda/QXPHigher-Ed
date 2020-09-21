@@ -8,8 +8,6 @@ Route::get('/', 'HomeController@landing');
 // Route::group(['middleware' => ['guest']], function () {
 //     Route::post('/redirect', 'HomeController@getRedirect');
 // });
-Route::post('/redirect', 'HomeController@getRedirect');
-Route::get('/redirect2', 'HomeController@loginRedirect');
 
 Route::group(['middleware' => 'auth'], function () {
     // Route::get('/', 'HomeController@landing');

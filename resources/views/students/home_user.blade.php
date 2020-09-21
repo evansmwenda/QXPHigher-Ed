@@ -35,40 +35,41 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">My Quizzes<span style="font-size: .8em;color: grey;"><br>Skill tests</span></div>
+                <div class="panel-heading" style="text-decoration: bold;color: #000;">My Events<span style="font-size: .8em;color: grey;"><br>Live classes,other events</span></div>
 
                 <div class="panel-body">
                     <div class="col-sm-12">
                         <table class="table">
                           <tbody>
-
-                                @foreach($test_details as $test)
-                                    <tr>
-                                        <td>
-                                            <p style="margin-bottom: 0px !important">{{ $test->title }}</p>
-                                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{ $test->name }}</span>
-                                        </td>
-                                        <td><span class="badge progress-bar-warning" style="float: right;">Good {{ $result_array[$test->test_id]}}</span></td>
-                                    </tr>
-
-                                @endforeach
-
-                            <!-- <tr>
-                              <td>
-                                <p style="margin-bottom: 0px !important">Level 2 Angular</p>
-                                <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Angular in steps</span>
-                              </td>
-                              <td><span class="badge progress-bar-success" style="float: right;">Execellent 9.8</span></td>
+                            @foreach($monthly as $key=>$event)
+                              <tr>
+                                  <td>
+                                      <p style="margin-bottom: 0px !important">{{$event->title}} </p>
+                                      <p style="margin-bottom: 0px !important">When: <b>{{ $event->event_start_time }}</b></p>
+                                      <p style="margin-bottom: 0px !important">Meeting ID: <b>Mhdfj4</b></p>
+                                      <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a><br/>
+                                      <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$event->course_title}}</span>
+                                  </td>
+                              </tr>
+                            @endforeach
+                            <tr>
+                                <td>
+                                    <p style="margin-bottom: 0px !important">Intro to Biology Live Class Meeting </p>
+                                    <p style="margin-bottom: 0px !important">When: <b>2020-10-18 09:00AM</b></p>
+                                    <p style="margin-bottom: 0px !important">Meeting ID: <b>Mhdfj4</b></p>
+                                    <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a><br/>
+                                    <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Biology 101</span>
+                                </td>
                             </tr>
                             <tr>
-                              <td>
-                                <p style="margin-bottom: 0px !important">Graduation</p>
-                                <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Bootstrap Foundation</span>
-                              </td>
-                              <td><span class="badge progress-bar-danger" style="float: right;">Failed 2.8</span></td>
-                            </tr> -->
-
-
+                                <td>
+                                    <p style="margin-bottom: 0px !important">Intro to Nature Q/A </p>
+                                    <p style="margin-bottom: 0px !important">When: <b>2020-11-18 11:00AM</b></p>
+                                    <p style="margin-bottom: 0px !important">Meeting ID: <b>M90fj4</b></p>
+                                    <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/M90fj4">https:/qxpacademy.com/user/live/M90fj4</a><br/>
+                                    <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Prof. King Ortix</span>
+                                </td>
+                            </tr>
                           </tbody>
                         </table>
                     </div>
@@ -113,32 +114,21 @@
                           <th style="width: 40px">#</th>
                           <th>Name</th>
                           <th>Due date</th>
-                          <th style="width: 10px">Label</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1.</td>
-                          <td>
-                            <p style="margin-bottom: 0px !important">Introduction Assigno</p>
-                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Biology 101</span>
-                          </td>
-                          <td>
-                            <p>12-08-2019</p> 
-                          </td>
-                          <td><span class="badge progress-bar-danger">55%</span></td>
-                        </tr>
-                        <tr>
-                          <td>2.</td>
-                          <td>
-                            <p style="margin-bottom: 0px !important">Introduction Assigno</p>
-                            <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Test Course</span>
-                          </td>
-                          <td>
-                            <p>12-08-2029</p> 
-                          </td>
-                          <td><span class="badge progress-bar-warning">45%</span></td>
-                        </tr>
+                        @foreach($assignments as $key=>$assignment)
+                          <tr>
+                            <td>{{++$key}}</td>
+                            <td>
+                              <p style="margin-bottom: 0px !important">{{$assignment['title']}}</p>
+                              <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$assignment->course->title}}</span>
+                            </td>
+                            <td>
+                              <p>12-08-2019</p> 
+                            </td>
+                          </tr>
+                        @endforeach
                       </tbody>
                     </table>
                 </div>
