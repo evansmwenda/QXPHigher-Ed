@@ -1,14 +1,64 @@
 @extends('layouts.home')
 
 @section('main')
+{{-- At glance boxes --}}
+    <div class="col-sm-12">
+      <div class="col-md-3 qxp-primary qxp-card">
+        <div class="card">
+          <div class="card-header pull-left">
+            <i class="glyphicon glyphicon-book fa-3x"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="qxp-light">ENROLLED COURSES</h5>
+            <p class="card-text">12</p>     
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 qxp-secondary qxp-card">
+        <div class="card">
+          <div class="card-header pull-left">
+            <i class="glyphicon glyphicon-calendar fa-3x"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">SCHEDULED EVENTS</h5>
+            <p class="card-text text-center">12</p>    
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 qxp-lightprimary qxp-card"">
+        <div class="card">
+          <div class="card-header pull-left">
+            <i class="glyphicon glyphicon-list fa-3x"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">EXAMS</h5>
+            <p class="card-text">You have 12 Exams</p>           
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 qxp-lightsecondary qxp-card">
+        <div class="card">
+          <div class="card-header pull-left">
+            <i class="glyphicon glyphicon-tasks fa-3x"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">QUIZES</h5>
+            <p class="card-text">You have 12 Quizes</p>           
+          </div>
+        </div>
+      </div>
+    </div>
+    {{-- end of glance boxes --}}
+    
     <div class="row">
+      <div class="clear_fix"></div>
         <div class="col-md-7">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">Course Progress<span style="font-size: .8em;color: grey;"><br>Your recent courses</span></div>
+            <div class="panel panel-info">
+                <div class="panel-heading" style="text-decoration: bold;color: #000080;">Course Progress<span style="font-size: .8em;color: grey;"><br>Your recent courses</span></div>
 
                 <div class="panel-body">
                     <div class="col-sm-12">
-                        <table class="table">
+                        <table class="table table-bordered">
                           <tbody>
                             @foreach($enrolled_course as $key => $course)
 
@@ -28,13 +78,15 @@
                             @endforeach
                           </tbody>
                         </table>
+                        {{-- paginate the table --}}
+
                         <div style="text-align: center">
                             <a href="/courses">View All Courses</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <div class="panel-heading" style="text-decoration: bold;color: #000;">My Events<span style="font-size: .8em;color: grey;"><br>Live classes,other events</span></div>
 
                 <div class="panel-body">
@@ -66,11 +118,11 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="panel panel-default">
+            <div class="panel panel-success"">
                 <div class="panel-heading" style="text-decoration: bold;color: #000;">My Quizzes<span style="font-size: .8em;color: grey;"><br>CATs,exams,tests</span></div>
 
                 <div class="panel-body">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-bordered">
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
@@ -95,9 +147,10 @@
                         @endif
                       </tbody>
                     </table>
-                    <div style="text-align: center">
+                    {{-- Paginate the table --}}
+                      <div style="text-align: center">
                             <a href="/exams">View All Quizzes</a>
-                        </div>
+                      </div>
                 </div>
             </div>
             <div class="panel panel-default">
