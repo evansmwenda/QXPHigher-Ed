@@ -676,8 +676,8 @@ class HomeController extends Controller
                     ->join('courses', 'courses.id', '=', 'events.course_id')
                     ->whereIn('course_id',$course_ids)
                     ->where(function($q) {
-                        $q->where('event_start_time', '>=', date("Y-m-d"))
-                          ->orWhereNull('event_start_time');
+                        $q->where('event_end_time', '>=', date("Y-m-d"))
+                          ->orWhereNull('event_end_time');
                     })
                     ->orderBy('event_start_time','DESC')
                     ->get();//has events data for the current month
