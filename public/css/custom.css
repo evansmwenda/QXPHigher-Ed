@@ -1,0 +1,39 @@
+.qxp-primary{
+    background: #000080;
+    color: #fff;
+}
+.qxp-secondary{
+    background: #0000FF;
+    color: #fff;
+}
+.qxp-lightprimary{
+    background: #1E90FF;
+    color: #fff;
+}
+.qxp-lightsecondary{
+    background: #00BFFF;
+    color: #fff;
+}
+
+.qxp-card{
+    padding:2px;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 10px;;
+}
+
+.qxp-light{
+    color:#fff;
+}
+.qxp-dark{
+    color:#000080;
+}
+.clear_fix{
+    clear:both;
+    margin-top: 2px;
+}
+.qxp-bigText{
+    font: size 30em; 
+}
+
