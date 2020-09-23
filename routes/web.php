@@ -16,11 +16,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/courses', 'HomeController@index');
 
     //award free-trial
-    Route::get('/freetrial','HomeController@awardFreeTrialAll')
+    Route::get('/freetrial','HomeController@awardFreeTrialAll');
 
-    //subscribe
+    //subscriptions and payments
     Route::get('/subscribe', 'HomeController@getSubscription');
     Route::get('/subscribe/{id}', 'HomeController@startSubscription');
+    Route::get('/payments/redirect', 'HomeController@getCallback');
 
     //faq
     Route::get('/faq', 'HomeController@getFAQ');

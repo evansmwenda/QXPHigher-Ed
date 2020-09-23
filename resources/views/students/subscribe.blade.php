@@ -39,7 +39,7 @@
 
                     @if(isset($iframe_src))
                       <div class="col-xs-12 col-sm-12">
-                          <iframe src="{{ $iframe_src }}" scrolling="no" frameBorder="0">
+                          <iframe src="{{ $iframe_src }}" width="100%" height="700px" scrolling="no" frameBorder="0">
                             <p>Browser unable to load iFrame</p>
                           </iframe>
                       </div>

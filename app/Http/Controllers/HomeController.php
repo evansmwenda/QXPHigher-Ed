@@ -725,7 +725,7 @@ class HomeController extends Controller
     public function awardFreeTrialAll(){
         //gives every user account free trial
         $users  = User::get();
-        dd($users);
+        // dd($users);
         $data  = array ();
         foreach($users as $user){
             $data = array(
@@ -736,7 +736,6 @@ class HomeController extends Controller
             Subscription::insert($data); 
         }
     }
-
     public function getSubscription(){
         return view('students.subscribe');
     }
@@ -796,7 +795,8 @@ class HomeController extends Controller
         $currency ='KES';
         $tracking_id = '';
         $payment_method = '';//CHANGE LATER
-        $callback_url   = url("user/payments/redirect");//URL user to be redirected to after payment
+        $callback_url   = url("payments/redirect");//URL user to be redirected to after payment
+        // dd($callback_url);
         // https://skytoptechnologies.com
         // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
         // &pesapal_merchant_reference=5f2ad92d9dc87
@@ -845,5 +845,261 @@ class HomeController extends Controller
         // return view('user.payments.iframe')->with(compact('iframe_src','amount','package_name'));
 
          return view('students.subscribe')->with(compact('iframe_src','amount','package_name'));
+    }
+    public function getCallback(Request $request){
+        $user= \Auth::user();
+        // $status='UNKNOWN';
+        // dd($request->all());
+        $tracking_id = $request['pesapal_transaction_tracking_id'];
+        $reference = $request['pesapal_merchant_reference'];
+
+        /** check status of the transaction made
+          *There are 3 available API
+          *checkStatusUsingTrackingIdandMerchantRef() - returns Status only. 
+          *checkStatusByMerchantRef() - returns status only.
+          *getMoreDetails() - returns status, payment method, merchant reference and pesapal tracking id
+        **/
+        
+        //$status           = $this->checkStatusByMerchantRef($reference);
+        $responseArray    = $this->getTransactionDetails($reference,$tracking_id);
+        // $status             = $this->checkStatusUsingTrackingIdandMerchantRef($reference,$tracking_id);
+        // dd($responseArray);
+        $transactions = MyTransactions::where('reference',$responseArray['pesapal_merchant_reference'])->first();
+        if(!is_null($transactions)){
+            //found transaction->updated details
+            $transactions->status=$responseArray['status'];
+            $transactions->payment_method=$responseArray['payment_method'];
+            $transactions->tracking_id=$responseArray['pesapal_transaction_tracking_id'];
+            $transactions->save();
+
+            //write code to update data in the subscription table
+            // getSubscriptions($user_id,$transaction_status);
+            $this->buySubscription($user['id'],$transactions->status,$reference);   
+        }
+        $status = $responseArray['status'];
+        // dd($transactions);
+
+        
+        //At this point, you can update your database.
+        //In my case i will let the IPN do this for me since it will run
+        //IPN runs when there is a status change  and since this is a new transaction, 
+        //the status has changed for UNKNOWN to PENDING/COMPLETED/FAILED
+
+        //make query to check status here
+        return view('students.redirect')->with(compact('status','reference','tracking_id'));
+    }
+    public function checkStatusUsingTrackingIdandMerchantRef($pesapalMerchantReference,$pesapalTrackingId){
+        //checkStatusUsingTrackingIdandMerchantRef($pesapalMerchantReference,$pesapalTrackingId)
+        $token = $params    = NULL;
+        //Kenyan Merchant
+        $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
+        $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
+
+        $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
+        $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
+        
+        $isDemo =env('PESAPAL_IS_DEMO',true);//check if we are in sandbox mode
+        if($isDemo)
+            $api = 'https://demo.pesapal.com';
+        else
+            $api = 'https://www.pesapal.com'; 
+            
+        $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
+        // $querypaymentdetails              =   $api.'/API/querypaymentdetails';
+
+        //get transaction status
+        $request_status = \OAuthRequest::from_consumer_and_token(
+                                $consumer, 
+                                $token, 
+                                "GET", 
+                                $QueryPaymentStatus, 
+                                $params
+                            );
+        $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
+        $request_status->set_parameter("pesapal_transaction_tracking_id",$pesapalTrackingId);
+        $request_status->sign_request($signature_method, $consumer, $token);
+        
+        $status = $this->curlRequest($request_status);
+    
+        return $status;
+    }
+    public function checkStatusByMerchantRef($pesapalMerchantReference){
+        //checkStatusByMerchantRef($pesapalMerchantReference)
+        $token = $params    = NULL;
+        //Kenyan Merchant
+        $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
+        $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
+
+        $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
+        $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
+        
+        $isDemo =env('PESAPAL_IS_DEMO',true);//check if we are in sandbox mode
+        if($isDemo)
+            $api = 'https://demo.pesapal.com';
+        else
+            $api = 'https://www.pesapal.com'; 
+            
+        // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
+        // $querypaymentdetails              =   $api.'/API/querypaymentdetails';
+
+        $request_status = \OAuthRequest::from_consumer_and_token(
+                                $consumer, 
+                                $token, 
+                                "GET", 
+                                $QueryPaymentStatusByMerchantRef, 
+                                $params
+                            );
+        $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
+        $request_status->sign_request($signature_method, $consumer, $token);
+    
+        $status = $this->curlRequest($request_status);
+    
+        return $status;
+    }
+    public function getTransactionDetails($pesapalMerchantReference,$pesapalTrackingId){
+        //getTransactionDetails($pesapalMerchantReference,$pesapalTrackingId);
+        $token = $params    = NULL;
+        //Kenyan Merchant
+        $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
+        $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
+
+        $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
+        $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
+        
+        $isDemo =env('PESAPAL_IS_DEMO',true);//check if we are in sandbox mode
+        if($isDemo)
+            $api = 'https://demo.pesapal.com';
+        else
+            $api = 'https://www.pesapal.com'; 
+            
+        // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
+        $querypaymentdetails              =   $api.'/API/querypaymentdetails';
+
+        $request_status = \OAuthRequest::from_consumer_and_token(
+                                $consumer, 
+                                $token, 
+                                "GET", 
+                                $querypaymentdetails, 
+                                $params
+                            );
+        $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
+        $request_status->set_parameter("pesapal_transaction_tracking_id",$pesapalTrackingId);
+        $request_status->sign_request($signature_method, $consumer, $token);
+    
+        $responseData = $this->curlRequest($request_status);
+        
+        $pesapalResponse = explode(",", $responseData);
+        $pesapalResponseArray=array('pesapal_transaction_tracking_id'=>$pesapalResponse[0],
+                   'payment_method'=>$pesapalResponse[1],
+                   'status'=>$pesapalResponse[2],
+                   'pesapal_merchant_reference'=>$pesapalResponse[3]);
+
+        // array:[
+        //   "pesapal_transaction_tracking_id" => "9f225cb3-9473-4c83-a30e-2bd58ec87dac"
+        //   "payment_method" => "MPESA"
+        //   "status" => "PENDING"
+        //   "pesapal_merchant_reference" => "5f2b268415a76"
+        // ]
+                   
+        return $pesapalResponseArray;
+    }
+
+    public function curlRequest($request_status){
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $request_status);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        if(defined('CURL_PROXY_REQUIRED')) if (CURL_PROXY_REQUIRED == 'True'){
+            $proxy_tunnel_flag = (
+                    defined('CURL_PROXY_TUNNEL_FLAG') 
+                    && strtoupper(CURL_PROXY_TUNNEL_FLAG) == 'FALSE'
+                ) ? false : true;
+            curl_setopt ($ch, CURLOPT_HTTPPROXYTUNNEL, $proxy_tunnel_flag);
+            curl_setopt ($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+            curl_setopt ($ch, CURLOPT_PROXY, CURL_PROXY_SERVER_DETAILS);
+        }
+        
+        $response                   = curl_exec($ch);
+        $header_size                = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $raw_header                 = substr($response, 0, $header_size - 4);
+        $headerArray                = explode("\r\n\r\n", $raw_header);
+        $header                     = $headerArray[count($headerArray) - 1];
+        
+        //transaction status
+        $elements = preg_split("/=/",substr($response, $header_size));
+        $pesapal_response_data = $elements[1];
+        
+        return $pesapal_response_data;
+    }
+
+    public function buySubscription($user_id,$transaction_status,$reference){
+        //check if status was successful
+        if($transaction_status == 'COMPLETED'){
+            //payment successful->1.award subscription
+            $subscription = Subscription::where('user_id',$user_id)->first();
+            $subscription->expiry_on = Date('Y-m-d h:i:s', strtotime('+31 days')) ;
+            $subscription->save();
+
+            //2.set is_used to true so that payment is not used to buy another subscription
+            $transactions = MyTransactions::where('reference',$reference)->first();
+            if(!is_null($transactions)){
+                //found transaction->updated details
+                $transactions->is_used="1";
+                $transactions->save();  
+            }
+
+            //check if expiry_on is less than now or greater than
+            // if($subscription->expiry_on < date('Y-m-d h:i:s')){
+            //     //if less than now->award 30 days subscriptions from now
+            //     $subscription->expiry_on = Date('Y-m-d h:i:s', strtotime('+31 days')) ;
+            //     $subscription->save();
+            // }else{
+            //     //if greater than, award 30 days from expiry_on 
+            //     $timestamp = date_create($subscription->expiry_on);
+            //     date_add($timestamp,date_interval_create_from_date_string("31 days"));
+            //     $timestamp = date_format($timestamp,"Y-m-d h:i:s");
+            //     $subscription->expiry_on = $timestamp ;
+            //     $subscription->save();
+            // }
+        }else{
+            //payment not successful
+            //do not give user subscription
+        }
+    }
+
+    public function checkPaymentStatusDashboard(){
+        //check on dashboard if user's payment was successful
+        global $user;
+
+        $my_transaction = MyTransactions::where([
+            ['user_id','=',$user['id']],
+            ['is_used','=','0']
+        ])->latest()->first();
+        // dd($my_transaction);
+        if(!is_null($my_transaction)){
+            //logic here
+            $status = $this->checkStatusByMerchantRef($my_transaction->reference);
+            if($status == 'COMPLETED'){
+                //payment is successful
+                //1.update the status column 
+                $my_transaction->status = $status;
+                $my_transaction->save();
+                //2.award subscription
+                $this->buySubscription($user['id'],$status,$my_transaction->reference); 
+            }
+            // dd($status);
+        }
+        
+        // http://localhost:8000
+        // /user/payments/redirect?pesapal_transaction_tracking_id=23f64864-f610-4c39-b8cc-4a0417349a10&pesapal_merchant_reference=5f4e9cde85297
+
+        // https://skytoptechnologies.com
+        // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
+        // &pesapal_merchant_reference=5f2ad92d9dc87
     }
 }
