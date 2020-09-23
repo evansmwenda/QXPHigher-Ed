@@ -15,6 +15,9 @@ Route::group(['middleware' => 'auth'], function () {
     //courses
     Route::get('/courses', 'HomeController@index');
 
+    //award free-trial
+    Route::get('/freetrial','HomeController@awardFreeTrialAll')
+
     //subscribe
     Route::get('/subscribe', 'HomeController@getSubscription');
     Route::get('/subscribe/{id}', 'HomeController@startSubscription');

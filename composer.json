@@ -22,7 +22,11 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "app/library/"
+        ],
+        "files": [
+            "app/library/OAuth.php"
         ],
         "psr-4": {
             "App\\": "app/"

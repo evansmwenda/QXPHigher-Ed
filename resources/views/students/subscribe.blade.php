@@ -35,6 +35,15 @@
                         <a href="/subscribe/1" class="btn btn-primary">Renew Subscription</a>
                       </div>
                     </div>
+                    
+
+                    @if(isset($iframe_src))
+                      <div class="col-xs-12 col-sm-12">
+                          <iframe src="{{ $iframe_src }}" scrolling="no" frameBorder="0">
+                            <p>Browser unable to load iFrame</p>
+                          </iframe>
+                      </div>
+                    @endif
 
                   </div>
 

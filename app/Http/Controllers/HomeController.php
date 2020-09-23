@@ -18,12 +18,17 @@ use App\ExamSubmits;
 use App\ExamAnswers;
 use App\LiveClasses;
 use App\LiveClassRecordings;
+use App\Transaction as MyTransactions;
+use App\Package;
+use App\Subscription;
+use App\library\OAuth;
 use DB;
 use DateTime;
 use DateInterval;
 use DatePeriod;
 use Auth;
 use Session;
+
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
 // use Request;
@@ -717,12 +722,128 @@ class HomeController extends Controller
                     ->get();//has events data for the current month
         return $monthly;            
     }
+    public function awardFreeTrialAll(){
+        //gives every user account free trial
+        $users  = User::get();
+        dd($users);
+        $data  = array ();
+        foreach($users as $user){
+            $data = array(
+                    "user_id" => $user->id,
+                    "expiry_on" => Date('Y-m-d h:i:s', strtotime('+10 days')),
+                    "package_id" => '0'
+            );
+            Subscription::insert($data); 
+        }
+    }
 
     public function getSubscription(){
         return view('students.subscribe');
     }
     public function startSubscription($id=null){
-         // dump("cl/**/icked renew page");
-         return view('students.subscribe');
+        $user = \Auth::user();
+
+        $packages = Package::where('id',$id)->get();
+        
+        if($packages->isEmpty()){
+            return back()->with('flash_message_error','An error occurred, please try again');
+        }
+        
+        //check to see if user is logged in
+        if(\Auth::id() == ""){
+            return back()->with('flash_message_error','Please login to renew subscription');
+        }
+        // dd($packages);
+
+        
+        $isDemo = env('PESAPAL_IS_DEMO',true);//check if we are in sandbox mode
+        if($isDemo)
+            $api = 'https://demo.pesapal.com';
+        else
+            $api = 'https://www.pesapal.com';
+        
+        $token = $params    = NULL;
+        $iframelink         = $api.'/api/PostPesapalDirectOrderV4';
+
+        //Kenyan keys
+        $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
+        $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
+         
+        $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
+        $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
+        
+        // dd($packages);
+        $package_name = $packages[0]->name;
+        $amount = str_replace(',','',$packages[0]->amount);// $_POST['amount'];
+        // $amount = number_format($amount, 2);//format amount to 2 decimal places
+
+        $desc ="description";// ;
+        $type ="MERCHANT";// ; //default value = MERCHANT
+        $reference =uniqid();// //unique order id of the transactionby merchant
+        $name = explode(" ", $user['name']);
+        $first_name =$name[0];
+        if(count($name) >1 ){
+            $last_name =$name[1];
+        }else{
+            $last_name ='';
+        }
+        
+        $email =$user['email'];
+        $phonenumber ="";
+
+        $is_used="0";
+        $status = 'PLACED';
+        $currency ='KES';
+        $tracking_id = '';
+        $payment_method = '';//CHANGE LATER
+        $callback_url   = url("user/payments/redirect");//URL user to be redirected to after payment
+        // https://skytoptechnologies.com
+        // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
+        // &pesapal_merchant_reference=5f2ad92d9dc87
+
+
+        $transactions = new MyTransactions;
+        $transactions->user_id       = $user['id'];
+        $transactions->phone         = $user['email'];
+        $transactions->amount        = $amount;
+        $transactions->currency      = $currency;
+        $transactions->status        = $status;
+        $transactions->reference     = $reference;
+        $transactions->is_used       = $is_used;
+        $transactions->description   = $desc;
+        $transactions->tracking_id   = $tracking_id;
+        $transactions->payment_method= $payment_method;
+        $transactions->save();
+
+        //update the package_id in user's subscription
+        $subscription = Subscription::where('user_id',$user['id'])->first();
+        $subscription->package_id = $id;
+        $subscription->save();
+        
+        $post_xml   = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+                       <PesapalDirectOrderInfo 
+                            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" 
+                            xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" 
+                            Currency=\"".$currency."\" 
+                            Amount=\"".$amount."\" 
+                            Description=\"".$desc."\" 
+                            Type=\"".$type."\" 
+                            Reference=\"".$reference."\" 
+                            FirstName=\"".$first_name."\" 
+                            LastName=\"".$last_name."\" 
+                            Email=\"".$email."\" 
+                            PhoneNumber=\"".$phonenumber."\" 
+                            xmlns=\"http://www.pesapal.com\" />";
+        $post_xml = htmlentities($post_xml);
+        
+        //post transaction to pesapal
+        $iframe_src = \OAuthRequest::from_consumer_and_token($consumer, $token, "GET", $iframelink, $params);
+        $iframe_src->set_parameter("oauth_callback", $callback_url);
+        $iframe_src->set_parameter("pesapal_request_data", $post_xml);
+        $iframe_src->sign_request($signature_method, $consumer, $token);
+
+        // return view('user.payments.iframe')->with(compact('iframe_src','amount','package_name'));
+
+         return view('students.subscribe')->with(compact('iframe_src','amount','package_name'));
     }
 }
