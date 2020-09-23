@@ -2,61 +2,71 @@
 
 @section('main')
 {{-- At glance boxes --}}
-    <div class="col-sm-12">
-      <div class="col-md-3 qxp-primary qxp-card">
-        <div class="card">
-          <div class="card-header pull-left">
-            <i class="glyphicon glyphicon-book fa-3x"></i>
-          </div>
-          <div class="card-body">
-            <h5 class="qxp-light">ENROLLED COURSES</h5>
-            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>     
-          </div>
-        </div>
+<div class="row">
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box qxp-info text-center">
+      <div class="inner">
+        <h3>150</h3>
       </div>
-      <div class="col-md-3 qxp-secondary qxp-card">
-        <div class="card">
-          <div class="card-header pull-left">
-            <i class="glyphicon glyphicon-calendar fa-3x"></i>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">SCHEDULED EVENTS</h5>
-            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>   
-          </div>
-        </div>
+      <div class="icon">
+        {{-- <i class="fa fa-book"></i> --}}
       </div>
-      <div class="col-md-3 qxp-lightprimary qxp-card"">
-        <div class="card">
-          <div class="card-header pull-left">
-            <i class="glyphicon glyphicon-list fa-3x"></i>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">EXAMS</h5>
-            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>  
-      
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2 qxp-lightsecondary qxp-card">
-        <div class="card">
-          <div class="card-header pull-left">
-            <i class="glyphicon glyphicon-tasks fa-3x"></i>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">QUIZES</h5>
-            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>           
-          </div>
-        </div>
-      </div>
+      <a href="#" class="small-box-footer">Enrolled Courses</a>
     </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box bg-success text-center">
+      <div class="inner">
+        <h3>53</h3>
+
+      </div>
+      <div class="icon">
+        {{-- <i class="fa fa-calendar"></i> --}}
+      </div>
+      <a href="#" class="small-box-footer">Scheduled Events</a>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box qxp-warning text-center">
+      <div class="inner">
+        <h3>44</h3>
+
+      </div>
+      <div class="icon">
+        {{-- <i class="ion ion-person-add"></i> --}}
+      </div>
+      <a href="#" class="small-box-footer">Scheduled Exams</a>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box qxp-danger text-center">
+      <div class="inner">
+        <h3>65</h3>
+
+        <p></p>
+      </div>
+      <div class="icon">
+        {{-- <i class="ion ion-pie-graph"></i> --}}
+      </div>
+      <a href="#" class="small-box-footer">Scheduled Quizes </a>
+    </div>
+  </div>
+  <!-- ./col -->
+</div>
+<!-- /.row -->
     {{-- end of glance boxes --}}
     
     <div class="row">
-      <div class="clear_fix"></div>
         <div class="col-md-7">
             <div class="panel panel-info">
                 <div class="panel-heading" style="text-decoration: bold;color: #000080;">Course Progress<span style="font-size: .8em;color: grey;"><br>Your recent courses</span></div>
-
                 <div class="panel-body">
                     <div class="col-sm-12">
                         <table class="table table-bordered">
