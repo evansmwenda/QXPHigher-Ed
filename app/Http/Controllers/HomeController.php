@@ -717,4 +717,12 @@ class HomeController extends Controller
                     ->get();//has events data for the current month
         return $monthly;            
     }
+
+    public function getSubscription(){
+        return view('students.subscribe');
+    }
+    public function startSubscription($id=null){
+         // dump("cl/**/icked renew page");
+         return view('students.subscribe');
+    }
 }

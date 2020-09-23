@@ -69,6 +69,12 @@
                         <span class="title">FAQs</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/subscribe">
+                        <i class="fa fa-wallet"></i>
+                        <span class="title">Subscribe</span>
+                    </a>
+                </li>
                 
 
                 <!-- <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">

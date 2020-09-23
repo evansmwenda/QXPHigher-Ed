@@ -15,6 +15,10 @@ Route::group(['middleware' => 'auth'], function () {
     //courses
     Route::get('/courses', 'HomeController@index');
 
+    //subscribe
+    Route::get('/subscribe', 'HomeController@getSubscription');
+    Route::get('/subscribe/{id}', 'HomeController@startSubscription');
+
     //faq
     Route::get('/faq', 'HomeController@getFAQ');
 

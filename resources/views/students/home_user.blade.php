@@ -55,7 +55,7 @@
       <div class="icon">
         {{-- <i class="ion ion-pie-graph"></i> --}}
       </div>
-      <a href="#" class="small-box-footer">Quizes </a>
+      <a href="#" class="small-box-footer">Quizzes </a>
     </div>
   </div>
   <!-- ./col -->
