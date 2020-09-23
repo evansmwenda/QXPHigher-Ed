@@ -10,7 +10,7 @@
           </div>
           <div class="card-body">
             <h5 class="qxp-light">ENROLLED COURSES</h5>
-            <p class="card-text">12</p>     
+            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>     
           </div>
         </div>
       </div>
@@ -21,7 +21,7 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">SCHEDULED EVENTS</h5>
-            <p class="card-text text-center">12</p>    
+            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>   
           </div>
         </div>
       </div>
@@ -32,7 +32,8 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">EXAMS</h5>
-            <p class="card-text">You have 12 Exams</p>           
+            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>  
+      
           </div>
         </div>
       </div>
@@ -43,7 +44,7 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">QUIZES</h5>
-            <p class="card-text">You have 12 Quizes</p>           
+            <p class="card-text" style="font-size: 25px; font-style:bold">12</p>           
           </div>
         </div>
       </div>
@@ -92,18 +93,33 @@
                 <div class="panel-body">
                     <div class="col-sm-12">
                         <table class="table">
+                          <thead class="bg-info">
+                            <tr>
+                              <th>#</th>
+                              <th>Meeting Group</th>
+                              <th>Scheduled Date</th>
+                              <th>Meeting Link</th>
+                            </tr>
+                          </thead>
                           <tbody>
+                           
                             @if(count($monthly)<=0)
                               <p style="text-align: center">You have no events</p> 
                             @else
+
                               @foreach($monthly as $key=>$event)
+                              
                                 <tr>
-                                    <td>
+                                    <td>#</td>
+                                      <td>
                                         <p style="margin-bottom: 0px !important">{{$event->title}} </p>
-                                        <p style="margin-bottom: 0px !important">When: <b>{{ $event->event_start_time }}</b></p>
-                                        <p style="margin-bottom: 0px !important">Meeting ID: <b>Mhdfj4</b></p>
-                                        <a style="margin-bottom: 0px !important" href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a><br/>
                                         <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$event->course_title}}</span>
+                                      </td>
+
+                                      <td>{{ $event->event_start_time }}</td>
+                                   
+                                     <td><a href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a></td>
+                                        
                                     </td>
                                 </tr>
                               @endforeach

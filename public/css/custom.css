@@ -34,6 +34,6 @@
     margin-top: 2px;
 }
 .qxp-bigText{
-    font: size 30em; 
+    font-size:30px;
+    font-weight: 500;
 }
-
