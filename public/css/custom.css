@@ -1,39 +1,16 @@
-.qxp-primary{
-    background: #000080;
+.qxp-success{
+    background: #28a745!;
     color: #fff;
 }
-.qxp-secondary{
-    background: #0000FF;
+.qxp-info{
+    background: #17a2b8;
     color: #fff;
 }
-.qxp-lightprimary{
-    background: #1E90FF;
+.qxp-warning{
+    background: #ffc107;
     color: #fff;
 }
-.qxp-lightsecondary{
-    background: #00BFFF;
+.qxp-danger{
+    background: #dc3545;
     color: #fff;
-}
-
-.qxp-card{
-    padding:2px;
-    border-radius: 5px;
-    text-align: center;
-    margin-right: 10px;
-    margin-bottom: 10px;;
-}
-
-.qxp-light{
-    color:#fff;
-}
-.qxp-dark{
-    color:#000080;
-}
-.clear_fix{
-    clear:both;
-    margin-top: 2px;
-}
-.qxp-bigText{
-    font-size:30px;
-    font-weight: 500;
 }
