@@ -139,38 +139,54 @@ class HomeController extends Controller
             array_push($course_progress, $percentage);
             array_push($prog_parent, $progress_parent);
         }
-        // dd($progress_array);
+        // dd(\Auth::id());
 
         //
         //get results of any attempted quizes
-        $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->orderBy('id','DESC')->get();
-        //dd($test_results);
         $tests_ids="";
         $my_results="";
         $result_array =[];
-        foreach ($test_results as $test ) {
-            $tests_ids .= $test->test_id.",";
+        $my_test_ids =[];
+        if(\Auth::id() != null){
+            $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->orderBy('id','DESC')->get();
+        
+            foreach ($test_results as $test ) {
+                $tests_ids .= $test->test_id.",";
 
-            $result_array += [
-                $test->test_id => $test->test_result,
-            ];
+                $result_array += [
+                    $test->test_id => $test->test_result,
+                ];
 
+            }
+
+            $my_test_ids = explode(",",$tests_ids);//convert to array
         }
-
-        $my_test_ids = explode(",",$tests_ids);//convert to array
+        
+        // dd($my_test_ids);
 
         $test_details = DB::table('tests')
                     ->select('tests.id as test_id','tests.title as title','tests.course_id as course_id','courses.title as name','courses.id as course_id')
                     ->join('courses', 'courses.id', '=', 'tests.course_id')
                     ->whereIn('tests.id', $my_test_ids)
+                    // ->where('tests.id', $my_test_ids)
                     ->orderBy('tests.id','DESC')
                     ->get();
 
+                    // dd($test_details);
+
 
         $assignments = $this->fetchAssignments();
+        
         // dd($assignments);
 
         $monthly = $this->fetchFutureEvents();
+
+        // dd(count($assignments));
+        $count_assignments = count($assignments);
+        $count_courses = count($enrolled_course);
+        $count_exams = count($test_details);
+        $count_events = count($monthly);
+
 
         return view('students.home_user')->with(compact(
             'test_details',
@@ -181,7 +197,11 @@ class HomeController extends Controller
             'badge_array',
             'prog_parent',
             'assignments',
-            'monthly'
+            'monthly',
+            'count_assignments',
+            'count_courses',
+            'count_exams',
+            'count_events'
         ));
     }
     public function getCalender(){

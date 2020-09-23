@@ -7,7 +7,7 @@
     <!-- small box -->
     <div class="small-box qxp-info text-center">
       <div class="inner">
-        <h3>150</h3>
+        <h3>{{ $count_courses or '0'}}</h3>
       </div>
       <div class="icon">
         {{-- <i class="fa fa-book"></i> --}}
@@ -20,7 +20,7 @@
     <!-- small box -->
     <div class="small-box bg-success text-center">
       <div class="inner">
-        <h3>53</h3>
+        <h3>{{$count_events or '0'}}</h3>
 
       </div>
       <div class="icon">
@@ -34,13 +34,13 @@
     <!-- small box -->
     <div class="small-box qxp-warning text-center">
       <div class="inner">
-        <h3>44</h3>
+        <h3>{{$count_assignments or '0'}}</h3>
 
       </div>
       <div class="icon">
         {{-- <i class="ion ion-person-add"></i> --}}
       </div>
-      <a href="#" class="small-box-footer">Scheduled Exams</a>
+      <a href="#" class="small-box-footer">Assignments</a>
     </div>
   </div>
   <!-- ./col -->
@@ -48,14 +48,14 @@
     <!-- small box -->
     <div class="small-box qxp-danger text-center">
       <div class="inner">
-        <h3>65</h3>
+        <h3>{{$count_exams or '0'}}</h3>
 
         <p></p>
       </div>
       <div class="icon">
         {{-- <i class="ion ion-pie-graph"></i> --}}
       </div>
-      <a href="#" class="small-box-footer">Scheduled Quizes </a>
+      <a href="#" class="small-box-footer">Quizes </a>
     </div>
   </div>
   <!-- ./col -->
@@ -70,24 +70,30 @@
                 <div class="panel-body">
                     <div class="col-sm-12">
                         <table class="table table-bordered">
-                          <tbody>
-                            @foreach($enrolled_course as $key => $course)
+                          @if(count($test_details)<=0)
+                            <p style="text-align: center">You have no Courses</p> 
+                          @else
+                            <tbody>
+                              @foreach($enrolled_course as $key => $course)
 
-                                <tr>
-                                  <td>
-                                    <p>{{ $course->title}}</p>
-                                    <div class="{{ $prog_parent[$key] }}">
-                                      <div class="{{ $progress_array[$key] }}" role="progressbar"
-                                           aria-valuenow="{{ $course_progress[$key]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $course_progress[$key]}}%">
-                                        <span class="sr-only">{{ $course_progress[$key]}}% Complete (success)</span>
+                                  <tr>
+                                    <td>
+                                      <p>{{ $course->title}}</p>
+                                      <div class="{{ $prog_parent[$key] }}">
+                                        <div class="{{ $progress_array[$key] }}" role="progressbar"
+                                             aria-valuenow="{{ $course_progress[$key]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $course_progress[$key]}}%">
+                                          <span class="sr-only">{{ $course_progress[$key]}}% Complete (success)</span>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td><span class="{{ $badge_array[$key] }}">{{ $course_progress[$key]}}%</span></td>
-                                </tr>
+                                    </td>
+                                    <td><span class="{{ $badge_array[$key] }}">{{ $course_progress[$key]}}%</span></td>
+                                  </tr>
 
-                            @endforeach
-                          </tbody>
+                              @endforeach
+                            </tbody>
+
+                          @endif
+                          
                         </table>
                         {{-- paginate the table --}}
 
@@ -103,20 +109,18 @@
                 <div class="panel-body">
                     <div class="col-sm-12">
                         <table class="table">
-                          <thead class="bg-info">
-                            <tr>
-                              <th>#</th>
-                              <th>Meeting Group</th>
-                              <th>Scheduled Date</th>
-                              <th>Meeting Link</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                           
-                            @if(count($monthly)<=0)
+                          @if(count($monthly)<=0)
                               <p style="text-align: center">You have no events</p> 
-                            @else
-
+                          @else
+                            <thead class="bg-info">
+                              <tr>
+                                <th>#</th>
+                                <th>Meeting Group</th>
+                                <th>Scheduled Date</th>
+                                <th>Meeting Link</th>
+                              </tr>
+                            </thead>
+                            <tbody>
                               @foreach($monthly as $key=>$event)
                               
                                 <tr>
@@ -144,22 +148,23 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="panel panel-success"">
+            <div class="panel panel-success">
                 <div class="panel-heading" style="text-decoration: bold;color: #000;">My Quizzes<span style="font-size: .8em;color: grey;"><br>CATs,exams,tests</span></div>
 
                 <div class="panel-body">
                     <table class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Quiz</th>
-                          <th>Score</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @if(count($test_details)<=0)
+                      @if(count($test_details)<=0)
                           <p style="text-align: center">You have no Quizzes</p> 
-                        @else
+                      @else
+                        <thead>
+                          <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Quiz</th>
+                            <th>Score</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        
                           @foreach($test_details as $key=>$test)
                               <tr>
                                 <td>{{++$key}}</td>
@@ -184,17 +189,18 @@
 
                 <div class="panel-body">
                     <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th style="width: 40px">#</th>
-                          <th>Name</th>
-                          <th>Due date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @if(count($assignments)<=0)
-                          <p style="text-align: center">You have no assignments</p> 
-                        @else
+                      @if(count($assignments)<=0)
+                          <p style="text-align: center">You have no Assignments</p> 
+                      @else
+                        <thead>
+                          <tr>
+                            <th style="width: 40px">#</th>
+                            <th>Name</th>
+                            <th>Due date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        
                           @foreach($assignments as $key=>$assignment)
                             <tr>
                               <td>{{++$key}}</td>
