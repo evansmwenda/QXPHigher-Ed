@@ -3,6 +3,7 @@
 // Route::get('/index', 'HomeController@index');
 // Route::get('/', 'Auth\LoginController@showLoginForm');
 Route::get('/', 'HomeController@landing');
+Route::get('/ipn', 'HomeController@getIPN');
 
 //we have been redirected from QXP->initiate receipt
 // Route::group(['middleware' => ['guest']], function () {
@@ -14,6 +15,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     //courses
     Route::get('/courses', 'HomeController@index');
+
+    //award free-trial
+    Route::get('/freetrial','HomeController@awardFreeTrialAll');
+
+    //subscriptions and payments
+    Route::get('/subscribe', 'HomeController@getSubscription');
+    Route::get('/subscribe/{id}', 'HomeController@startSubscription');
+    Route::get('/payments/redirect', 'HomeController@getCallback');
+
+    
 
     //faq
     Route::get('/faq', 'HomeController@getFAQ');
