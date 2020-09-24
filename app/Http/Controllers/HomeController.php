@@ -1074,7 +1074,7 @@ class HomeController extends Controller
 
     public function checkPaymentStatusDashboard(){
         //check on dashboard if user's payment was successful
-        global $user;
+        $user = \Auth::user();
 
         $my_transaction = MyTransactions::where([
             ['user_id','=',$user['id']],

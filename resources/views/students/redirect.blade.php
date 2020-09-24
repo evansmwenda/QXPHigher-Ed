@@ -2,7 +2,7 @@
 
 @section('main')
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
 
           @if(Session::has("flash_message_error")) 
           <div class="alert alert-error alert-block">
@@ -24,7 +24,7 @@
 
                 <div class="panel-body">
 
-                  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                     <b>PAYMENT STATUS</b>
                     <blockquote>
                         <b>Merchant reference: </b> <?php echo $reference; ?><br />
@@ -33,13 +33,13 @@
                     </blockquote>
                   </div>
                   
-                  <div id="rightcol2" class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                  <div id="rightcol2" class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                     <p style="font-size: 16px">Your payment is being processed. We will notify you once it is completed.</p>
                     <hr style="color: #C0C0C0">
                     <div style="float: right;margin-right: 30px;">
                       <button class="btn btn-primary whited"
                       onclick="window.parent.location = window.parent.location.href">Check Status</button>
-                    <a style="margin-left:15px;text-decoration:none;color:#fff;padding:5px 10px;font-size: 1.2em;line-height: 1.;" href="/" class="btn btn-primary whited" role="button" aria-pressed="true">Goto Homepage</a>
+                    <a style="margin-left:15px;text-decoration:none;color:#fff;padding:5px 10px;" href="/" class="btn btn-primary whited" role="button" aria-pressed="true">Goto Homepage</a>
                     </div><br/><br/><br/>
                   </div>
 
