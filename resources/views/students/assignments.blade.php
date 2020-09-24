@@ -2,7 +2,7 @@
 
 @section('main')
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
 
           @if(Session::has("flash_message_error")) 
           <div class="alert alert-error alert-block">
@@ -20,46 +20,44 @@
 
 
             <div class="panel panel-default">
-                <div class="panel-heading">Assignments - {{ $method }}</div>
+                <div class="panel-heading">My Assignments </div>
 
                 <div class="panel-body">
 
-                	<div class="col-sm-10">
+                	<div class="col-sm-12">
                       <div class="panel-group" id="accordion">
 
                         @if(count($assignments) >0)
-                          @foreach($assignments as $assignment)
-                            <div class="panel panel-default">
-                              <div class="panel-heading">
-                                <h4 class="panel-title">
-                                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $assignment->id }}">
-                                  {{ $assignment->course->title}} - {{ $assignment->title}}</a>
-                                </h4>
-                              </div>
-                              <div id="collapse{{ $assignment->id }}" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                  <h4>{{ $assignment->title }}</h4><br>
-                                  {{ $assignment->description }}<br>
-                                <a href="{{url('uploads/assignments/'.$assignment->course->slug.'/'.$assignment->media)}}" download>Download File</a>
-                                <p style="padding-top: 20px;">Once completed, you can submit the assignment from the section below</p>
-                                <form role="form" enctype="multipart/form-data" method="post" action="{{('/assignments')}}"> {{csrf_field() }}
-                                   <div class="form-group">
-                                    <input type="hidden" id="assignment_id" name="assignment_id" value="{{ $assignment->id }}">
-                                    <input type="hidden" id="slug" name="slug" value="{{ $assignment->course->slug }}">
-                                    <label for="exampleInputFile">Choose Assignment</label>
-                                    <div class="input-group">
-                                      <div class="custom-file">
-                                        <input type="file" name="assignment" class="custom-file-input" id="assignment" required>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                              </div>
-                              </div>
-                            </div>
-                          @endforeach
+                         
+                           <table class="table table-bordered table-striped">
+                             <tr>
+                               <thead class="bg-info">
+                                 <td>#</td>
+                                 <td>Course Name</td>
+                                 <td>Assignment Title</td>
+                                 <td>Date Due</td>
+                                 <td>Action</td>
+                               </thead>
+                             </tr>
+                             <tbody>
+                              @foreach($assignments as $assignment)
+                               <tr>
+                                 <td>{{ $assignment->id }}</td>
+                                <td>{{ $assignment->course->title}}</td>
+                                <td>{{ $assignment->title}}</td>
+                                <td>Due Date</td>
+                                <td>
+                                  <a class="btn btn-primary btn-sm" href="{{ $assignment->id }}">
+                                    <i class="fas fa-folder">
+                                    </i>
+                                    View
+                                </a>
+                                </td>
+                               </tr>
+                               @endforeach
+                             </tbody>
+                           </table>
+                         
                         @else
                           <div class="panel-heading">
                             <h4 class="panel-title">

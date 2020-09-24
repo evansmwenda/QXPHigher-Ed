@@ -2,7 +2,7 @@
 
 @section('main')
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           @if(Session::has("flash_message_error")) 
           <div class="alert alert-error alert-block">
               <button type="button" class="close" data-dismiss="alert">x</button>
@@ -17,32 +17,43 @@
               </div> 
           @endif
             <div class="panel panel-default">
-                <div class="panel-heading">Exams</div>
+                <div class="panel-heading">Available Exams</div>
 
                 <div class="panel-body">
 
-                	<div class="col-sm-10">
+                	<div class="col-sm-12">
                     <div class="panel-group" id="accordion">
 
                         @if(count($exams) >0)
-                          @foreach($exams as $exam)
+                         
                             <div class="panel panel-default">
                               <div class="panel-heading">
-                                <h4 class="panel-title">
-                                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $exam->id }}">
-                                  {{ $exam->course->title}} - {{ $exam->title}}</a>
-                                </h4>
-                              </div>
-                              <div id="collapse{{ $exam->id }}" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                  <h4>{{ $exam->title }}</h4><br>
-                                  {{ $exam->description }}<br>
-                                <a href="{{url('/exams/save/'.$exam->id)}}">Attempt Exam</a>
-                                
-                              </div>
+                                <table class="table table-striped">
+                                  <tr>
+                                    <thead class="bg-info">
+                                      <td>#</td>
+                                      <td>Course Name</td>
+                                      <td>Exam Title</td>
+                                      <td>Attempt</td>
+                                    </thead>
+                                    <tbody>
+                                      @foreach($exams as $exam)
+                                      <tr>
+                                        <td>{{ $exam->id }}</td>
+                                        <td>{{ $exam->course->title}}</td>
+                                        <td>{{ $exam->title}}</td>
+                                        <td>
+                                          <a href="{{url('/exams/save/'.$exam->id)}}">Attempt Exam</a>
+                                        </td>
+                                      </tr>
+                                      @endforeach
+                                    </tbody>
+                                  </tr>
+                                </table>
+
                               </div>
                             </div>
-                          @endforeach
+                         
                         @else
                           <div class="panel-heading">
                             <h4 class="panel-title">

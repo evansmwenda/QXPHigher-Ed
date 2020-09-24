@@ -122,8 +122,7 @@
                             </thead>
                             <tbody>
                               @foreach($monthly as $key=>$event)
-                              
-                                <tr>
+                                 <tr>
                                     <td>#</td>
                                       <td>
                                         <p style="margin-bottom: 0px !important">{{$event->title}} </p>
