@@ -66,16 +66,17 @@
             <div class="panel-heading">Registered Courses</div>
             <div class="panel-body">
                <table class="table table-striped">
-                 <tr>
-                   <thead class="bg-info">
-                    <td style="width: 10px">#</td>
-                     <td>Course Name</td>
-                     <td>Student Enrolled</td>
-                     <td>Pricing</td>
-                   </thead>
-                 </tr>
-                 <tbody>
-                   @if($count_courses>0)
+                @if($count_courses>0)
+                   <tr>
+                     <thead class="bg-info">
+                      <td style="width: 10px">#</td>
+                       <td>Course Name</td>
+                       <td>Student Enrolled</td>
+                       <td>Pricing</td>
+                     </thead>
+                   </tr>
+                   <tbody>
+                   
                     @foreach($courses->take(4) as $key=>$course)
                       <tr>
                         <td>{{ ++$key }}</td>
@@ -84,9 +85,9 @@
                          <td>{{ $course->course->price == null ? "Free":$course->course->price}}</td>
                        </tr>
                     @endforeach
-                   @else
-                      <p style="text-align: center">You have no courses</p>
-                   @endif
+                 @else
+                    <p style="text-align: center">You have no courses</p>
+                 @endif
                  </tbody>
                </table>
                <a href="{{url('/admin/courses')}}" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
@@ -98,16 +99,17 @@
         <div class="panel-heading">Scheduled Live Events</div>
         <div class="panel-body">
            <table class="table table-striped">
-             <tr>
-               <thead class="bg-info">
-                <td style="width: 10px">#</td>
-                 <td>Meeting Group</td>
-                 <td>Date</td>
-                 <td>Decription</td>
-               </thead>
-             </tr>
-             <tbody>
-              @if($count_events>0)
+            @if($count_events>0)
+               <tr>
+                 <thead class="bg-info">
+                  <td style="width: 10px">#</td>
+                   <td>Meeting Group</td>
+                   <td>Date</td>
+                   <td>Decription</td>
+                 </thead>
+               </tr>
+               <tbody>
+              
                 @foreach($events->take(2) as $key=>$event)
                   <tr>
                     <td>{{ ++$key }}</td>
@@ -121,9 +123,9 @@
                     </td>                
                    </tr>
                 @endforeach
-              @else
-                <p style="text-align: center">You have no scheduled events</p>
-              @endif
+            @else
+              <p style="text-align: center">You have no scheduled events</p>
+            @endif
 
 
              </tbody>
@@ -140,16 +142,17 @@
           <div class="panel-heading">Exams</div>
           <div class="panel-body">
              <table class="table table-striped">
-               <tr>
-                 <thead class="bg-info">
-                  <td style="width: 10px">#</td>
-                   <td>Course Name</td>
-                   <td>Exam Title</td>
-                   <td>State | Published</td>
-                 </thead>
-               </tr>
-               <tbody>
-                @if($count_exams>0)
+              @if($count_exams>0)
+                 <tr>
+                   <thead class="bg-info">
+                    <td style="width: 10px">#</td>
+                     <td>Course Name</td>
+                     <td>Exam Title</td>
+                     <td>State | Published</td>
+                   </thead>
+                 </tr>
+                 <tbody>
+                
                   @foreach($exams->take(4) as $key=>$exam)
                     <tr>
                       <td>{{ ++$key }}</td>
@@ -174,17 +177,18 @@
       <div class="panel-heading">Assignments</div>
       <div class="panel-body">
          <table class="table table-striped">
-           <tr>
-             <thead class="bg-info">
-              <td style="width: 10px">#</td>
-               <td>Assignment Name</td>
-               <td>Course</td>
-               <td>Submitted Learners</td>
+          @if($count_assignments>0)
+               <tr>
+                 <thead class="bg-info">
+                  <td style="width: 10px">#</td>
+                   <td>Assignment Name</td>
+                   <td>Course</td>
+                   <td>Submitted Learners</td>
+                  
+                 </thead>
+               </tr>
+               <tbody>
               
-             </thead>
-           </tr>
-           <tbody>
-              @if($count_assignments>0)
                 @foreach($assignments->take(4) as $key=>$assignment)
                   <tr>
                     <td>{{++$key}}</td>
@@ -193,9 +197,9 @@
                     <td>{{ count($submitted_assignments_array[$assignment->id]) }}</td>      
                    </tr>
                 @endforeach
-              @else
-                <p style="text-align: center">You have no assignments</p>
-              @endif
+          @else
+            <p style="text-align: center">You have no assignments</p>
+          @endif
              
 
            </tbody>
