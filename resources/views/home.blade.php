@@ -159,13 +159,13 @@
                      </tr>
                   @endforeach
                 @else
-                  <p style="text-align: center">You have no scheduled events</p>
+                  <p style="text-align: center">You have no exams</p>
                 @endif
                  
 
                </tbody>
              </table>
-             <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
+             <a href="{{ url('/admin/exams')}}" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
           </div>
       </div>
   </div>
@@ -184,22 +184,23 @@
              </thead>
            </tr>
            <tbody>
-              @if($count_courses>0)
-                @foreach($courses as $key=>$course)
+              @if($count_assignments>0)
+                @foreach($assignments->take(4) as $key=>$assignment)
+                  <tr>
+                    <td>{{++$key}}</td>
+                    <td>{{ $assignment->title }}</td>
+                    <td>{{ $assignment->course->title }}</td>
+                    <td>{{ count($submitted_assignments_array[$assignment->id]) }}</td>      
+                   </tr>
                 @endforeach
               @else
-                <p style="text-align: center">You have no scheduled events</p>
+                <p style="text-align: center">You have no assignments</p>
               @endif
-             <tr>
-              <td>1</td>
-              <td>Microsoft Dynamics Business central 365</td>
-              <td>Microsoft Package</td>
-              <td>1</td>      
-             </tr>
+             
 
            </tbody>
          </table>
-         <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
+         <a href="{{ url('/admin/assignments') }}" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
       </div>
   </div>
 </div>

@@ -57,10 +57,24 @@ class DashboardController extends Controller
         $count_events = count($events);
       
         //fetch my assignments
-        $assignments = Assignments::with('course')
+        $assignments = Assignments::with('submitted_assignments')
         ->whereIn('course_id',$course_ids)
         ->orderBy('id','DESC')
         ->get();
+
+        $submitted_assignments_array =[];
+        $assignment_ids="";
+        foreach ($assignments as $key => $value) {
+            $assignment_ids .= $value->id .",";
+
+            $submitted_assignments = SubmittedAssignments::with(['user'])
+            ->where(['assignment_id'=>$value->id])->get();
+
+            $submitted_assignments_array += [
+                $value->id => $submitted_assignments,
+            ];
+        }
+        // dd($submitted_assignments_array[1]);
         $count_assignments = count($assignments);
 
         //fetch my exams
@@ -80,6 +94,7 @@ class DashboardController extends Controller
             'count_events',
             'assignments',
             'count_assignments',
+            'submitted_assignments_array',
             'exams',
             'count_exams'
         ));
