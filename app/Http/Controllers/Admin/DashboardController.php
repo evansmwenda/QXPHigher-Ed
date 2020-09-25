@@ -45,7 +45,6 @@ class DashboardController extends Controller
         //fetch my courses
         $courses = CourseUser::with('course')
         ->where('user_id',\Auth::id())
-        ->limit(4)
         ->orderBy('course_id','DESC')
         ->get();
 
@@ -54,17 +53,12 @@ class DashboardController extends Controller
         // dd($courses);
 
         //fetch my events
-        $events = Events::with('course')
-        ->whereIn('course_id',$course_ids)
-        ->limit(4)
-        ->orderBy('id','DESC')
-        ->get();
+        $events = $this->fetchFutureEvents($course_ids);
         $count_events = count($events);
       
         //fetch my assignments
         $assignments = Assignments::with('course')
         ->whereIn('course_id',$course_ids)
-        ->limit(4)
         ->orderBy('id','DESC')
         ->get();
         $count_assignments = count($assignments);
@@ -72,7 +66,6 @@ class DashboardController extends Controller
         //fetch my exams
         $exams = Test::with('course')
         ->whereIn('course_id',$course_ids)
-        ->limit(4)
         ->orderBy('id','DESC')
         ->get();
         $count_exams = count($exams);
@@ -758,5 +751,19 @@ class DashboardController extends Controller
     }
     public function joinClassByID(Request $request){
         return $this->joinLiveClass($request->meetingID);
+    }
+    public function fetchFutureEvents($course_ids){
+        $month = date('m');
+
+        $events = Events::with('course')
+        ->whereIn('course_id',$course_ids)
+        ->where(function($q) {
+            $q->where('event_end_time', '>=', date("Y-m-d"))
+              ->orWhereNull('event_end_time');
+        })
+        ->orderBy('event_start_time','DESC')
+        ->get();
+
+        return $events;            
     }
 }

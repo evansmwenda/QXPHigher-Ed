@@ -76,7 +76,7 @@
                  </tr>
                  <tbody>
                    @if($count_courses>0)
-                    @foreach($courses as $key=>$course)
+                    @foreach($courses->take(4) as $key=>$course)
                       <tr>
                         <td>{{ ++$key }}</td>
                          <td>{{ $course->course->title }}</td>
@@ -87,12 +87,6 @@
                    @else
                       <p style="text-align: center">You have no courses</p>
                    @endif
-                   <tr>
-                    <td>2</td>
-                    <td>Microsoft Package</td>
-                    <td>5</td>
-                    <td>$12</td>
-                  </tr>
                  </tbody>
                </table>
                <a href="{{url('/admin/courses')}}" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
@@ -110,26 +104,31 @@
                  <td>Meeting Group</td>
                  <td>Date</td>
                  <td>Decription</td>
-                 <td>Action</td>
                </thead>
              </tr>
              <tbody>
-               <tr>
-                <td>1</td>
-                <td>
-                  <p style="margin-bottom: 0px !important">Title</p>
-                  <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Subject</span>
-                </td>
-                <td>22/01/2020 12:00</td>
-                <td>
-                  Lorem Ipsum isLorem since the 1500s, when an unknown prias
-                </td>
-                <td><a href="">View</a></td>                     
-               </tr>
+              @if($count_events>0)
+                @foreach($events->take(2) as $key=>$event)
+                  <tr>
+                    <td>{{ ++$key }}</td>
+                    <td>
+                      <p style="margin-bottom: 0px !important">{{ $event->title}}</p>
+                      <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{ $event->course_title }}</span>
+                    </td>
+                    <td>{{ $event->event_start_time }}</td>
+                    <td>
+                      Lorem Ipsum isLorem since the 1500s, when an unknown prias
+                    </td>                
+                   </tr>
+                @endforeach
+              @else
+                <p style="text-align: center">You have no scheduled events</p>
+              @endif
+
 
              </tbody>
            </table>
-           <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
+           <a href="{{ url('/admin/events') }}" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
   </div>
@@ -144,18 +143,25 @@
                <tr>
                  <thead class="bg-info">
                   <td style="width: 10px">#</td>
-                   <td>Coarse Name</td>
+                   <td>Course Name</td>
                    <td>Exam Title</td>
                    <td>State | Published</td>
                  </thead>
                </tr>
                <tbody>
-                 <tr>
-                  <td>1</td>
-                   <td>Biology 101</td>
-                   <td>Biology</td>
-                   <td>Not Published</td>
-                 </tr>
+                @if($count_exams>0)
+                  @foreach($exams->take(4) as $key=>$exam)
+                    <tr>
+                      <td>{{ ++$key }}</td>
+                       <td>{{ $exam->course->title }}</td>
+                       <td>{{ $exam->title }}</td>
+                       <td>{{ $exam->published == "1" ? "Published":"Not Published"}}</td>
+                     </tr>
+                  @endforeach
+                @else
+                  <p style="text-align: center">You have no scheduled events</p>
+                @endif
+                 
 
                </tbody>
              </table>
@@ -178,6 +184,12 @@
              </thead>
            </tr>
            <tbody>
+              @if($count_courses>0)
+                @foreach($courses as $key=>$course)
+                @endforeach
+              @else
+                <p style="text-align: center">You have no scheduled events</p>
+              @endif
              <tr>
               <td>1</td>
               <td>Microsoft Dynamics Business central 365</td>
