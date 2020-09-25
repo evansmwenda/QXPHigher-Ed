@@ -42,7 +42,54 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //fetch my courses
+        $courses = CourseUser::with('course')
+        ->where('user_id',\Auth::id())
+        ->limit(4)
+        ->orderBy('course_id','DESC')
+        ->get();
+
+        $course_ids = CourseUser::where('user_id',\Auth::id())->pluck('course_id');
+        $count_courses = count($courses);
+        // dd($courses);
+
+        //fetch my events
+        $events = Events::with('course')
+        ->whereIn('course_id',$course_ids)
+        ->limit(4)
+        ->orderBy('id','DESC')
+        ->get();
+        $count_events = count($events);
+      
+        //fetch my assignments
+        $assignments = Assignments::with('course')
+        ->whereIn('course_id',$course_ids)
+        ->limit(4)
+        ->orderBy('id','DESC')
+        ->get();
+        $count_assignments = count($assignments);
+
+        //fetch my exams
+        $exams = Test::with('course')
+        ->whereIn('course_id',$course_ids)
+        ->limit(4)
+        ->orderBy('id','DESC')
+        ->get();
+        $count_exams = count($exams);
+        // dd($exams);
+
+        //fetch things needing grading
+        //fetch resources for download
+        return view('home')->with(compact(
+            'courses',
+            'count_courses',
+            'events',
+            'count_events',
+            'assignments',
+            'count_assignments',
+            'exams',
+            'count_exams'
+        ));
     }
 
     public function getAssignments(){

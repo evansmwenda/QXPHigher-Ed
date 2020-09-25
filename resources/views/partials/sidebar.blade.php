@@ -1,4 +1,4 @@
-@inject('request', 'Illuminate\Http\Request')
+ @inject('request', 'Illuminate\Http\Request')
 <!-- Left side column. contains the sidebar -->
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
