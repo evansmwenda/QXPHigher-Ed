@@ -10,6 +10,7 @@ use App\CourseUser;
 use App\Course;
 use App\Assignments;
 use App\Test;
+use App\Lesson;
 use App\Question;
 use App\QuestionsOption;
 use App\SubmittedAssignments;
@@ -77,6 +78,9 @@ class DashboardController extends Controller
         // dd($submitted_assignments_array[1]);
         $count_assignments = count($assignments);
 
+        //get number of resources
+        $resources = $this->getResourcesList($course_ids);
+
         //fetch my exams
         $exams = Test::with('course')
         ->whereIn('course_id',$course_ids)
@@ -96,7 +100,8 @@ class DashboardController extends Controller
             'count_assignments',
             'submitted_assignments_array',
             'exams',
-            'count_exams'
+            'count_exams',
+            'resources'
         ));
     }
 
@@ -780,5 +785,17 @@ class DashboardController extends Controller
         ->get();
 
         return $events;            
+    }
+    public function getResourcesList($course_ids){
+        //find lesson_ids belonging to those course_ids
+        $lesson = Lesson::whereIn('course_id',$course_ids)->pluck('id')->toArray();
+        if(!is_null($lesson)){
+            //fetch
+            $media = DB::table('media')->whereIn('model_id', $lesson)->get();
+            // dd($media);
+            return $media;
+        }else{
+            return "";
+        }
     }
 }

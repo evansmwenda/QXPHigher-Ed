@@ -251,21 +251,31 @@
           <div class="panel-body">
              <table class="table table-striped">
                <tr>
-                 <thead class="bg-info">
-                  <td style="width: 10px">#</td>
-                   <td>Resource</td>
-                   <td>Course</td>
-                   <td>No. Views</td>
-                   
-                 </thead>
-               </tr>
-               <tbody>
-                 <tr>
-                  <td>1</td>
-                   <td>Resource Name</td>
-                   <td>Microsoft Dynamics</td>
-                   <td>25/30</td>
-                 </tr>
+                 @if(count($resources)>0)
+                   <thead class="bg-info">
+                    <td style="width: 10px">#</td>
+                     <td>Resource</td>
+                     <td>Course</td>
+                     <td>No. Views</td>
+                     
+                   </thead>
+                    </tr>
+                    <tbody>
+                   @foreach($resources->take(4) as $key=>$resource)
+                    <tr>
+                      <td>{{ ++$key }}</td>
+                       <td>{{ $resource->name }}</td>
+                       <td>{{ $resource->course->title }}</td>
+                       <td>25/30</td>
+                    </tr>
+                   @endforeach
+
+                 @else
+                    <p style="text-align: center">You have no downloadable resources</p>
+                 @endif
+                 
+               
+                
 
                </tbody>
              </table>
