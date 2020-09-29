@@ -265,7 +265,7 @@
                     <tr>
                       <td>{{ ++$key }}</td>
                        <td>{{ $resource->name }}</td>
-                       <td>{{ $resource->course->title }}</td>
+                       <td>{{ $resource->course_title }}</td>
                        <td>25/30</td>
                     </tr>
                    @endforeach

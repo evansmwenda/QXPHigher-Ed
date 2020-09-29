@@ -21,6 +21,7 @@ use App\QuestionTest;
 use App\TestsResult;
 use App\LiveClasses;
 use App\LiveClassRecordings;
+use App\Media;
 use DB;
 use GuzzleHttp\Client;
 
@@ -791,7 +792,18 @@ class DashboardController extends Controller
         $lesson = Lesson::whereIn('course_id',$course_ids)->pluck('id')->toArray();
         if(!is_null($lesson)){
             //fetch
-            $media = DB::table('media')->whereIn('model_id', $lesson)->get();
+            // $media = Media::with('courses')->whereIn('model_id', $lesson)->get();
+            // $media = DB::table('media')->whereIn('model_id', $lesson)->get();
+            // ['id','model_id','model_type','collection_name','name','file_name','disk','size','manipulations','custom_properties','order_column','updated_at','created_at']; 
+
+
+            $media = DB::table('media')
+                    ->select('media.id as id','media.name as name','media.file_name as file_name','media.size as size','lessons.course_id as course_id','lessons.title as lesson_title','courses.title as course_title')
+                    ->join('lessons', 'lessons.id', '=', 'media.model_id')
+                    ->join('courses', 'courses.id', '=', 'lessons.course_id')
+                    ->whereIn('model_id',$lesson)
+                    ->orderBy('id','DESC')
+                    ->get();
             // dd($media);
             return $media;
         }else{

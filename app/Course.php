@@ -107,8 +107,6 @@ class Course extends Model
     public function events(){
         return $this->hasMany('App\Events');
     }
-    public function media(){
-        return $this->hasMany('App\Media');
-    }
+
 
 }

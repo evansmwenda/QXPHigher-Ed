@@ -59,5 +59,5 @@ class Lesson extends Model implements HasMedia
     {
         return $this->belongsToMany('App\User', 'lesson_student')->withTimestamps();
     }
-    
+   
 }
