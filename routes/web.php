@@ -4,6 +4,8 @@
 // Route::get('/', 'Auth\LoginController@showLoginForm');
 Route::get('/', 'HomeController@landing');
 Route::get('/ipn', 'HomeController@getIPN');
+// QXP redirects
+Route::get('/landing','HomeController@qxplanding');
 
 //we have been redirected from QXP->initiate receipt
 // Route::group(['middleware' => ['guest']], function () {

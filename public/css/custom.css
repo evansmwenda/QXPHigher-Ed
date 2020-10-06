@@ -1,5 +1,5 @@
 .qxp-success{
-    background: #28a745!;
+    background: #28a745;
     color: #fff;
 }
 .qxp-info{
@@ -14,3 +14,8 @@
     background: #dc3545;
     color: #fff;
 }
+.qxp_active{
+    background: #17a2b8;
+
+}
+

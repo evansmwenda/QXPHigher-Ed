@@ -45,6 +45,10 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function qxplanding(){
+        return view('landing');
+    }
+
     public function getFAQ(){
         //display the faqs
         return view('students.faq');
