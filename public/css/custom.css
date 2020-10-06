@@ -1,0 +1,21 @@
+.qxp-success{
+    background: #28a745;
+    color: #fff;
+}
+.qxp-info{
+    background: #17a2b8;
+    color: #fff;
+}
+.qxp-warning{
+    background: #ffc107;
+    color: #fff;
+}
+.qxp-danger{
+    background: #dc3545;
+    color: #fff;
+}
+.qxp_active{
+    background: #17a2b8;
+
+}
+

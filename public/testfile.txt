@@ -1,0 +1,33 @@
+
+description->This is the end of semester exam and it accounts for 70% of your final score
+course_id->6
+exam_title->End of Semester Exam
+newest test id->64
+
+which of the following is not a mammal?
+newest question id->84
+Spiny ant eater
+Duck billed dolphus
+
+Who was the second president of Kenya
+newest question id->85
+Danie Moi
+Uhuru Kenyatta
+
+Are you yourself lately?
+newest question id->86
+!false
+!true
+
+Tell us about yourself
+newest question id->87
+questions array->84,85,86,87,
+questions array itself->84,85,86,87,
+
+question->84 test_id->64
+
+question->85 test_id->64
+
+question->86 test_id->64
+
+question->87 test_id->64
