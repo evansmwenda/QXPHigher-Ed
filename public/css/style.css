@@ -1430,7 +1430,6 @@ li.dropdown:hover .tw-mega-menu {
   font-weight: 800;
   margin-bottom: 36px;
 }
-
 .tw-slider-title span {
   color: #fa6742;
 }
@@ -3028,7 +3027,7 @@ input.round-btn {
 }
 
 .footer-widget ul {
-  width: 50%;
+
   float: left;
   list-style: none;
   margin: 0;
