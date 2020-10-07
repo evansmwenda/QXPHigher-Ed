@@ -2,7 +2,7 @@
 
 @section('main')
  <div class="qxp-higered text-center">
-    <img src="{{asset('images/logo/bgAsset6.svg')}}" style="margin-top: 100px 0px" width="300" height="200">
+    <img class="qxp-logo" src="{{asset('images/logo/bgAsset6.svg')}}" style="margin-top: 100px 0px" width="300" height="200">
  </div>
 
  <div class="container">
@@ -103,100 +103,103 @@
     <!-- Container End -->
  </section>
 <!--  {{-- courasel --}} -->
- <div class="tw-hero-slider owl-carousel">
+<div id="my-carousel">
+  <div class="tw-hero-slider owl-carousel">
 
-    <div class="slider-1 slider-map-pattern">
-       <!-- Slider arrow end -->
-       <div class="slider-wrapper d-table">
-          <div class="slider-inner d-table-cell">
-             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-sm-12">
-                       <div class="slider-content">
-                         <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-2.jpg')}}">
-                       </div>
+  <div class="slider-1 slider-map-pattern">
+     <!-- Slider arrow end -->
+     <div class="slider-wrapper d-table">
+        <div class="slider-inner d-table-cell">
+           <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 col-sm-12">
+                     <div class="slider-content">
+                       <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-2.jpg')}}">
+                     </div>
+                  </div>
+                  <!-- Col end -->
+                  <!-- col end -->
+               </div>
+           </div>
+           <!-- Container End -->
+        </div>
+        <!-- Slider Inner End -->
+     </div>
+     <!-- Slider Wrapper End -->
+  </div>
+  <!-- Slider 1 end -->
+
+
+ <div class="slider-2">
+     <div class="slider-wrapper d-table">
+        <div class="slider-inner d-table-cell">
+           <div class="container">
+              <div class="row">
+                 <div class="col-lg-12 col-sm-12">
+                    <div class="slider-content">
+                      <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-3.jpg')}}">
                     </div>
-                    <!-- Col end -->
-                    <!-- col end -->
                  </div>
-             </div>
-             <!-- Container End -->
-          </div>
-          <!-- Slider Inner End -->
-       </div>
-       <!-- Slider Wrapper End -->
-    </div>
-    <!-- Slider 1 end -->
- 
- 
-   <div class="slider-2">
-       <div class="slider-wrapper d-table">
-          <div class="slider-inner d-table-cell">
-             <div class="container">
-                <div class="row">
+                 <!-- Col end -->
+                 <!-- col end -->
+              </div>
+              <!-- Row End -->
+           </div>
+           <!-- Container End -->
+        </div>
+        <!-- Slider Inner End -->
+     </div>
+     <!-- Slider Wrapper End -->
+  </div>
+  <!-- Slider 2 end -->
+
+
+  <div class="slider-3">
+     <div class="slider-wrapper d-table">
+        <div class="slider-inner d-table-cell">
+           <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 col-sm-12">
+                     <div class="slider-content">
+                       <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-4.jpg')}}">
+                     </div>
+                  </div>
+                  <!-- Col end -->
+                  <!-- col end -->
+               </div>
+           </div>
+           <!-- COntainer End -->
+        </div>
+        <!-- Slider Inner End -->
+     </div>
+     <!-- Slider Wrapper End -->
+  </div> 
+
+  <!-- Slider 3 end -->
+  {{-- end slider 4 --}}
+  <div class="slider-4">
+      <div class="slider-wrapper d-table">
+         <div class="slider-inner d-table-cell">
+            <div class="container">
+               <div class="row">
                    <div class="col-lg-12 col-sm-12">
                       <div class="slider-content">
-                        <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-3.jpg')}}">
+                        <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-6.jpg')}}">
                       </div>
                    </div>
                    <!-- Col end -->
                    <!-- col end -->
                 </div>
-                <!-- Row End -->
-             </div>
-             <!-- Container End -->
-          </div>
-          <!-- Slider Inner End -->
-       </div>
-       <!-- Slider Wrapper End -->
-    </div>
-    <!-- Slider 2 end -->
- 
- 
-    <div class="slider-3">
-       <div class="slider-wrapper d-table">
-          <div class="slider-inner d-table-cell">
-             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-sm-12">
-                       <div class="slider-content">
-                         <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-4.jpg')}}">
-                       </div>
-                    </div>
-                    <!-- Col end -->
-                    <!-- col end -->
-                 </div>
-             </div>
-             <!-- COntainer End -->
-          </div>
-          <!-- Slider Inner End -->
-       </div>
-       <!-- Slider Wrapper End -->
-    </div> 
+            </div>
+            <!-- COntainer End -->
+         </div>
+         <!-- Slider Inner End -->
+      </div>
+      <!-- Slider Wrapper End -->
+   </div> 
+</div>
+</div>
 
-    <!-- Slider 3 end -->
-    {{-- end slider 4 --}}
-    <div class="slider-4">
-        <div class="slider-wrapper d-table">
-           <div class="slider-inner d-table-cell">
-              <div class="container">
-                 <div class="row">
-                     <div class="col-lg-12 col-sm-12">
-                        <div class="slider-content">
-                          <img src="{{asset('images/sliders/200515-QXP-Customer-Experience_XUI-6.jpg')}}">
-                        </div>
-                     </div>
-                     <!-- Col end -->
-                     <!-- col end -->
-                  </div>
-              </div>
-              <!-- COntainer End -->
-           </div>
-           <!-- Slider Inner End -->
-        </div>
-        <!-- Slider Wrapper End -->
-     </div> 
- </div>
 
  <div class="qxp-subfooter">
      <div class="container">
