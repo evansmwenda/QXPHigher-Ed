@@ -6433,5 +6433,30 @@ ul.comments-reply .comment-body {
     .features-section {
         text-align: center;
     }
+    .qxp-logo{
+      height:150px;
+      width: 150px;
+    }
+    #my-carousel{
+      display: none;
+    }
+    .footer-top p{
+      font-size: 1em;
+    }
+    .footer-top h3{
+      font-size: 2em;
+    }
+    /*.tw-footer{
+      padding: 20px 0;
+    }*/
+    .my-footer{
+      margin: 15px 15px;
+    }
+    .footer-top{
+      margin-bottom: 10px;
+    }
+    .copyright{
+      margin-top: 10px;
+    }
 }
 
