@@ -1,225 +1,184 @@
 @extends('layouts.home')
 
 @section('main')
-{{-- At glance boxes --}}
+
 <div class="row">
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box qxp-info text-center">
-      <div class="inner">
-        <h3>{{ $count_courses or '0'}}</h3>
-      </div>
-      <div class="icon">
-        {{-- <i class="fa fa-book"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Enrolled Courses</a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box bg-success text-center">
-      <div class="inner">
-        <h3>{{$count_events or '0'}}</h3>
+	<div class="col-lg-8 col-sm-8">
+		<div class="qxp-back">
+			<div class="custom-search">
+				<p>You have 3 days left for subscriprion</p>
+			</div>
+			<button class="custom-search-button">Upgrade</button>
+		    <div class="row light-bg">
+				  <p>Show All</p>
+				 <button>All</button>
+				<button>Confirmed</button>
+			</div>
+			<h3>Units In progress today</h3>
+		</div>
 
-      </div>
-      <div class="icon">
-        {{-- <i class="fa fa-calendar"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Scheduled Events</a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box qxp-warning text-center">
-      <div class="inner">
-        <h3>{{$count_assignments or '0'}}</h3>
+		<div class="live-units">
+			<div class="row">
+				<div class="live-span">
+					<h3>Critical & Creative Thinking</h3>
+				</div>
+				<div class="live-span">
+					<i class="fa fa-user"> Michael Joseph</i>
+					<p class="text-muted"> Lecturer Name</p>
+				</div>
+				<div class="live-span">
+					<h3>Critical & Creative Thinking</h3>
+				</div>
+			</div>
+			<div class="row text-center">View All</div>
+		</div>
 
-      </div>
-      <div class="icon">
-        {{-- <i class="ion ion-person-add"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Assignments</a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box qxp-danger text-center">
-      <div class="inner">
-        <h3>{{$count_exams or '0'}}</h3>
+		<div class="upcoming">
+			<h3>Upcoming Units</h3>
+		</div>
+		
+		<div class="row">
+			<div class="upcoming-units">
+				<div class="row">
+					<div class="live-span">
+						<h3>Critical & Creative Thinking</h3>
+					</div>
+					<div class="live-span">
+						<i class="fa fa-user"> Michael Joseph</i>
+						<p class="text-muted"> Lecturer Name</p>
+					</div>
+					<div class="live-span">
+						<div class="progress">
+							<div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
 
-        <p></p>
-      </div>
-      <div class="icon">
-        {{-- <i class="ion ion-pie-graph"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Quizzes </a>
-    </div>
-  </div>
-  <!-- ./col -->
+				</div>
+			</div>
+			<div class="upcoming-units">
+				<div class="row">
+					<div class="live-span">
+						<h3>Critical & Creative Thinking</h3>
+					</div>
+					<div class="live-span">
+						<i class="fa fa-user"> Michael Joseph</i>
+						<p class="text-muted"> Lecturer Name</p>
+					</div>
+					<div class="live-span">
+						<div class="progress">
+							<div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
+	</div>
+	{{-- end of main dashboard view --}}
+	<div class="col-md-4 dashboard-right">
+		<div class="row" style="background: #fff">
+			<h3>Units</h3>
+			<hr style="border: 1px solid rgb(226, 222, 222)">
+			<div class="row">
+				<div class="col-sm-4 qxp-center">
+					<button style="background: green">21</button>
+					<p style="color: green">Confirmed</p>
+				</div>
+				<div class="col-sm-4 qxp-center">
+					<div class="col-sm-4 qxp-center">
+						<button style="background: #FD6C03">21</button>
+						<p style="color: #FD6C03">Pending</p>
+					</div>
+				</div>
+				<div class="col-sm-4 qxp-center">
+					<div class="col-sm-4 qxp-center">
+						<button style="background: #C92519">21</button>
+						<p  style="color: #C92519">Cancelled</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{-- end of row --}}
+		<div class="row section-2">
+			<div class="row">
+				<div class="col-sm-10">
+					<h3>Recent Activity</h3>
+				</div>
+				<div class="col-sm-2">
+					<i class="fa fa-cog"></i>
+				</div>
+				<table class="table table-borderless table-striped">
+					<thead>
+						<tr>
+							<td>All</td>
+							<td>Projects</td>
+							<td>Assignments</td>
+							<td>Meetings</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><i class="fa fa-user"></i></td>
+							<td>Michael Joshua</td>
+							<td></td>
+							<td>ARG</td>
+						</tr>
+						<tr>
+							<td><i class="fa fa-user"></i></td>
+							<td>Michael Joshua</i></td>
+							<td></td>
+							<td>ARG</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr style="border: 1px solid rgb(226, 222, 222)">
+				<div class="text-center">
+					View All
+				</div>
+			</div>
+		</div>
+		<div class="row section-2">
+			<div class="row">
+				<div class="col-sm-10">
+					<h3>Recent Activity</h3>
+				</div>
+				<div class="col-sm-2">
+					<i class="fa fa-cog"></i>
+				</div>
+				<table class="table table-borderless table-striped">
+					<thead>
+						<tr>
+							<td>All</td>
+							<td>Projects</td>
+							<td>Assignments</td>
+							<td>Meetings</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><i class="fa fa-user"></i></td>
+							<td>Michael Joshua</td>
+							<td></td>
+							<td>ARG</td>
+						</tr>
+						<tr>
+							<td><i class="fa fa-user"></i></td>
+							<td>Michael Joshua</i></td>
+							<td></td>
+							<td>ARG</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr style="border: 1px solid rgb(226, 222, 222)">
+				<div class="text-center">
+					View All
+				</div>
+			</div>
+		</div>
+	</div>
+	{{-- end of Dashboard right-side view --}}
+	
 </div>
-<!-- /.row -->
-    {{-- end of glance boxes --}}
-    
-    <div class="row">
-        <div class="col-md-7">
-            <div class="panel panel-info">
-                <div class="panel-heading" style="text-decoration: bold;color: #000080;">Course Progress<span style="font-size: .8em;color: grey;"><br>Your recent courses</span></div>
-                <div class="panel-body">
-                    <div class="col-sm-12">
-                        <table class="table table-bordered">
-                          @if(count($test_details)<=0)
-                            <p style="text-align: center">You have no Courses</p> 
-                          @else
-                            <tbody>
-                              @foreach($enrolled_course as $key => $course)
 
-                                  <tr>
-                                    <td>
-                                      <p>{{ $course->title}}</p>
-                                      <div class="{{ $prog_parent[$key] }}">
-                                        <div class="{{ $progress_array[$key] }}" role="progressbar"
-                                             aria-valuenow="{{ $course_progress[$key]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $course_progress[$key]}}%">
-                                          <span class="sr-only">{{ $course_progress[$key]}}% Complete (success)</span>
-                                        </div>
-                                      </div>
-                                    </td>
-                                    <td><span class="{{ $badge_array[$key] }}">{{ $course_progress[$key]}}%</span></td>
-                                  </tr>
-
-                              @endforeach
-                            </tbody>
-
-                          @endif
-                          
-                        </table>
-                        {{-- paginate the table --}}
-
-                        <div style="text-align: center">
-                            <a href="/courses">View All Courses</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-info">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">My Events<span style="font-size: .8em;color: grey;"><br>Live classes,other events</span></div>
-
-                <div class="panel-body">
-                    <div class="col-sm-12">
-                        <table class="table">
-                          @if(count($monthly)<=0)
-                              <p style="text-align: center">You have no events</p> 
-                          @else
-                            <thead class="bg-info">
-                              <tr>
-                                <th>#</th>
-                                <th>Meeting Group</th>
-                                <th>Scheduled Date</th>
-                                <th>Meeting Link</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              @foreach($monthly as $key=>$event)
-                                 <tr>
-                                    <td>#</td>
-                                      <td>
-                                        <p style="margin-bottom: 0px !important">{{$event->title}} </p>
-                                        <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$event->course_title}}</span>
-                                      </td>
-
-                                      <td>{{ $event->event_start_time }}</td>
-                                   
-                                     <td><a href="https:/qxpacademy.com/user/live/Mhdfj4">https:/qxpacademy.com/user/live/Mhdfj4</a></td>
-                                        
-                                    </td>
-                                </tr>
-                              @endforeach
-                            @endif
-                          </tbody>
-                        </table>
-                        <div style="text-align: center">
-                            <a href="/calender">View All Events</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="panel panel-success">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">My Quizzes<span style="font-size: .8em;color: grey;"><br>CATs,exams,tests</span></div>
-
-                <div class="panel-body">
-                    <table class="table table-striped table-bordered">
-                      @if(count($test_details)<=0)
-                          <p style="text-align: center">You have no Quizzes</p> 
-                      @else
-                        <thead>
-                          <tr>
-                            <th style="width: 10px">#</th>
-                            <th>Quiz</th>
-                            <th>Score</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        
-                          @foreach($test_details as $key=>$test)
-                              <tr>
-                                <td>{{++$key}}</td>
-                                  <td>
-                                      <p style="margin-bottom: 0px !important">{{ $test->title }}</p>
-                                      <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{ $test->name }}</span>
-                                  </td>
-                                  <td><span class="badge progress-bar-info" style="float: right;padding-left:10px;padding-right:10px;padding-top:4px;padding-bottom:4px;">{{ $result_array[$test->test_id]}}</span></td>
-                              </tr>
-                          @endforeach
-                        @endif
-                      </tbody>
-                    </table>
-                    {{-- Paginate the table --}}
-                      <div style="text-align: center">
-                            <a href="/exams">View All Quizzes</a>
-                      </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" style="text-decoration: bold;color: #000;">My Assignments</div>
-
-                <div class="panel-body">
-                    <table class="table table-striped">
-                      @if(count($assignments)<=0)
-                          <p style="text-align: center">You have no Assignments</p> 
-                      @else
-                        <thead>
-                          <tr>
-                            <th style="width: 40px">#</th>
-                            <th>Name</th>
-                            <th>Due date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        
-                          @foreach($assignments as $key=>$assignment)
-                            <tr>
-                              <td>{{++$key}}</td>
-                              <td>
-                                <p style="margin-bottom: 0px !important">{{$assignment['title']}}</p>
-                                <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$assignment->course->title}}</span>
-                              </td>
-                              <td>
-                                <p>12-08-2019</p> 
-                              </td>
-                            </tr>
-                          @endforeach
-                        @endif  
-                      </tbody>
-                    </table>
-                    <div style="text-align: center">
-                            <a href="/assignments">View All Assignments</a>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

@@ -2,10 +2,10 @@
 
 // Route::get('/index', 'HomeController@index');
 // Route::get('/', 'Auth\LoginController@showLoginForm');
-Route::get('/', 'HomeController@landing');
+Route::get('/landing', 'HomeController@landing');
 Route::get('/ipn', 'HomeController@getIPN');
 // QXP redirects
-Route::get('/landing','HomeController@qxplanding');
+Route::get('/','HomeController@qxplanding');
 
 //we have been redirected from QXP->initiate receipt
 // Route::group(['middleware' => ['guest']], function () {

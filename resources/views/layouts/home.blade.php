@@ -24,7 +24,7 @@
 
             <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
                 <a href="{{ url('/') }}">
-                    <i class="fa fa-wrench"></i>
+                    <i class="fa fa-home fa-1x"></i>
                     <span class="title">@lang('global.app_dashboard')</span>
                 </a>
             </li>
