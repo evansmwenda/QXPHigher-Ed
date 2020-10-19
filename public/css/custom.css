@@ -24,28 +24,54 @@
 .qxp-top-header span{
     color: #FD6C03;
 }
+.top-header{
+    background: #060646;
+    margin-top: -20px;
+    padding-top: 15px;
+    height: 60px;
+}
+.top-header-2{
+    background: #D6DBDF;
+    margin-top: -20px;
+    padding-top: 20px;
+    height: 70px;
+}
+.top-header-2 span{
+    color: #060646;
+}
+.top-header input{
+    background: #D6DBDF;
+    border-radius: 10px;
+}
+
+.top-header span{
+    color: #FD6C03;
+}
+
 .qxp-back{
     background: #060646;
-    height:200px;
-    margin-top: -20px;
-    padding: 10px;
+    height:220px;
+    margin-top: -10px;
+    padding-top: 30px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
 }
 .qxp-back h3{
     color: #fff;
-    font-size: 18px;
+    font-size: 15px;
     margin-left: 15px;
-    font-weight: 400;
+    font-weight: 800;
+    
 }
 .custom-search{
     background: #fff;
     width: 80%;
+    margin-left: 15px;
     float: left;
 }
 .custom-search p{
     color: #060646;
-    font-size: 18px;
+    font-size: 15px;
     padding-top: 5px;
     padding-left: 20px; 
 }
@@ -54,13 +80,13 @@
     background: #FD6C03;
     padding: 5px;
     border: 1px #FD6C03 solid;
-    width: 20%;
+    width: 15%;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
 }
 .light-bg{
     background: #30307c;
-    margin: 20px 5px;
+    margin: 15px;
     padding: 5px;
     color: #fff;
     
@@ -69,21 +95,24 @@
     float: left;
     margin-right: 20px;
 }
+
 .light-bg button{
     background: transparent;
     border: 1px solid #fff;
     border-radius: 30px;
     padding: 2px;
     float: left;
+    margin-right: 20px;
     width: 100px;
     text-align: center;
 
 }
 .live-units{
     background: #fff;
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
     border-radius: 10px;
+    border-left: 3px solid #FD6C03;
     margin-top: -40px;
     padding-left: 20px;
 }
@@ -99,7 +128,7 @@
 }
 .upcoming h3{
     margin-left: 50px;
-    color: #060646;
+    color: #666;
     font-weight: bold;
     font-size: 15px;
 }
@@ -108,6 +137,7 @@
     margin-left: 40px;
     margin-right: 40px;
     border-radius: 10px;
+    border-left:  3px solid #079DFF;
     padding-left: 20px;
 }
 
@@ -126,6 +156,45 @@
     font-size: 18px;
     padding-left: 20px;
 }
+.top-right{
+    background: #D5D8DC ;
+    margin-top: -20px;
+    padding: 10px;
+    text-align: right;
+}
+.header2-top-right{
+    background: #D5D8DC ;
+    margin-top: -20px;
+    padding-top: 20px;
+    height: 70px;
+    text-align: right;
+}
+.top-right i{
+    background: #CCD1D1;
+    padding: 5px;
+    color: #fff;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.header2-top-right i{
+    background: #CCD1D1;
+    padding: 5px;
+    color: #fff;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.top-right span{
+   vertical-align: middle;
+    margin-top: 10px;
+    color: #ABB2B9;
+    margin-right: 20px;
+}
+.header2-top-right span{
+    vertical-align: middle;
+     margin-top: 10px;
+     color: #ABB2B9;
+     margin-right: 20px;
+ }
 .qxp-center{
     text-align: center;
 }
@@ -154,10 +223,49 @@
 }
 /* Courses */
 .course-breadcrumb h3{
-    font-size: 30px;
+    font-size: 25px;
     color: #060646;
     font-weight: 400;
     margin-left: 20px;
+}
+.courses p{
+ margin-left: 20px;
+}
+.courses span{
+    color:#FD6C03 ;
+}
+.coarse-list{
+height: 80px;
+width: 100%;
+border-radius: 1px;
+background: #060646;
+}
+.coarse-button{
+    margin-left: 20px;
+    background: #FD6C03;
+    border-radius: 2px;
+    padding: 3px;
+    width: 80px;
+    color: #fff;
+    border: 1px solid #FD6C03;
+}
+.coarse-button-2{
+    margin-left: -5px;
+    background: #11BECC;
+    border-radius: 2px;
+    padding: 3px;
+    width: 60px;
+    color: #fff;
+    border: 1px solid #11BECC;
+}
+.view-all{
+    padding: 3px;
+    background: #D5D8DC;
+    color: #222;
+    border: 1px solid #D5D8DC;
+    width: 100px;
+    border-radius: 5px;
+    margin-top: 20px;
 }
 .thumbnail {
     padding: 0px !important;
@@ -212,11 +320,38 @@ text-align: center;
 }
 .progress{
     margin-top: 20px;
-    width: 100%;
-    overflow-y: hidden;
+    width: 80%;
+    height: 5px;
 }
 .upcoming-units {
     margin-bottom: 20px;
+}
+
+.log-in{
+    padding: 25px;
+    background: #fff;
+    text-align: center;
+}
+.log-in span{
+    color: #079DFF;
+    padding-right: 25px;
+    
+}
+.log-side{
+    background: #0707A4;
+    height: 400px;
+    opacity: 0.7;
+    font-weight: 300;
+    align-content: middle;
+}
+.log-side h3{
+    color: #fff;
+    font-weight: 900;
+    margin-top: 30px;
+    font-size: 25px;
+}
+.log-side p{
+    color: #fff;
 }
 
 

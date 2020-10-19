@@ -2,13 +2,38 @@
 
 @section('main')
 
+
 <div class="row">
 	<div class="col-lg-8 col-sm-8">
-		<div class="qxp-back">
-			<div class="custom-search">
-				<p>You have 3 days left for subscriprion</p>
+		{{-- top header --}}
+		<div class="top-header">
+			<div class="row">
+				<div class="col-md-12 col-sm-12" >
+					<div class="col-sm-6">
+						<div class="form-group has-search">
+							<input type="text" class="form-control" placeholder="Search">
+						  </div>
+					</div>
+					<div class="col-sm-2">
+						<span class="fa fa-shield-alt fa-2x"></span>
+					</div>
+					<div class="col-sm-2">
+						 <span class="fa fa-bell fa-2x"></span>
+					</div>
+					<div class="col-sm-2">
+						 <span class="fa fa-calendar fa-2x"></span>
+					</div>
+				 </div> 
 			</div>
-			<button class="custom-search-button">Upgrade</button>
+		</div>
+
+		<div class="qxp-back">
+			
+				<div class="custom-search">
+					<p>You have 3 days left for subscriprion</p>
+				</div>
+				<button class="custom-search-button">Upgrade</button>
+
 		    <div class="row light-bg">
 				  <p>Show All</p>
 				 <button>All</button>
@@ -27,12 +52,16 @@
 					<p class="text-muted"> Lecturer Name</p>
 				</div>
 				<div class="live-span">
-					<h3>Critical & Creative Thinking</h3>
+					<div class="progress">
+						<div class="progress-bar progress-bar-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					
+					</div>
+				
 				</div>
 			</div>
 			<div class="row text-center">View All</div>
 		</div>
-
+		
 		<div class="upcoming">
 			<h3>Upcoming Units</h3>
 		</div>
@@ -44,13 +73,14 @@
 						<h3>Critical & Creative Thinking</h3>
 					</div>
 					<div class="live-span">
-						<i class="fa fa-user"> Michael Joseph</i>
+						<i class="fa fa-user">Michael</i>
 						<p class="text-muted"> Lecturer Name</p>
 					</div>
 					<div class="live-span">
 						<div class="progress">
-							<div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar progress-bar-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
+						
 					</div>
 
 				</div>
@@ -66,7 +96,7 @@
 					</div>
 					<div class="live-span">
 						<div class="progress">
-							<div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar progress-bar-success" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 					</div>
 				</div>
@@ -77,6 +107,15 @@
 	</div>
 	{{-- end of main dashboard view --}}
 	<div class="col-md-4 dashboard-right">
+		<div class="row top-right">
+			 <i class="fa fa-user fa-2x"></i> 
+			     <a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="fa fa-bars"></span>
+				</a> 
+
+		</div>
+
 		<div class="row" style="background: #fff">
 			<h3>Units</h3>
 			<hr style="border: 1px solid rgb(226, 222, 222)">

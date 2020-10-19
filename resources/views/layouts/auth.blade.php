@@ -5,7 +5,7 @@
     @include('partials.head')
 </head>
 
-<body class="page-header-fixed">
+<body class="page-header-fixed" style="background: #F4F6F6;">
 
     <div style="margin-top: 10%;"></div>
 
