@@ -86,10 +86,11 @@ class HomeController extends Controller
     }
 
     public function landing(){
-        if(\Auth::check()){
-            $logged_in=true;
+        if(! \Auth::check()){
+             $logged_in = false;
+            return redirect('/welcome');
         }else{
-            $logged_in = false;
+            $logged_in=true;
         }
 
 
