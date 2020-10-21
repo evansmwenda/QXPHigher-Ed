@@ -197,7 +197,7 @@ class HomeController extends Controller
         $count_courses = count($enrolled_course);
         $count_exams = count($test_details);
         $count_events = count($monthly);
-
+        // dd($enrolled_course);
 
         return view('students.home_user')->with(compact(
             'test_details',

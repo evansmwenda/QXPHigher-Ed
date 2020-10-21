@@ -39,88 +39,36 @@
 				 <button>All</button>
 				<button>Confirmed</button>
 			</div>
-			<h3>Units In progress today</h3>
+			<h3>Recent Courses</h3>
 		</div>
-
-		<div class="live-units">
-			<div class="row">
-				<div class="live-span">
-					<h3>Critical & Creative Thinking</h3>
-				</div>
-				<div class="live-span">
-					<i class="fa fa-user"> Michael Joseph</i>
-					<p class="text-muted"> Lecturer Name</p>
-				</div>
-				<div class="live-span">
-					<div class="progress">
-						<div class="progress-bar progress-bar-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-					
-					</div>
-				
-				</div>
-			</div>
-		</div>
-		<div class="live-units" style="margin-top: 50px;">
-			<div class="row">
-				<div class="live-span">
-					<h3>Critical & Creative Thinking</h3>
-				</div>
-				<div class="live-span">
-					<i class="fa fa-user"> Michael Joseph</i>
-					<p class="text-muted"> Lecturer Name</p>
-				</div>
-				<div class="live-span">
-					<div class="progress">
-						<div class="progress-bar progress-bar-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-					
-					</div>
-				
-				</div>
-			</div>
-		</div>
-
-		
-		<div class="upcoming">
-			<h3>Upcoming Units</h3>
-		</div>
-		
-		<div class="row">
-			<div class="upcoming-units">
-				<div class="row">
-					<div class="live-span">
-						<h3>Critical & Creative Thinking</h3>
-					</div>
-					<div class="live-span">
-						<i class="fa fa-user">Michael</i>
-						<p class="text-muted"> Lecturer Name</p>
-					</div>
-					<div class="live-span">
-						<div class="progress">
-							<div class="progress-bar progress-bar-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+		@if(count($enrolled_course)>0)
+			<!-- //we have enrolled to courses -->
+			@foreach($enrolled_course->take(5) as $key=>$course)
+				<div class="live-units">
+					<div class="row">
+						<div class="live-span">
+							<h3>{{ $course->title}}</h3>
 						</div>
+						<div class="live-span">
+							<i class="fa fa-user"> Michael Joseph</i>
+							<p class="text-muted"> Lecturer Name</p>
+						</div>
+						<div class="live-span">
+							<div class="progress">
+								<div class="progress-bar progress-bar-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							
+							</div>
 						
-					</div>
-
-				</div>
-			</div>
-			<div class="upcoming-units">
-				<div class="row">
-					<div class="live-span">
-						<h3>Critical & Creative Thinking</h3>
-					</div>
-					<div class="live-span">
-						<i class="fa fa-user"> Michael Joseph</i>
-						<p class="text-muted"> Lecturer Name</p>
-					</div>
-					<div class="live-span">
-						<div class="progress">
-							<div class="progress-bar progress-bar-success" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 					</div>
 				</div>
-			</div>
+				<div style="margin-top:40px;">&nbsp;</div>
+			@endforeach
 
-		</div>
+		@else
+			<!-- //not enrolled to any courses -->
+			<p class="text-center">You are not enrolled to any course.</p>
+		@endif
 		
 	</div>
 	{{-- end of main dashboard view --}}
