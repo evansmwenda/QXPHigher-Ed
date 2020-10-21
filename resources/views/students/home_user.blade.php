@@ -59,8 +59,26 @@
 				
 				</div>
 			</div>
-			<div class="row text-center">View All</div>
 		</div>
+		<div class="live-units" style="margin-top: 50px;">
+			<div class="row">
+				<div class="live-span">
+					<h3>Critical & Creative Thinking</h3>
+				</div>
+				<div class="live-span">
+					<i class="fa fa-user"> Michael Joseph</i>
+					<p class="text-muted"> Lecturer Name</p>
+				</div>
+				<div class="live-span">
+					<div class="progress">
+						<div class="progress-bar progress-bar-warning" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					
+					</div>
+				
+				</div>
+			</div>
+		</div>
+
 		
 		<div class="upcoming">
 			<h3>Upcoming Units</h3>
@@ -190,7 +208,7 @@
 							<tr>
 								<td>#</td>
 								<td>Name</td>
-								<td>Due Date&nbsp;&nbsp;&nbsp;</td>
+								<td>Due Date&nbsp;&nbsp;</td>
 							</tr>
 						</thead>
 						<tbody>
