@@ -353,6 +353,9 @@ text-align: center;
 .log-side p{
     color: #fff;
 }
+.qxp-bg-info{
+    background-color: #060646;
+}
 
 
 @media only screen and (max-width: 767px) {
@@ -377,7 +380,10 @@ text-align: center;
         font-size: 12px;
         color: #060646;
     }
-    .dashboard-right{
+    /*.dashboard-right{
+        display: none;
+    }*/
+    .top-right{
         display: none;
     }
 

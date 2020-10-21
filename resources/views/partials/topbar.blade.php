@@ -2,7 +2,10 @@
     <!-- Logo -->
     <a href="{{ url('/admin/home') }}" class="logo"
        style="font-size: 16px;">
-       <img src="{{url('/images/logo/logo.svg')}}" alt="QXP" style="width: 125px;height: 50px;">
+       <div style="padding:10px ;">
+         <img src="{{url('/images/logo/logo_white.png')}}" alt="QXP" style="width: 125px;height: 50px;">
+       </div>
+       
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
            @lang('global.global_title')</span>

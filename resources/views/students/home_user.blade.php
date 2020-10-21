@@ -116,7 +116,7 @@
 
 		</div>
 
-		<div class="row" style="background: #fff">
+<!-- 		<div class="row" style="background: #fff">
 			<h3>Units</h3>
 			<hr style="border: 1px solid rgb(226, 222, 222)">
 			<div class="row">
@@ -137,81 +137,81 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		{{-- end of row --}}
 		<div class="row section-2">
 			<div class="row">
 				<div class="col-sm-10">
-					<h3>Recent Activity</h3>
+					<h3>Quizzes</h3>
 				</div>
-				<div class="col-sm-2">
-					<i class="fa fa-cog"></i>
-				</div>
-				<table class="table table-borderless table-striped">
-					<thead>
-						<tr>
-							<td>All</td>
-							<td>Projects</td>
-							<td>Assignments</td>
-							<td>Meetings</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><i class="fa fa-user"></i></td>
-							<td>Michael Joshua</td>
-							<td></td>
-							<td>ARG</td>
-						</tr>
-						<tr>
-							<td><i class="fa fa-user"></i></td>
-							<td>Michael Joshua</i></td>
-							<td></td>
-							<td>ARG</td>
-						</tr>
-					</tbody>
+				<table class="table table-borderless table-striped" style="margin-right: 2px;padding-right: 5px;">
+					@if(count($test_details)<=0)
+                          <p style="text-align: center">You have no Quizzes</p> 
+                    @else
+						<thead>
+							<tr>
+								<td>#</td>
+								<td>Quiz</td>
+								<td>Score&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($test_details->take(3) as $key=>$test)
+								<tr>
+									<td>{{++$key}}</td>
+									<td>
+	                                    <p style="margin-bottom: 0px !important">{{$test->title}}</p>
+	                                    <span style="font-size: .75em;color: grey;padding-top: 0px !important;">{{ $test->name }}</span>
+	                                </td>
+									<td><span class="badge qxp-bg-info" style="float: left;">{{ $result_array[$test->test_id]}}</span></td>
+								</tr>
+							@endforeach
+							
+							
+						</tbody>
+					@endif
 				</table>
-				<hr style="border: 1px solid rgb(226, 222, 222)">
+				
 				<div class="text-center">
-					View All
+					<a href="{{url('/exams')}}"><p>View All Quizzes</p></a>
 				</div>
 			</div>
 		</div>
 		<div class="row section-2">
 			<div class="row">
 				<div class="col-sm-10">
-					<h3>Recent Activity</h3>
-				</div>
-				<div class="col-sm-2">
-					<i class="fa fa-cog"></i>
+					<h3>Assignments</h3>
 				</div>
 				<table class="table table-borderless table-striped">
-					<thead>
-						<tr>
-							<td>All</td>
-							<td>Projects</td>
-							<td>Assignments</td>
-							<td>Meetings</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><i class="fa fa-user"></i></td>
-							<td>Michael Joshua</td>
-							<td></td>
-							<td>ARG</td>
-						</tr>
-						<tr>
-							<td><i class="fa fa-user"></i></td>
-							<td>Michael Joshua</i></td>
-							<td></td>
-							<td>ARG</td>
-						</tr>
-					</tbody>
+					@if(count($assignments)<=0)
+                          <p style="text-align: center">You have no Assignments</p> 
+                    @else
+                    	<thead>
+							<tr>
+								<td>#</td>
+								<td>Name</td>
+								<td>Due Date&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($assignments->take(4) as $key=>$assignment)
+	                            <tr>
+	                              <td>{{++$key}}</td>
+	                              <td style="padding-right: 10px !important;">
+	                                <p style="margin-bottom: 0px !important;padding-right: 10px !important;">{{$assignment['title']}}</p>
+	                                <span style="font-size: .8em;color: grey;padding-top: 0px !important;">{{$assignment->course->title}}</span>
+	                              </td>
+	                              <td>
+	                                <p>12-08-2019</p> 
+	                              </td>
+	                            </tr>
+	                        @endforeach
+						</tbody>
+                    @endif
+					
 				</table>
-				<hr style="border: 1px solid rgb(226, 222, 222)">
 				<div class="text-center">
-					View All
+					<a href="{{url('/assignments')}}"><p>View All Assignments</p></a>
 				</div>
 			</div>
 		</div>
