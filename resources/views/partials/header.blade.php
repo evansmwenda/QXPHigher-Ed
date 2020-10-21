@@ -4,6 +4,7 @@
             <a href="{{ url('/admin/home') }}"
                class="navbar-brand">
                 @trans('global.global_title')
+                <!-- <img src="{{url('/images/logo/logo.svg')}}" alt="QXP" class="my-logo"> -->
             </a>
         </div>
         <a href="javascript:;"

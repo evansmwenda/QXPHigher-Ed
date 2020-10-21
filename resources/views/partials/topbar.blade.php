@@ -2,12 +2,13 @@
     <!-- Logo -->
     <a href="{{ url('/admin/home') }}" class="logo"
        style="font-size: 16px;">
+       <img src="{{url('/images/logo/logo.svg')}}" alt="QXP" style="width: 125px;height: 50px;">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
            @lang('global.global_title')</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">
-           @lang('global.global_title')</span>
+        <!-- <span class="logo-lg">
+           @lang('global.global_title')</span> -->
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     {{-- <nav class="navbar navbar-static-top">

@@ -23,7 +23,7 @@
      <div class="col-md-8 ml-auto text-right">
         <div class="top-contact-info">
         <span><i class="fa fa-user"></i><a href="{{route('auth.login')}}">Login</a></span>
-           <span><i class="fa fa-envelope"></i>info@qxpglobal.com</span>
+           <span><i class="fa fa-envelope"></i>info@qxp-global.com</span>
         </div>
      </div>
      <!-- Col End -->
