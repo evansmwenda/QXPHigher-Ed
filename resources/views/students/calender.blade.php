@@ -11,27 +11,102 @@
 					    <section class="content">
 					      <div class="container-fluid">
 					        <div class="row">
-					          <div class="col-md-2">
-					            <div class="sticky-top mb-3">
-					              <div class="card">
-					                <div class="card-header">
-					                  <h4 class="card-title">My Events</h4>
-					                </div>
-					                <div class="card-body">
-					                  <!-- the events -->
-					                  <div id="external-events">
-					                    <div class="external-event" ></div>
-					                    
-					                  </div>
-					                </div>
-					                <!-- /.card-body -->
-					              </div>
-					              <!-- /.card -->
-					              
-					            </div>
+					          <div class="col-md-4">
+                      <div class="sticky-top mb-3">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">My Events</h4>
+                          </div>
+                          <div class="card-body">
+                            <div id="external-events">
+                              <div class="external-event" ></div>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">All</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Open</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Closed</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);height: 70px">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Exams on Monday 26-10-2020</h4>
+                              <span>1 Day ago</span>
+                            </div>
+                          </div>
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Submit Assignment- Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Test Course 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);height: 70px">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);height: 70px">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
+                            <div class="row" style="padding: 5px 20px;">
+                              <h4>Live Meeting - Biology 101</h4>
+                              <span>2 Days ago</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 					          </div>
 					          <!-- /.col -->
-					          <div class="col-md-10">
+					          <div class="col-md-8">
 					            <div class="card card-primary">
 					              <div class="card-body p-0">
 					                <!-- THE CALENDAR -->
@@ -122,13 +197,14 @@
     });
 
     var calendar = new Calendar(calendarEl, {
-      plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid' ],
+      plugins: [ 'bootstrap', 'interaction','list', 'dayGrid', 'timeGrid' ],
       header    : {
         left  : 'prev,next today',
         center: 'title',
         // right : 'dayGridMonth,timeGridWeek,timeGridDay',
         right : 'timeGridDay,timeGridWeek,dayGridMonth'
       },
+      'themeSystem': 'bootstrap',
       //Random default events
       // events : [ 
       //     {
