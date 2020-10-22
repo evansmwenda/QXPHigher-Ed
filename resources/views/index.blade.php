@@ -69,5 +69,6 @@
 		   </a> 
 
    </div>
+   @include('partials.recentactivity')
 </div>
 @endsection
