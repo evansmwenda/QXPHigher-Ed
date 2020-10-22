@@ -31,45 +31,51 @@
 
             <!-- ensure user logged in to view this -->
             @if(\Auth::check())
-                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                <li class="{{ $request->segment(1) == 'courses' ? 'active' : '' }}">
                     <a href="/courses">
                         <i class="fa fa-gears"></i>
                         <span class="title">@lang('global.courses.title')</span>
                     </a>
                 </li>
                 
-                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                <li class="{{ $request->segment(1) == 'calender' ? 'active' : '' }}">
                     <a href="/calender">
                         <i class="fa fa-calendar-alt"></i>
                         <span class="title">Calender</span>
                     </a>
                 </li>
+                <li class="{{ $request->segment(1) == 'browse-lessons' ? 'active' : '' }}">
+                    <a href="/browse-lessons">
+                        <i class="fa fa-calendar-alt"></i>
+                        <span class="title">Browse Lessons</span>
+                    </a>
+                </li>
 
-                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                <li class="{{ $request->segment(1) == 'assignments' ? 'active' : '' }}">
                     <a href="/assignments">
                         <i class="fa fa-edit"></i>
                         <span class="title">Assignments</span>
                     </a>
                 </li>
-                <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
+                <li class="{{ $request->segment(1) == 'exams' ? 'active' : '' }}">
                     <a href="/exams">
                         <i class="fa fa-briefcase"></i>
                         <span class="title">Exams</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ $request->segment(1) == 'live-classes' ? 'active' : '' }}">
                     <a href="/live-classes">
                         <i class="fa fa-headset"></i>
                         <span class="title">Live Classes</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ $request->segment(1) == 'faq' ? 'active' : '' }}">
                     <a href="/faq">
                         <i class="fa fa-question"></i>
                         <span class="title">FAQs</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ $request->segment(1) == 'subscribe' ? 'active' : '' }}">
                     <a href="/subscribe">
                         <i class="fa fa-wallet"></i>
                         <span class="title">Subscribe</span>

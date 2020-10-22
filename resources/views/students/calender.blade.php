@@ -205,23 +205,6 @@
         right : 'timeGridDay,timeGridWeek,dayGridMonth'
       },
       'themeSystem': 'bootstrap',
-      //Random default events
-      // events : [ 
-      //     {
-      //     title          : 'All Day Event',
-      //     start          : "2020-06-01",
-      //     backgroundColor: '#f56954', //red
-      //     borderColor    : '#f56954', //red
-      //     allDay         : true
-      //   },
-      // {
-      // 	title : 'Long Event',
-      // start : "2020-06-12",
-      // backgroundColor : '#f39c12',
-      // borderColor : '#f39c12',
-      // }
-      
-      // ],
       events: event_array,
       eventTextColor: '#fff',
        // events : <?php //echo json_encode($books, JSON_PRETTY_PRINT);?>,
