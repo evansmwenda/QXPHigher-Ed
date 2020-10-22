@@ -110,12 +110,13 @@
 }
 .recent-activity{
     background: #fff;
-/*    margin-left: 20px;
-    margin-right: 20px;*/
     border-radius: 10px;
-    /*border-left: 3px solid #FD6C03;*/
-/*    margin-top: -40px;
-    padding-left: 20px;*/
+}
+.events-activity{
+    background: #fff;
+    border-radius: 10px;
+    border-left: 3px solid #FD6C03;
+    margin-top: 15px;
 }
 .recent-activity table{
     width: 100%;

@@ -251,7 +251,8 @@ class HomeController extends Controller
     }
     public function getCalender(){
 
-        $monthly = $this->fetchMonthlyEvents();
+        // $monthly = $this->fetchMonthlyEvents();
+        $monthly = $this->fetchAllEvents();
          // dd($monthly);
         $event_array = (array) null; 
         foreach($monthly as $event){
@@ -748,6 +749,18 @@ class HomeController extends Controller
                     ->get();//has events data for the current month
         return $monthly;            
     }
+    public function fetchAllEvents(){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+
+
+        $monthly = DB::table('events')
+                    ->select('events.id as id','events.title as title','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title')
+                    ->join('courses', 'courses.id', '=', 'events.course_id')
+                    ->whereIn('course_id',$course_ids)
+                    ->orderBy('event_start_time','DESC')
+                    ->get();//has events data for the current month
+        return $monthly;  
+    }
     public function fetchMonthlyEvents(){
         $course_ids =$this->fetchEnrolledCourseIDs();
 
@@ -1240,5 +1253,8 @@ class HomeController extends Controller
         
         return true;
 
+    }
+    public function getBrowseLessons(){
+        return view('students.browselessons');
     }
 }

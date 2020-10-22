@@ -15,6 +15,9 @@ Route::get('/','HomeController@landing');
 Route::group(['middleware' => 'auth'], function () {
     // Route::get('/', 'HomeController@landing');
 
+    //browse-lessons
+    Route::get('/browse-lessons', 'HomeController@getBrowseLessons');
+
     //courses
     Route::get('/courses', 'HomeController@index');
 
