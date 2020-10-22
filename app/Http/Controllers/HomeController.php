@@ -1254,4 +1254,7 @@ class HomeController extends Controller
         return true;
 
     }
+    public function getBrowseLessons(){
+        return view('students.browselessons');
+    }
 }
