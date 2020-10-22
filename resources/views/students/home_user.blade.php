@@ -105,7 +105,7 @@
 			</div>
 		</div> -->
 		{{-- end of row --}}
-		<div class="row section-2">
+		<div class="row section-2 recent-activity">
 			<div class="row">
 				<div class="col-sm-10">
 					<h3>Quizzes</h3>
@@ -143,7 +143,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row section-2">
+		<div class="row section-2 recent-activity">
 			<div class="row">
 				<div class="col-sm-10">
 					<h3>Assignments</h3>

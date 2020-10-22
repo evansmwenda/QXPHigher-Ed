@@ -107,6 +107,15 @@
     text-align: center;
 
 }
+.recent-activity{
+    background: #fff;
+/*    margin-left: 20px;
+    margin-right: 20px;*/
+    border-radius: 10px;
+    /*border-left: 3px solid #FD6C03;*/
+/*    margin-top: -40px;
+    padding-left: 20px;*/
+}
 .live-units{
     background: #fff;
     margin-left: 20px;
@@ -116,6 +125,7 @@
     margin-top: -40px;
     padding-left: 20px;
 }
+
 .live-units h3{
     font-size: 15px;
     color: #060646;
