@@ -33,6 +33,7 @@
 .top-header-2{
     background: #D6DBDF;
     margin-top: -20px;
+    margin-left: -40px;
     padding-top: 20px;
     height: 70px;
 }
@@ -116,6 +117,10 @@
 /*    margin-top: -40px;
     padding-left: 20px;*/
 }
+.recent-activity table{
+    width: 100%;
+    overflow: hidden;
+}
 .live-units{
     background: #fff;
     margin-left: 20px;
@@ -169,12 +174,13 @@
 .top-right{
     background: #D5D8DC ;
     margin-top: -20px;
-    padding: 10px;
+    padding: 16px;
     text-align: right;
 }
 .header2-top-right{
     background: #D5D8DC ;
     margin-top: -20px;
+   
     padding-top: 20px;
     height: 70px;
     text-align: right;
@@ -230,6 +236,12 @@
     background:rgb(226, 222, 222);
     color: #060646;
     font-weight: 600;
+}
+.has-search input{
+background: #ABB2B9;
+color: #060646;
+border-radius: 5px;
+text-align: center;
 }
 /* Courses */
 .course-breadcrumb h3{
