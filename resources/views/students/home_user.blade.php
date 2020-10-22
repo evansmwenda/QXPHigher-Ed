@@ -2,8 +2,6 @@
 
 @section('main')
 
-
-<div class="row">
 	<div class="col-lg-8 col-sm-8">
 		{{-- top header --}}
 		<div class="top-header">
@@ -109,7 +107,5 @@
 		
 	</div>
 	{{-- end of Dashboard right-side view --}}
-	
-</div>
 
 @endsection
