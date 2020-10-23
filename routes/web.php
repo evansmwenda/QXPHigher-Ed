@@ -70,6 +70,8 @@ Route::post('course/{course_id}/rating', ['uses' => 'CoursesController@rating', 
 Route::get('lesson/{course_id}/{slug}', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
 Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
 
+// Create Task route
+Route::post('task','HomeController@createTask')->name('task');
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
 

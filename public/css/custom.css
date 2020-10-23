@@ -1,3 +1,6 @@
+.menu{
+    display: none;
+}
 .qxp-success{
     background: #28a745;
     color: #fff;
@@ -112,11 +115,111 @@
     background: #fff;
     border-radius: 10px;
 }
+.tab-content h3{
+    color: #566573;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
 .events-activity{
     background: #fff;
     border-radius: 10px;
-    border-left: 3px solid #FD6C03;
-    margin-top: 15px;
+    border: 1px solid #11BECC;
+    margin: 15px;
+    background-color: rgba(128,128,128, .09);
+    padding: 10px;
+}
+.calendar{
+    background: #F2F4F4;
+}
+.calendar table{
+ background: #fff;
+ font-size: 10px;
+ text-align: center;
+}
+.calendar table .fc-head tr{
+    background: #11BECC;
+    color: #fff;
+    border-top-right-radius: 5px;
+}
+.calendar table .fc-head td{
+    padding: 10px;
+    
+}
+.calendar .fc-left{
+    color: #060646;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+.modal-content{
+    padding: 10px;
+   
+}
+.events-activity h4{
+    color: #060646;
+    font-size: 12px;
+    margin-bottom: -2px;
+}
+.events-activity span{
+    font-style: italic;
+    font-size: 9px;
+}
+.tasks{
+    background: #fff;
+    padding: 10px;
+}
+.tasks h3{
+    color: #85929E;
+    font-size: 25px;
+    text-align: center;
+}
+.task-card{
+    background: #EBEDEF;
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding: 20px;
+}
+.task-card:hover{
+    background: #11BECC;
+}
+.task-card span{
+margin-right: 5px;
+}
+.task-card .date{
+    color: #060646;
+    font-size: 10px;
+    margin-right: 20px;
+}
+.task-card .title{
+    color: #060646;
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+.task-card i{
+    background: #060646;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+}
+.card-header h4{
+    color: #060646;
+    font-weight: 900;
+    font-size: 25px;
+}
+.card-header span{
+    background: #FD6C03;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-left: 25px;
+}
+.nav-tabs li a{
+color: #060646;
+
 }
 .recent-activity table{
     width: 100%;
@@ -382,32 +485,66 @@ text-align: center;
 
 
 @media only screen and (max-width: 767px) {
-    .qxp-top-header{
+    .menu{
+        display: block;
+        float: right;
+        position: relative;
+        background: transparent;
+        margin-top: -50px;
+        height: 50px;
+    }
+    .top-header{
+        display: none;
+    }
+    .top-right{
         display: none;
     }
     .skin-blue .main-header .navbar{
         display: none;
     }
     .qxp-back{
-        margin-top: 10px;
+        margin-top: -20px;
     }
-    .light-bg button {
+    .custom-search-button{
+        display: none;
+    }
+    .custom-search{
+        background: #fff;
+        width: 90%;
+        margin-left: 15px;
         float: left;
-        margin-left:10px ;
+        border-radius: 10px;
+        
+    }
+    .light-bg{
+        margin-top: 50px;
+        border-radius: 10px;
     }
     .light-bg p{
         float: left;
+        margin-right: 5px;
+    }
+    .light-bg button{
+        background: transparent;
+        border: 1px solid #fff;
+        border-radius: 10px;
+        padding: 2px;
+        float: left;
         margin-right: 20px;
+        width: 80px;
+        text-align: center;
+    
     }
-    .live-units h3{
-        font-size: 12px;
-        color: #060646;
+    .live-units{
+        background: #fff;
+        margin-left: 20px;
+        margin-right: 20px;
+        border-radius: 10px;
+        border-left: 3px solid #FD6C03;
+        
+        padding-left: 20px;
     }
-    /*.dashboard-right{
-        display: none;
-    }*/
-    .top-right{
-        display: none;
-    }
+
+
 
 }
