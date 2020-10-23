@@ -15,12 +15,12 @@
 			
 		</div>
         <div class="col-md-12 col-sm-12">
-        	<h3 style="color: #060646">Degree Progress Audit</h3>
-        	<h5 style="color: #060646">
+        	<h1 style="color: #060646">Degree Progress Audit</h1>
+        	<h4 style="color: #060646">
         		All courses required to complete your program are listed below. Select a column heading to sort your
         		 courses by status, letter grade and term.If you have questions regarding your degree audit, 
         		please contact your advisor.
-        	</h5>
+        	</h4>
         </div>
         <div class="col-sm-12 col-md-7" >
         	<div class="card" style="border: 1px solid #00CED1;border-radius:6px;width: 100%">

@@ -2,6 +2,9 @@
 
 @section('content')
     <h3 class="page-title">Live Classes</h3>
+    <p>
+        <a href="{{ url('/admin/events/create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
+    </p>
 
     @if(Session::has("flash_message_error")) 
             <div class="alert progress-bar-danger alert-block">
@@ -21,8 +24,44 @@
         <div class="panel-heading">
             @lang('global.app_create')
         </div>
+
+        <div class="panel-body table-responsive">
+            <table class="table table-bordered table-striped {{ count($my_classes) > 0 ? 'datatable' : '' }}">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Class Title</th>
+                        <th>Meeting ID</th>
+                        <th>Course</th>
+                        <th>Class Time</th>
+                        <th>Action(s)</th>
+                     
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if (count($my_classes) > 0)
+                    	@foreach($my_classes as $key=>$class)
+                    		<tr data-entry-id="{{ $class->id }}">
+	                            <td>{{ ++$key }}</td>
+	                            <td>{{$class->title}}</td>
+	                            <td>{{$class->meetingID}}</td>
+	                            <td>Biology 101</td>
+	                            <td>2020-10-12 10AM</td>
+	                            <td><a href="{{ url('/admin/events/delete/'.$class->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+	                        </tr>
+                    	@endforeach
+                        
+                    @else
+                        <tr>
+                            <td colspan="10">@lang('global.app_no_entries_in_table')</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
         
-        <div class="panel-body">
+        <!-- <div class="panel-body">
         	<div class="row .d-none .d-xs-block .d-sm-block .d-md-none">
 	            <div class="col-sm-12 col-md-12 text-center" style="margin-bottom: 20px;">
 	                <button onclick="toggleCreate()" class="btn btn-primary btn-lg" style="width:150px;color:white;text-align: center;"><span>Create Meeting</span></button>
@@ -54,8 +93,6 @@
 	                                       required>
 	                            </div>
 	                        </div>
-
-
 	                        <div class="form-group">
 	                            <div class="col-md-6 col-md-offset-5">
 	                                <button type="submit"
@@ -131,7 +168,7 @@
               </div>
               </div>
           </div>
-        </div>
+        </div> -->
     </div>
     
 @endsection 
@@ -162,6 +199,10 @@
 <script>
 $(function() {
   $('.daterange').daterangepicker({
+  	opens: 'auto',
+  	// singleDatePicker:true,
+  	drops:'auto',
+  	opens:'center',
     timePicker: true,
     startDate: moment().startOf('hour'),
     endDate: moment().startOf('hour').add(32, 'hour'),

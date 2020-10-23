@@ -548,8 +548,10 @@ class DashboardController extends Controller
         return back()->with('flash_message_success','Your exam was deleted!');
     }
     public function liveClasses(){
-        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();        
-        return view('admin.classes.index')->with(compact('my_courses'));
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        $my_classes = LiveClasses::where(['owner'=> \Auth::id()])->get();
+        // dd($my_classes);       
+        return view('admin.classes.index')->with(compact('my_courses','my_classes'));
     }
     public function scheduleLiveClass(Request $request){
         $user = \Auth::user();
