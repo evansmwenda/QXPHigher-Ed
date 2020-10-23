@@ -553,14 +553,39 @@ class DashboardController extends Controller
         // dd($my_classes);       
         return view('admin.classes.index')->with(compact('my_courses','my_classes'));
     }
+
     public function scheduleLiveClass(Request $request){
         // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         // dd($my_courses[0]->course->title);//"Biology 101"
 
         if($request->isMethod('post')){
-            $data=$request->all();
-             // dd($data);
+            $data=$request->all();            
+
+            $user=\Auth::user();
+            // dd($user);
+            $title="";
+            //in order to schedule a class happens
+            //1.get the details of the future class
+
+            $title_array=explode(" ", $data['title']);
+            //check if name is has more than one
+            $count=count($title_array);
+            if($count > 1){
+                //this is an array -> loop and get the elements and underscore them
+                $title=$title_array[0];
+                for($i=1;$i<$count;$i++){
+                    $title=$title."-".$title_array[$i];
+                }
+            }else{
+                //the title is one word e.g "testing"
+                $title=$title_array[0];
+            }
+
+            
+            // $meetingID=str_random(6);
+            $meetingID =substr(md5(mt_rand()), 0, 6);
+            // dump($meetingID);
 
             $event_start_end = $data['event_start_end'];
             // dd($event_start_end);
@@ -573,19 +598,186 @@ class DashboardController extends Controller
 
             
 
-            $my_event = new Events;
-            $my_event->title=$data['event_title'];
-            $my_event->course_id=$data['course_id'];
-            $my_event->event_start_time=$event_start_end[0];
-            $my_event->event_end_time=$event_start_end[1];
-            $my_event->color=$data['favcolor'];
+
+            $classTime=$event_start_end[0];//"2020-06-23 00:00:00"
+            $attendeePW=str_random(6);//"ap";//$request->attendeePW;
+            
+            $moderatorPW=str_random(6);//"mp";//$request->moderatorPW;
+            $duration='30';//$request->duration;
+
+            //format datetime
+            // $classTime=date("Y-m-d H:i:s",strtotime($classTime));//"2020-04-20 07:30:00"
+            // dd($classTime);
+
+            //insert record to table
+            $newLiveClass= [
+                'title'=>$title,//class title
+                'meetingID'=>$meetingID,//meeting ID
+                'classTime'=>$classTime,//classTime
+                'attendeePW'=>$attendeePW,//attendee password 
+                'moderatorPW'=>$moderatorPW,//moderator password
+                'duration'=>$duration,//role=0for normal user accounts
+                'owner'=>$user['id']
+                ];
+            $newLiveClass = LiveClasses::create($newLiveClass);
+            if($newLiveClass){
+                $my_event = new Events;
+                $my_event->title=$data['title'];
+                $my_event->course_id=$data['course_id'];
+                $my_event->event_start_time=$event_start_end[0];
+                $my_event->event_end_time=$event_start_end[1];
+                $my_event->color=$data['favcolor'];
 
             // dd($my_event);
             $my_event->save();
-            return redirect('/admin/events')->with('flash_message_success','Event created successfully ');
+                //return back to dashboard with class scheduled notification.
+                $class_string = "Meeting scheduled successfully!. Meeting ID is: ".$meetingID.".";
+                    return redirect()->back()->with('flash_message_success',$class_string);
+            }
         }
          //get
         return view('admin.classes.schedule')->with(compact('my_courses'));
+    }
+    public function createJoinLive($id){
+        global $user;
+        $meeting = LiveClasses::where('meetingID',$id)->first();
+
+        $title=$meeting['title'];
+        $meetingID=$meeting['meetingID'];
+        $classTime=$meeting['classTime'];
+        $attendeePW=$meeting['attendeePW'];
+        $moderatorPW=$meeting['moderatorPW'];
+        $owner=$meeting['owner'];
+
+        // dd($meeting);
+
+        //get the secure salt
+        $salt = env("BBB_SALT", "0");
+        //get BBB server
+        $bbb_server = env("BBB_SERVER", "0");
+
+        //2.get the checksum(to be computer) and store it in column
+        
+            //name=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
+            //(a)==> prepend the action to the entire query
+        $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW";
+
+        $newCreateString="create".$create_string;
+                // createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444
+        //createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
+
+            //(b)==> append the secret salt to end of the new query string with the action
+                //secret salt: 639259d4-9dd8-4b25-bf01-95f9567eaf4b
+                // $newString = createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444639259d4-9dd8-4b25-bf01-95f9567eaf4b
+        //$newString = "createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW".$salt;
+            //(c)==> get the sha1 of the new string and save it as checksum
+        $checksumCreate=sha1($newCreateString.$salt);
+        // echo $newCreateString;
+        // echo "<br/>".$checksumCreate;
+
+
+        $createURL = $create_string."&checksum=".$checksumCreate;
+        $getCreateURL= $bbb_server.'create?'.$createURL;
+
+        ///UNCOMMENT ALL FROM HERE TO SCHEDULE LIVE CLASS ON BBB SERVER
+
+        //3.create a meeting
+        //make get request to create live class
+        $client = new Client();
+        $response = $client->request('GET', $getCreateURL);
+        // $response = $client->request('GET', 'http://bbb.teledogs.com/bigbluebutton/api/create?name=Flirting&meetingID=quest&attendeePW=ap&checksum=bcfb49cc9dac7b0834c90f1604c7005b9079da7b');
+
+        $body = $response->getBody(); 
+        $xml = simplexml_load_string($body);
+
+        //.4 join the meeting(not now)
+        if($xml->returncode == "SUCCESS"){
+            //successful on bbb server
+
+            $classRecord = [
+            'meetingID'=>$meetingID,
+            'users'=>$user['id']
+            ];
+
+
+            // $newLiveClass = LiveClasses::create($newLiveClass);
+            $newRecord = LiveClassRecordings::create($classRecord);
+
+            if($newRecord){
+                // created successfully->proceeed to join
+                //1.get the details of the logged in user
+                $currentUserArray= explode(" ", $user['name']);
+                // dd($user);
+
+                if(count($currentUserArray) > 1){
+                    //has firstname lastname
+                    $currentUser=$currentUserArray[0]."_".$currentUserArray[1];//"test_user"
+                }else{
+                    $currentUser=$currentUserArray[0];//"test"
+                }
+
+                //check if user is presenter by default or not 
+                //if not owner of class assign role of attendee
+                $userPass= $user['id'] == $owner ? 
+                $meeting->moderatorPW: $meeting->attendeePW ;   
+
+                // dd($meetingID);     
+
+                //2.get the checksum(to be computer) and store it in column
+                $join_string="fullName=$currentUser&meetingID=$meetingID&password=$userPass";
+
+                $newJoinString="join".$join_string;
+
+                //(b)==> append the secret salt to end of the new query string with the action
+                    //secret salt: 639259d4-9dd8-4b25-bf01-95f9567eaf4b
+                    // $newString = createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444639259d4-9dd8-4b25-bf01-95f9567eaf4b
+                //$newString = "createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW".$salt;
+                    
+
+                //(c)==> get the sha1 of the new string and save it as checksum
+                $checksumJoin=sha1($newJoinString.$salt);
+
+                $joinURL = $join_string."&checksum=".$checksumJoin;
+                $getJoinURL= $bbb_server.'join?'.$joinURL;
+
+
+                // $names=array();
+                // //save details into the liveclassrecordings table
+                // $names = DB::table('tbl_scheduled_classes_recordings')->where('meetingID', $meetingID)->value('users');
+                // $namesArray = explode(",", $names);
+                // array_push($namesArray,$user['id']);
+                // $newlist=implode(",", $namesArray);
+                // // dd($newlist);
+
+
+                // $liveRecord=LiveClassRecordings::where('meetingID',$meetingID)->update(['users'=>$newlist]);
+
+                // dd($getJoinURL);
+                return redirect()->away($getJoinURL);
+
+
+                // $url = url('user/live/'.$meetingID);
+                // //successful
+                // //UNCOMMENT THIS
+                // // $update = User::where('email',$user['email'])->update(['token'=>$meetingID]);
+
+
+                // // sendMail(['template'=>get_option('user_create_meeting_email'),'recipent'=>[$user['email']]]);
+
+                // // return redirect()->back()->with('msg',trans('main.thanks_class'));
+                // $class_string = 'Meeting created successfully!. Share -> '.$meetingID.' for others to join. Meeting details sent to your E-mail Address';
+                // $class_string = "Meeting created successfully!. Share -> ".$meetingID." for others to join.\r\n<a href='$url'>$url</a>";
+                // return redirect()->back()->with('flash_message_success',$class_string);
+
+            }else{
+                //not successful
+                return redirect()->back()->with('msg',trans('main.error_class'));
+            }
+        }else{
+           //not successful
+           return redirect()->back()->with('msg',trans('main.error_class')); 
+        }
+
     }
     public function createLiveClass(Request $request){
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
