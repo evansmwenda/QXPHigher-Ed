@@ -4,7 +4,7 @@
     <h3 class="page-title">Live Classes</h3>
     <p>
     	<!-- <a href="{{ url('/admin/events/create') }}" class="btn btn-success">@lang('global.app_add_new')</a> -->
-        <a href="#" data-toggle="modal" data-target="#modalCreateOptions" class="btn btn-success">@lang('global.app_add_new')</a>
+        <a href="#" data-toggle="modal" data-target="#modalCreateOptions" class="btn btn-success">@lang('global.app_add_new')</a>  | <a href="/admin/live-classes/join" d class="btn btn-success">Join Meeting</a>
     </p>
 
     
