@@ -559,6 +559,10 @@ class DashboardController extends Controller
         // dd($my_classes);       
         return view('admin.classes.index')->with(compact('my_courses','my_classes'));
     }
+    public function deleteLiveClass($id){
+        LiveClasses::find($id)->delete();
+        return redirect()->back()->with('flash_message_success','Your class has been deleted');
+    }
 
     public function scheduleLiveClass(Request $request){
         // $my_courses = CourseUser::where(['user_id'=>'3'])->get();

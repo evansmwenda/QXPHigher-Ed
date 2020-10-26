@@ -51,7 +51,10 @@
 	                            <td>{{$class->meetingID}}</td>
 	                            <td>{{$class->course->title}}</td>
 	                            <td>{{$class->classTime}}</td>
-	                            <td><a href="{{ url('/admin/live-classes/delete/'.$class->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+	                            <td>
+	                            	<a href="{{ url('/admin/live-classes/delete/'.$class->id)}}" class="btn btn-danger btn-sm">Delete</a> | 
+	                            	<a href="{{ url('/admin/live-classes/start/'.$class->meetingID)}}" class="btn btn-info btn-sm">Start</a>
+	                            </td>
 	                        </tr>
                     	@endforeach
                         
