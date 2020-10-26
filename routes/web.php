@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::match(['get', 'post'],'/exams/save/{id}', 'HomeController@postExams');
 
     //billing
-    Route::get('/billing', 'HomeController@index');
+    Route::get('/billing', 'HomeController@cale');
 
     //calendar(s)
     Route::get('/calender', 'HomeController@getCalender');

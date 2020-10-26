@@ -1,3 +1,5 @@
+
+
 .menu{
     display: none;
 }
@@ -453,35 +455,11 @@ text-align: center;
     margin-bottom: 20px;
 }
 
-.log-in{
-    padding: 25px;
-    background: #fff;
-    text-align: center;
-}
-.log-in span{
-    color: #079DFF;
-    padding-right: 25px;
-    
-}
-.log-side{
-    background: #0707A4;
-    height: 400px;
-    opacity: 0.7;
-    font-weight: 300;
-    align-content: middle;
-}
-.log-side h3{
-    color: #fff;
-    font-weight: 900;
-    margin-top: 30px;
-    font-size: 25px;
-}
-.log-side p{
-    color: #fff;
-}
 .qxp-bg-info{
     background-color: #060646;
 }
+
+
 
 
 @media only screen and (max-width: 767px) {
@@ -544,7 +522,5 @@ text-align: center;
         
         padding-left: 20px;
     }
-
-
 
 }
