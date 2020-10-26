@@ -550,8 +550,12 @@ class DashboardController extends Controller
     public function liveClasses(){
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         $my_classes = LiveClasses::with(['course'])->where(['owner'=> \Auth::id()])
-        ->orderBy('id','DESC')->get();
-
+        ->where(function($q) {
+            $q->where('classTime', '>=', date("Y-m-d"))
+              ->orWhereNull('classTime');
+        })
+        ->orderBy('id','DESC')
+        ->get();
         // dd($my_classes);       
         return view('admin.classes.index')->with(compact('my_courses','my_classes'));
     }
@@ -642,7 +646,6 @@ class DashboardController extends Controller
         return view('admin.classes.schedule')->with(compact('my_courses'));
     }
     public function createJoinLive($id){
-        global $user;
         $meeting = LiveClasses::where('meetingID',$id)->first();
 
         $title=$meeting['title'];
@@ -653,6 +656,7 @@ class DashboardController extends Controller
         $owner=$meeting['owner'];
 
         // dd($meeting);
+        $user = \Auth::user();
 
         //get the secure salt
         $salt = env("BBB_SALT", "0");
