@@ -1265,6 +1265,23 @@ class HomeController extends Controller
 
     }
     public function getBrowseLessons(){
-        return view('students.browselessons');
+        $course_ids="";
+        $enrolled_courses =  EnrolledCourses::where(['user_id'=>\Auth::id()])->get(); 
+        foreach ($enrolled_courses as $key => $course) {
+            $course_ids .= $course->course_id .",";
+               # code...
+          }  
+        $course_ids = explode(",", $course_ids);
+
+        $my_classes = LiveClasses::with(['course'])
+        ->whereIn('course_id',$course_ids)
+        ->where(function($q) {
+            $q->where('classTime', '>=', date("Y-m-d"));
+              // ->orWhereNull('classTime');
+        })
+        ->orderBy('id','DESC')
+        ->get();
+
+        return view('students.browselessons')->with(compact('my_classes'));
     }
 }

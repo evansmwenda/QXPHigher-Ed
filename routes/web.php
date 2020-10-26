@@ -148,7 +148,12 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
 
     //for live classes
     Route::get('live-classes','Admin\DashboardController@liveClasses');
-    Route::post('live-classes/create','Admin\DashboardController@scheduleLiveClass');
+    Route::match(['get', 'post'],'live-classes/schedule','Admin\DashboardController@scheduleLiveClass');
+    Route::match(['get', 'post'],'live-classes/create','Admin\DashboardController@createLiveClass');
+    Route::get('live-classes/delete/{id}','Admin\DashboardController@deleteLiveClass');
+    Route::get('live-classes/start/{id}','Admin\DashboardController@createJoinLive');
+    // Route::match(['get', 'post'],'events/create2','Admin\DashboardController@createEvents2');
+    // Route::post('live-classes/create','Admin\DashboardController@scheduleLiveClass2');
     Route::post('live-classes/join','Admin\DashboardController@joinClassByID');
     Route::get('live-classes/live/{meetingID}','Admin\DashboardController@joinLiveClass');
 
