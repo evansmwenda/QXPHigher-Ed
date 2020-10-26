@@ -651,6 +651,7 @@ class DashboardController extends Controller
     }
     public function createJoinLive($id){
         $meeting = LiveClasses::where('meetingID',$id)->first();
+        // dd($meeting);
 
         $title=$meeting['title'];
         $meetingID=$meeting['meetingID'];
