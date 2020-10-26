@@ -22,6 +22,7 @@ use App\Transaction as MyTransactions;
 use App\Package;
 use App\Subscription;
 use App\library\OAuth;
+use App\Task;
 use DB;
 use DateTime;
 use DateInterval;
@@ -44,6 +45,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function createTask(Request $request, Task $task){
+        $task->task_date=$request->date;
+        $task->user_id=\Auth::id();
+        $task->title=$request->title;
+        $task->save();
+        return redirect('/calender');
+    }
 
     public function qxplanding(){
         return view('landing');
@@ -250,6 +258,8 @@ class HomeController extends Controller
         ));
     }
     public function getCalender(){
+        //get user tasks
+        $user_tasks=Task::where('user_id',\Auth::id())->get();
 
         // $monthly = $this->fetchMonthlyEvents();
         $monthly = $this->fetchAllEvents();
@@ -267,7 +277,7 @@ class HomeController extends Controller
         // dd($event_array);          
 
         //match the dates to days
-        return view('students.calender')->with(compact('event_array'));
+        return view('students.calender')->with(compact('event_array','user_tasks'));
     }
     public function getCalenderOld(){
         //step2. fetch the assignments in the enrolled courses of student

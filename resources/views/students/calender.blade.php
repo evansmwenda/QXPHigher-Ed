@@ -1,135 +1,169 @@
 @extends('layouts.home')
 
 @section('main')
-	<div class="row">
-        <div class="col-md-12">
-        	<div class="panel panel-default">
-		    	<div class="panel-heading">Events</div>
-		    	<div class="panel-body">
-		    		<div class="row">
-		    			<!-- Main content -->
-					    <section class="content">
-					      <div class="container-fluid">
-					        <div class="row">
-					          <div class="col-md-4">
-                      <div class="sticky-top mb-3">
-                        <div class="card">
-                          <div class="card-header">
-                            <h4 class="card-title">My Events</h4>
-                          </div>
-                          <div class="card-body">
-                            <div id="external-events">
-                              <div class="external-event" ></div>
-                              
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">All</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Open</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Closed</a>
-                        </li>
-                      </ul>
-                      <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);height: 70px">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Exams on Monday 26-10-2020</h4>
-                              <span>1 Day ago</span>
-                            </div>
-                          </div>
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Submit Assignment- Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Test Course 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);height: 70px">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);height: 70px">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                          <div class="events-activity" style="background-color: rgba(128,128,128, .09);">
-                            <div class="row" style="padding: 5px 20px;">
-                              <h4>Live Meeting - Biology 101</h4>
-                              <span>2 Days ago</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-					          </div>
-					          <!-- /.col -->
-					          <div class="col-md-8">
-					            <div class="card card-primary">
-					              <div class="card-body p-0">
-					                <!-- THE CALENDAR -->
-					                <div id="calendar"></div>
-					              </div>
-					              <!-- /.card-body -->
-					            </div>
-					            <!-- /.card -->
-					          </div>
-					          <!-- /.col -->
-					        </div>
-					        <!-- /.row -->
-					      </div><!-- /.container-fluid -->
-					    </section>
-					    <!-- /.content -->
-		    		</div>
-		    	</div>
-		    </div>
+<div class="col-lg-8 col-sm-8">
+	<div class="row top-header-2">
+		<div class="col-md-12 col-sm-12" >
+			<div class="col-sm-6">
+				<div class="form-group has-search">
+					<input type="text" class="form-control" placeholder="Search">
+				  </div>
+			</div>
+			<div class="col-sm-2">
+				<span class="fa fa-shield-alt fa-2x"></span>
+			</div>
+			<div class="col-sm-2">
+				 <span class="fa fa-bell fa-2x"></span>
+			</div>
+			<div class="col-sm-2">
+				 <span class="fa fa-calendar-alt fa-2x"></span>
+			</div>
+		 </div> 
+	
+  </div>
+  <div class="col-md-4" style="background: #fff">
+    <div class="sticky-top mb-3">
+      <div class="card">
+        <div class="card-header">
+          <h4>Add Task <span class="fa fa-plus" data-toggle="modal" data-target=".bd-example-modal-sm"></span></h4>
         </div>
+        <div id="external-events">
+        </div>
+      </div>
     </div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">All</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Open</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Closed</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row">
+            <h3>Live Classes</h3>
+            <div class="events-activity">
+                <h4>Exams on Monday 26-10-2020</h4>
+                <span>1 Day ago</span>
+            </div>
+            <div class="events-activity">
+              <h4>Exams on Monday 26-10-2020</h4>
+              <span>1 Day ago</span>
+          </div>
+          <h3>Exams</h3>
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+          <h3>Assignments</h3>
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="row">
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="row">
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+          <div class="events-activity">
+            <h4>Exams on Monday 26-10-2020</h4>
+            <span>1 Day ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{{-- start of Calendar --}}
+  <div class="col-md-8 calendar">
+      <div id="calendar"></div>
+  </div>
+</div>
+{{-- end of col-md-8 --}}
+<div class="col-md-4 dashboard-right">
+  <div class="row top-right">
+     <i class="fa fa-user fa-2x"></i> 
+         <a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="fa fa-bars"></span>
+      </a> 
+  </div>
+  <div class="tasks">
+    <h3>My Tasks</h3>
+
+      @if(count($user_tasks)>0)
+      @foreach ($user_tasks as $task)
+      <div class="task-card">
+        <span class="fa fa-calendar-alt"></span>
+        <span class="date">{{$task->task_date}}</span>
+        <input type="checkbox">
+        <span class="title">{{$task->title}}</span>
+        {{-- <i class="fa fa-user"></i> --}}
+      </div>
+      @endforeach
+        @else
+        <div class="task-card">
+        <h4>No Task Found</h4>
+        </div>
+      @endif
 
 
+
+  </div>
+  
+</div>
 @endsection
+
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content"> 
+    <form action="{{route('task')}}" method="POST">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <h4>Create New Task</h4>
+        <label for="">Choose task Date</label>
+        <div class="form-group">
+          <div class='input-group date'>
+            <input type='date' class="form-control" name="date" required />
+          </div>
+         </div>
+        <label for="">Task Title</label>
+        <input type="text" class="form-control" name="title" required placeholder="Task Title"><br>
+        <button class="btn btn-primary" type="submit">Save</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
 @section('javascript')
     @parent
 
@@ -199,11 +233,19 @@
     var calendar = new Calendar(calendarEl, {
       plugins: [ 'bootstrap', 'interaction','list', 'dayGrid', 'timeGrid' ],
       header    : {
-        left  : 'prev,next today',
-        center: 'title',
+        //left  : 'prev,next today',
+        left: 'title',
         // right : 'dayGridMonth,timeGridWeek,timeGridDay',
-        right : 'timeGridDay,timeGridWeek,dayGridMonth'
+        //right : 'dayGridMonth,timeGridWeek,timeGridDay',
+    
+      
       },
+      buttonIcons: {
+        next: 'right-single-arrow', 
+        prevYear: 'left-double-arrow', 
+        nextYear: 'right-double-arrow'
+      },
+
       'themeSystem': 'bootstrap',
       events: event_array,
       eventTextColor: '#fff',
@@ -266,12 +308,12 @@
       }    
     });
 
-    calendar.changeView('timeGridDay');
+    //calendar.changeView('timeGridDay');
     calendar.render();
     // $('#calendar').fullCalendar()
 
     /* ADDING EVENTS */
-    var currColor = '#3c8dbc' //Red by default
+    var currColor = '#060646' //Red by default
     //Color chooser button
     var colorChooser = $('#color-chooser-btn')
     $('#color-chooser > li > a').click(function (e) {
