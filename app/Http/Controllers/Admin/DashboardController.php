@@ -549,7 +549,9 @@ class DashboardController extends Controller
     }
     public function liveClasses(){
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
-        $my_classes = LiveClasses::where(['owner'=> \Auth::id()])->get();
+        $my_classes = LiveClasses::with(['course'])->where(['owner'=> \Auth::id()])
+        ->orderBy('id','DESC')->get();
+
         // dd($my_classes);       
         return view('admin.classes.index')->with(compact('my_courses','my_classes'));
     }
@@ -561,7 +563,7 @@ class DashboardController extends Controller
 
         if($request->isMethod('post')){
             $data=$request->all();            
-
+            // dd($data);
             $user=\Auth::user();
             // dd($user);
             $title="";
@@ -613,10 +615,11 @@ class DashboardController extends Controller
             $newLiveClass= [
                 'title'=>$title,//class title
                 'meetingID'=>$meetingID,//meeting ID
+                'course_id'=>$data['course_id'],
                 'classTime'=>$classTime,//classTime
                 'attendeePW'=>$attendeePW,//attendee password 
                 'moderatorPW'=>$moderatorPW,//moderator password
-                'duration'=>$duration,//role=0for normal user accounts
+                // 'duration'=>$duration,//role=0for normal user accounts
                 'owner'=>$user['id']
                 ];
             $newLiveClass = LiveClasses::create($newLiveClass);
@@ -628,10 +631,10 @@ class DashboardController extends Controller
                 $my_event->event_end_time=$event_start_end[1];
                 $my_event->color=$data['favcolor'];
 
-            // dd($my_event);
-            $my_event->save();
-                //return back to dashboard with class scheduled notification.
-                $class_string = "Meeting scheduled successfully!. Meeting ID is: ".$meetingID.".";
+                // dd($my_event);
+                $my_event->save();
+                    //return back to dashboard with class scheduled notification.
+                    $class_string = "Meeting scheduled successfully!. Meeting ID is: ".$meetingID.".";
                     return redirect()->back()->with('flash_message_success',$class_string);
             }
         }
@@ -783,6 +786,8 @@ class DashboardController extends Controller
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
 
         if($request->isMethod('post')){
+            $data=$request->all();
+            // dd($data);
             //post method
             $user = \Auth::user();
             $title="";
@@ -804,30 +809,22 @@ class DashboardController extends Controller
             }
 
             //1.5 create a live class as an event
-            $course_id = $request['course_id'];
-            $event_start_end = $request['event_start_end'];
+            $course_id = $data['course_id'];
 
-            $event_start_end = explode(" - ", $event_start_end);
-             // 0 => "2020-06-23 00:00:00"
-             // 1 => "2020-06-23 23:59:59"
-            // dd($event_start_end[0]);
-            // dd(date("H:i", strtotime("04:25 PM"));)
+            $t=time();
+            $event_start_end = date("Y/m/d H:m:s",$t);
+            // dd($event_start_end);
 
 
             $my_event = new Events;
             $my_event->title=$request['title'];
             $my_event->course_id=$course_id;
-            $my_event->event_start_time=$event_start_end[0];
-            $my_event->event_end_time=$event_start_end[1];
+            $my_event->event_start_time=$event_start_end;
+            $my_event->event_end_time=$event_start_end;
             $my_event->color="#00c0ef";
             $my_event->save();
-
             // dd($event_start_end);
-            
-            
 
-
-            
             $meetingID=str_random(6);
             $attendeePW=str_random(6);//"ap";//$request->attendeePW;
             $moderatorPW=str_random(6);//"mp";//$request->moderatorPW;
@@ -897,11 +894,14 @@ class DashboardController extends Controller
                 //successful on bbb server
                 $newLiveClass= [
                 'title'=>$title,//class title
-                'meetingID'=>$meetingID,//meeting ID
+                'meetingID'=>$meetingID,
+                'course_id'=>$data['course_id'],
+                'classTime'=>$event_start_end,//meeting ID
                 'attendeePW'=>$attendeePW,//attendee password 
                 'moderatorPW'=>$moderatorPW,//moderator password
                 'owner'=>$user->id
                 ];
+
 
                 $classRecord = [
                 'meetingID'=>$meetingID,

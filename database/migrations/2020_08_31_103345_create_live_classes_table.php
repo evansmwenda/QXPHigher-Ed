@@ -16,7 +16,9 @@ class CreateLiveClassesTable extends Migration
         Schema::create('live_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('classTime');
             $table->string('meetingID');
+            $table->string('course_id');
             $table->string('attendeePW');
             $table->string('moderatorPW');
             $table->string('owner');

@@ -49,8 +49,8 @@
 	                            <td>{{ ++$key }}</td>
 	                            <td>{{$class->title}}</td>
 	                            <td>{{$class->meetingID}}</td>
-	                            <td>Biology 101</td>
-	                            <td>2020-10-12 10AM</td>
+	                            <td>{{$class->course->title}}</td>
+	                            <td>{{$class->classTime}}</td>
 	                            <td><a href="{{ url('/admin/live-classes/delete/'.$class->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
 	                        </tr>
                     	@endforeach
@@ -74,13 +74,13 @@
 		        <div class="modal-body">
 		        	<a href="/admin/live-classes/create">
 			        	<div class="text-center" style="display:flex;justify-content: center;align-items:center;height: 30px;">
-			        		<p>Start an Instant Meeting</p>
+			        		<h5>Start an Instant Meeting</h5>
 			        	</div>
 		        	</a>
 		        	<hr>
 		        	<a href="/admin/live-classes/schedule">
 			        	<div style="display:flex;justify-content: center;align-items: center;height: 30px;">
-			        		<p>Schedule Meeting for Later</p>
+			        		<h5>Schedule Meeting for Later</h5>
 			        	</div>
 		        	</a>
 		        	

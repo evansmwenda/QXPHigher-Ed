@@ -107,6 +107,9 @@ class Course extends Model
     public function events(){
         return $this->hasMany('App\Events');
     }
+    public function classes(){
+        return $this->hasMany('App\LiveClasses');
+    }
 
 
 }

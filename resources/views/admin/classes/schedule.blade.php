@@ -49,6 +49,29 @@
                         <label for="mydate">Start/End Time</label>
                         <input type="text" id="mydate" class="daterange" name="event_start_end" style="width: 100%;padding: 6px" required />
                     </div>
+                    <div class="col-xs-12 form-group">
+                        <label for="mydate">Class Start Time/Date</label>
+                        <div class="row">
+                            <div class="col-sm-5 col-md-5">
+                                <input type="date" style="width: 100%;" name="start_class_date"  required />
+                            </div>
+                            <div class="col-sm-5 col-md-5">
+                                <input type="time" style="width: 100%;" name="start_class_time" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 form-group">
+                        <label for="mydate">Class End Time/Date</label>
+                        <div class="row">
+                            <div class="col-sm-5 col-md-5">
+                                <input type="date" style="width: 100%;" name="end_class_date"  required />
+                            </div>
+                            <div class="col-sm-5 col-md-5">
+                                <input type="time" style="width: 100%;" name="end_class_time" required />
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-xs-12 form-group">
                         <label for="favcolor">Select color:</label>
