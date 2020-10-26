@@ -22,47 +22,36 @@
         		please contact your advisor.
         	</h4>
         </div>
-        <div class="col-sm-12 col-md-7" >
+        <div class="col-sm-12 col-md-12" >
         	<div class="card" style="border: 1px solid #00CED1;border-radius:6px;width: 100%">
         		<table class="table table-borderless" style="width: 100%">
-					<thead>
-						<tr style="font-weight: bold;">
-							<td style="color: #060646">Course</td>
-							<td style="color: #060646">Name</td>
-							<td style="color: #060646">Status</td>
-							<td style="color: #060646">Term</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Biology 101</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2020-09-12</td>
-						</tr>
-						<tr>
-							<td>BASIC2-D DESIGN</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2019/20/SEM2</td>
-						</tr>
-						<tr>
-							<td>BASIC2-D DESIGN</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2020-09-12</td>
-						</tr>
-						<tr>
-							<td>Biology 101</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2019/20/SEM2</td>
-						</tr>
-					</tbody>
+        			@if(count($my_classes) > 0)
+        				<thead>
+							<tr style="font-weight: bold;">
+								<td style="color: #060646">Course</td>
+								<td style="color: #060646">Name</td>
+								<td style="color: #060646">Status</td>
+								<td style="color: #060646">Term</td>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($my_classes as $class)
+								<tr>
+									<td>{{$class->course->title}}</td>
+									<td>{{$class->title}}</td>
+									<td>Scheduled</td>
+									<td>{{$class->classTime or 'N/A'}} </td>
+								</tr>
+							@endforeach
+						</tbody>
+					@else
+						<p class="text-center">You have no scheduled classes</p>
+					@endif
+
 				</table>
         	</div>
         </div>
-        <div class="col-sm-12 col-md-5">
+       <!--  <div class="col-sm-12 col-md-5">
         	<div class="card" style="border: 1px solid #00CED1;border-radius:6px;width: 100%">
         		<table class="table table-borderless" style="width: 100%">
 					<thead>
@@ -101,6 +90,6 @@
 					</tbody>
 				</table>
         	</div>
-        </div>
+        </div> -->
     </div>
 @endsection

@@ -816,7 +816,6 @@ class DashboardController extends Controller
            //not successful
            return redirect()->back()->with('msg',trans('main.error_class')); 
         }
-
     }
     public function createLiveClass(Request $request){
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
@@ -972,7 +971,6 @@ class DashboardController extends Controller
             }
         }
         return view('admin.classes.create')->with(compact('my_courses'));
-          
     }
     public function joinLiveClass($meetingID){
         $user = \Auth::user();

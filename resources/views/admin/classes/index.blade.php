@@ -82,7 +82,7 @@
 		        	</a>
 		        	<hr>
 		        	<a href="/admin/live-classes/schedule">
-			        	<div style="display:flex;justify-content: center;align-items: center;height: 30px;">
+			        	<div class="text-center" style="display:flex;justify-content: center;align-items: center;height: 30px;">
 			        		<h5>Schedule Meeting for Later</h5>
 			        	</div>
 		        	</a>
