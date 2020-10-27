@@ -260,7 +260,7 @@ class HomeController extends Controller
     public function getCalender(){
         //get user tasks
         $user_tasks=Task::where('user_id',\Auth::id())->get();
-
+        $yearly =$this->fetchAllEvents();
         $monthly = $this->fetchFutureEvents();
         // $monthly = $this->fetchAllEvents();
          // dd($monthly);
@@ -269,7 +269,7 @@ class HomeController extends Controller
         $exam_event_array = (array) null; 
         $assignment_event_array = (array) null; 
         $now = time();
-        foreach($monthly as $event){
+        foreach ($yearly as $key => $event) {
             $created_at=explode(" ", $event->created_at);
             $your_date = strtotime($created_at[0]);
             $datediff = $now - $your_date;
@@ -283,6 +283,12 @@ class HomeController extends Controller
                     "created_at" => $created_at[0],
                     "days" => $days,
                     );
+        }
+        foreach($monthly as $event){
+            $created_at=explode(" ", $event->created_at);
+            $your_date = strtotime($created_at[0]);
+            $datediff = $now - $your_date;
+            $days = round($datediff / (60 * 60 * 24));
             switch($event->type){
                 case 'class':
                     #live classes
