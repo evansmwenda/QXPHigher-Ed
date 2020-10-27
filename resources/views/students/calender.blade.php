@@ -36,67 +36,87 @@
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">All</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Open</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Class</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Closed</a>
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Exams</a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="row">
-            <h3>Live Classes</h3>
-            <div class="events-activity">
-                <h4>Exams on Monday 26-10-2020</h4>
-                <span>1 Day ago</span>
-            </div>
-            <div class="events-activity">
-              <h4>Exams on Monday 26-10-2020</h4>
-              <span>1 Day ago</span>
-          </div>
+
+
+          <h3>Live Classes</h3>
+          @if(count($class_event_array) > 0)
+            @foreach($class_event_array as $class_event)
+              <div class="events-activity">
+                <h4>{{$class_event['title']}} {{$class_event['start']}}</h4>
+                <span>{{$class_event['days']}} Day(s) ago</span>
+              </div>
+            @endforeach
+            
+          @else
+            <p class="text-center">You have no upcoming classes</p>
+          @endif
+
+
           <h3>Exams</h3>
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
+          @if(count($exam_event_array) > 0)
+              @foreach($exam_event_array as $exam_event)
+                <div class="events-activity">
+                  <h4>{{$exam_event['title']}} {{$exam_event['start']}}</h4>
+                  <span>{{$exam_event['days']}} Day(s) ago</span>
+                </div>
+              @endforeach
+              
+          @else
+            <p class="text-center">You have no upcoming exams</p>
+          @endif
+
           <h3>Assignments</h3>
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
+          @if(count($assignment_event_array) > 0)
+              @foreach($assignment_event_array as $assignment_event)
+                <div class="events-activity">
+                  <h4>{{$assignment_event['title']}} {{$assignment_event['start']}}</h4>
+                  <span>{{$assignment_event['days']}} Day(s) ago</span>
+                </div>
+              @endforeach
+              
+            @else
+              <p class="text-center">You have no upcoming assignments</p>
+            @endif
         </div>
 
       </div>
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="row">
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
+          @if(count($class_event_array) > 0)
+            @foreach($class_event_array as $class_event)
+              <div class="events-activity">
+                <h4>{{$class_event['title']}} {{$class_event['start']}}</h4>
+                <span>{{$class_event['days']}} Day(s) ago</span>
+              </div>
+            @endforeach
+            
+          @else
+            <p class="text-center">You have no upcoming classes</p>
+          @endif
         </div>
       </div>
       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
         <div class="row">
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
-          <div class="events-activity">
-            <h4>Exams on Monday 26-10-2020</h4>
-            <span>1 Day ago</span>
-          </div>
+          @if(count($exam_event_array) > 0)
+              @foreach($exam_event_array as $exam_event)
+                <div class="events-activity">
+                  <h4>{{$exam_event['title']}} {{$exam_event['start']}}</h4>
+                  <span>{{$exam_event['days']}} Day(s) ago</span>
+                </div>
+              @endforeach
+              
+          @else
+            <p class="text-center">You have no upcoming exams</p>
+          @endif
         </div>
       </div>
     </div>
