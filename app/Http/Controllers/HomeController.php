@@ -266,6 +266,18 @@ class HomeController extends Controller
          // dd($monthly);
         $event_array = (array) null; 
         foreach($monthly as $event){
+            switch($event->status){
+                case 'class':
+                    #live classes
+                    break;
+                case 'exam':
+                    #exam events
+                    break;
+                case 'assignment':
+                    #assignment events
+                    break;
+
+            }
             $event_array [] = array(
                 "title" => $event->title,
                 "start" => $event->event_start_time,
