@@ -260,24 +260,80 @@ class HomeController extends Controller
     public function getCalender(){
         //get user tasks
         $user_tasks=Task::where('user_id',\Auth::id())->get();
-
-        // $monthly = $this->fetchMonthlyEvents();
-        $monthly = $this->fetchAllEvents();
+        $yearly =$this->fetchAllEvents();
+        $monthly = $this->fetchFutureEvents();
+        // $monthly = $this->fetchAllEvents();
          // dd($monthly);
         $event_array = (array) null; 
-        foreach($monthly as $event){
+        $class_event_array = (array) null; 
+        $exam_event_array = (array) null; 
+        $assignment_event_array = (array) null; 
+        $now = time();
+        foreach ($yearly as $key => $event) {
+            $created_at=explode(" ", $event->created_at);
+            $your_date = strtotime($created_at[0]);
+            $datediff = $now - $your_date;
+            $days = round($datediff / (60 * 60 * 24));
             $event_array [] = array(
-                "title" => $event->title,
-                "start" => $event->event_start_time,
-                "end" => $event->event_end_time,
-                "backgroundColor" => $event->color,
-                "borderColor" => $event->color,
-                );
+                    "title" => $event->title,
+                    "start" => $event->event_start_time,
+                    "end" => $event->event_end_time,
+                    "backgroundColor" => $event->color,
+                    "borderColor" => $event->color,
+                    "created_at" => $created_at[0],
+                    "days" => $days,
+                    );
+        }
+        foreach($monthly as $event){
+            $created_at=explode(" ", $event->created_at);
+            $your_date = strtotime($created_at[0]);
+            $datediff = $now - $your_date;
+            $days = round($datediff / (60 * 60 * 24));
+            switch($event->type){
+                case 'class':
+                    #live classes
+                    $class_event_array [] = array(
+                    "title" => $event->title,
+                    "start" => $event->event_start_time,
+                    "end" => $event->event_end_time,
+                    "backgroundColor" => $event->color,
+                    "borderColor" => $event->color,
+                    "created_at" => $created_at[0],
+                    "days" => $days,
+                    );
+                    break;
+                case 'exam':
+                    #exam events
+                    $exam_event_array [] = array(
+                    "title" => $event->title,
+                    "start" => $event->event_start_time,
+                    "end" => $event->event_end_time,
+                    "backgroundColor" => $event->color,
+                    "borderColor" => $event->color,
+                    "created_at" => $created_at[0],
+                    "days" => $days,
+                    );
+                    break;
+                case 'assignment':
+                    #assignment events
+                    $assignment_event_array [] = array(
+                        "title" => $event->title,
+                        "start" => $event->event_start_time,
+                        "end" => $event->event_end_time,
+                        "backgroundColor" => $event->color,
+                        "borderColor" => $event->color,
+                        "created_at" => $created_at[0],
+                        "days" => $days,
+                        );
+                    break;
+
+            }
         }  
-        // dd($event_array);          
+        // dd($assignment_event_array);          
 
         //match the dates to days
-        return view('students.calender')->with(compact('event_array','user_tasks'));
+        return view('students.calender')->with(compact('event_array','user_tasks','class_event_array'
+            ,'exam_event_array','assignment_event_array'));
     }
     public function getCalenderOld(){
         //step2. fetch the assignments in the enrolled courses of student
@@ -748,12 +804,12 @@ class HomeController extends Controller
         $month = date('m');
 
         $monthly = DB::table('events')
-                    ->select('events.id as id','events.title as title','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title')
+                    ->select('events.id as id','events.title as title','events.type as type','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title','events.created_at as created_at')
                     ->join('courses', 'courses.id', '=', 'events.course_id')
                     ->whereIn('course_id',$course_ids)
                     ->where(function($q) {
-                        $q->where('event_end_time', '>=', date("Y-m-d"))
-                          ->orWhereNull('event_end_time');
+                        $q->where('event_start_time', '>=', date("Y-m-d"));
+                          // ->orWhereNull('event_end_time');
                     })
                     ->orderBy('event_start_time','DESC')
                     ->get();//has events data for the current month
@@ -764,7 +820,7 @@ class HomeController extends Controller
 
 
         $monthly = DB::table('events')
-                    ->select('events.id as id','events.title as title','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title')
+                    ->select('events.id as id','events.title as title','events.type as type','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title','events.created_at as created_at')
                     ->join('courses', 'courses.id', '=', 'events.course_id')
                     ->whereIn('course_id',$course_ids)
                     ->orderBy('event_start_time','DESC')
@@ -777,7 +833,7 @@ class HomeController extends Controller
         $month = date('m');
 
         $monthly = DB::table('events')
-                    ->select('events.id as id','events.title as title','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title')
+                    ->select('events.id as id','events.title as title','events.type as type','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title','events.created_at as created_at')
                     ->join('courses', 'courses.id', '=', 'events.course_id')
                     ->whereIn('course_id',$course_ids)
                     ->whereMonth('event_start_time', $month)
