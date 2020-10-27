@@ -2679,6 +2679,48 @@ input.round-btn {
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
+/* login design */
+.qxp-login{
+  background-image: url('../images/featured/female-doctor-has-online-conference-GCADMVD.jpg');
+  background-position: center center;
+  background-repeat: repeat-x;
+  background-size: 100% auto;
+  height: 700px;
+}
+/*overlays*/
+.qxp-overlay{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  height: 100%;
+}
+.spacer{
+  margin-left: 50px;
+}
+.spacer h1{
+color: #fff;
+font-weight: 400;
+font-size:40px;
+}
+.spacer p{
+  color: #fff;
+}
+.custom-login{
+  background: #fff;
+  /* height: 400px; */
+  margin-top: -90px;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+
+.qxp-overlay-education{
+  background-color: transparent;
+  background-image: linear-gradient(90deg, #FD6C03 0%, #FD6C03BA 70%);
+  opacity: 1;
+  transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
+}
 
 /* ==========================
 
