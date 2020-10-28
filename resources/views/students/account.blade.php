@@ -10,12 +10,12 @@
             </div> 
           @endif 
 
-    @if(Session::has("flash_message_success")) 
-        <div class="alert progress-bar-success alert-block">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong style="color:white;">{!! session('flash_message_success') !!}</strong>
-        </div> 
-    @endif
+        @if(Session::has("flash_message_success")) 
+            <div class="alert progress-bar-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong style="color:white;">{!! session('flash_message_success') !!}</strong>
+            </div> 
+        @endif
         <div class="container">
             <div class="row">
                 <div class="spacer">

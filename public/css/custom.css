@@ -523,6 +523,20 @@ text-align: center;
     margin: 20px 20px;
     text-align: center;
 }
+.assignment-card{
+    height: 90px;
+    margin-top: 20px;
+    background-color: rgb(105,105,105,.1);
+    /* border: 1px solid #00CED1; */
+    border-radius: 6px;
+}
+.assignment-card:hover{
+    border: 1px solid #00CED1;
+}
+.assignment-link{
+    margin-top:20px;
+    width:70px;
+}
 
 
 
@@ -588,5 +602,14 @@ text-align: center;
         
         padding-left: 20px;
     }
-
+    .assignment-card{
+        height: 230px;
+    }
+    .assignment-link{
+        margin-top:9px;
+        width:70px;
+    }
+    .assignment-text{
+        text-align: center;
+    }
 }

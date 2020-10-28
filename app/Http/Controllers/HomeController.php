@@ -524,8 +524,9 @@ class HomeController extends Controller
                 }
             } 
    
-           }else{
+        }else{
             $assignments = $this->fetchAssignments();
+            // dd($assignments);
             
             $method="GET";
             //$assignments = Assignments::
