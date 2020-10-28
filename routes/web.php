@@ -15,6 +15,9 @@ Route::get('/','HomeController@landing');
 Route::group(['middleware' => 'auth'], function () {
     // Route::get('/', 'HomeController@landing');
 
+    //edit account
+    Route::match(['get', 'post'],'/account','HomeController@account');
+
     //browse-lessons
     Route::get('/browse-lessons', 'HomeController@getBrowseLessons');
 

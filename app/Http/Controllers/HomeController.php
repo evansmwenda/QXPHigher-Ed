@@ -45,6 +45,22 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function account(Request $request){
+        $user = \Auth::user();
+        
+        if($request->isMethod('post')){
+            //save user details
+            // dd($user);
+            // $update = User::find($user->id);
+            // $user = new User;
+            $user->name=$request->username;
+            $user->email=$request->email;
+            $user->save();
+            return redirect()->back()->with("flash_message_success","User Details Updated Successfully");
+
+        }
+        return view('students.account')->with(compact('user'));
+    }
     public function createTask(Request $request, Task $task){
         $task->task_date=$request->date;
         $task->user_id=\Auth::id();
@@ -508,8 +524,9 @@ class HomeController extends Controller
                 }
             } 
    
-           }else{
+        }else{
             $assignments = $this->fetchAssignments();
+            // dd($assignments);
             
             $method="GET";
             //$assignments = Assignments::
