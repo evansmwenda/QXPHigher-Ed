@@ -69,6 +69,13 @@
                         <span class="title">Live Classes</span>
                     </a>
                 </li>
+                <li class="{{ $request->segment(1) == 'account' ? 'active' : '' }}">
+                    <a href="/account">
+                        <i class="fa fa-headset"></i>
+                        <span class="title">Edit Acccount</span>
+                    </a>
+                </li>
+
                 <li class="{{ $request->segment(1) == 'faq' ? 'active' : '' }}">
                     <a href="/faq">
                         <i class="fa fa-question"></i>

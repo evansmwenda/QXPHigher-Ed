@@ -45,6 +45,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function account(){
+        return view('students.account');
+    }
     public function createTask(Request $request, Task $task){
         $task->task_date=$request->date;
         $task->user_id=\Auth::id();
