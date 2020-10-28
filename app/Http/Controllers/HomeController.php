@@ -548,7 +548,7 @@ class HomeController extends Controller
         $ids_array = explode(",", $my_course_ids);
 
         // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
-        $exams = Test::with(['course'])->whereIn('course_id', $ids_array)->get();
+        $exams = Test::with(['course'])->whereIn('course_id', $ids_array)->paginate(4);
         // dd($exams);
         
         return view('students.exams')->with(compact('exams'));
@@ -723,7 +723,25 @@ class HomeController extends Controller
     }
 
     public function getLiveClass(){
-        return view('students.liveclasses');
+        $course_ids="";
+        $enrolled_courses =  EnrolledCourses::where(['user_id'=>\Auth::id()])->get(); 
+        foreach ($enrolled_courses as $key => $course) {
+            $course_ids .= $course->course_id .",";
+               # code...
+          }  
+        $course_ids = explode(",", $course_ids);
+
+        $my_classes = LiveClasses::with(['course'])
+        ->whereIn('course_id',$course_ids)
+        ->where(function($q) {
+            $q->where('classTime', '>=', date("Y-m-d"));
+              // ->orWhereNull('classTime');
+        })
+        ->orderBy('id','DESC')
+        ->get();
+
+        
+         return view('students.liveclasses')->with(compact('my_classes'));
     }
     public function joinLiveClass($meetingID){
         $user = \Auth::user();
