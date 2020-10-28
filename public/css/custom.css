@@ -459,10 +459,10 @@ text-align: center;
     background-color: #060646;
 }
 .lessons-bg{
-    /*background: url(../images/featured/baner.jpg);*/
-    background-size: cover;
-    background-position: 0% 0%;
-    position: relative;
+    background: url(../images/featured/female-doctor-has-online-conference-GCADMVD.jpg);
+    background-size: 100% auto;
+    background-position: center center;
+    background-repeat: repeat-x;
     height: 200px;
     display: flex;
     justify-content: center;
@@ -471,13 +471,13 @@ text-align: center;
 .lessons-overlay{
     
     width: 100%;
-    height: 100%;
+    height: 200px;
     position: absolute;
     z-index: 0;
     background-color: transparent;
-    background: -webkit-linear-gradient(left, rgba(253, 108, 3, 1), rgba(253, 108, 3, 0));
-    /*background-image: linear-gradient(90deg, #31F213 42%, ##F27113 57%);*/
-    opacity: 0.93;
+    /* background: -webkit-linear-gradient(left, rgba(253, 108, 3, 1), rgba(253, 108, 3, 0)); */
+    background-image: linear-gradient(90deg, #F27113 42%, #F27113 57%);
+    opacity: 0.8;
     mix-blend-mode: multiply;
     transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
 }
@@ -486,9 +486,6 @@ text-align: center;
     background: url(../images/featured/female-doctor-has-online-conference-GCADMVD.jpg);
     background-size: cover;
     position: relative;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
     background-position: center center;
     background-repeat: repeat-x;
     background-size: 100% auto;
@@ -496,12 +493,9 @@ text-align: center;
 }
 .qxp-overlay-education {
     background-color: transparent;
-    background-image: linear-gradient(90deg, #FD6C03 0%, #FD6C03BA 70%);
+    background-image: linear-gradient(90deg, #060646BA 0%, #060646BA 70%);
     opacity: 1;
     transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
     width: 100%;
     height: 100%;
     padding-top: 4em;
@@ -527,7 +521,6 @@ text-align: center;
     height: 90px;
     margin-top: 20px;
     background-color: rgb(105,105,105,.1);
-    /* border: 1px solid #00CED1; */
     border-radius: 6px;
 }
 .assignment-card:hover{
