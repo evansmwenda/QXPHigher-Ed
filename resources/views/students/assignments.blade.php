@@ -58,6 +58,6 @@
 			   </a> 
 
 	   </div>
-	   {{-- @include('partials.recentactivity') --}}
+	   @include('partials.recentactivity')
   </div>  
 @endsection

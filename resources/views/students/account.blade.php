@@ -57,7 +57,8 @@
                     <div class="col-sm-12 col-md-5">
                         <div class="account-card">
                             <div class="account-img text-center" >
-                                <img src="https://via.placeholder.com/100" alt="logo" height="100px" width="100px">
+                                <i class="fas fa-user"></i>
+                                {{-- <img src="https://via.placeholder.com/100" alt="logo" height="100px" width="100px"> --}}
                             </div>
                             <div class="account-text">
                                 <h3>Let's get you set up</h3>
@@ -74,36 +75,36 @@
                 
                 <div class="spacer">
                     <div class="col-sm-12 col-md-7">
-                        <form style="padding-top:70px;" action="{{url('account')}}" method="POST">
+                        <form class="account-form"  action="{{url('account')}}" method="POST">
                             <input type="hidden"
                                name="_token"
                                value="{{ csrf_token() }}">
-                            <div class="form-group row" >
+                            <div class="form-group row form-row" >
                               <label for="inputName3" class="col-sm-2 col-form-label" style="color: #fff">Name</label>
                               <div class="col-sm-7">
                               <input type="text" class="form-control" id="inputName3" name="username" placeholder="Name" value="{{$user->name or ''}}">
                               </div>
                             </div>
-                            <div class="form-group row" style="padding-top: 20px;">
+                            <div class="form-group row form-row">
                                 <label for="inputSchool3" class="col-sm-2 col-form-label" style="color: #fff">School</label>
                                 <div class="col-sm-7">
                                   <input type="text" class="form-control" id="inputSchool3" name="school_name" placeholder="School" value="{{$user->school->name or ''}}">
                                 </div>
                               </div>
-                            <div class="form-group row" style="padding-top: 20px;">
+                            <div class="form-group row form-row">
                                 <label for="inputSchID3" class="col-sm-2 col-form-label" style="color: #fff">School ID</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" id="inputSchID3" name="school_id" placeholder="School ID" value="{{$user->school->id or ''}}">
                                 </div>
                             </div>
-                            <div class="form-group row" style="padding-top: 20px;">
+                            <div class="form-group row form-row">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label" style="color: #fff">Email</label>
                                 <div class="col-sm-7">
-                                    <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email" value="{{$user->email or ''}}">
+                                    <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email" value="{{$user->email or ''}}" disabled>
                                 </div>
                             </div>  
 
-                            <div class="form-group row text-center" style="padding-top: 20px;">
+                            <div class="form-group row text-center form-row">
                               <div class="col-sm-10">
                                 <button type="submit" class="btn btn-primary">SAVE</button>
                               </div>

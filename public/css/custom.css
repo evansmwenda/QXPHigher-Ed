@@ -654,7 +654,7 @@ text-align: center;
     background-position: center center;
     background-repeat: repeat-x;
     background-size: 100% auto;
-    height: 700px;
+    height: 572px;
 }
 .qxp-overlay-education {
     background-color: transparent;
@@ -670,17 +670,24 @@ text-align: center;
     margin-right: 40px;
 }
 .account-card {
-    background: #fff;
-    height: 500px;
+    height: 430px;
     border-radius: 5px;
     padding: 30px;
+    background-color: #11BECC;
+    color: #fff;
 }
 .account-img{
     margin-top: 50px;
 }
+.account-img i {
+    font-size: 5em;
+}
 .account-text{
     margin: 20px 20px;
     text-align: center;
+}
+.account-form{
+    padding-top:70px;
 }
 .assignment-card{
     height: 90px;
@@ -694,6 +701,9 @@ text-align: center;
 .assignment-link{
     margin-top:20px;
     width:70px;
+}
+.form-row{
+    padding-top: 20px;
 }
 
 
@@ -767,6 +777,33 @@ text-align: center;
     .assignment-text{
         text-align: center;
     }
+    /* //added css-account */
+    .account-card {
+        height: 250px;
+        border-radius: 5px;
+        padding: 15px;
+        background-color: #11BECC;
+        color: #fff;
+    }
+    .account-img{
+        margin-top: 0px;
+    }
+    .account-img i {
+        font-size: 2.8em;
+    }
+    .account-text{
+        margin: 0px 0px;
+        text-align: center;
+    }
+    .account-form{
+        padding-top:10px;
+    }
+    .qxp-overlay-education{
+        padding-top: 1em;
+    }
+    .form-row{
+        padding-top: 0px;
+        margin-bottom: 7px !important;
     .top-header-2 span{
         display: none;
     }

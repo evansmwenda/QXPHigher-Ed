@@ -54,7 +54,7 @@ class HomeController extends Controller
             // $update = User::find($user->id);
             // $user = new User;
             $user->name=$request->username;
-            $user->email=$request->email;
+            // $user->email=$request->email;
             $user->save();
             return redirect()->back()->with("flash_message_success","User Details Updated Successfully");
 
@@ -526,12 +526,39 @@ class HomeController extends Controller
    
         }else{
             $assignments = $this->fetchAssignments();
-            // dd($assignments);
+            $tests_ids="";
+            $result_array =[];
+            $my_test_ids =[];
+            if(\Auth::id() != null){
+                $test_results = DB::table('tests_results')->where(['user_id'=> \Auth::id() ])->distinct('test_id')->orderBy('id','DESC')->get();
+            
+                foreach ($test_results as $test ) {
+                    $tests_ids .= $test->test_id.",";
+
+                    $result_array += [
+                        $test->test_id => $test->test_result,
+                    ];
+
+                }
+
+                $my_test_ids = explode(",",$tests_ids);//convert to array
+            }
+            
+            // dd($my_test_ids);
+
+            $test_details = DB::table('tests')
+                        ->select('tests.id as test_id','tests.title as title','tests.course_id as course_id','courses.title as name','courses.id as course_id')
+                        ->join('courses', 'courses.id', '=', 'tests.course_id')
+                        ->whereIn('tests.id', $my_test_ids)
+                        // ->where('tests.id', $my_test_ids)
+                        ->orderBy('tests.id','DESC')
+                        ->get();
+            // dd($test_details);
             
             $method="GET";
             //$assignments = Assignments::
         }
-        return view('students.assignments')->with(compact('method','assignments'));
+        return view('students.assignments')->with(compact('method','assignments','test_details','result_array'));
     }
     public function postAssignments(){
         return view('students.assignments');
