@@ -43,7 +43,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('live-classes/live/{meetingID}','HomeController@joinLiveClass');
 
     //assignments
-    Route::match(['get', 'post'],'/assignments', 'HomeController@getAssignments');
+    
+    Route::get('/assignments', 'HomeController@getAssignments');
+    Route::match(['get', 'post'],'/assignments/attempt/{id}', 'HomeController@displayAssignment');
 
     //exams
     Route::get('/exams', 'HomeController@getExams');

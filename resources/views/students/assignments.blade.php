@@ -35,7 +35,7 @@
         <p style="font-size: .8em;color:grey">{{ $assignment->course->title}}</p>
         </div>
         <div class="col-sm-1 col-md-2 text-center" style="">
-          <a href="{{ $assignment->id }}" class="btn btn-info assignment-link" style="">Open</a>
+          <a href="{{ url('assignments/attempt/'.$assignment->id) }}" class="btn btn-info assignment-link" style="">Open</a>
         </div>
       </div>
     @endforeach
