@@ -99,7 +99,7 @@
                             <div class="form-group row" style="padding-top: 20px;">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label" style="color: #fff">Email</label>
                                 <div class="col-sm-7">
-                                    <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email" value="{{$user->email or ''}}">
+                                    <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email" value="{{$user->email or ''}}" disabled>
                                 </div>
                             </div>  
 
