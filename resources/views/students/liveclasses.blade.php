@@ -52,20 +52,18 @@
         <h2>Join Live Class</h2>
         <form role="form" method="POST" action="/live-classes/join">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <div class="form-group">
-              <div class="row">
-                <button type="submit" class="btn btn-warning glyphicon glyphicon-arrow-right" style="margin-right: 15px;">
-                </button>
-                <div class="col-md-3">
+          <div class="row">
+          <div class="form-group">          
+                <div class="col-md-4 col-sm-12">
                     <input type="text" class="form-control" name="meetingID" placeholder="Enter Class ID to join" required>
                 </div>
-              </div>
-
           </div>
           <div class="form-group">
-              <div class="col-md-6 col-md-offset-5">
-
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-primary"> Join
+                </button>
               </div>
+          </div>
           </div>
       </form>
     </div>

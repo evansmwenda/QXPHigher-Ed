@@ -12,12 +12,15 @@
     opacity: 0.8;
     height: 200px;
     color: #fff;
-    padding: 20px;
+    padding: 30px;
     transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
 }
 .class-overlay h2{
     font-weight: 500;
     font-size: 50px;
+}
+.class-overlay button{
+    margin-top: -20px;
 }
 .scheduled-classes{
     border: 1px solid #D5D8DC;
@@ -111,10 +114,14 @@
     width: 23%;
     background: #EAECEE;
     height: 180px;
+    cursor: pointer;
     padding: 5px;
     margin: 10px;
     float: left;
     border-radius: 5px;
+}
+.exam-card:hover{
+    background: #D5D8DC;
 }
 .exam-card p{
     color: #060646;
@@ -700,9 +707,6 @@ text-align: center;
 }
 
 
-
-
-
 @media only screen and (max-width: 767px) {
     .menu{
         display: block;
@@ -800,5 +804,47 @@ text-align: center;
     .form-row{
         padding-top: 0px;
         margin-bottom: 7px !important;
+    .top-header-2 span{
+        display: none;
+    }
+    .exam-card{
+        width: 43%;
+        height: 200px;
+    }
+    .exam-card h4{
+        margin-top: 5px;
+        float: left !important;
+    }
+    .exam-warning span{
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .exam-fa{
+        background: #19197a;
+        padding: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 50px;
+        float: left;
+        border-radius: 50px;
+    }
+    .exam2 i{
+        display: none;
+    }
+    .exam2 h3{
+      margin-top: -1px;
+        padding-left: 5px;
+        font-size: 18px;
+    }
+    .class-overlay{
+        text-align: center;
+    }
+    .class-overlay input{
+        border-radius: 50px;
+       
+    }
+    .class-overlay button{
+       margin-top: 1px;
+        width: 100px;
     }
 }
