@@ -863,7 +863,7 @@ text-align: center;
 
     }    
 
-    }
+    
 
     .top-header-2 span{
         display: none;
@@ -907,9 +907,7 @@ text-align: center;
        margin-top: 1px;
         width: 100px;
     }
-    .excard{
-        /* display: none; */
-    }
+
     .exams-tests{
         border-radius: 5px;
         border: 1px solid #EBEDEF;
