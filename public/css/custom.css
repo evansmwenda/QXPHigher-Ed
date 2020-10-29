@@ -1,4 +1,12 @@
-/* Live Classes  */
+/* Live Classes */
+body{
+    background:#060646 !important;
+}
+.btn-primary{
+background: #060646 !important;
+border: 1px solid #060646 !important;
+border-radius: 10px !important;
+}
 .class-top{
     height: 200px;
     background-image: url('../images/featured/female-doctor-has-online-conference-GCADMVD.jpg');
@@ -11,7 +19,7 @@
     background-image: linear-gradient(90deg, #060646 0%, #060646 70%);
     opacity: 0.8;
     height: 200px;
-    color: #fff;
+    color: #ffffff;
     padding: 30px;
     transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
 }
@@ -34,6 +42,9 @@
     font-weight: 500;
     font-size: 20px;
     margin-bottom: -1px;
+}
+.card-form-group{
+    margin-left: 50px;
 }
 .scheduled-classes span{
     font-weight: 100;
@@ -77,9 +88,6 @@
     margin-top: 20px;
     padding: 20px;
 }
-/* ==================== */
-/* end of live cLASS */
-/* ===================== */
 
 /* Exams */
 .exam-top{
@@ -161,6 +169,46 @@
 .exam2 h3{
 color: #060646;
 font-size: 18px;
+}
+.exam-attempt{
+    padding: 20px;
+    margin-left: 60px;
+    margin-bottom: -10px;
+}
+.exam-attempt h2{
+    color: #060646;
+    font-size: 25px;
+}
+.exam-attempt h3{
+    font-size:15px;
+    font-weight: 900;
+}
+.form-check label{
+    font-weight: 200;
+}
+
+.form-check input{
+    margin-right: 5px;
+
+}
+.excard{
+    width: 130px;
+    background: #11BECC;;
+    padding: 7px;
+    margin: 8px;
+    color: #fff;
+    text-align: center;
+    border-radius: 20px;
+    float: left; 
+}
+.exams-tests{
+    border-radius: 5px;
+    border: 1px solid #EBEDEF;
+    margin-left: 60px;
+    height: 200px;
+    background: #F4F6F6;
+    margin-bottom: 10px;
+    overflow-y: scroll;
 }
 /*  ============================
         End of exams
@@ -812,7 +860,11 @@ text-align: center;
     .form-row{
         padding-top: 0px;
         margin-bottom: 7px !important;
+
     }    
+
+    }
+
     .top-header-2 span{
         display: none;
     }
@@ -854,5 +906,20 @@ text-align: center;
     .class-overlay button{
        margin-top: 1px;
         width: 100px;
+    }
+    .excard{
+        /* display: none; */
+    }
+    .exams-tests{
+        border-radius: 5px;
+        border: 1px solid #EBEDEF;
+         margin-left: 0px; 
+        height: 200px;
+        background: #F4F6F6;
+        margin-bottom: 10px;
+        overflow-y: scroll;
+    }
+    .card-form-group{
+        margin-left: 0px;
     }
 }
