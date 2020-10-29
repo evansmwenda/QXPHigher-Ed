@@ -705,6 +705,14 @@ text-align: center;
 .form-row{
     padding-top: 20px;
 }
+.active a{
+    background-color: #fff !important;
+    color: #060646 !important;
+}
+/* .sidebar-menu a:hover{
+    background-color: #fff !important;
+    color:#060646 !important;
+} */
 
 
 @media only screen and (max-width: 767px) {

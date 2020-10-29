@@ -22,7 +22,7 @@
     <section class="sidebar">
         <ul class="sidebar-menu">
 
-            <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
+            <li class="{{ $request->segment(1) == '' ? 'active' : '' }}">
                 <a href="{{ url('/') }}">
                     <i class="fa fa-home fa-1x"></i>
                     <span class="title">@lang('global.app_dashboard')</span>

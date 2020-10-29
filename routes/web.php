@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     //assignments
     
     Route::get('/assignments', 'HomeController@getAssignments');
-    Route::match(['get', 'post'],'/assignments/attempt/{id}', 'HomeController@displayAssignments');
+    Route::match(['get', 'post'],'/assignments/attempt/{id}', 'HomeController@displayAssignment');
 
     //exams
     Route::get('/exams', 'HomeController@getExams');

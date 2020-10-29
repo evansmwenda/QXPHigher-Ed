@@ -76,8 +76,6 @@
 						<?php 
 						if(!is_null($submitted)){
 							echo "<p style='color:green'>You have already submitted for this assignment</p>";
-						}else{
-							echo "<p></p>";
 						}
 						?>
 
