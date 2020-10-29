@@ -60,7 +60,7 @@
                 <li class="{{ $request->segment(1) == 'exams' ? 'active' : '' }}">
                     <a href="/exams">
                         <i class="fa fa-briefcase"></i>
-                        <span class="title">Exams</span>
+                        <span class="title">Exams & Certification</span>
                     </a>
                 </li>
                 <li class="{{ $request->segment(1) == 'live-classes' ? 'active' : '' }}">
