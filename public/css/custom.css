@@ -108,7 +108,7 @@ border-radius: 10px !important;
 }
 .exam-overlay h2{
     font-weight: 600;
-    font-size: 50px;
+    font-size: 60px;
     margin-left: 20px;
 }
 .exam-overlay p{
@@ -761,6 +761,42 @@ text-align: center;
     background-color: #fff !important;
     color:#060646 !important;
 } */
+.certification{
+    padding-left: 20px;
+    background: #fff;
+}
+.certification h3{
+    color: #060646;
+    font-weight: 800;
+}
+.cert-card{
+    width: 21%;
+    background: #EAECEE;
+    height: 150px;
+    cursor: pointer;
+    padding: 8px;
+    margin: 20px;
+    float: left;
+    border-radius: 5px;
+}
+.cert-card .cert-header{
+    padding: 12px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    background: #11BECC;
+    border-radius: 5px;  
+}
+.cert-card span{
+    color: orange;
+    font-size: 20px;
+}
+.cert-card .fa{
+    font-size: 20px;
+
+    margin-top: 10px;
+
+}
 
 
 @media only screen and (max-width: 767px) {

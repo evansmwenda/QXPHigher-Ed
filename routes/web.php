@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     //exams
     Route::get('/exams', 'HomeController@getExams');
     Route::match(['get', 'post'],'/exams/save/{id}', 'HomeController@postExams');
+    Route::get('/certification','HomeController@certificates');
 
     //billing
     Route::get('/billing', 'HomeController@cale');
