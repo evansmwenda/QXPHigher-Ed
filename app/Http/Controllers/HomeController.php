@@ -718,6 +718,9 @@ class HomeController extends Controller
         
         
     }
+    public function certificates(){
+        return view('students.certificates');
+    }
     public function enrollCourse($course_id){
         //enroll to this course
         //get user id

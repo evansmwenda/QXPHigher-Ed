@@ -30,7 +30,17 @@
 
 {{-- main content --}}
     <div class="row col-md-12" style="background: #fff">
-      <h3 style="color: #060646; font-weight:600">Scheduled Exams</h3>
+      <div class="row">
+        <div class="col-md-9">
+          <h3 style="color: #060646; font-weight:600">Scheduled Exams</h3>
+        </div>
+        
+        <div class="col-md-3 pull-right">
+          <a href="/certification"><h3>My Certificates</h3></a>
+          </div>
+
+      </div>
+     
       @if(count($exams) >0)
       <div class="row">
         @foreach($exams as $exam)
