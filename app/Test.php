@@ -3,6 +3,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\ExamSubmits;
 
 /**
  * Class Test
@@ -58,4 +59,7 @@ class Test extends Model
         return $this->hasMany(QuestionsOption::class, 'question_id')->withTrashed();
     }
     
+    public function examsubmits(){
+        return $this->hasMany('App\ExamSubmits');
+    }
 }
