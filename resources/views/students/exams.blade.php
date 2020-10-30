@@ -67,27 +67,27 @@
     {{-- Submitted exams --}}
     <h3 style="color: #060646; font-weight:600">Submitted Exams</h3>
      
-    @if(count($exams) >0)
+    @if(count($my_submitted_exams) >0)
     <div class="row">
-      @foreach($exams as $exam)
+      @foreach($my_submitted_exams as $exam)
         <div class="exam-card">
           <div class="exam-header">
-            {{ $exam->title}}
+            {{ $exam->test_title}}
           </div>
-          <p>{{ $exam->course->title}}</p>
+          <p>{{ $exam->course_title}}</p>
             <span>Author:</span><br>
-            <i>Dr, Harry Garza</i>
+            <i>{{ $exam->owner_name }}</i>
             <h4 class="pull-right">30th November,2020</h4>
         </div>
        @endforeach
 
     </div>
     <div class="row">
-      {{ $exams->links() }}
+      {{-- {{ $my_submitted_exams->links() }} --}}
      </div>
     @else
       <div class="row">
-        <h3 class="text-center"> No exam Scheduled</h3>
+        <h3 class="text-center"> No exam found</h3>
       </div>
     @endif
 </div>

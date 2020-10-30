@@ -597,8 +597,44 @@ class HomeController extends Controller
         // $assignments = Assignments::whereIn('course_id', $ids_array)->get();
         $exams = Test::with(['course'])->whereIn('course_id', $ids_array)->paginate(4);
         // dd($exams);
+
+        //get the test_ids in the courses enrolled by student
+        $tests = Test::whereIn('course_id', $ids_array)->get();
+        $my_tests_ids="";
+        foreach($tests as $test){
+            $my_tests_ids .= $test->id .","; 
+        }
+        $my_tests_ids_array = explode(",", $my_tests_ids);
+
+        //get all test results for logged in user
+        $test_results = TestsResult::where('user_id',\Auth::id())->whereIn('test_id',$my_tests_ids_array)->get();
         
-        return view('students.exams')->with(compact('exams'));
+        //get the examsubmits for those tests
+        $submitted_exams = DB::table('exam_submits')
+                    ->select('exam_submits.id as id','exam_submits.test_id as test_id',
+                    'exam_submits.user_id as user_id','tests.title as test_title',
+                    'courses.title as course_title','course_user.user_id as owner_id',
+                    'users.name as owner_name')
+                    ->join('tests', 'tests.id', '=', 'exam_submits.test_id')
+                    ->join('courses', 'courses.id', '=', 'tests.course_id')
+                    ->join('course_user', 'course_user.course_id', '=', 'courses.id')
+                    ->join('users', 'users.id', '=', 'course_user.user_id')
+                    ->whereIn('test_id',$my_tests_ids_array)
+                    ->get();
+                    // dd($submitted_exams);
+
+        $my_submitted_exams =[];
+        foreach($submitted_exams as $submitted){
+            //check if the user id is among those who have submitted
+            $userids_array = explode(",", $submitted->user_id);
+            if(in_array(\Auth::id(),$userids_array)){
+                //student had submitted this exam->add to array
+                array_push($my_submitted_exams, $submitted);
+            }            
+        }
+        // dd($my_submitted_exams);
+        
+        return view('students.exams')->with(compact('exams','my_submitted_exams','test_results'));
     }
     public function postExams(Request $request,$id=null){
         if($request->isMethod('post')){
