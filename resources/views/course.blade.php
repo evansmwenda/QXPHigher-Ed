@@ -1,44 +1,59 @@
 @extends('layouts.home')
 
 @section('main')
-
-    <h2>{{ $course->title }}</h2>
+<div class="row">
+    @include('students.header')
+</div>
+<div class="row" style="background: #fff">
     @if(Session::has("flash_message_error")) 
-            <div class="alert alert-error alert-block">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong>{!! session('flash_message_error') !!}</strong>
-            </div> 
-          @endif 
+    <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>{!! session('flash_message_error') !!}</strong>
+    </div> 
+  @endif 
 
     @if(Session::has("flash_message_success")) 
-        <div class="alert progress-bar-success alert-block">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong style="color:white;">{!! session('flash_message_success') !!}</strong>
-        </div> 
+    <div class="alert progress-bar-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong style="color:white;">{!! session('flash_message_success') !!}</strong>
+    </div> 
     @endif
 
+  <div class="course-details">
+      <div class="row">
+          <div class="col-md-6">
+            <h2>{{ $course->title }}</h2>
+          </div>
+          {{-- <div class="col-md-4 pull-right">
+            @if ($purchased_course)
+            Rating: {{ $course->rating }} / 5
+            
+            <form action="{{ route('courses.rating', [$course->id]) }}" method="post">
+                {{ csrf_field() }}
+                <div class="row">
+                <div class="col-md-8">
+                    <select name="rating" class="form-control col-md-4">
+                        <option value="1">1 - Awful</option>
+                        <option value="2">2 - Not too good</option>
+                        <option value="3">3 - Average</option>
+                        <option value="4" selected>4 - Quite good</option>
+                        <option value="5">5 - Awesome!</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-primary" value="Rate" />
+                </div>
+                </div>
 
-    @if ($purchased_course)
-        Rating: {{ $course->rating }} / 5
-        <br />
-        <b>Rate the course:</b>
-        <br />
-        <form action="{{ route('courses.rating', [$course->id]) }}" method="post">
-            {{ csrf_field() }}
-            <select name="rating">
-                <option value="1">1 - Awful</option>
-                <option value="2">2 - Not too good</option>
-                <option value="3">3 - Average</option>
-                <option value="4" selected>4 - Quite good</option>
-                <option value="5">5 - Awesome!</option>
-            </select>
-            <input type="submit" value="Rate" />
-        </form>
-        <hr />
-    @endif
+               
+            </form>
+            
+            @endif
+          </div> --}}
+      </div>
+    <span>{{ $course->description }}</span>
 
-    <p>{{ $course->description }}</p>
-
+     {{-- ENROLL TO COURSE BUTTON--}}
     <p>
         @if (\Auth::check())
             @if($course->price == null)
@@ -71,13 +86,29 @@
                class="btn btn-primary">Buy course (${{ $course->price }})</a>   
         @endif
     </p>
+    {{-- END OF ENROLL TO COURSE--}}
 
+    {{-- SUB-TOPICS OF THE COURSE --}}
+    <div class="row">
+        @foreach ($course->publishedLessons as $lesson)
+            <div class="sub-titles" onclick="location.href='{{ route('lessons.show', [$lesson->course_id, $lesson->slug]) }}';">
+                <div class="sub-header">
+                    <a href="{{ route('lessons.show', [$lesson->course_id, $lesson->slug]) }}">{{ $loop->iteration }}.  {{substr($lesson->title , 0, 40) }}</a>
+               
+                </div>
+                @if ($lesson->free_lesson)
+        
+                @endif 
+            
+                <p>{{ substr ($lesson->short_text,0,200) }}</p>
+                
+            </div>
+        @endforeach
+    </div>
+    {{-- END OF COURSE SUB TOPICS --}}
 
-    @foreach ($course->publishedLessons as $lesson)
-        @if ($lesson->free_lesson)(FREE!)@endif {{ $loop->iteration }}.
-        <a href="{{ route('lessons.show', [$lesson->course_id, $lesson->slug]) }}">{{ $lesson->title }}</a>
-        <p>{{ $lesson->short_text }}</p>
-        <hr />
-    @endforeach
+  </div>
+
+</div>
 
 @endsection
