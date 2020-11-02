@@ -45,6 +45,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function allquizes(){
+        return view('students.allquizes');
+    }
     public function account(Request $request){
         $user = \Auth::user();
         
@@ -574,10 +577,13 @@ class HomeController extends Controller
             $method="GET";
             //$assignments = Assignments::
         }
+        $all_assignments = $this->fetchAssignments();
+        // dd($assignments);
         return view('students.assignment_display')
         ->with(compact(
         'method',
         'assignment',
+        'all_assignments',
         'submitted'));
     }
     public function postAssignments(){

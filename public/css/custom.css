@@ -144,8 +144,9 @@ border-radius: 10px !important;
     padding: 12px;
     text-align: center;
     color: #fff;
-    background: #11BECC;
-    border-radius: 5px;  
+    background: #060646;
+    border-radius: 5px; 
+   
 }
 .exam-card span{
     color: #060646;
@@ -1022,8 +1023,18 @@ background: #060646;
 .quize{
     background: #EBEDEF;
     border-radius: 5px;
-    height: 150px;
     text-align: center;
+}
+.assignments{
+    background:  #11BECC;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+.assignments h2{
+    color: #fff;
+    font-size: 15px;
+    padding:15px;
 }
 .quize h2{
     font-size: 18px;

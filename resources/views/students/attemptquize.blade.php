@@ -33,10 +33,10 @@
                 <h3>{{ $lesson->test->title }}</h3>
             </div>
             
-            {{-- @if (!is_null($test_result))
+            @if (!is_null($test_result))
                 <h3>You have already completed the quize</h3>
                 <i>Your test score was: {{ $test_result->test_result }}</i>
-            @else --}}
+            @else
             <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
                 {{ csrf_field() }}
                 <h2>POP QUIZE</h2>
@@ -49,7 +49,7 @@
                 @endforeach
                 <input type="submit" class="submit" value=" Submit results " />
             </form>
-            {{-- @endif --}}
+            @endif
         </div>
 
     </div>
