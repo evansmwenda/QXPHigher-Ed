@@ -743,10 +743,12 @@ class DashboardController extends Controller
                 // 'duration'=>$duration,//role=0for normal user accounts
                 'owner'=>$user['id']
                 ];
+            // dd($newLiveClass);
             $newLiveClass = LiveClasses::create($newLiveClass);
             if($newLiveClass){
                 $my_event = new Events;
                 $my_event->title=$data['title'];
+                $my_event->type='class';
                 $my_event->course_id=$data['course_id'];
                 $my_event->event_start_time=$event_start_end[0];
                 $my_event->event_end_time=$event_start_end[1];
@@ -967,6 +969,7 @@ class DashboardController extends Controller
             $my_event = new Events;
             $my_event->title=$request['title'];
             $my_event->course_id=$course_id;
+            $my_event->type='class';
             $my_event->event_start_time=$event_start_end;
             $my_event->event_end_time=$event_start_end;
             $my_event->color="#00c0ef";
