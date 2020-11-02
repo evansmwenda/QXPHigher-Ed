@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     //assignments
     
     Route::get('/assignments', 'HomeController@getAssignments');
-    Route::get('/quizes', 'HomeController@allquizes');
+    Route::get('/quizzes', 'HomeController@allquizzes');
     Route::match(['get', 'post'],'/assignments/attempt/{id}', 'HomeController@displayAssignment');
 
     //exams
@@ -133,6 +133,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::post('questions_options_mass_destroy', ['uses' => 'Admin\QuestionsOptionsController@massDestroy', 'as' => 'questions_options.mass_destroy']);
     Route::post('questions_options_restore/{id}', ['uses' => 'Admin\QuestionsOptionsController@restore', 'as' => 'questions_options.restore']);
     Route::delete('questions_options_perma_del/{id}', ['uses' => 'Admin\QuestionsOptionsController@perma_del', 'as' => 'questions_options.perma_del']);
+    
+    //tests/quizzes
     Route::resource('tests', 'Admin\TestsController');
     Route::post('tests_mass_destroy', ['uses' => 'Admin\TestsController@massDestroy', 'as' => 'tests.mass_destroy']);
     Route::post('tests_restore/{id}', ['uses' => 'Admin\TestsController@restore', 'as' => 'tests.restore']);

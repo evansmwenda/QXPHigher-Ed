@@ -29,8 +29,12 @@ class TestsController extends Controller
             }
             $tests = Test::onlyTrashed()->get();
         } else {
-            $tests = Test::all();
+            // $tests = Test::all();
+            $tests = Test::where('lesson_id','!=',NULL)->get();
+            //only exams will have null lesson_id columns
+            
         }
+        // dd($tests);
 
         return view('admin.tests.index', compact('tests'));
     }

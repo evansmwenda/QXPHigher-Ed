@@ -45,8 +45,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function allquizes(){
-        return view('students.allquizes');
+    public function allquizzes(){
+        //fetch the quizes in the courses the student is enrolled to
+        $course_ids_array = $this->fetchEnrolledCourseIDs();
+        $my_quizzes = Test::with(['course','lesson'])->where('course_id',$course_ids_array)->where('lesson_id','!=',NULL)->get();
+        // dd($my_quizzes);
+        return view('students.allquizes')->with(compact('my_quizzes'));
     }
     public function account(Request $request){
         $user = \Auth::user();
