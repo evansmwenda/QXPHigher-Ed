@@ -57,8 +57,8 @@
     <p>
         @if (\Auth::check())
             @if($course->price == null)
-                <a href="/enroll/{{$course->id}}"
-               class="btn btn-primary">Enroll course Now</a>
+                {{-- <a href="/enroll/{{$course->id}}"
+               class="btn btn-primary">Enroll course Now</a> --}}
             @endif   
 
             @if ($course->students()->where('user_id', \Auth::id())->count() == 0 &&$course->price != null)
@@ -82,14 +82,15 @@
             @endif
             
         @else
-            <a href="{{ route('auth.register') }}?redirect_url={{ route('courses.show', [$course->slug]) }}"
-               class="btn btn-primary">Buy course (${{ $course->price }})</a>   
+            {{-- <a href="{{ route('auth.register') }}?redirect_url={{ route('courses.show', [$course->slug]) }}"
+               class="btn btn-primary">Buy course (${{ $course->price }})</a>    --}}
         @endif
     </p>
     {{-- END OF ENROLL TO COURSE--}}
 
     {{-- SUB-TOPICS OF THE COURSE --}}
     <div class="row">
+        <h4 style="color: #060646; margin-left:10px">Available Topics</h4>
         @foreach ($course->publishedLessons as $lesson)
             <div class="sub-titles" onclick="location.href='{{ route('lessons.show', [$lesson->course_id, $lesson->slug]) }}';">
                 <div class="sub-header">

@@ -74,6 +74,7 @@ Route::post('course/payment', ['uses' => 'CoursesController@payment', 'as' => 'c
 Route::post('course/{course_id}/rating', ['uses' => 'CoursesController@rating', 'as' => 'courses.rating']);
 
 Route::get('lesson/{course_id}/{slug}', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
+Route::get('attempt/{course_id}/{slug}', ['uses' => 'LessonsController@attempt', 'as' => 'lessons.attempt']);
 Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
 
 // Create Task route
