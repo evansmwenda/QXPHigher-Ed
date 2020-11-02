@@ -26,7 +26,7 @@ class LessonsController extends Controller
             return abort(401);
         }
 
-        $lessons = Lesson::whereIn('course_id', Course::ofTeacher()->pluck('id'));
+        $lessons = Lesson::with('course')->whereIn('course_id', Course::ofTeacher()->pluck('id'));
         if ($request->input('course_id')) {
             $lessons = $lessons->where('course_id', $request->input('course_id'));
         }
@@ -38,7 +38,7 @@ class LessonsController extends Controller
         } else {
             $lessons = $lessons->get();
         }
-
+// dd($lessons);
         return view('admin.lessons.index', compact('lessons'));
     }
 
