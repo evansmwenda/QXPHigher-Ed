@@ -6,6 +6,7 @@
 </div>
 <div class="row" style="background: #fff; height:600px; overflow-y:scroll;overflow-x:hidden">
 	<div class="col-md-8">
+	
 		@if(count($assignments) > 0)
 		@foreach($assignments as $assignment)
 		  <div class="assignment-card">
