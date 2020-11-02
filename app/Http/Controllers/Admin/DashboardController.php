@@ -55,7 +55,7 @@ class DashboardController extends Controller
         // dd($courses);
 
         //fetch my events
-        $events = $this->fetchFutureEvents($course_ids);
+        $events = $this->fetchFutureEvents();
         $count_events = count($events);
       
         //fetch my assignments
@@ -212,9 +212,122 @@ class DashboardController extends Controller
         // dd($my_events);
         //dd($my_courses[0]->course->title);//"Biology 101"
 
+        $yearly =$this->fetchAllEvents();
+        
+        $monthly = $this->fetchFutureEvents();
+        
+        $event_array = (array) null; 
+        $class_event_array = (array) null; 
+        $exam_event_array = (array) null; 
+        $assignment_event_array = (array) null; 
+        $now = time();
+        foreach ($yearly as $key => $event) {
+            $created_at=explode(" ", $event->created_at);
+            $your_date = strtotime($created_at[0]);
+            $datediff = $now - $your_date;
+            $days = round($datediff / (60 * 60 * 24));
+            $event_array [] = array(
+                    "title" => $event->title,
+                    "start" => $event->event_start_time,
+                    "end" => $event->event_end_time,
+                    "backgroundColor" => $event->color,
+                    "borderColor" => $event->color,
+                    "created_at" => $created_at[0],
+                    "days" => $days,
+                    );
+        }
+        
+
+        foreach($monthly as $event){
+            $created_at=explode(" ", $event->created_at);
+            $your_date = strtotime($created_at[0]);
+            $datediff = $now - $your_date;
+            $days = round($datediff / (60 * 60 * 24));
+            switch($event->type){
+                case 'class':
+                    #live classes
+                    $class_event_array [] = array(
+                    "id"=> $event->id,
+                    "title" => $event->title,
+                    "start" => $event->event_start_time,
+                    "end" => $event->event_end_time,
+                    "backgroundColor" => $event->color,
+                    "borderColor" => $event->color,
+                    "created_at" => $created_at[0],
+                    "days" => $days,
+                    );
+                    break;
+                case 'exam':
+                    #exam events
+                    $exam_event_array [] = array(
+                        "id"=> $event->id,
+                    "title" => $event->title,
+                    "start" => $event->event_start_time,
+                    "end" => $event->event_end_time,
+                    "backgroundColor" => $event->color,
+                    "borderColor" => $event->color,
+                    "created_at" => $created_at[0],
+                    "days" => $days,
+                    );
+                    break;
+                case 'assignment':
+                    #assignment events
+                    $assignment_event_array [] = array(
+                        "id"=> $event->id,
+                        "title" => $event->title,
+                        "start" => $event->event_start_time,
+                        "end" => $event->event_end_time,
+                        "backgroundColor" => $event->color,
+                        "borderColor" => $event->color,
+                        "created_at" => $created_at[0],
+                        "days" => $days,
+                        );
+                    break;
+            }
+        }
+        // dd($monthly);
         
          //get
-        return view('admin.events.index')->with(compact('my_events'));
+        return view('admin.events.index')
+        ->with(compact('my_events',
+        'event_array',
+        'class_event_array'
+        ,'exam_event_array',
+        'assignment_event_array'));
+    }
+    public function updateEvent(Request $request,$id){
+        //check if i own the course
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        
+        $course_ids = $this->fetchEnrolledCourseIDs();
+        $event_details = Events::where('id',$id)->first();
+        $course_id = $event_details['course_id'];
+        if(!is_null($course_id) && in_array($course_id,$course_ids)){
+            //user is owner of the course->can edit
+            // dd($my_event);
+            if($request->isMethod('post')){
+                //user attempting to update
+                $data=$request->all();
+                $event_start_end = $data['event_start_end'];
+                // dd($event_start_end);
+                
+                $event_start_end = explode(" - ", $event_start_end);
+                 // 0 => "2020-06-23 00:00:00"
+                 // 1 => "2020-06-23 23:59:59"
+                // dd($event_start_end[0]);
+                // dd(date("H:i", strtotime("04:25 PM"));)
+    
+                $event = Events::find($id);
+                $event->title = $data['event_title'];
+                $event->course_id = $data['course_id'];
+                $event->event_start_time=$event_start_end[0];
+                $event->event_end_time=$event_start_end[1];
+                $event->color=$data['favcolor'];
+                $event->save();
+                return redirect('/admin/events')->with('flash_message_success','Event updated successfully ');
+            }
+            return view('admin.events.edit')->with(compact('event_details','my_courses'));
+        }
     }
     public function createEvents(Request $request){
         // $my_courses = CourseUser::where(['user_id'=>'3'])->get();
@@ -630,10 +743,12 @@ class DashboardController extends Controller
                 // 'duration'=>$duration,//role=0for normal user accounts
                 'owner'=>$user['id']
                 ];
+            // dd($newLiveClass);
             $newLiveClass = LiveClasses::create($newLiveClass);
             if($newLiveClass){
                 $my_event = new Events;
                 $my_event->title=$data['title'];
+                $my_event->type='class';
                 $my_event->course_id=$data['course_id'];
                 $my_event->event_start_time=$event_start_end[0];
                 $my_event->event_end_time=$event_start_end[1];
@@ -854,6 +969,7 @@ class DashboardController extends Controller
             $my_event = new Events;
             $my_event->title=$request['title'];
             $my_event->course_id=$course_id;
+            $my_event->type='class';
             $my_event->event_start_time=$event_start_end;
             $my_event->event_end_time=$event_start_end;
             $my_event->color="#00c0ef";
@@ -1042,20 +1158,6 @@ class DashboardController extends Controller
     public function joinClassByID(Request $request){
         return $this->joinLiveClass($request->meetingID);
     }
-    public function fetchFutureEvents($course_ids){
-        $month = date('m');
-
-        $events = Events::with('course')
-        ->whereIn('course_id',$course_ids)
-        ->where(function($q) {
-            $q->where('event_end_time', '>=', date("Y-m-d"))
-              ->orWhereNull('event_end_time');
-        })
-        ->orderBy('event_start_time','DESC')
-        ->get();
-
-        return $events;            
-    }
     public function getResourcesList($course_ids){
         //find lesson_ids belonging to those course_ids
         $lesson = Lesson::whereIn('course_id',$course_ids)->pluck('id')->toArray();
@@ -1078,5 +1180,55 @@ class DashboardController extends Controller
         }else{
             return "";
         }
+    }
+    public function fetchEnrolledCourseIDs(){
+        //step1. get the courses where the teacher has created  and store ids in string
+        $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
+        $course_ids="";
+        foreach ($my_courses as $key => $value) {
+            $course_ids .= $value->course_id .",";
+        }
+        $courseIdsArray = explode(",", $course_ids);;
+        return $courseIdsArray;
+    }
+    public function fetchFutureEvents(){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+        $month = date('m');
+        $monthly = DB::table('events')
+                    ->select('events.id as id','events.title as title','events.type as type','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title','events.created_at as created_at')
+                    ->join('courses', 'courses.id', '=', 'events.course_id')
+                    ->whereIn('course_id',$course_ids)
+                    ->where(function($q) {
+                        $q->where('event_start_time', '>=', date("Y-m-d"));
+                    })
+                    ->orderBy('event_start_time','DESC')
+                    ->get();//has events data for the current month
+        return $monthly;           
+    }
+    public function fetchAllEvents(){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+
+
+        $monthly = DB::table('events')
+                    ->select('events.id as id','events.title as title','events.type as type','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title','events.created_at as created_at')
+                    ->join('courses', 'courses.id', '=', 'events.course_id')
+                    ->whereIn('course_id',$course_ids)
+                    ->orderBy('event_start_time','DESC')
+                    ->get();//has events data for the current month
+        return $monthly;  
+    }
+    public function fetchMonthlyEvents(){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+
+        $month = date('m');
+
+        $monthly = DB::table('events')
+                    ->select('events.id as id','events.title as title','events.type as type','events.event_start_time as event_start_time','events.event_end_time as event_end_time','events.color as color','courses.title as course_title','events.created_at as created_at')
+                    ->join('courses', 'courses.id', '=', 'events.course_id')
+                    ->whereIn('course_id',$course_ids)
+                    ->whereMonth('event_start_time', $month)
+                    ->orderBy('event_start_time','DESC')
+                    ->get();//has events data for the current month
+        return $monthly;            
     }
 }
