@@ -141,6 +141,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     //for  events
     Route::get('events','Admin\DashboardController@getEvents');
     Route::match(['get', 'post'],'events/create','Admin\DashboardController@createEvents');
+    Route::match(['get', 'post'],'events/update/{id}','Admin\DashboardController@updateEvent');
     Route::match(['get', 'post'],'events/create2','Admin\DashboardController@createEvents2');
     Route::match(['get', 'post'],'events/delete/{id}','Admin\DashboardController@deleteEvents');
 

@@ -23,7 +23,7 @@
         
         <div class="panel-body">
             <div class="row">
-            	<form method="post" action="/admin/events/edit/{{ $event_details->id }}">{{ csrf_field() }}
+            	<form method="post" action="/admin/events/update/{{ $event_details->id }}">{{ csrf_field() }}
             		<div class="col-xs-12 form-group">
 	                	<div class="form-group">
 	                        <label>Select Course</label>
@@ -56,7 +56,7 @@
                     </div>
 
 	                <div class="col-xs-12 form-group">
-	                	<button type="submit" class="btn btn-primary"> Create Event</button>
+	                	<button type="submit" class="btn btn-primary"> Update Event</button>
 	                </div>
 	                
 
