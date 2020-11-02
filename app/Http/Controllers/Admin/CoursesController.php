@@ -19,24 +19,7 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index2(){
-        if (! Gate::allows('course_access')) {
-            return abort(401);
-        }
-
-        if (request('show_deleted') == 1) {
-            if (! Gate::allows('course_delete')) {
-                return abort(401);
-            }
-            $courses = Course::onlyTrashed()->ofTeacher()->get();
-        } else {
-            $courses = Course::ofTeacher()->get();
-        }
-
-        return view('admin.courses.index2', compact('courses'));
-    }
-    public function index()
-    {
+    public function index(){
         if (! Gate::allows('course_access')) {
             return abort(401);
         }
