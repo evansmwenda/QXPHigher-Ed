@@ -144,8 +144,9 @@ border-radius: 10px !important;
     padding: 12px;
     text-align: center;
     color: #fff;
-    background: #11BECC;
-    border-radius: 5px;  
+    background: #060646;
+    border-radius: 5px; 
+   
 }
 .exam-card span{
     color: #060646;
@@ -970,10 +971,10 @@ text-align: center;
 }
 .course-details .sub-titles{
     width: 31%;
-    height: 150px;
+    height: 152px;
     margin: 10px;
     float: left;
-    border: 1px solid #EBEDEF;
+    border: 1px solid #060646;
     background: #fff;
     border-radius: 5px;
     cursor: pointer;
@@ -982,7 +983,7 @@ text-align: center;
     background: #EAECEE;
 }
 .course-details .sub-titles a{
-    color: #060646;
+    color: #fff;
     font-size: 15px;
   
 }
@@ -992,5 +993,99 @@ color: #000;
 }
 .sub-header{
 padding: 10px;
-background: #EAECEE;
+background: #060646;
+}
+.lesson-details{
+    background: #fff;
+    padding: 20px;
+    height: 600px;
+    color: #000;
+    overflow-y: scroll;
+}
+.lesson-details h2{
+    color: #060646;
+    font-weight: 900;
+    font-size: 25px;
+}
+.lesson-details h3{
+    color: #079DFF;
+    font-size: 18px;
+}
+.quizes{
+    background: #fff;
+    /* padding:20px; */
+}
+.quizes h2{
+    color: #060646;
+    font-weight: 900;
+
+}
+.quize{
+    background: #EBEDEF;
+    border-radius: 5px;
+    text-align: center;
+}
+.assignments{
+    background:  #11BECC;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+.assignments h2{
+    color: #fff;
+    font-size: 15px;
+    padding:15px;
+}
+.quize h2{
+    font-size: 18px;
+    background: #11BECC;
+    padding: 8px;
+    color: #fff;
+    border-radius: 5px;
+}
+.quize h3{
+    color: #079DFF;
+    font-size: 15px;
+    padding-left: 5px;
+    color: #000;
+
+}
+.quize-header{
+    padding: 15px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background: #11BECC;
+    color: #fff !important;
+}
+.quizes-all{
+    padding:20px;
+    /* background: #EBEDEF; */
+    color: #000;
+    height: 600px;
+    overflow-y: scroll;
+}
+.quizes-all h2{
+    color: #060646;
+    font-size: 18px;
+}
+.quizes-all h2{
+    color: #060646;
+    font-weight: 500;
+    font-size: 18px;
+    
+}
+.quizes-all form{
+    padding-left: 20px;
+}
+.quizes-all p{
+    color: #060646;
+    font-size: 15px;
+    font-weight: 700;
+}
+.quizes-all .submit{
+    border-radius: 50px;
+    padding:5px;
+    background: #11BECC;
+    color:#fff;
+    border:1px solid #11BECC;
 }

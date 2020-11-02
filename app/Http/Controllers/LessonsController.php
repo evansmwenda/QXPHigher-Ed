@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Lesson;
@@ -13,8 +12,7 @@ use DB;
 class LessonsController extends Controller
 {
 
-    public function show($course_id, $lesson_slug)
-    {
+    public function show($course_id, $lesson_slug){
         $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->firstOrFail();
 
         //uget the current lesson_ids column of enrolled courses
@@ -24,9 +22,8 @@ class LessonsController extends Controller
             ->get();
 
         //update the value of lesson ids    
-        $cour = EnrolledCourses::where('course_id',$course_id)->where('user_id', \Auth::id())->update(['lesson_id'=>$update_lesson[0]->lesson_id.",".$lesson->id]);
+        //$cour = EnrolledCourses::where('course_id',$course_id)->where('user_id', \Auth::id())->update(['lesson_id'=>$update_lesson[0]->lesson_id.",".$lesson->id]);
   
-
         if (\Auth::check())
         {
             if ($lesson->students()->where('id', \Auth::id())->count() == 0) {
@@ -63,10 +60,63 @@ class LessonsController extends Controller
         }else{
             $questions_count = count($lesson->test->questions);
         }
-        
-
+        //dd($questions_count);
         return view('lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
             'purchased_course', 'test_exists','questions_count'));
+
+    }
+    public function attempt($course_id, $lesson_slug){
+        $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->firstOrFail();
+
+        //uget the current lesson_ids column of enrolled courses
+        $update_lesson = DB::table('enrolled_courses')
+            ->where('course_id',$course_id)
+            ->where('user_id', \Auth::id())
+            ->get();
+
+        //update the value of lesson ids    
+        //$cour = EnrolledCourses::where('course_id',$course_id)->where('user_id', \Auth::id())->update(['lesson_id'=>$update_lesson[0]->lesson_id.",".$lesson->id]);
+  
+        if (\Auth::check())
+        {
+            if ($lesson->students()->where('id', \Auth::id())->count() == 0) {
+                $lesson->students()->attach(\Auth::id());
+            }
+        }
+
+        $test_result = NULL;
+
+        if ($lesson->test) {
+            $test_result = TestsResult::where('test_id', $lesson->test->id)
+                ->where('user_id', \Auth::id())
+                ->first();
+        }
+
+        $previous_lesson = Lesson::where('course_id', $lesson->course_id)
+            ->where('position', '<', $lesson->position)
+            ->orderBy('position', 'desc')
+            ->first();
+        $next_lesson = Lesson::where('course_id', $lesson->course_id)
+            ->where('position', '>', $lesson->position)
+            ->orderBy('position', 'asc')
+            ->first();
+
+        $purchased_course = $lesson->course->students()->where('user_id', \Auth::id())->count() > 0;
+        $test_exists = FALSE;
+        if ($lesson->test && $lesson->test->questions->count() > 0) {
+            $test_exists = TRUE;
+        }
+
+        //dd($lesson->test);
+        if($lesson->test == null){
+            $questions =0;
+        }else{
+            $questions_count = count($lesson->test->questions);
+        }
+        //dd($questions_count);
+        return view('students.attemptquize', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
+            'purchased_course', 'test_exists','questions_count'));
+
     }
 
     public function test($lesson_slug, Request $request)
