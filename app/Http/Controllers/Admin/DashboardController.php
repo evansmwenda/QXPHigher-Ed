@@ -532,6 +532,19 @@ class DashboardController extends Controller
         $my_test->published   = "1";
         $my_test->save();
 
+        //create an event to alert students of the exam
+        $my_event = new Events;
+        $my_event->title=$v[0]["exam_title"];
+        $my_event->type='exam';
+        $my_event->course_id=$v[0]["course_id"];
+        $my_event->event_start_time=date("Y-m-d");
+        $date = date("Y-m-d");
+        $date = strtotime($date);
+        $date2 = strtotime("+7 day", $date);
+        $my_event->event_end_time=$date2;
+        $my_event->color="#00FFFF";
+        $my_event->save();
+
         $my_test_id = $my_test->id;
         // fwrite($myfile, "\nnewest test id->".$my_test_id);//test id
         $question_ids="";
