@@ -575,7 +575,7 @@ class HomeController extends Controller
             $assignment =  Assignments::find($id);
 
             //check if student submitted assignment previously
-            $submitted = SubmittedAssignments::where('assignment_id',$id)->where('user_id','2')->get();
+            $submitted = SubmittedAssignments::where('assignment_id',$id)->where('user_id',\Auth::id())->get();
             // dd($submitted);
             
             $method="GET";

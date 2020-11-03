@@ -183,9 +183,21 @@ class DashboardController extends Controller
                     $my_assignment->title=$data['title'];
                     $my_assignment->description=$data['description'];
                     $my_assignment->media=$filename;
-
-                    // dd($my_assignment);
                     $my_assignment->save();
+
+
+                    //create event based on that assignment
+                    $date_now = date("Y-m-d H:m:s");
+                    // $date_valid = date("Y-m-d H:m:s", strtotime("+7 days"));
+                    $date_valid = date("Y-m-d H:m:s");
+
+                    $this->myEventCreator(
+                        $data['title'],//title of event
+                        'assignment',//type of event
+                        $data['course_id'],//course_id
+                        $date_now, //event start time
+                        $date_valid
+                    );
        
                     return redirect('/admin/assignments')
                         ->with('flash_message_success','You have successfully created your assignment.');
@@ -198,6 +210,17 @@ class DashboardController extends Controller
          //get
         return view('admin.assignments.create')->with(compact('my_courses'));
 
+    }
+    public function myEventCreator(String $title,String $type,String $course_id,String $start_date,String $end_date){
+        //create events here
+        $my_event = new Events;
+        $my_event->title            = $title;
+        $my_event->course_id        = $course_id;
+        $my_event->type             = $type;
+        $my_event->event_start_time = $start_date;
+        $my_event->event_end_time   = $end_date;
+        $my_event->color            ="#00FFFF";
+        $my_event->save();
     }
 
     public function getEvents(){
@@ -528,8 +551,6 @@ class DashboardController extends Controller
         //create an event to alert students of the exam
         $date_now = date("Y-m-d H:m:s");
         $date_valid = date("Y-m-d H:m:s", strtotime("+7 days"));
-        // $date_now = strtotime($date_now);
-        // $date_valid = strtotime("+7 day", $date_now);
 
         $my_event = new Events;
         $my_event->title     = $v[0]["exam_title"];
@@ -546,8 +567,6 @@ class DashboardController extends Controller
         $my_test->description = $v[0]["description"];
         $my_test->published   = "1";
         $my_test->save();
-
-        
 
 
         $my_test_id = $my_test->id;
