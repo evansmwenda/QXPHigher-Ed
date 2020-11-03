@@ -137,6 +137,100 @@ class DashboardController extends Controller
         );
         return $my_summary_count;
     }
+    public function getAssignmentsb(Request $request){
+        $course_ids = $this->fetchEnrolledCourseIDs();
+        $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
+
+        return view('admin.assignments.index')->with(compact('my_assignments'));
+    }
+    public function updateAssignment(Request $request,$id=null){
+        $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
+        $assignment_course = Assignments::where('id',$id)->value('course_id');
+        // dump($assignment_course);
+
+        $course_ids = $this->fetchEnrolledCourseIDs();
+        // dump($course_ids);
+        $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
+        if(in_array($assignment_course,$course_ids)){
+            //user is owner of the course
+            $submitted_assignments_array = $this->assignmentDetails($id);
+            // dd($submitted_assignments_array);
+            $assignment = Assignments::find($id);
+            if($request->isMethod('post')){
+                //post request
+                $data=$request->all();
+                // dd($data);
+                if($data['course_id'] == "0"){
+                    return back()->with('flash_message_error','Please choose a course from the dropdown');
+                }
+                $slug =  DB::table('courses')->where('id', $data['course_id'])->value('slug');
+                // dd($slug);
+                if($request->hasFile('assignment')){
+                    $image_tmp = $request->file('assignment');
+
+                    $extension = $image_tmp->getClientOriginalExtension();//txt,pdf,csv
+                    $filename = time().'.'.$extension;//1592819807.txt
+
+                    $storage_dir = 'uploads/assignments/'.$slug.'/';
+                    // dd($storage_dir);
+
+                    $uploaded = $image_tmp->move($storage_dir, $filename);
+                    //store the filename into the db
+
+
+                    if($uploaded){
+                        // 'id','course_id','title','description','media','created_at','updated_at']
+                        //file was uploaded->insert to db
+                        $assignment = Assignments::find($id);
+                        $assignment->course_id=$data['course_id'];
+                        $assignment->title=$data['title'];
+                        $assignment->description=$data['description'];
+                        $assignment->media=$filename;
+                        $assignment->save();
+
+
+                        //create event based on that assignment
+                        $date_now = date("Y-m-d H:m:s");
+                        // $date_valid = date("Y-m-d H:m:s", strtotime("+7 days"));
+                        $date_valid = date("Y-m-d H:m:s");
+
+                        $this->myEventCreator(
+                            $data['title'],//title of event
+                            'assignment',//type of event
+                            $data['course_id'],//course_id
+                            $date_now, //event start time
+                            $date_valid
+                        );
+        
+                        return redirect('/admin/assignments')
+                            ->with('flash_message_success','You have successfully updated your assignment.');
+                    }else{
+                        //file was not uploaded dont insert to db
+                        return back()->with('flash_message_error','Sorry, there was an error updating your assigment');
+                    }
+                }
+            }
+            // dd($assignment);
+            return view('admin.assignments.edit')
+            ->with(compact('assignment',
+            'my_courses',
+            'submitted_assignments_array'));
+        }
+        
+    }
+    public function assignmentDetails($assignment_id=null){
+        //get the details of the assignemnt->description and if anyone has submitted
+        $course_ids = $this->fetchEnrolledCourseIDs();
+        $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
+
+        // dd(Assignments::find($assignment_id));
+        $submitted_assignments_array =[];
+        $assignment_ids="";
+        $submitted_assignments = SubmittedAssignments::with(['user'])
+            ->where(['assignment_id'=>$assignment_id])->get();
+
+        return $submitted_assignments;
+    }
 
     public function getAssignments(){
         // $my_courses = CourseUser::where(['user_id'=>'3'])->get();

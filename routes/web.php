@@ -153,6 +153,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     //for assignments
     Route::get('assignments','Admin\DashboardController@getAssignments');
     Route::match(['get', 'post'],'assignments/create','Admin\DashboardController@createAssignments');
+    Route::match(['get', 'post'],'assignments/update/{id}','Admin\DashboardController@updateAssignment');
 
     //for exams 
     Route::match(['get', 'post'],'exams','Admin\DashboardController@getExams');
