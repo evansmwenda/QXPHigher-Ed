@@ -739,10 +739,24 @@ text-align: center;
     padding-top:70px;
 }
 .assignment-card{
-    height: 90px;
+    height: 80px;
+    color:#060646;
     margin-top: 20px;
-    background-color: rgb(105,105,105,.1);
+    background:#fff;
     border-radius: 6px;
+}
+.assignment-card button{
+    color:#fff;
+    background: #FD6C03;
+    padding: 5px;
+    margin-top: 25px;
+    width: 90px;
+    border-radius: 10px;
+    border: 1px solid #FD6C03;
+}
+.assignment-card h3{
+   
+    font-size: 20px;
 }
 .assignment-card:hover{
     border: 1px solid #00CED1;
@@ -1088,4 +1102,69 @@ background: #060646;
     background: #11BECC;
     color:#fff;
     border:1px solid #11BECC;
+}
+.course-top h3{
+    color:#060646;
+    font-weight: 900;
+    padding-left: 20px;
+    font-size: 40px;
+}
+.course-top h4{
+    color:#060646;
+    font-weight: 800;
+    padding-left: 20px;
+    font-size: 25px;
+}
+.course-top button{
+    margin-top: 20px;
+    padding: 10px;
+    width: 130px;
+    border: 1px solid #FD6C03;
+    background: #FD6C03;
+    color:#fff;
+    border-radius: 10px;
+}
+.lecturer{
+    padding:8px;
+    background: #EBEDEF;
+    border-radius: 5px;
+}
+.lecturer span{
+    float:  left;
+    width: 15%;
+    background: #FD6C03;
+    padding: 10px;
+    color: #fff;
+   
+    border-radius: 30px;
+}
+.lecturer h2{
+    color: #060646;
+    margin-top: 0px;
+    width: 100%;
+    padding-left: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    
+}
+.lecturer i{
+    color: #060646;
+    font-size: 12px;
+    margin-top: -1px;
+    margin-top: -2px;
+    font-weight: 300;
+    margin-left: 5px;
+}
+.admin-display{
+    text-align: center;
+}
+.admin-display h2{
+    font-size: 25px;
+    color: #060646;
+    font-weight: 900;
+}
+.admin-display p{
+    margin-top: -5px;
+    color:#060646;
+    font-size:15px;
 }
