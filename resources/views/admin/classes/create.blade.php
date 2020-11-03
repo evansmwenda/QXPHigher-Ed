@@ -1,67 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Schedule Live Class</h3>    
-    @if(Session::has("flash_message_error")) 
-            <div class="alert alert-error alert-block">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong>{!! session('flash_message_error') !!}</strong>
-            </div> 
-          @endif 
-
-    @if(Session::has("flash_message_success")) 
-        <div class="alert alert-info alert-block">
+<div class="row">
+    @include('students.header')
+</div>
+{{-- content section --}}
+<div class="row" style="background: #fff">
+    {{-- col-md-8 --}}
+        @if(Session::has("flash_message_error")) 
+        <div class="alert alert-error alert-block">
             <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>{!! session('flash_message_success') !!}</strong>
+            <strong>{!! session('flash_message_error') !!}</strong>
         </div> 
-    @endif
+      @endif 
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_create')
-        </div>
+        @if(Session::has("flash_message_success")) 
+            <div class="alert alert-info alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div> 
+        @endif
+        <div class="row exam-top">
+            <div class="live-overlay">
+                @if(Session::has("flash_message_error")) 
+                <div class="alert alert-error alert-block">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>{!! session('flash_message_error') !!}</strong>
+                </div> 
+                @endif 
         
-        <div class="panel-body">
-            <div class="row">
-            	<form method="post" action="/admin/live-classes/create">{{ csrf_field() }}
-            		<div class="col-xs-12 form-group">
-	                	<div class="form-group">
-	                        <label>Select Course</label>
-	                        <select class="form-control" name="course_id" required>
-	                        	<option>Select Course</option>
-	                        	@foreach($my_courses as $course)
-	                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
-	                        	@endforeach
-	                        </select>
-	                    </div> 
-	                </div>
-	                <div class="col-xs-12 form-group">
-                    	<label for="exampleInputEmail1">Title</label>
-                    	<input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
-	                </div>
-<!--                     <div class="col-xs-12 form-group">
-                        <label for="mydate">Start/End Time</label>
-                        <input type="text" id="mydate" class="daterange" name="event_start_end" style="width: 100%;padding: 6px" required />
-                    </div> -->
-
-                    <div class="col-xs-12 form-group">
-                        <label for="favcolor">Select color:</label>
-                        <input type="color" id="favcolor" name="favcolor" value="#00c0ef" >
-                    </div>
-
-	                <div class="col-xs-12 form-group">
-	                	<button type="submit" class="btn btn-primary"> Create Class</button>
-	                </div>
-	                
-
-                </form>
+                @if(Session::has("flash_message_success")) 
+                    <div class="alert alert-info alert-block">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <strong>{!! session('flash_message_success') !!}</strong>
+                    </div> 
+                @endif
+                <h2>Instant Meeting</h2>
+                <p>Create, Connect and Enjoy</p>
             </div>
-            <p>
-                <a href="{{ url('/admin/live-classes') }}" class="btn btn-default">Back to list</a>
-            </p>
-            
+          </div>
+
+        <div class="col-md-5 instant-meeting">
+        <form method="post" action="/admin/live-classes/create">{{ csrf_field() }}
+            <div class="col-xs-12 form-group">
+                <div class="form-group">
+                    <label>Select Course</label>
+                    <select class="form-control" name="course_id" required>
+                        <option>Select Course</option>
+                        @foreach($my_courses as $course)
+                            <option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
+                        @endforeach
+                    </select>
+                </div> 
+            </div>
+            <div class="col-xs-12 form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>
+            </div>
+            <!--<div class="col-xs-12 form-group">
+                <label for="mydate">Start/End Time</label>
+                <input type="text" id="mydate" class="daterange" name="event_start_end" style="width: 100%;padding: 6px" required />
+            </div> -->
+            <div class="col-xs-12 form-group">
+                <label for="favcolor">Select color:</label>
+                <input type="color" id="favcolor" name="favcolor" value="#00c0ef" >
+            </div>
+            <div class="col-xs-12 form-group">
+                <button type="submit"> Create Class</button>
+                <a href="{{ url('/admin/live-classes') }}" class="btn btn-primary">Back to list</a>
+            </div>
+        </form>
         </div>
-    </div>
+
+</div>
+
 
 @endsection
 @section('javascript')

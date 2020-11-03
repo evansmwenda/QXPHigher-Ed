@@ -231,6 +231,27 @@ font-size: 18px;
     height: 200px;
     border-radius: 10px;
 }
+.instant-meeting{
+    background: #D5D8DC;
+    padding-top: 20px;
+    padding-left: 15px;
+    margin:30px;
+    border-radius: 10px;
+}
+.instant-meeting button{
+    background: #FD6C03;
+    border-radius: 10px;
+    padding: 8px;
+    margin-top: 10px;
+    color: #fff;
+    border: 1px solid #FD6C03;
+}
+.instant-meeting input,option{
+    border-radius: 10px;
+}
+.instant-meeting label{
+    color: #060646;
+}
 .join h3{
     color:#060646;
     font-weight:600 ;

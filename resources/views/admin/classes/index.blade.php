@@ -58,10 +58,10 @@
                     <div class="row meeting">
                     <h3>Create Meeting</h3>
                     <div class="row col-md-6 instant">
-                        <button>Instant</button>
+                        <a href="/admin/live-classes/create"><button>Instant</button></a>
                     </div>
                     <div class="row col-md-5 later">
-                        <button>Scheduled</button>
+                        <a href="/admin/live-classes/schedule"><button>Scheduled</button></a>
                     </div>
                     </div>
 		        	{{-- <a href="/admin/live-classes/create">
