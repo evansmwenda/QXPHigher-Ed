@@ -50,9 +50,10 @@ class DashboardController extends Controller
         ->orderBy('course_id','DESC')
         ->get();
 
+        $this->getSummaryCount();
+
         $course_ids = CourseUser::where('user_id',\Auth::id())->pluck('course_id');
         $count_courses = count($courses);
-        // dd($courses);
 
         //fetch my events
         $events = $this->fetchFutureEvents();
@@ -104,6 +105,37 @@ class DashboardController extends Controller
             'count_exams',
             'resources'
         ));
+    }
+    public function getSummaryCount(){
+        //courses
+        $courses = CourseUser::where('user_id',\Auth::id())->get();
+        $count_courses = count($courses);
+
+        //events
+        $events = $this->fetchFutureEvents();
+        $count_events = count($events);
+
+        //assignments
+        $course_ids =$this->fetchEnrolledCourseIDs();
+        $assignments = Assignments::whereIn('course_id',$course_ids)
+        ->orderBy('id','DESC')
+        ->get();
+        $count_assignments = count($assignments);
+
+        //exams
+        $exams = Test::with('course')
+        ->whereIn('course_id',$course_ids)
+        ->orderBy('id','DESC')
+        ->get();
+        $count_exams = count($exams);
+
+        $my_summary_count = array(
+            'courses' => $count_courses,
+            'events' => $count_events,
+            'exams' => $count_exams,
+            'assignments' => $count_assignments
+        );
+        return $my_summary_count;
     }
 
     public function getAssignments(){
