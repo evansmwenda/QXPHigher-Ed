@@ -201,6 +201,7 @@
 
       $('#question-form').submit(function (argument) {
               argument.preventDefault();
+              console.log("clicked submit");
 
               // Parent element containing each question and it's related options.
               let temp_d = $(`#question-wrapper .q-wrap`);
@@ -252,6 +253,7 @@
                 url: '/admin/exams/save',
                 type: 'POST',
                 beforeSend: function (request) {
+                  
                   return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 dataType: 'json',
@@ -261,9 +263,11 @@
               .done(function(response) {
                 console.log("we have liftoff->"+response.status);
                 console.log("data->"+response.sent);
+                console.log("datte now->"+response.date_now);
+                console.log("date valuid->"+response.date_valid);
                 $("#mypar").html(response.success);
                 $('#question-form')[0].reset();
-                window.location.replace("/admin/exams");
+                // window.location.replace("/admin/exams");
               })
               .fail(function(response) {
                 console.log("error->"+response);

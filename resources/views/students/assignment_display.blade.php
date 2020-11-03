@@ -37,15 +37,12 @@
 				</div>
 			</div>
 			</div>
-			<?php 
-			if(!is_null($submitted)){
-				echo "<p style='color:green'>You have already submitted this assignment</p>";
-			}else{
-				?>
+			@if($submitted->isEmpty())
 				<button type="submit" class="btn btn-primary">Submit</button>
-				<?php
-			}
-			?>
+			@else
+				<p style='color:green'>You have already submitted this assignment</p>
+			@endif
+			
 			
 		</form>
 		@endif

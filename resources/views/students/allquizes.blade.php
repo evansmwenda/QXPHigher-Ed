@@ -39,16 +39,23 @@
      
      
       <div class="row">
+          @if(count($my_quizzes) >0)
+            @foreach($my_quizzes as $quiz)
+              <div class="exam-card" onclick="location.href='{{url('attempt/'.$quiz->course->id.'/'.$quiz->lesson->slug)}}'">
+                <div class="exam-header">
+                  {{$quiz->course->title}}
+                </div>
+                <p>{{$quiz->title}}</p>
+                  <span>Author:</span><br>
+                  <i>Dr, Harry Garza</i>
+                
+              </div>
+            @endforeach
+          @else
+            <p class="text-center">You have no quizzes</p>
+          @endif
         
-          <div class="exam-card" onclick="location.href='{{url('#';">
-            <div class="exam-header">
-              Course Name
-            </div>
-            <p>Topic</p>
-              <span>Author:</span><br>
-              <i>Dr, Harry Garza</i>
-            
-          </div>
+          
       </div>
       <div class="row">
         {{-- {{ $exams->links() }} --}}

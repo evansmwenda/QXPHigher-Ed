@@ -57,8 +57,8 @@
                         <span class="title">Assignments</span>
                     </a>
                 </li>
-                <li class="{{ $request->segment(1) == 'quizes' ? 'active' : '' }}">
-                    <a href="/quizes">
+                <li class="{{ $request->segment(1) == 'quizzes' ? 'active' : '' }}">
+                    <a href="/quizzes">
                         <i class="fa fa-cog"></i>
                         <span class="title">Take Quiz</span>
                     </a>

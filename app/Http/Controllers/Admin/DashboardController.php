@@ -183,9 +183,21 @@ class DashboardController extends Controller
                     $my_assignment->title=$data['title'];
                     $my_assignment->description=$data['description'];
                     $my_assignment->media=$filename;
-
-                    // dd($my_assignment);
                     $my_assignment->save();
+
+
+                    //create event based on that assignment
+                    $date_now = date("Y-m-d H:m:s");
+                    // $date_valid = date("Y-m-d H:m:s", strtotime("+7 days"));
+                    $date_valid = date("Y-m-d H:m:s");
+
+                    $this->myEventCreator(
+                        $data['title'],//title of event
+                        'assignment',//type of event
+                        $data['course_id'],//course_id
+                        $date_now, //event start time
+                        $date_valid
+                    );
        
                     return redirect('/admin/assignments')
                         ->with('flash_message_success','You have successfully created your assignment.');
@@ -198,6 +210,17 @@ class DashboardController extends Controller
          //get
         return view('admin.assignments.create')->with(compact('my_courses'));
 
+    }
+    public function myEventCreator(String $title,String $type,String $course_id,String $start_date,String $end_date){
+        //create events here
+        $my_event = new Events;
+        $my_event->title            = $title;
+        $my_event->course_id        = $course_id;
+        $my_event->type             = $type;
+        $my_event->event_start_time = $start_date;
+        $my_event->event_end_time   = $end_date;
+        $my_event->color            ="#00FFFF";
+        $my_event->save();
     }
 
     public function getEvents(){
@@ -525,12 +548,26 @@ class DashboardController extends Controller
         // fwrite($myfile, "\ncourse_id->".$v[0]["course_id"]);//course_id
         // fwrite($myfile, "\nexam_title->".$v[0]["exam_title"]);//exam_title
 
+        //create an event to alert students of the exam
+        $date_now = date("Y-m-d H:m:s");
+        $date_valid = date("Y-m-d H:m:s", strtotime("+7 days"));
+
+        $my_event = new Events;
+        $my_event->title     = $v[0]["exam_title"];
+        $my_event->course_id = $v[0]["course_id"];
+        $my_event->type='exam';
+        $my_event->event_start_time=$date_now;
+        $my_event->event_end_time=$date_valid;
+        $my_event->color="#00FFFF";
+        $my_event->save();
+
         $my_test = new Test;
         $my_test->course_id   = $v[0]["course_id"];
         $my_test->title       = $v[0]["exam_title"];
         $my_test->description = $v[0]["description"];
         $my_test->published   = "1";
         $my_test->save();
+
 
         $my_test_id = $my_test->id;
         // fwrite($myfile, "\nnewest test id->".$my_test_id);//test id
@@ -592,10 +629,11 @@ class DashboardController extends Controller
         $arr = array('success' => true, 
             'status' => "Successful", 
             'sent' => json_encode($v),
-            'd' => 4, 
-            'e' => 5);
+            'date_now' => $date_now, 
+            'date_valid' => $date_valid
+        );
 
-         echo json_encode($arr);
+        echo json_encode($arr);
     }
 
     public function attemptedExams(String $id=null){
