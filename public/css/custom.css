@@ -792,6 +792,15 @@ text-align: center;
     mix-blend-mode: multiply;
     transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
 }
+.create-lesson{
+    background: #fff;
+    padding:20px;
+}
+.create-lesson h3{
+    color: #060646;
+    font-weight: 800;
+    font-size: 25px;
+}
 
 .account-bg{
     background: url(../images/featured/female-doctor-has-online-conference-GCADMVD.jpg);

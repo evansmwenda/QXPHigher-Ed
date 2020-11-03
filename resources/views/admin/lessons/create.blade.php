@@ -1,144 +1,138 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="row">
+    @include('students.header')
+</div>
+<div class="row create-lesson">
     <h3 class="page-title">@lang('global.lessons.title')</h3>
     {!! Form::open(['method' => 'POST', 'route' => ['admin.lessons.store'], 'files' => true,]) !!}
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_create')
+    <div class="row">
+        <div class="col-xs-6 form-group">
+            {!! Form::label('course_id', 'Course', ['class' => 'control-label']) !!}
+            {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2']) !!}
+            <p class="help-block"></p>
+            @if($errors->has('course_id'))
+                <p class="help-block">
+                    {{ $errors->first('course_id') }}
+                </p>
+            @endif
         </div>
-        
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('course_id', 'Course', ['class' => 'control-label']) !!}
-                    {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('course_id'))
-                        <p class="help-block">
-                            {{ $errors->first('course_id') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('title', 'Title*', ['class' => 'control-label']) !!}
-                    {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('title'))
-                        <p class="help-block">
-                            {{ $errors->first('title') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('slug', 'Slug', ['class' => 'control-label']) !!}
-                    {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('slug'))
-                        <p class="help-block">
-                            {{ $errors->first('slug') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('lesson_image', 'Lesson image', ['class' => 'control-label']) !!}
-                    {!! Form::file('lesson_image', ['class' => 'form-control', 'style' => 'margin-top: 4px;']) !!}
-                    {!! Form::hidden('lesson_image_max_size', 8) !!}
-                    {!! Form::hidden('lesson_image_max_width', 4000) !!}
-                    {!! Form::hidden('lesson_image_max_height', 4000) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('lesson_image'))
-                        <p class="help-block">
-                            {{ $errors->first('lesson_image') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('short_text', 'Short text', ['class' => 'control-label']) !!}
-                    {!! Form::textarea('short_text', old('short_text'), ['class' => 'form-control ', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('short_text'))
-                        <p class="help-block">
-                            {{ $errors->first('short_text') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('full_text', 'Full text', ['class' => 'control-label']) !!}
-                    {!! Form::textarea('full_text', old('full_text'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('full_text'))
-                        <p class="help-block">
-                            {{ $errors->first('full_text') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('downloadable_files', 'Downloadable files', ['class' => 'control-label']) !!}
-                    {!! Form::file('downloadable_files[]', [
-                        'multiple',
-                        'class' => 'form-control file-upload',
-                        'data-url' => route('admin.media.upload'),
-                        'data-bucket' => 'downloadable_files',
-                        'data-filekey' => 'downloadable_files',
-                        ]) !!}
-                    <p class="help-block"></p>
-                    <div class="photo-block">
-                        <div class="progress-bar form-group">&nbsp;</div>
-                        <div class="files-list"></div>
-                    </div>
-                    @if($errors->has('downloadable_files'))
-                        <p class="help-block">
-                            {{ $errors->first('downloadable_files') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('free_lesson', 'Free lesson', ['class' => 'control-label']) !!}
-                    {!! Form::hidden('free_lesson', 0) !!}
-                    {!! Form::checkbox('free_lesson', 1, false, []) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('free_lesson'))
-                        <p class="help-block">
-                            {{ $errors->first('free_lesson') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('published', 'Published', ['class' => 'control-label']) !!}
-                    {!! Form::hidden('published', 0) !!}
-                    {!! Form::checkbox('published', 1, false, []) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('published'))
-                        <p class="help-block">
-                            {{ $errors->first('published') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            
+        <div class="col-xs-6 form-group">
+            {!! Form::label('title', 'Title*', ['class' => 'control-label']) !!}
+            {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
+            <p class="help-block"></p>
+            @if($errors->has('title'))
+                <p class="help-block">
+                    {{ $errors->first('title') }}
+                </p>
+            @endif
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-xs-6 form-group">
+            {!! Form::label('slug', 'Slug', ['class' => 'control-label']) !!}
+            {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => '']) !!}
+            <p class="help-block"></p>
+            @if($errors->has('slug'))
+                <p class="help-block">
+                    {{ $errors->first('slug') }}
+                </p>
+            @endif
+        </div>
+        <div class="col-xs-6 form-group">
+            {!! Form::label('lesson_image', 'Lesson image', ['class' => 'control-label']) !!}
+            {!! Form::file('lesson_image', ['class' => 'form-control', 'style' => 'margin-top: 4px;']) !!}
+            {!! Form::hidden('lesson_image_max_size', 8) !!}
+            {!! Form::hidden('lesson_image_max_width', 4000) !!}
+            {!! Form::hidden('lesson_image_max_height', 4000) !!}
+            <p class="help-block"></p>
+            @if($errors->has('lesson_image'))
+                <p class="help-block">
+                    {{ $errors->first('lesson_image') }}
+                </p>
+            @endif
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            {!! Form::label('short_text', 'Short text', ['class' => 'control-label']) !!}
+            {!! Form::textarea('short_text', old('short_text'), ['class' => 'form-control ', 'placeholder' => '']) !!}
+            <p class="help-block"></p>
+            @if($errors->has('short_text'))
+                <p class="help-block">
+                    {{ $errors->first('short_text') }}
+                </p>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            {!! Form::label('full_text', 'Full text', ['class' => 'control-label']) !!}
+            {!! Form::textarea('full_text', old('full_text'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
+            <p class="help-block"></p>
+            @if($errors->has('full_text'))
+                <p class="help-block">
+                    {{ $errors->first('full_text') }}
+                </p>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            {!! Form::label('downloadable_files', 'Downloadable files', ['class' => 'control-label']) !!}
+            {!! Form::file('downloadable_files[]', [
+                'multiple',
+                'class' => 'form-control file-upload',
+                'data-url' => route('admin.media.upload'),
+                'data-bucket' => 'downloadable_files',
+                'data-filekey' => 'downloadable_files',
+                ]) !!}
+            <p class="help-block"></p>
+            <div class="photo-block">
+                <div class="progress-bar form-group">&nbsp;</div>
+                <div class="files-list"></div>
+            </div>
+            @if($errors->has('downloadable_files'))
+                <p class="help-block">
+                    {{ $errors->first('downloadable_files') }}
+                </p>
+            @endif
+        </div>
+        <div class="col-xs-12 form-group">
+            {!! Form::label('free_lesson', 'Free lesson', ['class' => 'control-label']) !!}
+            {!! Form::hidden('free_lesson', 0) !!}
+            {!! Form::checkbox('free_lesson', 1, false, []) !!}
+            <p class="help-block"></p>
+            @if($errors->has('free_lesson'))
+                <p class="help-block">
+                    {{ $errors->first('free_lesson') }}
+                </p>
+            @endif
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            {!! Form::label('published', 'Published', ['class' => 'control-label']) !!}
+            {!! Form::hidden('published', 0) !!}
+            {!! Form::checkbox('published', 1, false, []) !!}
+            <p class="help-block"></p>
+            @if($errors->has('published'))
+                <p class="help-block">
+                    {{ $errors->first('published') }}
+                </p>
+            @endif
+        </div>
+    </div>
     {!! Form::submit(trans('global.app_save'), ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
+
+</div>
+
+
 @stop
 
 @section('javascript')
