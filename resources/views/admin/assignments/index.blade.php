@@ -1,26 +1,51 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Assignments</h3>
-    <p>
-        <a href="{{ url('/admin/assignments/create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
-    </p>
-    
-    @if(Session::has("flash_message_error")) 
-            <div class="alert alert-error alert-block">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong>{!! session('flash_message_error') !!}</strong>
-            </div> 
-          @endif 
+  <div class="row">
+    @include('students.header')
+  </div>
 
-    @if(Session::has("flash_message_success")) 
-        <div class="alert alert-info alert-block">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>{!! session('flash_message_success') !!}</strong>
-        </div> 
-    @endif
+    <div class="row" style="">
+      <div class="row">
+          <div class="col-md-8 course-top">
+              <h3>Assignments</h3>
+          </div>
+          <div class="col-md-4 course-top">
+            <a href="{{ url('admin/assignments/create') }}"><button><i class="fa fa-plus"></i> Add New</button></a>
+          </div>
+      </div>
+      {{-- courses list --}}
+      <div class="col-md-8">
+        @if(count($my_assignments) > 0)
+          @foreach($my_assignments as $assignment)
+            <div class="assignment-card">
+            <div class="col-sm-3 col-md-2 text-center" style="">
+              <img src="https://placehold.it/80" style="padding-top:3px;"/>
+            </div>
+            <div class="assignment-text col-sm-8 col-md-8" style="">
+              <p style="font-size: 1.3em;">{{ $assignment->title}}</p>
+              <p style="font-size: 1em;">Feb 4 2020 - March 4 2020</p>
+            <p style="font-size: .8em;color:grey">{{ $assignment->course->title}}</p>
+            </div>
+            <div class="col-sm-1 col-md-2 text-center" style="">
+              <a href="{{ url('admin/assignments/update/'.$assignment->id) }}" class="btn btn-info assignment-link" style="">More</a>
+            </div>
+            </div>
+          @endforeach
+        @else
+        <p class="text-center">You have no upcoming assignments</p>
+        @endif
+      </div>
+      {{-- right side --}}
+      <div class="col-md-4">
+          @include('admin.recents')
+      </div>
+  </div>
 
-    <div class="panel panel-default">
+
+
+
+    <div class="panel panel-default" style="margin-top: 300px;">
         <div class="panel-heading">
             View
         </div>

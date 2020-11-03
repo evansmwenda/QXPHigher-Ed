@@ -47,31 +47,7 @@
         </div>
         {{-- right side --}}
         <div class="col-md-4">
-            <div class="lecturer">
-                <span class="fa fa-user fa-2x"></span>
-                <h2>{{\Auth::user()->name}}</h2>
-                 <i>Lecturer</i>
-            </div>
-            <div class="row">
-                <div class="col-md-6 admin-display">
-                        <h2>125</h2>
-                  <p>Registered Courses</p>
-                   
-                </div>
-                <div class="col-md-6 admin-display">
-                    <h2>125</h2>
-                    <p>Registered Courses</p>
-                </div>
-                <div class="col-md-6 admin-display">
-                    <h2>125</h2>
-                    <p>Registered Courses</p>
-                </div>
-                <div class="col-md-6 admin-display">
-                    <h2>125</h2>
-                    <p>Registered Courses</p>
-                </div>
-            </div>
-            <hr>
+            @include('admin.recents')
         </div>
     </div>
 @stop

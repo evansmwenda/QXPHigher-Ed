@@ -32,8 +32,10 @@ class CoursesController extends Controller
         } else {
             $courses = Course::ofTeacher()->get();
         }
+        $my_summary_count= app('App\Http\Controllers\Admin\DashboardController')->getSummaryCount();
+        // dd($my_summary_count);
 
-        return view('admin.courses.index', compact('courses'));
+        return view('admin.courses.index', compact('courses','my_summary_count'));
     }
 
     /**
