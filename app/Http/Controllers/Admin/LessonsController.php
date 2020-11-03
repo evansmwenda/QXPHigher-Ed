@@ -38,8 +38,9 @@ class LessonsController extends Controller
         } else {
             $lessons = $lessons->get();
         }
+        $my_summary_count= app('App\Http\Controllers\Admin\DashboardController')->getSummaryCount();
 // dd($lessons);
-        return view('admin.lessons.index', compact('lessons'));
+        return view('admin.lessons.index', compact('lessons','my_summary_count'));
     }
 
     /**
