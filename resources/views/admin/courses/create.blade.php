@@ -1,15 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="row">
+    @include('students.header')
+</div>
+<div class="row create-lesson">
     <h3 class="page-title">@lang('global.courses.title')</h3>
+       
     {!! Form::open(['method' => 'POST', 'route' => ['admin.courses.store'], 'files' => true,]) !!}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_create')
-        </div>
-        
-        <div class="panel-body">
             @if (Auth::user()->isAdmin())
             <div class="row">
                 <div class="col-xs-12 form-group">
@@ -112,12 +111,13 @@
                     @endif
                 </div>
             </div>
-            
-        </div>
-    </div>
+            {!! Form::submit(trans('global.app_save'), ['class' => 'btn btn-danger']) !!}
+            {!! Form::close() !!}
+</div>
 
-    {!! Form::submit(trans('global.app_save'), ['class' => 'btn btn-danger']) !!}
-    {!! Form::close() !!}
+            
+
+
 @stop
 
 @section('javascript')
