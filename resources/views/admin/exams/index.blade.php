@@ -46,7 +46,7 @@
 	                            <td>{{ $test->title }}</td>
 	                            <td>{{ $test->course->title}}</td>
 	                            <td>{{ $test->published}}</td>
-	                            <td><a href="{{ url('/admin/exams/attempts/'.$test->id)}}" class="btn btn-info btn-sm">Answers</a> | <a href="{{ url('/admin/exams/delete/'.$test->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                            <td><a href="{{ url('/admin/exams/attempts/'.$test->id)}}" class="btn btn-info btn-sm">Answers</a> | <a id="{{$test->id}}" href="{{ url('/admin/exams/delete/'.$test->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
 	                        </tr>
                     	@endforeach
                         
