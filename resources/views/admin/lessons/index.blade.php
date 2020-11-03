@@ -5,51 +5,60 @@
     <div class="row">
         @include('students.header')
     </div>
-    @if(Session::has("flash_message_error")) 
-        <div class="alert alert-error alert-block">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>{!! session('flash_message_error') !!}</strong>
-        </div> 
-    @endif 
+    <div class="row">
+        @if(Session::has("flash_message_error")) 
+            <div class="alert alert-error alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_error') !!}</strong>
+            </div> 
+        @endif 
 
-    @if(Session::has("flash_message_success")) 
-        <div class="alert alert-info alert-block">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>{!! session('flash_message_success') !!}</strong>
-        </div> 
-    @endif
-
-    <div class="col-md-8 col-sm-12">
-        <h3 class="page-title">@lang('global.lessons.title')
-            @can('lesson_create')
-                <a href="{{ url('/admin/lessons/create') }}" style="display: inline-block" class="my-btn my-btn-warning">
-                    <span class="fa fa-plus" style="margin-left: 0px !important"></span>Add
-                </a>
-            @endcan
-        </h3>
-        @if(count($lessons) > 0)
-            @foreach($lessons as $lesson)
-            <div class="assignment-card">
-                <div class="col-sm-3 col-md-2 text-center" style="">
-                <img src="https://placehold.it/80" style="padding-top:3px;"/>
+        @if(Session::has("flash_message_success")) 
+            <div class="alert alert-info alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div> 
+        @endif
+            {{-- top bar --}}
+            <div class="row">
+                <div class="col-md-8 course-top">
+                    <h3>@lang('global.lessons.title')</h3>
+                
                 </div>
-                <div class="assignment-text col-sm-8 col-md-8" style="">
-                <p style="font-size: 1.3em;">{{ $lesson->title}}</p>
-                <p style="font-size: 1em;">{{ $lesson->created_at}}</p>
-                <p style="font-size: .8em;color:grey">{{ $lesson->course->title}}</p>
-                </div>
-                <div class="col-sm-1 col-md-2 text-center" style="">
-                <a href="{{ url('admin/lessons/'.$lesson->id.'/edit') }}" class="btn btn-info assignment-link" style="">Edit</a>
+                <div class="col-md-4 course-top">
+                        <a href="{{ route('admin.lessons.create') }}"><button><i class="fa fa-plus"></i> Add Course</button></a>                      
                 </div>
             </div>
-            @endforeach
-        @else
-            <p class="text-center">You have no lessons</p>
-        @endif
+            {{-- col-md-8 --}}
+            <div class="col-md-8">
+                @if(count($lessons) > 0)
+                @foreach($lessons as $lesson)
+                <div class="assignment-card">
+                    <div class="col-sm-3 col-md-2 text-center">
+                    <img src="https://placehold.it/60" style="padding-top:8px;"/>
+                    </div>
+                    <div class="assignment-text col-sm-8 col-md-8" >
+                        <h3>{{ $lesson->title}}</h3>
+                        <span class="text-muted">{{ $lesson->course->title}} - {{ $lesson->created_at}}</span>
+                    {{-- <p style="font-size: 1em;"></p>
+                    <i style="font-size: 1em;">{{ $lesson->created_at}}</i>
+                    <p style="font-size: .8em;color:grey">{{ $lesson->course->title}}</p>--}}
+                    </div> 
+                    <div class="col-sm-1 col-md-2 text-center" style="">
+                    <a href="{{ url('admin/lessons/'.$lesson->id.'/edit') }}"><button>Edit Lesson</button></a>
+                    </div>
+                </div>
+                @endforeach
+                @else
+                    <p class="text-center">You have no lessons</p>
+                @endif
+            </div>
+            {{-- Right side content --}}
+            <div class="col-md-4">
+                
+            </div>
+            
     </div>
-    <div class="col-md-4 col-sm-12"></div>
-
-    
 
     {{-- <p>
         <ul class="list-inline">
