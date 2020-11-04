@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="row">
+        @include('students.header')
+    </div>
     <h3 class="page-title">@lang('global.lessons.title')</h3>
     
     {!! Form::model($lesson, ['method' => 'PUT', 'route' => ['admin.lessons.update', $lesson->id], 'files' => true,]) !!}

@@ -5,19 +5,6 @@
       @include('students.header')
   </div>
 <div class="row">
-    @if(Session::has("flash_message_error")) 
-    <div class="alert progress-bar-danger alert-block">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong>{!! session('flash_message_error') !!}</strong>
-    </div> 
-  @endif 
-
-@if(Session::has("flash_message_success")) 
-<div class="alert progress-bar-success alert-block">
-    <button type="button" class="close" data-dismiss="alert">x</button>
-    <strong>{!! session('flash_message_success') !!}</strong>
-</div> 
-@endif
     <div class="row exam-top">
         <div class="live-overlay">
             @if(Session::has("flash_message_error")) 
@@ -46,7 +33,7 @@
    <h3>Join Class</h3>
    <form method="post" action="/admin/live-classes/join">{{ csrf_field() }}
       <div class="col-xs-12 form-group">
-          <input type="text" name="meetingID" placeholder="Enter Class ID to Join" class="form-control">
+          <input type="text" name="meetingID" placeholder="Enter Class ID to Join" class="form-control" required>
           {{-- <input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required> --}}
       </div>
 

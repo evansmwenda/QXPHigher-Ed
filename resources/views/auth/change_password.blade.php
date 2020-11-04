@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="row">
+        @include('students.header')
+    </div>
     <h3 class="page-title">Change password</h3>
 
     @if(session('success'))

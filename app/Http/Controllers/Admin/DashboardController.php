@@ -158,7 +158,12 @@ class DashboardController extends Controller
             $assignment = Assignments::find($id);
             if($request->isMethod('post')){
                 //post request
+                
+                
                 $data=$request->all();
+                if($data['description']==null){
+                    $description="";
+                }
                 // dd($data);
                 if($data['course_id'] == "0"){
                     return back()->with('flash_message_error','Please choose a course from the dropdown');
@@ -184,7 +189,7 @@ class DashboardController extends Controller
                         $assignment = Assignments::find($id);
                         $assignment->course_id=$data['course_id'];
                         $assignment->title=$data['title'];
-                        $assignment->description=$data['description'];
+                        $assignment->description=$description;
                         $assignment->media=$filename;
                         $assignment->save();
 
@@ -208,6 +213,32 @@ class DashboardController extends Controller
                         //file was not uploaded dont insert to db
                         return back()->with('flash_message_error','Sorry, there was an error updating your assigment');
                     }
+                }else{
+                    //teacher not submitting file for upload
+                    //update the rest of details
+                    $assignment = Assignments::find($id);
+                    $assignment->course_id=$data['course_id'];
+                    $assignment->title=$data['title'];
+                    $assignment->description=$description;
+                    // $assignment->media=$filename;
+                    $assignment->save();
+
+
+                    //create event based on that assignment
+                    $date_now = date("Y-m-d H:m:s");
+                    // $date_valid = date("Y-m-d H:m:s", strtotime("+7 days"));
+                    $date_valid = date("Y-m-d H:m:s");
+
+                    $this->myEventCreator(
+                        $data['title'],//title of event
+                        'assignment',//type of event
+                        $data['course_id'],//course_id
+                        $date_now, //event start time
+                        $date_valid
+                    );
+    
+                    return redirect('/admin/assignments')
+                        ->with('flash_message_success','You have successfully updated your assignment.');
                 }
             }
             // dd($assignment);

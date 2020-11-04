@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="row">
+	@include('students.header')
+</div>
     <h3 class="page-title">Assignments</h3>    
     @if(Session::has("flash_message_error")) 
             <div class="alert alert-error alert-block">
@@ -65,7 +68,8 @@
 	                <div class="col-xs-12 form-group">
 	                	<div class="input-group">
 	                      <div class="custom-file">
-	                        <input type="file" name="assignment" value="{{$assignment->media}}" class="custom-file-input" id="assignment" required>
+							<input type="file" name="assignment" value="{{$assignment->media}}" class="custom-file-input" id="assignment">
+							<label for="assignment" style="color:green;">{{$assignment->media or ''}}</label>
 	                      </div>
 	                    </div>
 	                </div>
