@@ -145,20 +145,25 @@ class DashboardController extends Controller
     }
     public function updateAssignment(Request $request,$id=null){
         $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
-        $assignment_course = Assignments::where('id',$id)->value('course_id');
-        // dump($assignment_course);
+        $assignment_course_id = Assignments::where('id',$id)->value('course_id');
+        // dd($assignment_course_id);
 
         $course_ids = $this->fetchEnrolledCourseIDs();
         // dump($course_ids);
         $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
-        if(in_array($assignment_course,$course_ids)){
+        if(in_array($assignment_course_id,$course_ids)){
             //user is owner of the course
             $submitted_assignments_array = $this->assignmentDetails($id);
             // dd($submitted_assignments_array);
             $assignment = Assignments::find($id);
             if($request->isMethod('post')){
                 //post request
+                
+                
                 $data=$request->all();
+                if($data['description']==null){
+                    $description="";
+                }
                 // dd($data);
                 if($data['course_id'] == "0"){
                     return back()->with('flash_message_error','Please choose a course from the dropdown');
@@ -184,7 +189,7 @@ class DashboardController extends Controller
                         $assignment = Assignments::find($id);
                         $assignment->course_id=$data['course_id'];
                         $assignment->title=$data['title'];
-                        $assignment->description=$data['description'];
+                        $assignment->description=$description;
                         $assignment->media=$filename;
                         $assignment->save();
 
@@ -208,12 +213,39 @@ class DashboardController extends Controller
                         //file was not uploaded dont insert to db
                         return back()->with('flash_message_error','Sorry, there was an error updating your assigment');
                     }
+                }else{
+                    //teacher not submitting file for upload
+                    //update the rest of details
+                    $assignment = Assignments::find($id);
+                    $assignment->course_id=$data['course_id'];
+                    $assignment->title=$data['title'];
+                    $assignment->description=$description;
+                    // $assignment->media=$filename;
+                    $assignment->save();
+
+
+                    //create event based on that assignment
+                    $date_now = date("Y-m-d H:m:s");
+                    // $date_valid = date("Y-m-d H:m:s", strtotime("+7 days"));
+                    $date_valid = date("Y-m-d H:m:s");
+
+                    $this->myEventCreator(
+                        $data['title'],//title of event
+                        'assignment',//type of event
+                        $data['course_id'],//course_id
+                        $date_now, //event start time
+                        $date_valid
+                    );
+    
+                    return redirect('/admin/assignments')
+                        ->with('flash_message_success','You have successfully updated your assignment.');
                 }
             }
             // dd($assignment);
             return view('admin.assignments.edit')
             ->with(compact('assignment',
             'my_courses',
+            'assignment_course_id',
             'submitted_assignments_array'));
         }
         

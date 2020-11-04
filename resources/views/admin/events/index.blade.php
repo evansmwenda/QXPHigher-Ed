@@ -39,42 +39,28 @@
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Class</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Assignment</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Exams</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Assignment</a>
+              </li>
+              
             </ul>
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="row">
-        
-                  @if(count($assignment_event_array) > 0)
-                      @foreach($assignment_event_array as $assignment_event)
-                        <div class="events-activity">
-                          <h4>{{$assignment_event['title']}} {{$assignment_event['start']}}</h4>
-                          <span>{{$assignment_event['days']}} Day(s) ago</span>
-                          <div style="text-align:center;padding:4px;float:right;height:20px;width:60px;background-color:#FD6C03;">
-                            <a href="{{ url('/admin/events/update/'.$assignment_event['id']) }}" style="background-color:#FD6C03 ">Edit</a>
-                          </div>
-                        </div>
-                      @endforeach
-                      
-                    @else
-                      <p class="text-center">You have no upcoming assignments</p>
-                    @endif
-                </div>
-        
-              </div>
-              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="row">
                   @if(count($class_event_array) > 0)
                     @foreach($class_event_array as $class_event)
-                      <div class="events-activity">
-                        <h4>{{$class_event['title']}} {{$class_event['start']}}</h4>
-                        <span>{{$class_event['days']}} Day(s) ago</span>
-                        <div style="text-align:center;padding:4px;float:right;height:20px;width:60px;background-color:#FD6C03;">
-                          <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a>
+                      <div class="events-activity" style="margin: 15px 15px;">
+                        <div class="col-md-9" style="">
+                          <h4>{{$class_event['title']}} {{$class_event['start']}}</h4>
+                          <span>{{$class_event['days']}} Day(s) ago</span>
+                        </div>
+                        <div class="col-md-3" style="">
+                          <div class="event-edit" onclick="location.href='{{url('/admin/events/update/'.$class_event['id'])}}';">
+                            <span style="font-size:.8em;margin:auto;color:#fff">Edit</span>
+                            {{-- <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a> --}}
+                          </div>
                         </div>
                       </div>
                     @endforeach
@@ -82,17 +68,24 @@
                   @else
                     <p class="text-center">You have no upcoming classes</p>
                   @endif
+        
                 </div>
+        
               </div>
               <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="row">
                   @if(count($exam_event_array) > 0)
                       @foreach($exam_event_array as $exam_event)
-                        <div class="events-activity">
-                          <h4>{{$exam_event['title']}} {{$exam_event['start']}}</h4>
-                          <span>{{$exam_event['days']}} Day(s) ago</span>
-                          <div style="text-align:center;padding:4px;float:right;height:20px;width:60px;background-color:#FD6C03;">
-                            <a href="{{ url('/admin/events/update/'.$exam_event['id']) }}" style="background-color:#FD6C03 ">Edit</a>
+                        <div class="events-activity" style="margin: 15px 15px;">
+                          <div class="col-md-9" style="">
+                            <h4>{{$exam_event['title']}} {{$exam_event['start']}}</h4>
+                            <span>{{$exam_event['days']}} Day(s) ago</span>
+                          </div>
+                          <div class="col-md-3" style="">
+                            <div class="event-edit" onclick="location.href='{{url('/admin/events/update/'.$exam_event['id'])}}';">
+                              <span style="font-size:.8em;margin:auto;color:#fff">Edit</span>
+                              {{-- <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a> --}}
+                            </div>
                           </div>
                         </div>
                       @endforeach
@@ -102,6 +95,31 @@
                   @endif
                 </div>
               </div>
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row">
+                  @if(count($assignment_event_array) > 0)
+                      @foreach($assignment_event_array as $assignment_event)
+                        <div class="events-activity" style="margin: 15px 15px;">
+                          <div class="col-md-9" style="">
+                            <h4>{{$assignment_event['title']}} {{$assignment_event['start']}}</h4>
+                            <span>{{$assignment_event['days']}} Day(s) ago</span>
+                          </div>
+                          <div class="col-md-3" style="">
+                            <div class="event-edit" onclick="location.href='{{url('/admin/events/update/'.$assignment_event['id'])}}';">
+                              <span style="font-size:.8em;margin:auto;color:#fff">Edit</span>
+                              {{-- <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a> --}}
+                            </div>
+                          </div>
+                        </div>
+                      @endforeach
+                      
+                    @else
+                      <p class="text-center">You have no upcoming assignments</p>
+                    @endif
+
+                </div>
+              </div>
+              
             </div>
         </div>
         <div class="col-md-8 calendar">
@@ -179,10 +197,10 @@
     var calendar = new Calendar(calendarEl, {
       plugins: [ 'bootstrap', 'interaction','list', 'dayGrid', 'timeGrid' ],
       header    : {
-        //left  : 'prev,next today',
-        left: 'title',
+        left  : 'prev,next today',
+        center: 'title',
         // right : 'dayGridMonth,timeGridWeek,timeGridDay',
-        //right : 'dayGridMonth,timeGridWeek,timeGridDay',
+        right : 'dayGridMonth,timeGridWeek,timeGridDay',
     
       
       },

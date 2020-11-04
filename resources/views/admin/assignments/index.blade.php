@@ -20,12 +20,12 @@
           @foreach($my_assignments as $assignment)
             <div class="assignment-card">
             <div class="col-sm-3 col-md-2 text-center" style="">
-              <img src="https://placehold.it/80" style="padding-top:3px;"/>
+              <img src="https://placehold.it/70" style="padding-top:3px;"/>
             </div>
             <div class="assignment-text col-sm-8 col-md-8" style="">
               <p style="font-size: 1.3em;">{{ $assignment->title}}</p>
-              <p style="font-size: 1em;">Feb 4 2020 - March 4 2020</p>
-            <p style="font-size: .8em;color:grey">{{ $assignment->course->title}}</p>
+              <p style="font-size: .7em;">March 4 2020</p>
+            <p style="font-size: .8em;color:grey;">{{ $assignment->course->title}}</p>
             </div>
             <div class="col-sm-1 col-md-2 text-center" style="">
               <a href="{{ url('admin/assignments/update/'.$assignment->id) }}" class="btn btn-info assignment-link" style="">More</a>
