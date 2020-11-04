@@ -2,21 +2,46 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('global.tests.title')</h3>
-    @can('test_create')
-    <p>
-        <a href="{{ route('admin.tests.create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
-        
-    </p>
-    @endcan
+<div class="row">
+    @include('students.header')
+</div>
 
-    <p>
-        <ul class="list-inline">
-            <li><a href="{{ route('admin.tests.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">All</a></li> |
+<div class="row">
+    {{-- small left side div --}}
+    <div class="col-md-4 exams-top" style="background: #fff">
+        <h3>View Tests</h3>
+        <button data-toggle="modal" data-target="#modalCreateOptions">Select Course</button>                        
+        <hr>
+        <h4>Course : Biology </h4>
+        <hr>
+        <form action="">
+            <label for="female"><i class="fa fa-check"></i> X-traits of living things</label>
+        </form>
+    </div>
+    {{-- body content on the test view --}}
+    <div class="col-md-8 exam-questions">
+        <h2>Tests Created</h2>
+        <div class="exam-top-buttons"> 
+            @can('test_create')   
+            <a href="{{ route('admin.tests.create') }}"><button style="background: #060646"><i class="fa fa-check"></i>Create</button></a>  
+            @endcan                 
+            {{-- <a href="{{ url('/admin /exams/create') }}"><button style="background: #71CA52"><i class="fa fa-check"></i>Edit</button></a>
+            <a href="{{ url('/admin /exams/create') }}"><button style="background: #C92519"><i class="fa fa-trash"></i>Delete</button></a>
+           <li><a href="{{ route('admin.tests.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">All</a></li> |
             <li><a href="{{ route('admin.tests.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">Trash</a></li>
-        </ul>
-    </p>
-    
+     --}}
+        </div>
+        <h3>Critical Thinking</h3>
+        <div class="disp-exams">
+            <p>1. An arrow in the lower-right corner of a group on the ribbon tells you that
+                Advanced which of the following is available?</p>
+                <button style="background: #71CA52">Edit</button>
+                <button style="background: #C92519">Delete</button> 
+        </div>
+    </div>
+</div>
+
+
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -115,4 +140,24 @@
         @endcan
 
     </script>
+     <div class="modal fade" id="modalCreateOptions" role="dialog">
+        <div class="modal-dialog modal-sm">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-body">
+                <div class="row select-course">
+                    
+                <h3>Select Course</h3>
+                <select name="course" class="form-control" id="">
+                    <option value=""></option>
+                </select>
+                    <a href="/admin/live-classes/create"><button>Choose</button></a>
+                </div>
+                
+            </div>
+          </div>
+          
+        </div>
+      </div>
 @endsection
