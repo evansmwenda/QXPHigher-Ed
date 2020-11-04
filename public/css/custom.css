@@ -441,6 +441,7 @@ font-size: 18px;
     margin: 15px;
     background-color: rgba(128,128,128, .09);
     padding: 10px;
+    height: 80px;
 }
 .calendar{
     background: #F2F4F4;

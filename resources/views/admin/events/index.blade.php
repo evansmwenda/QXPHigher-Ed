@@ -51,11 +51,16 @@
                 <div class="row">
                   @if(count($class_event_array) > 0)
                     @foreach($class_event_array as $class_event)
-                      <div class="events-activity">
-                        <h4>{{$class_event['title']}} {{$class_event['start']}}</h4>
-                        <span>{{$class_event['days']}} Day(s) ago</span>
-                        <div style="text-align:center;padding:4px;float:right;height:20px;width:60px;background-color:#FD6C03;">
-                          <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a>
+                      <div class="events-activity" style="margin: 15px 15px;">
+                        <div class="col-md-9" style="">
+                          <h4>{{$class_event['title']}} {{$class_event['start']}}</h4>
+                          <span>{{$class_event['days']}} Day(s) ago</span>
+                        </div>
+                        <div class="col-md-3" style="">
+                          <div class="event-edit" onclick="location.href='{{url('/admin/events/update/'.$class_event['id'])}}';">
+                            <span style="font-size:.8em;margin:auto;color:#fff">Edit</span>
+                            {{-- <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a> --}}
+                          </div>
                         </div>
                       </div>
                     @endforeach
@@ -71,11 +76,16 @@
                 <div class="row">
                   @if(count($exam_event_array) > 0)
                       @foreach($exam_event_array as $exam_event)
-                        <div class="events-activity">
-                          <h4>{{$exam_event['title']}} {{$exam_event['start']}}</h4>
-                          <span>{{$exam_event['days']}} Day(s) ago</span>
-                          <div style="text-align:center;padding:4px;float:right;height:20px;width:60px;background-color:#FD6C03;">
-                            <a href="{{ url('/admin/events/update/'.$exam_event['id']) }}" style="background-color:#FD6C03 ">Edit</a>
+                        <div class="events-activity" style="margin: 15px 15px;">
+                          <div class="col-md-9" style="">
+                            <h4>{{$exam_event['title']}} {{$exam_event['start']}}</h4>
+                            <span>{{$exam_event['days']}} Day(s) ago</span>
+                          </div>
+                          <div class="col-md-3" style="">
+                            <div class="event-edit" onclick="location.href='{{url('/admin/events/update/'.$exam_event['id'])}}';">
+                              <span style="font-size:.8em;margin:auto;color:#fff">Edit</span>
+                              {{-- <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a> --}}
+                            </div>
                           </div>
                         </div>
                       @endforeach
@@ -89,11 +99,16 @@
                 <div class="row">
                   @if(count($assignment_event_array) > 0)
                       @foreach($assignment_event_array as $assignment_event)
-                        <div class="events-activity">
-                          <h4>{{$assignment_event['title']}} {{$assignment_event['start']}}</h4>
-                          <span>{{$assignment_event['days']}} Day(s) ago</span>
-                          <div style="text-align:center;padding:4px;float:right;height:20px;width:60px;background-color:#FD6C03;">
-                            <a href="{{ url('/admin/events/update/'.$assignment_event['id']) }}" style="background-color:#FD6C03 ">Edit</a>
+                        <div class="events-activity" style="margin: 15px 15px;">
+                          <div class="col-md-9" style="">
+                            <h4>{{$assignment_event['title']}} {{$assignment_event['start']}}</h4>
+                            <span>{{$assignment_event['days']}} Day(s) ago</span>
+                          </div>
+                          <div class="col-md-3" style="">
+                            <div class="event-edit" onclick="location.href='{{url('/admin/events/update/'.$assignment_event['id'])}}';">
+                              <span style="font-size:.8em;margin:auto;color:#fff">Edit</span>
+                              {{-- <a href="{{ url('/admin/events/update/'.$class_event['id']) }}" style="background-color:#FD6C03 ">Edit</a> --}}
+                            </div>
                           </div>
                         </div>
                       @endforeach
@@ -182,10 +197,10 @@
     var calendar = new Calendar(calendarEl, {
       plugins: [ 'bootstrap', 'interaction','list', 'dayGrid', 'timeGrid' ],
       header    : {
-        //left  : 'prev,next today',
-        left: 'title',
+        left  : 'prev,next today',
+        center: 'title',
         // right : 'dayGridMonth,timeGridWeek,timeGridDay',
-        //right : 'dayGridMonth,timeGridWeek,timeGridDay',
+        right : 'dayGridMonth,timeGridWeek,timeGridDay',
     
       
       },

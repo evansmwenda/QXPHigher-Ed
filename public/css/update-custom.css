@@ -100,6 +100,38 @@
     background-color: #FD6C03;
     border-color: #FD6C03;
 }
+.fc-prev-button{
+	margin:0px 2px;
+}
+.fc-next-button{
+	margin:0px 2px;
+}
+.fc-dayGridMonth-button{
+	margin:0px 2px;
+}
+.fc-timeGridWeek-button{
+	margin:0px 2px;
+}
+.fc-timeGridDay-button{
+	margin:0px 2px;
+}
+.event-edit{
+	font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+    padding: 10px 15px;
+	border-radius: 30px;
+	text-align:center;
+	padding:4px;
+	float:right;
+	height:30px;
+	width:60px;
+	margin-top:5px;
+	background-color:#FD6C03;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
 
 /* ============================
 				Mobile Responsiveness
@@ -122,5 +154,11 @@
 
 	#calendar .date {
 		float: none;
+	}
+	.event-edit{
+		margin-top: 1.5px;
+	}
+	.events-activity{
+		height:95px !important;
 	}
 }
