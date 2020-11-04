@@ -1,29 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Exams</h3>
-    <p>
-        <a href="{{ url('/admin/exams/create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
-    </p>
-    
-    @if(Session::has("flash_message_error")) 
-            <div class="alert alert-error alert-block">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong>{!! session('flash_message_error') !!}</strong>
-            </div> 
-          @endif 
-
-    @if(Session::has("flash_message_success")) 
-        <div class="alert alert-info alert-block">
+<div class="row">
+    @include('students.header')
+</div>
+<div class="row">
+    {{-- small left side div --}}
+    <div class="col-md-4 exams-top" style="background: #fff">
+        <h3>Sheduled Exams</h3>
+        <button data-toggle="modal" data-target="#modalCreateOptions"><i class="fa fa-plus"></i> Select Course</button>                        
+        <hr>
+        <h4>Course : Biology </h4>
+        <hr>
+        <form action="">
+            <label for="female"><i class="fa fa-check"></i> Critical Thinking</label>
+        </form>
+    </div>
+    {{-- display side --}}
+    <div class="col-md-8 exam-questions">
+        @if(Session::has("flash_message_error")) 
+        <div class="alert alert-error alert-block">
             <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>{!! session('flash_message_success') !!}</strong>
+            <strong>{!! session('flash_message_error') !!}</strong>
         </div> 
-    @endif
+      @endif 
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_create')
+        @if(Session::has("flash_message_success")) 
+            <div class="alert alert-info alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div> 
+        @endif
+        <h2>Questions</h2>
+        <div class="exam-top-buttons">
+            <a href="{{ url('/admin /exams/create') }}"><button style="background:#060646"><i class="fa fa-plus"></i>Create</button></a>                         
+            <a href="{{ url('/admin /exams/create') }}"><button style="background: #FD6C03"><i class="fa fa-check"></i>Submited</button></a>
+            <a href="{{ url('/admin /exams/create') }}"><button style="background: #71CA52"><i class="fa fa-trash"></i>Delete</button></a>
         </div>
+        <h3>Critical Thinking</h3>
+
+        <div class="disp-exams">
+            <p>1. An arrow in the lower-right corner of a group on the ribbon tells you that
+                Advanced which of the following is available?</p>
+                <button style="background: #FD6C03">Edit</button>
+                <button style="background: #71CA52">Remove</button> 
+        </div>
+        <div class="disp-exams">
+            <p>1. An arrow in the lower-right corner of a group on the ribbon tells you that
+                Advanced which of the following is available?</p>
+                <button style="background: #FD6C03">Edit</button>
+                <button style="background: #71CA52">Remove</button> 
+        </div>
+      
+    </div>
+</div>
+
+
         
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($my_tests) > 0 ? 'datatable' : '' }}">
@@ -59,6 +91,25 @@
             </table>
         </div>
     </div>
-
+    <div class="modal fade" id="modalCreateOptions" role="dialog">
+        <div class="modal-dialog modal-sm">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-body">
+                <div class="row select-course">
+                    
+                <h3>Select Course</h3>
+                <select name="course" class="form-control" id="">
+                    <option value=""></option>
+                </select>
+                    <a href="/admin/live-classes/create"><button>Choose</button></a>
+                </div>
+                
+            </div>
+          </div>
+          
+        </div>
+      </div>
 @endsection    
 

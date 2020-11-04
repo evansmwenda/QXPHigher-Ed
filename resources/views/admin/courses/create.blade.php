@@ -115,9 +115,6 @@
             {!! Form::close() !!}
 </div>
 
-            
-
-
 @stop
 
 @section('javascript')
