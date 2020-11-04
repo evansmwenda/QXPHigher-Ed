@@ -26,7 +26,7 @@
                 
                 </div>
                 <div class="col-md-4 course-top">
-                        <a href="{{ route('admin.lessons.create') }}"><button><i class="fa fa-plus"></i> Add Course</button></a>                      
+                        <a href="{{ route('admin.lessons.create') }}"><button><i class="fa fa-plus"></i> Add Lesson</button></a>                      
                 </div>
             </div>
             {{-- col-md-8 --}}
