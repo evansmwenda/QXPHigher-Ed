@@ -144,13 +144,6 @@ class DashboardController extends Controller
         return view('admin.assignments.index')->with(compact('my_assignments'));
     }
     public function updateAssignment(Request $request,$id=null){
-        $courses = \App\Course::ofTeacher()->get();
-        // dd($courses);
-        $courses_ids = $courses->pluck('id');
-        $courses = $courses->pluck('title', 'id')->prepend('Please select', '');
-        // dd($courses);
-        
-
         $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
         $assignment_course_id = Assignments::where('id',$id)->value('course_id');
         // dd($assignment_course_id);
