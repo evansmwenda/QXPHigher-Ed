@@ -47,16 +47,15 @@
             </div> 
         @endif
         <h2>Questions</h2>
+        @if($questions_array->isEmpty())
+        {{-- //do nothing  $questions_array->isEmpty() ||  --}}
+        @else 
         <div class="exam-top-buttons">
-            <a href="{{ url('/admin/exams/create/new') }}"><button style="background:#060646"><i class="fa fa-plus"></i>Create</button></a>
-            @if(empty($questions_array))
-            {{-- //do nothing  $questions_array->isEmpty() ||  --}}
-            @else                      
-                <a href="{{ url('/admin/exams/attempts/'.$questions_array[0]->test->id)}}"><button style="background: #FD6C03"><i class="fa fa-check"></i>Submited</button></a>
-                <a href="{{ url('/admin/exams/delete/'.$questions_array[0]->test->id) }}"><button style="background: #71CA52"><i class="fa fa-trash"></i>Delete</button></a>
-            
-            @endif
+            <a href="{{ url('/admin/exams/create/new') }}"><button style="background:#060646"><i class="fa fa-plus"></i>Create</button></a>                         
+            <a href="{{ url('/admin/exams/attempts/'.$questions_array[0]->test->id)}}"><button style="background: #FD6C03"><i class="fa fa-check"></i>Submited</button></a>
+            <a href="{{ url('/admin/exams/delete/'.$questions_array[0]->test->id) }}"><button style="background: #71CA52"><i class="fa fa-trash"></i>Delete</button></a>
         </div>
+        @endif
         
         <h3>{{$questions_array[0]->test->title or ''}}</h3>
         @if(count($my_questions) > 0)
