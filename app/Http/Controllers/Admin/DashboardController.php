@@ -635,45 +635,60 @@ class DashboardController extends Controller
          //get
         // return view('admin.events.edit')->with(compact('my_courses','event_details'));
     }
-
-    public function getExams(){
-
-        // PHP array
-        $books = array(
-            array(
-                "title" => "All Day Event",
-                "start" => "2020-07-01",
-                "backgroundColor" => "#f56954",
-                "borderColor" => "#f56954",
-            ),
-            array(
-                "title" => "Long Event",
-                "start" => "2020-07-22",
-                "backgroundColor" => "#f39c12",
-                "borderColor" => "#f39c12",
-            ),
-            array(
-                "title" => "Birthday party from 12pm to 3pm",
-                "start" => "2020-07-23 08:00:00",
-                "backgroundColor" => "#00c0ef",
-                "borderColor" => "#00c0ef",
-            ),
-            array(
-                "title" => "Initiation",
-                "start" => "2020-07-24 09:00:00",
-                "backgroundColor" => "#0073b7",
-                "borderColor" => "#0073b7",
-            ),
-            array(
-                "title" => "Live classroom",
-                "start" => "2020-07-21 10:00:00",
-                "backgroundColor" => "#00a65a",
-                "borderColor" => "#00a65a",
-            )
-        );
+    public function getExamsDetails(Request $request,String $exam_id=null){
+        $titles_array= [];
+        if($exam_id != null){
+            $exam_details = Test::find($exam_id);
+            // dd($exam_details->course_id);
+            $titles_array = $this->fetchExamTitles($exam_details->course_id);
+            // dd($titles_array);
+            //get the questions in the exam_id provided
+            dump("exam id is not null");
+            $questions_array = $this->fetchExamQuestions($exam_id);
+            $question_ids = $this->fetchExamQuestionIDs($exam_id);
+            $my_questions = Question::whereIn('id',$question_ids)->get();
+            // dd($my_questions);
+        }
 
         //1.get all course_ids belonging to this user
-        $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
+        $my_courses = CourseUser::with('course')->where(['user_id'=> \Auth::id()])->get();
+
+        return view('admin.exams.index')->with(compact('my_courses','titles_array','questions_array','my_questions'));
+    }
+
+    public function getExams(Request $request,String $exam_id=null){
+        $titles_array= [];
+        $my_questions= [];
+        if($exam_id != null){
+            dump("exam id is not null");
+        }
+        if($request->isMethod('post')){
+            //user is posting data
+            // dd($request->all());
+            $data= $request->all();
+            // dd($data);
+
+
+            switch($request->type){
+                case "title":
+                    //get the exam titles in that course selected
+                    $titles_array = $this->fetchExamTitles($data['course_id']);
+                    // dd($titles_array);
+                    dump("we are posting the exam titles");
+                break;
+                case "question"://we are requesting for the questions
+                    $questions_array = $this->fetchExamQuestions($data['test_id']);
+                    dump("/we are requesting for the questions");
+                break;
+            }
+        }
+
+        //1.get all course_ids belonging to this user
+        $my_courses = CourseUser::with('course')->where(['user_id'=> \Auth::id()])->get();
+
+        
+
+        //get the questions in that exam
 
         $course_ids="";
         foreach ($my_courses as $key => $value) {
@@ -681,9 +696,24 @@ class DashboardController extends Controller
         }
         $course_ids = explode(",", $course_ids);
         $my_tests = Test::with(['course'])->whereIn('course_id',$course_ids)->get();
-        // dd($my_tests);
+        
+        // dd($my_courses);
         //dd($my_courses[0]->course->title);//"Biology 101"
-        return view('admin.exams.index')->with(compact('my_tests'));
+        return view('admin.exams.index')->with(compact('my_tests','my_courses','titles_array','my_questions'));
+    }
+
+    public function fetchExamTitles(String $course_id){
+        $my_tests = Test::with('course')->where('course_id',$course_id)->where('lesson_id',NULL)->get();
+        return $my_tests;
+    }
+
+    public function fetchExamQuestions(String $exam_id){
+        $my_questions = QuestionTest::with('test')->where('test_id',$exam_id)->get();
+        return $my_questions;
+    }
+    public function fetchExamQuestionIDs(String $exam_id){
+        $my_questions_ids = QuestionTest::with('test')->where('test_id',$exam_id)->pluck('question_id');
+        return $my_questions_ids;
     }
 
     public function createExams(){
