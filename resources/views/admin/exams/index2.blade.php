@@ -47,7 +47,7 @@
             </div> 
         @endif
         <h2>Questions</h2>
-        @if(empty($questions_array))
+        @if($questions_array->isEmpty())
         {{-- //do nothing  $questions_array->isEmpty() ||  --}}
         @else 
         <div class="exam-top-buttons">

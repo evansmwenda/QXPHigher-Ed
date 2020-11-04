@@ -643,25 +643,30 @@ class DashboardController extends Controller
             $titles_array = $this->fetchExamTitles($exam_details->course_id);
             // dd($titles_array);
             //get the questions in the exam_id provided
-            dump("exam id is not null");
             $questions_array = $this->fetchExamQuestions($exam_id);
-            $question_ids = $this->fetchExamQuestionIDs($exam_id);
-            $my_questions = Question::whereIn('id',$question_ids)->get();
-            // dd($my_questions);
+            if($questions_array->isEmpty()){
+                //array is empty, exam has no question
+                $question_ids = [];
+                $my_questions = [];
+            }else{
+                //exam has questions
+                $question_ids = $this->fetchExamQuestionIDs($exam_id);
+                $my_questions = Question::whereIn('id',$question_ids)->get();
+            }
         }
 
         //1.get all course_ids belonging to this user
         $my_courses = CourseUser::with('course')->where(['user_id'=> \Auth::id()])->get();
-
-        return view('admin.exams.index')->with(compact('my_courses','titles_array','questions_array','my_questions'));
+        // dd($questions_array);
+        return view('admin.exams.index2')->with(compact('my_courses','exam_id','titles_array','questions_array','my_questions'));
     }
 
     public function getExams(Request $request,String $exam_id=null){
         $titles_array= [];
         $my_questions= [];
-        if($exam_id != null){
-            dump("exam id is not null");
-        }
+        $exam_id='';
+        $questions_array= [];
+        // $questions_array = $this->fetchExamQuestions($exam_id);
         if($request->isMethod('post')){
             //user is posting data
             // dd($request->all());
@@ -673,12 +678,6 @@ class DashboardController extends Controller
                 case "title":
                     //get the exam titles in that course selected
                     $titles_array = $this->fetchExamTitles($data['course_id']);
-                    // dd($titles_array);
-                    dump("we are posting the exam titles");
-                break;
-                case "question"://we are requesting for the questions
-                    $questions_array = $this->fetchExamQuestions($data['test_id']);
-                    dump("/we are requesting for the questions");
                 break;
             }
         }
@@ -699,7 +698,7 @@ class DashboardController extends Controller
         
         // dd($my_courses);
         //dd($my_courses[0]->course->title);//"Biology 101"
-        return view('admin.exams.index')->with(compact('my_tests','my_courses','titles_array','my_questions'));
+        return view('admin.exams.index')->with(compact('exam_id','my_tests','my_courses','titles_array','my_questions','questions_array'));
     }
 
     public function fetchExamTitles(String $course_id){
