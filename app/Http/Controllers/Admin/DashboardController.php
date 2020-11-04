@@ -635,31 +635,7 @@ class DashboardController extends Controller
          //get
         // return view('admin.events.edit')->with(compact('my_courses','event_details'));
     }
-    public function getExamsDetails(Request $request,String $exam_id=null){
-        $titles_array= [];
-        if($exam_id != null){
-            $exam_details = Test::find($exam_id);
-            // dd($exam_details->course_id);
-            $titles_array = $this->fetchExamTitles($exam_details->course_id);
-            // dd($titles_array);
-            //get the questions in the exam_id provided
-            $questions_array = $this->fetchExamQuestions($exam_id);
-            if($questions_array->isEmpty()){
-                //array is empty, exam has no question
-                $question_ids = [];
-                $my_questions = [];
-            }else{
-                //exam has questions
-                $question_ids = $this->fetchExamQuestionIDs($exam_id);
-                $my_questions = Question::whereIn('id',$question_ids)->get();
-            }
-        }
-
-        //1.get all course_ids belonging to this user
-        $my_courses = CourseUser::with('course')->where(['user_id'=> \Auth::id()])->get();
-        // dd($questions_array);
-        return view('admin.exams.index2')->with(compact('my_courses','exam_id','titles_array','questions_array','my_questions'));
-    }
+    
 
     public function getExams(Request $request,String $exam_id=null){
         $titles_array= [];
@@ -700,6 +676,31 @@ class DashboardController extends Controller
         //dd($my_courses[0]->course->title);//"Biology 101"
         return view('admin.exams.index')->with(compact('exam_id','my_tests','my_courses','titles_array','my_questions','questions_array'));
     }
+    public function getExamsDetails(Request $request,String $exam_id=null){
+        $titles_array= [];
+        if($exam_id != null){
+            $exam_details = Test::find($exam_id);
+            // dd($exam_details->course_id);
+            $titles_array = $this->fetchExamTitles($exam_details->course_id);
+            // dd($titles_array);
+            //get the questions in the exam_id provided
+            $questions_array = $this->fetchExamQuestions($exam_id);
+            if($questions_array->isEmpty()){
+                //array is empty, exam has no question
+                $question_ids = [];
+                $my_questions = [];
+            }else{
+                //exam has questions
+                $question_ids = $this->fetchExamQuestionIDs($exam_id);
+                $my_questions = Question::whereIn('id',$question_ids)->get();
+            }
+        }
+
+        //1.get all course_ids belonging to this user
+        $my_courses = CourseUser::with('course')->where(['user_id'=> \Auth::id()])->get();
+        // dd($questions_array);
+        return view('admin.exams.index2')->with(compact('my_courses','exam_id','titles_array','questions_array','my_questions'));
+    }
 
     public function fetchExamTitles(String $course_id){
         $my_tests = Test::with('course')->where('course_id',$course_id)->where('lesson_id',NULL)->get();
@@ -713,6 +714,15 @@ class DashboardController extends Controller
     public function fetchExamQuestionIDs(String $exam_id){
         $my_questions_ids = QuestionTest::with('test')->where('test_id',$exam_id)->pluck('question_id');
         return $my_questions_ids;
+    }
+    public function deleteExamQuestion(String $question_id){
+        $question = Question::find($question_id);
+        $question->delete();
+        return redirect('/admin/exams')->with('flash_message_success','Question deleted');
+    }
+    public function createExams2(){
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        return view('admin.exams.create')->with(compact('my_courses'));
     }
 
     public function createExams(){
@@ -883,7 +893,7 @@ class DashboardController extends Controller
         $test = Test::find($id);
         $test->delete();
 
-        return back()->with('flash_message_success','Your exam was deleted!');
+        return redirect('/admin/exams')->with('flash_message_success','Your exam was deleted!');
     }
     public function liveClasses(){
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
