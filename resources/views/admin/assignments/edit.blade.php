@@ -26,16 +26,33 @@
 
 			<form method="post" enctype="multipart/form-data" action="/admin/assignments/update/{{$assignment->id}}">{{ csrf_field() }}
             		<div class="col-xs-12 form-group">
+
 	                	<div class="form-group">
 	                        <label>Select Course</label>
 	                        <select class="form-control" name="course_id" required>
 	                        	<option value="0">Select Course</option>
-	                        	@foreach($my_courses as $course)
-	                        		<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
+								@foreach($my_courses as $course)
+									@if($assignment_course_id==$course->course_id)
+										<option value="{{ $course->course_id}}" selected>{{ $course->course->title}}</option>
+									@else
+										<option value="{{ $course->course_id}}">{{ $course->course->title}}</option>
+									@endif
+	                        		
 	                        	@endforeach
 	                        </select>
 	                    </div> 
-	                </div>
+					</div>
+					{{-- <div class="col-xs-12 form-group">
+						{!! Form::label('course_id', 'Course', ['class' => 'control-label']) !!}
+						{!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2']) !!}
+						<p class="help-block"></p>
+						@if($errors->has('course_id'))
+							<p class="help-block">
+								{{ $errors->first('course_id') }}
+							</p>
+						@endif
+					</div> --}}
+
 	                <div class="col-xs-12 form-group">
                     	<label for="exampleInputEmail1">Assignment Title</label>
 					<input type="text" name="title" value="{{$assignment->title}}" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>

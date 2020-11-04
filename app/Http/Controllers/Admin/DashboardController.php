@@ -144,14 +144,21 @@ class DashboardController extends Controller
         return view('admin.assignments.index')->with(compact('my_assignments'));
     }
     public function updateAssignment(Request $request,$id=null){
+        $courses = \App\Course::ofTeacher()->get();
+        // dd($courses);
+        $courses_ids = $courses->pluck('id');
+        $courses = $courses->pluck('title', 'id')->prepend('Please select', '');
+        // dd($courses);
+        
+
         $my_courses = CourseUser::where(['user_id'=> \Auth::id()])->get();
-        $assignment_course = Assignments::where('id',$id)->value('course_id');
-        // dump($assignment_course);
+        $assignment_course_id = Assignments::where('id',$id)->value('course_id');
+        // dd($assignment_course_id);
 
         $course_ids = $this->fetchEnrolledCourseIDs();
         // dump($course_ids);
         $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
-        if(in_array($assignment_course,$course_ids)){
+        if(in_array($assignment_course_id,$course_ids)){
             //user is owner of the course
             $submitted_assignments_array = $this->assignmentDetails($id);
             // dd($submitted_assignments_array);
@@ -214,6 +221,7 @@ class DashboardController extends Controller
             return view('admin.assignments.edit')
             ->with(compact('assignment',
             'my_courses',
+            'assignment_course_id',
             'submitted_assignments_array'));
         }
         
