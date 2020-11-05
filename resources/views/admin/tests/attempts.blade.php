@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Exams</h3>
+<div class="row">
+    @include('students.header')
+</div>
+    <h3 class="page-title">Quizzes</h3>
     <p>
-        <a href="{{ url('/admin/exams') }}" class="btn btn-success">Back to Exams</a>
+        <a href="{{ url('/admin/tests') }}" class="btn btn-primary">Back to Quizzes</a>
     </p>
     
     @if(Session::has("flash_message_error")) 
@@ -22,7 +25,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            {{ $test->title }} - Student Attempts
+            Quizzes - Student Attempts
         </div>
         
         <div class="panel-body">
@@ -40,10 +43,10 @@
                 <tbody>
                     @foreach($students as $key=>$student)
                         <tr data-entry-id="{{ $key }}">
-                            <td>{{ $key }}</td>
-                            <td>{{ $student->name }}</td>
+                            <td>{{ ++$key }}</td>
+                            <td>{{ $student->user_name }}</td>
                             <td>
-                                  <a href="{{url('admin/exams/attempts/'.$id.'/'.$student->id)}}">Open File</a>
+                                  <a href="{{url('admin/tests/attempts/'.$student->test_id.'/'.$student->user_id)}}">Open File</a>
                             </td>
                          </tr>
                     @endforeach

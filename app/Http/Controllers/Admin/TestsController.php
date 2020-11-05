@@ -56,27 +56,20 @@ class TestsController extends Controller
     public function attemptedQuizzes(String $id=null){
         //get list of students who attempt test
         $test = Test::where('id',$id)->get()->first();
-        // dd($test);
         // $results = TestResults::with('user')->where('test_id',$id)->get();
-        $test_details = DB::table('tests_results')
+        $students = DB::table('tests_results')
                     ->select('tests_results.test_id as test_id',
                              'tests_results.user_id as user_id',
                              'tests_results.test_result as test_result',
-                             'users.name as user_name')
+                             'users.name as user_name','tests.title as test_title')
                     ->join('users', 'users.id', '=', 'tests_results.user_id')
+                    ->join('tests', 'tests.id', '=', 'tests_results.test_id')
                     ->where('tests_results.test_id',$id)
                     ->orderBy('tests_results.id','DESC')
                     ->get();
-
-
-
-        dd($test_details);
-        $student_ids =ExamSubmits::with('exam')->where('test_id',$id)->value('user_id');
-        $students_array = explode(",", $student_ids);
-        $students = User::whereIn('id',$students_array)->get();
         // dd($students);
 
-        return view('admin.exams.attempts')->with(compact('students','id','test'));
+        return view('admin.tests.attempts')->with(compact('students','test'));
     }
     public function fetchExamTitles(String $course_id){
         $my_tests = Test::with('course')->where('course_id',$course_id)->where('lesson_id','!=',NULL)->get();
