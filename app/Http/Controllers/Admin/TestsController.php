@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DB;
 use App\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -12,7 +13,11 @@ use App\CourseUser;
 use App\Course;
 use App\QuestionTest;
 use App\Question;
-use DB;
+use App\QuestionsOption;
+use App\User;
+use App\ExamAnswers;
+use App\TestsResult;
+use App\TestsResultsAnswer;
 
 class TestsController extends Controller
 {
@@ -24,34 +29,54 @@ class TestsController extends Controller
     public function attemptedQuizzesByStudent(String $test_id=null,String $student_id=null){
         //get student details
         $student_details = User::find($student_id);
+        // dd($student_details);
 
         //get list of questions & ids
         $questions = QuestionTest::with(['test'])->where('test_id',$test_id)->get();
-        // dd($questions);
+        
+        //get the questions with their options for each of the test id supplied
         $question_ids="";
-        foreach($questions as $question){
-            $question_ids .= $question->question_id. ',';
+        foreach($questions as $key=>$question){
+            // $question_ids .= $question->question_id. ',';
+            $options = QuestionsOption::with('question')->where('question_id',$question->question_id)->get();
+            // $question_options[$key] = $options;
+            $question_options[$question->question_id] = $options;
+
         }
         
-        //and answers in the test
-        $question_array =explode(",", $question_ids);
-
-        //get the questions with their options for the test id supplied
-        $question_options = Question::with(['options'])->whereIn('id',$question_array)->get();
-
-
         //get the answers that the student submitted for a particular test
-        $question_answers = ExamAnswers::where(['test_id'=>$test_id,'user_id'=>$student_id])->get();
+        $question_answers = DB::table('tests_results')
+                    ->select('tests_results_answers.question_id as question_id',
+                             'tests_results_answers.option_id as option_id',
+                             'questions.question as question_title',
+                             'questions_options.option_text as question_answer'
+                             )
+                    ->join('tests_results_answers', 'tests_results_answers.tests_result_id', '=', 'tests_results.id')         
+                    ->join('questions_options', 'questions_options.id', '=', 'tests_results_answers.option_id')
+                    ->join('questions', 'questions.id', '=', 'tests_results_answers.question_id')
+                    ->where('tests_results.test_id',$test_id)
+                    ->orderBy('tests_results.id','DESC')
+                    ->get();
+                    
 
         //get test result if any
         $test_result = TestsResult::where(['test_id'=>$test_id,'user_id'=>$student_id])->get();
+        // dd($test_result);
         if(count($test_result) < 1){
             $test_result="N/A";
         }else{
             $test_result=$test_result[0]->test_result;
         }
-       
-        return view('admin.exams.attempts_student')->with(compact('question_options','question_answers','questions','student_details','test_result'));
+        // dd($questions);
+        // dd($question_answers);
+       $index =0;
+        return view('admin.tests.attempts_student')
+        ->with(compact('question_options',
+        'question_answers',
+        'questions',
+        'student_details',
+        'index',
+        'test_result'));
     }
     public function attemptedQuizzes(String $id=null){
         //get list of students who attempt test

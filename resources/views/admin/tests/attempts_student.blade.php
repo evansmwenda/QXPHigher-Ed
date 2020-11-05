@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Exams</h3>
+<div class="row">
+    @include('students.header')
+</div>
+    <h3 class="page-title">Quizzes</h3>
     <p>
-        <a href="{{ url('/admin/exams') }}" class="btn btn-success">Back to Exams</a>
+        <a href="{{ url('/admin/tests') }}" class="btn btn-success">Back to Quizzes</a>
     </p>
     
     @if(Session::has("flash_message_error")) 
@@ -31,8 +34,22 @@
             <div class="panel-group" id="accordion">
 
                 @if(count($question_options) >0)
+                    {{-- //this is a multidimensional array --}}
+                    @foreach($question_options as $key=>$question_answers_array)
+                        <div class="col-xs-12 form-group">
+                            <p>{{ ++$key }}. {{ $question_answers_array[0]->question->question }}</p>
+                            @foreach($question_answers_array as $question_answer)
+                                <div class="col-xs-12 form-check">
+                                    <input class="form-check-input" type="radio" name="answer{{$key}}[]" value="{{ $question_answer->option_text}}">
+                                    <label class="form-check-label">{{ $question_answer->option_text}}</label>
+                                </div>
+                            @endforeach
+                            <!-- add field to indicate the answer the student chose -->
+                            <p style="color:green">Student answer: {{ $question_answers[$index++]->question_answer }}</p> 
+                        </div>
+                    @endforeach
 
-                    @foreach($question_options as $key=>$question)
+                    {{-- @foreach($question_options as $key=>$question)
                     <div class="col-xs-12 form-group">
                         <p>{{ $key+1 }}. {{ $question->question }}</p>
                         @if(count($question->options) > 0)
@@ -56,9 +73,10 @@
 
                     </div>
                     
-                    @endforeach
+                    @endforeach --}}
+
                     <!-- add form to update the students exam results-->
-                    <form role="form" method="post" action="{{('/admin/exams/grade/save')}}"> {{csrf_field() }}
+                    {{-- <form role="form" method="post" action="{{('/admin/exam/grade/save')}}"> {{csrf_field() }}
                         <input type="hidden" name="u_id" value="{{ $student_details->id }}">
                         <input type="hidden" name="t_id" value="{{ $questions[0]->test->id }}">
 
@@ -72,7 +90,7 @@
                             <input type="submit" value="Submit" class="btn btn-primary" />
                         </div>
 
-                    </form>
+                    </form> --}}
 
 
 
@@ -87,7 +105,7 @@
                 <br/>
                 <div class="col-xs-12">
                     <p>
-                      <a href="{{ url('/admin/exams') }}" class="btn btn-default">Back to list</a>
+                      <a href="{{ url('/admin/tests') }}" class="btn btn-default">Back to list</a>
                     </p>
                 </div>
                 
