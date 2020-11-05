@@ -533,6 +533,7 @@ class DashboardController extends Controller
             $my_event = new Events;
             $my_event->title=$data['event_title'];
             $my_event->course_id=$data['course_id'];
+            $my_event->type=$data["type"] == null ? "class":$data["type"];
             $my_event->event_start_time=$event_start_end[0];
             $my_event->event_end_time=$event_start_end[1];
             $my_event->color=$data['favcolor'];
@@ -654,6 +655,7 @@ class DashboardController extends Controller
                 case "title":
                     //get the exam titles in that course selected
                     $titles_array = $this->fetchExamTitles($data['course_id']);
+                    // dd($titles_array);
                 break;
             }
         }
@@ -836,7 +838,6 @@ class DashboardController extends Controller
     public function attemptedExams(String $id=null){
         //get list of students who attempt test
         $test = Test::where('id',$id)->get()->first();
-        // dd($test);
         $student_ids =ExamSubmits::with('exam')->where('test_id',$id)->value('user_id');
         $students_array = explode(",", $student_ids);
         $students = User::whereIn('id',$students_array)->get();
