@@ -32,12 +32,13 @@
 
             <div class="col-sm-10">
             <div class="panel-group" id="accordion">
-
+                <p>Student Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<b>{{ $student_details->name }}</b></p>
+                <p>Admission Number:&nbsp;<b>SCIT/011/2017</b></p><br/><br/>
                 @if(count($question_options) >0)
                     {{-- //this is a multidimensional array --}}
                     @foreach($question_options as $key=>$question_answers_array)
                         <div class="col-xs-12 form-group">
-                            <p>{{ ++$key }}. {{ $question_answers_array[0]->question->question }}</p>
+                            <p>{{ ++$counter }}. {{ $question_answers_array[0]->question->question }}</p>
                             @foreach($question_answers_array as $question_answer)
                                 <div class="col-xs-12 form-check">
                                     <input class="form-check-input" type="radio" name="answer{{$key}}[]" value="{{ $question_answer->option_text}}">

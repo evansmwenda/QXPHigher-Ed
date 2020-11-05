@@ -70,12 +70,13 @@ class TestsController extends Controller
         // dd($questions);
         // dd($question_answers);
        $index =0;
+       $counter =0;
         return view('admin.tests.attempts_student')
         ->with(compact('question_options',
         'question_answers',
         'questions',
         'student_details',
-        'index',
+        'index','counter',
         'test_result'));
     }
     public function attemptedQuizzes(String $id=null){

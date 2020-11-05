@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="row">
+    @include('students.header')
+</div>
     <h3 class="page-title">Exams</h3>
     <p>
         <a href="{{ url('/admin/exams') }}" class="btn btn-success">Back to Exams</a>
