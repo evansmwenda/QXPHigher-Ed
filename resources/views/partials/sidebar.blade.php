@@ -95,7 +95,7 @@
             
             @can('test_access')
             <li class="{{ $request->segment(2) == 'tests' ? 'active' : '' }}">
-                <a href="{{ route('admin.tests.index') }}">
+                <a href="{{ url('admin/tests') }}">
                     <i class="fa fa-gears"></i>
                     <span class="title">@lang('global.tests.title')</span>
                 </a>

@@ -7,7 +7,7 @@
 
 <div class="row">
     {{-- small left side div --}}
-    {!! Form::open(['method' => 'POST', 'route' => ['admin.tests.store']]) !!}
+    {!! Form::open(['method' => 'POST', 'route' => 'admin.tests.store']) !!}
     <div class="col-md-4 exams-top" style="background: #fff">
         <h3>Create Tests</h3>
                               
