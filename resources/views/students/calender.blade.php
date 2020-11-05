@@ -1,27 +1,40 @@
 @extends('layouts.home')
 
 @section('main')
-<div class="col-lg-8 col-sm-8">
-	<div class="row top-header-2">
-		<div class="col-md-12 col-sm-12" >
-			<div class="col-sm-6">
-				<div class="form-group has-search">
-					<input type="text" class="form-control" placeholder="Search">
-				  </div>
-			</div>
-			<div class="col-sm-2">
-				<span class="fa fa-shield-alt fa-2x"></span>
-			</div>
-			<div class="col-sm-2">
-				 <span class="fa fa-bell fa-2x"></span>
-			</div>
-			<div class="col-sm-2">
-				 <span class="fa fa-calendar-alt fa-2x"></span>
-			</div>
-		 </div> 
-	
+<div class="row">
+  <div class="col-md-8 col-sm-8">
+    <div class="row top-header-2">
+      <div class="col-md-12 col-sm-12" >
+        <div class="col-sm-6">
+          <div class="form-group has-search">
+            <input type="text" class="form-control" placeholder="Search">
+            </div>
+        </div>
+        <div class="col-sm-2">
+          <span class="fa fa-shield-alt fa-2x"></span>
+        </div>
+        <div class="col-sm-2">
+           <span class="fa fa-bell fa-2x"></span>
+        </div>
+        <div class="col-sm-2">
+           <span class="fa fa-calendar-alt fa-2x"></span>
+        </div>
+       </div> 
+    
+    </div>
   </div>
-  <div class="col-md-4" style="background: #fff">
+  <div class="col-md-4 col-sm-4 dashboard-right">
+    <div class="row top-right">
+      <i class="fa fa-user fa-2x"></i> 
+          <a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="fa fa-bars"></span>
+       </a> 
+   </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 col-sm-12" style="background: #fff">
     <div class="sticky-top mb-3">
       <div class="card">
         <div class="card-header">
@@ -33,21 +46,18 @@
     </div>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">All</a>
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Class</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Class</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Exam</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Exams</a>
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Assignment</a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="row">
-
-
-          <h3>Live Classes</h3>
           @if(count($class_event_array) > 0)
             @foreach($class_event_array as $class_event)
               <div class="events-activity">
@@ -59,9 +69,11 @@
           @else
             <p class="text-center">You have no upcoming classes</p>
           @endif
+        </div>
 
-
-          <h3>Exams</h3>
+      </div>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="row">
           @if(count($exam_event_array) > 0)
               @foreach($exam_event_array as $exam_event)
                 <div class="events-activity">
@@ -73,8 +85,10 @@
           @else
             <p class="text-center">You have no upcoming exams</p>
           @endif
-
-          <h3>Assignments</h3>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="row">
           @if(count($assignment_event_array) > 0)
               @foreach($assignment_event_array as $assignment_event)
                 <div class="events-activity">
@@ -87,80 +101,33 @@
               <p class="text-center">You have no upcoming assignments</p>
             @endif
         </div>
-
-      </div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row">
-          @if(count($class_event_array) > 0)
-            @foreach($class_event_array as $class_event)
-              <div class="events-activity">
-                <h4>{{$class_event['title']}} {{$class_event['start']}}</h4>
-                <span>{{$class_event['days']}} Day(s) ago</span>
-              </div>
-            @endforeach
-            
-          @else
-            <p class="text-center">You have no upcoming classes</p>
-          @endif
-        </div>
-      </div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="row">
-          @if(count($exam_event_array) > 0)
-              @foreach($exam_event_array as $exam_event)
-                <div class="events-activity">
-                  <h4>{{$exam_event['title']}} {{$exam_event['start']}}</h4>
-                  <span>{{$exam_event['days']}} Day(s) ago</span>
-                </div>
-              @endforeach
-              
-          @else
-            <p class="text-center">You have no upcoming exams</p>
-          @endif
-        </div>
       </div>
     </div>
-  </div>
-
-{{-- start of Calendar --}}
-  <div class="col-md-8 calendar">
-      <div id="calendar"></div>
-  </div>
-</div>
-{{-- end of col-md-8 --}}
-<div class="col-md-4 dashboard-right">
-  <div class="row top-right">
-     <i class="fa fa-user fa-2x"></i> 
-         <a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="fa fa-bars"></span>
-      </a> 
-  </div>
-  <div class="tasks">
-    <h3>My Tasks</h3>
-
-      @if(count($user_tasks)>0)
-      @foreach ($user_tasks as $task)
-      <div class="task-card">
-        <span class="fa fa-calendar-alt"></span>
-        <span class="date">{{$task->task_date}}</span>
-        <input type="checkbox">
-        <span class="title">{{$task->title}}</span>
-        {{-- <i class="fa fa-user"></i> --}}
-      </div>
-      @endforeach
-        @else
-        <div class="task-card">
-        <h4>No Task Found</h4>
-        </div>
-      @endif
-
-
-
-  </div>
+    <div class="tasks">
+      <h3>My Tasks</h3>
   
+        @if(count($user_tasks)>0)
+        @foreach ($user_tasks as $task)
+        <div class="task-card">
+          <span class="fa fa-calendar-alt"></span>
+          <span class="date">{{$task->task_date}}</span>
+          <input type="checkbox">
+          <span class="title">{{$task->title}}</span>
+          {{-- <i class="fa fa-user"></i> --}}
+        </div>
+        @endforeach
+          @else
+          <div class="task-card">
+          <h4>No Task Found</h4>
+          </div>
+        @endif
+    </div>
+    
+  </div>
+  <div class="col-md-8 col-sm-12 calendar">
+    <div id="calendar"></div>
+  </div>
 </div>
-@endsection
 
 
 <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -183,6 +150,10 @@
   </div>
 
 </div>
+@endsection
+
+
+
 
 @section('javascript')
     @parent
@@ -253,9 +224,9 @@
     var calendar = new Calendar(calendarEl, {
       plugins: [ 'bootstrap', 'interaction','list', 'dayGrid', 'timeGrid' ],
       header    : {
-        //left  : 'prev,next today',
-        left: 'title',
-        // right : 'dayGridMonth,timeGridWeek,timeGridDay',
+        left  : 'prev,next today',
+        center: 'title',
+        right : 'dayGridMonth,timeGridWeek,timeGridDay',
         //right : 'dayGridMonth,timeGridWeek,timeGridDay',
     
       
