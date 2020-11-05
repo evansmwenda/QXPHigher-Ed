@@ -533,6 +533,7 @@ class DashboardController extends Controller
             $my_event = new Events;
             $my_event->title=$data['event_title'];
             $my_event->course_id=$data['course_id'];
+            $my_event->type=$data["type"] == null ? "class":$data["type"];
             $my_event->event_start_time=$event_start_end[0];
             $my_event->event_end_time=$event_start_end[1];
             $my_event->color=$data['favcolor'];

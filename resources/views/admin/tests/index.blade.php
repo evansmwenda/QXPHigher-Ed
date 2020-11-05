@@ -9,7 +9,7 @@
 <div class="row">
     {{-- small left side div --}}
     <div class="col-md-4 exams-top" style="background: #fff">
-        <h3>View Tests</h3>
+        <h3>View Quizzes</h3>
         <button data-toggle="modal" data-target="#modalCreateOptions">Select Course</button>                        
         <hr>
         <h4>Course : {{$course_title or 'Select Course'}} </h4>
@@ -44,7 +44,7 @@
                 <strong>{!! session('flash_message_success') !!}</strong>
             </div> 
         @endif
-        <h2>Tests</h2>
+        <h2>Quizzes</h2>
         <div class="exam-top-buttons"> 
             @can('test_create')   
             <a href="{{ url('admin/tests/create') }}"><button style="background: #060646"><i class="fa fa-plus"></i>Create</button></a>  
