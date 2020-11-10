@@ -1443,7 +1443,7 @@ class HomeController extends Controller
         
 
         $transact = MyTransactions::where('reference',$pesapalMerchantReference)->first();
-        $user = $transact['user_id'];
+        $user_id = $transact['user_id'];
         $transact->status=$status;
         $transact->payment_method=$payment_method;
         $transact->tracking_id=$pesapalTrackingId;
