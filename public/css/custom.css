@@ -273,8 +273,26 @@ font-size: 18px;
 }
 .meeting{
     height: 130px;
-    
     margin-left: 20px;
+}
+.select-course{
+    height: 130px;
+    
+}
+.select-course h3{
+    color: #060646;
+    font-size: 20px;
+    font-weight: 900;
+}
+.select-course button{
+  
+    background: #FD6C03;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100px;
+    margin-top: 10px;
+    color: #fff;
+    border: 1px solid #FD6C03;
 }
 .meeting h3{
     color: #060646;
@@ -1288,4 +1306,84 @@ background: #060646;
     margin-top: -5px;
     color:#060646;
     font-size:15px;
+}
+.exams-top{
+    padding: 15px;
+    height: 600px;
+    overflow-y: scroll;
+}
+.exams-top h3{
+    color: #060646;
+}
+.exams-top button{
+    background:#FD6C03 ;
+    border: 1px solid #FD6C03;
+    border-radius: 10px;
+    color:#fff;
+    float:right;
+    margin-top: -40px;
+    padding: 5px;
+}
+.exams-top h4{
+    color: #060646;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.exams-top label{
+  margin-left: 15px;
+  margin-top: 5px;
+  cursor: pointer;
+  color: #060646;
+  font-size: 18px;
+}
+.exams-top label:hover{
+    color: #FD6C03;
+}
+.exam-questions{
+    background: #fff;
+    height: 600px;
+    overflow-y:scroll;
+    }
+.exam-questions h2{
+    color: #060646;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.exam-questions h3{
+    background: #EAECEE;
+    padding: 12px;
+    color: #FD6C03;
+    font-weight: 900;
+    font-size: 18px;
+    border-radius: 5px;
+}
+.disp-exams{
+    border-radius: 5px;
+    border: 1px solid #FD6C03;
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+}
+.disp-exams button{
+    padding: 3px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    color: #fff;
+    margin-right: 30px;
+    width: 100px;
+}
+.exam-top-buttons button{
+    padding: 5px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    margin-top: -20px;
+    color: #fff;
+    margin-right: 30px;
+    width: 100px;
+}
+.exam-top-buttons button i{
+    padding-right: 10px;
+
 }

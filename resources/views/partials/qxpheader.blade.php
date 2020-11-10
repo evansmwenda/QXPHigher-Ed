@@ -73,7 +73,7 @@
                            <div class="col-md-8">
                               <h3>Products</h3>
                               <hr style="border-top: 1px solid #ccc">
-                                    <div class="row" >
+                           <div class="row" style="cursor: pointer;" onclick="location.href='http://academy.qxp-global.com';" >
                                        <div class="col-sm-2" style="padding-top: 15px">
                                        <img src="{{asset('images/logo/bgAsset6.svg')}}" width="85">
                                        </div>
@@ -82,7 +82,7 @@
                                        </div>
                                     </div>   
                                     <hr style="border-top: 1px solid #ccc">
-                                    <div class="row" style="margin:10px 0px;">
+                                    <div class="row" style="margin:10px 0px;cursor: pointer;" onclick="location.href='http://higher-ed.qxp-global.com';">
                                        <div class="col-sm-2" style="padding-top: 15px">
                                        <img src="{{asset('images/logo/bgAsset8.svg')}}" width="85">
                                        </div>
@@ -91,7 +91,7 @@
                                        </div>
                                     </div>  
                                     <hr style="border-top: 1px solid #ccc">
-                                    <div class="row" style="margin:10px 0px;">
+                                    <div class="row" style="margin:10px 0px;cursor: pointer;" onclick="location.href='http://meetings.qxp-global.com';">
                                        <div class="col-sm-2" style="padding-top: 15px">
                                        <img src="{{asset('images/logo/bgAsset9.svg')}}" width="85">
                                        </div>
@@ -100,7 +100,7 @@
                                        </div>
                                     </div>   
                                     <hr style="border-top: 1px solid #ccc">
-                                    <div class="row">
+                                    <div class="row" style="cursor: pointer;" onclick="location.href='http://business.qxp-global.com';">
                                        <div class="col-sm-2" style="padding-top: 15px">
                                        <img src="{{asset('images/logo/bgAsset7.svg')}}" width="85">
                                        </div>

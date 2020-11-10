@@ -6,6 +6,7 @@ Route::get('/welcome', 'HomeController@qxplanding');
 Route::get('/ipn', 'HomeController@getIPN');
 // QXP redirects
 Route::get('/','HomeController@landing');
+// Route::get('/sms','HomeController@sms');
 
 //we have been redirected from QXP->initiate receipt
 // Route::group(['middleware' => ['guest']], function () {
@@ -134,15 +135,6 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::post('questions_options_restore/{id}', ['uses' => 'Admin\QuestionsOptionsController@restore', 'as' => 'questions_options.restore']);
     Route::delete('questions_options_perma_del/{id}', ['uses' => 'Admin\QuestionsOptionsController@perma_del', 'as' => 'questions_options.perma_del']);
     
-    //tests/quizzes
-    Route::resource('tests', 'Admin\TestsController');
-    Route::post('tests_mass_destroy', ['uses' => 'Admin\TestsController@massDestroy', 'as' => 'tests.mass_destroy']);
-    Route::post('tests_restore/{id}', ['uses' => 'Admin\TestsController@restore', 'as' => 'tests.restore']);
-    Route::delete('tests_perma_del/{id}', ['uses' => 'Admin\TestsController@perma_del', 'as' => 'tests.perma_del']);
-    Route::post('/spatie/media/upload', 'Admin\SpatieMediaController@create')->name('media.upload');
-    Route::post('/spatie/media/remove', 'Admin\SpatieMediaController@destroy')->name('media.remove');
-
-
     //for  events
     Route::get('events','Admin\DashboardController@getEvents');
     Route::match(['get', 'post'],'events/create','Admin\DashboardController@createEvents');
@@ -155,9 +147,27 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::match(['get', 'post'],'assignments/create','Admin\DashboardController@createAssignments');
     Route::match(['get', 'post'],'assignments/update/{id}','Admin\DashboardController@updateAssignment');
 
+    //tests/quizzes
+    // Route::resource('tests', 'Admin\TestsController');
+    Route::match(['get', 'post'],'tests','Admin\TestsController@index')->name('tests.index');
+    Route::get('tests/create/new','Admin\TestsController@create');
+    Route::match(['get', 'post'],'tests/store','Admin\TestsController@store')->name('tests.store');
+    Route::get('tests/attempts/{id}','Admin\TestsController@attemptedQuizzes');
+    Route::match(['get', 'post'],'tests/attempts/{test_id}/{student_id}','Admin\TestsController@attemptedQuizzesByStudent');
+    Route::get('tests/{id}','Admin\TestsController@getTestDetails');
+    Route::get('tests/delete-question/{id}','Admin\TestsController@deleteExamQuestion');
+    Route::post('tests_mass_destroy', ['uses' => 'Admin\TestsController@massDestroy', 'as' => 'tests.mass_destroy']);
+    Route::post('tests_restore/{id}', ['uses' => 'Admin\TestsController@restore', 'as' => 'tests.restore']);
+    Route::delete('tests_perma_del/{id}', ['uses' => 'Admin\TestsController@perma_del', 'as' => 'tests.perma_del']);
+    Route::post('/spatie/media/upload', 'Admin\SpatieMediaController@create')->name('media.upload');
+    Route::post('/spatie/media/remove', 'Admin\SpatieMediaController@destroy')->name('media.remove');
+
     //for exams 
     Route::match(['get', 'post'],'exams','Admin\DashboardController@getExams');
+    Route::get('exams/{id}','Admin\DashboardController@getExamsDetails');
+    Route::match(['get', 'post'],'exams/delete-question/{id}','Admin\DashboardController@deleteExamQuestion');
     Route::get('exams/create','Admin\DashboardController@createExams');
+    Route::get('exams/create/new','Admin\DashboardController@createExams2');
     Route::match(['get', 'post'],'exams/save','Admin\DashboardController@storeExams');
     Route::get('exams/attempts/{id}','Admin\DashboardController@attemptedExams');
     Route::match(['get', 'post'],'exams/attempts/{test_id}/{student_id}','Admin\DashboardController@attemptedExamsByStudent');

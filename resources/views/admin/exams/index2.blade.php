@@ -49,12 +49,11 @@
         <h2>Questions</h2>
         <div class="exam-top-buttons">
             <a href="{{ url('/admin/exams/create/new') }}"><button style="background:#060646"><i class="fa fa-plus"></i>Create</button></a>
-            @if(empty($questions_array))
+            @if($questions_array->isEmpty())
             {{-- //do nothing  $questions_array->isEmpty() ||  --}}
-            @else                      
+            @else 
                 <a href="{{ url('/admin/exams/attempts/'.$questions_array[0]->test->id)}}"><button style="background: #FD6C03"><i class="fa fa-check"></i>Submited</button></a>
                 <a href="{{ url('/admin/exams/delete/'.$questions_array[0]->test->id) }}"><button style="background: #71CA52"><i class="fa fa-trash"></i>Delete</button></a>
-            
             @endif
         </div>
         
@@ -75,6 +74,42 @@
       
     </div>
 </div>
+
+
+        
+        {{-- <div class="panel-body table-responsive">
+            <table class="table table-bordered table-striped {{ count($my_tests) > 0 ? 'datatable' : '' }}">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Exam Title</th>
+                        <th>Course</th>
+                        <th>Published</th>
+                        <th>Action(s)</th>
+                     
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if (count($my_tests) > 0)
+                    	@foreach($my_tests as $test)
+                    		<tr data-entry-id="{{ $test->id }}">
+	                            <td>{{ $test->id }}</td>
+	                            <td>{{ $test->title }}</td>
+	                            <td>{{ $test->course->title}}</td>
+	                            <td>{{ $test->published}}</td>
+                            <td><a href="{{ url('/admin/exams/attempts/'.$test->id)}}" class="btn btn-info btn-sm">Answers</a> | <a id="{{$test->id}}" href="{{ url('/admin/exams/delete/'.$test->id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+	                        </tr>
+                    	@endforeach
+                        
+                    @else
+                        <tr>
+                            <td colspan="10">@lang('global.app_no_entries_in_table')</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div> --}}
     </div>
     <div class="modal fade" id="modalCreateOptions" role="dialog">
         <div class="modal-dialog modal-sm">
@@ -99,8 +134,12 @@
                                 <button type="submit" class="btn btn-warning">Submit</button>
                             </div> 
                         </div>
-                    </form>
+                    </form>    
+                    
+                
+                    {{-- <a href="/admin/exams"><button>Submit</button></a> --}}
                 </div>
+                
             </div>
           </div>
           

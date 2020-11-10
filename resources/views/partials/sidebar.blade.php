@@ -75,7 +75,7 @@
             </li>
             @endcan
             
-            @can('question_access')
+            {{-- @can('question_access')
             <li class="{{ $request->segment(2) == 'questions' ? 'active' : '' }}">
                 <a href="{{ route('admin.questions.index') }}">
                     <i class="fa fa-question"></i>
@@ -91,47 +91,42 @@
                     <span class="title">@lang('global.questions-options.title')</span>
                 </a>
             </li>
-            @endcan
+            @endcan --}}
             
             @can('test_access')
             <li class="{{ $request->segment(2) == 'tests' ? 'active' : '' }}">
-                <a href="{{ route('admin.tests.index') }}">
+                <a href="{{ url('admin/tests') }}">
                     <i class="fa fa-gears"></i>
-                    <span class="title">@lang('global.tests.title')</span>
+                    <span class="title">Quizzes</span>
                 </a>
             </li>
             @endcan
 
-            <li class="">
+            <li class="{{ $request->segment(2) == 'exams' ? 'active' : '' }}">
                 <a href="/admin/exams">
                     <i class="fa fa-briefcase"></i>
                     <span class="title">Exams</span>
                 </a>
             </li>
 
-            <li class="">
+            <li class="{{ $request->segment(2) == 'events' ? 'active' : '' }}">
                 <a href="/admin/events">
                     <i class="fa fa-calendar-alt"></i>
                     <span class="title">Calendar</span>
                 </a>
             </li>
-            <li class="">
+            <li class="{{ $request->segment(2) == 'assignments' ? 'active' : '' }}">
                 <a href="/admin/assignments">
                     <i class="fa fa-edit"></i>
                     <span class="title">Assignments</span>
                 </a>
             </li>
-            <li>
+            <li class="{{ $request->segment(2) == 'live-classes' ? 'active' : '' }}">
                 <a href="/admin/live-classes">
                     <i class="fa fa-headset"></i>
                     <span class="title">Live Classes</span>
                 </a>
             </li>
-            
-
-            
-
-            
 
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
                 <a href="{{ route('auth.change_password') }}">

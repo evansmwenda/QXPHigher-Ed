@@ -34,7 +34,19 @@
 	                        	@endforeach
 	                        </select>
 	                    </div> 
-	                </div>
+                    </div>
+                    <div class="col-xs-12 form-group">
+                        <div class="form-group">
+                            <label>Event Type</label>
+                            <select class="form-control" name="type" required>
+                                <option value="">Select Event</option>
+                                <option value="class">Live Class</option>
+                                <option value="exam">Examination</option>
+                                <option value="assignment">Assignment</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div> 
+                    </div>
 	                <div class="col-xs-12 form-group">
                     	<label for="exampleInputEmail1">Event Title</label>
                     	<input type="text" name="event_title" class="form-control" id="exampleInputEmail1" placeholder="Enter Title" required>

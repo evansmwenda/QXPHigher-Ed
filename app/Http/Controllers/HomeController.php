@@ -29,6 +29,8 @@ use DateInterval;
 use DatePeriod;
 use Auth;
 use Session;
+use App\Events\PaymentSuccessfulEvent;
+use AfricasTalking\SDK\AfricasTalking;
 
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
@@ -45,6 +47,50 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function sendPaymentNotification(){
+        //test function to send sms
+        if(!is_null(\Auth::id())){
+            $data = \Auth::user();
+            // dd($data);
+            $sms_recipients="";//empty string
+
+            $username = getenv("AFRICASTALKING_USERNAME");
+            $apiKey   = getenv("AFRICASTALKING_API_KEY");
+
+            $AT       = new AfricasTalking($username, $apiKey);
+            // Get one of the services
+            $sms      = $AT->sms();
+
+            // Set the numbers you want to send to in international format
+            $recipients='+254718145956';//$data['phone'];//'+254712345678'
+
+            // Set your message
+            $message    = "Dear Customer,your payment was successful.";
+
+            // Set your shortCode or senderId
+            $from       = "QXP";
+            // Get one of the services
+            try {
+                // Thats it, hit send and we'll take care of the rest
+                $result = $sms->send([
+                    'to'      => $recipients,
+                    'message' => $message,
+                    'from'    => $from
+                    
+                ]);
+
+                // print_r($result);
+                    
+            } catch (Exception $e) {
+                //echo "Error: ".$e->getMessage();
+                $result=$e->getMessage();
+                // print_r($result);
+            }
+        }
+        // dd("logged out");
+        
+    }
+
     public function allquizzes(){
         //fetch the quizes in the courses the student is enrolled to
         $course_ids_array = $this->fetchEnrolledCourseIDs();
@@ -1302,6 +1348,8 @@ class HomeController extends Controller
                 $transactions->is_used="1";
                 $transactions->save();  
             }
+            //TODO ADD PAYMENT SUCCESSFUL EVENT
+            event(new PaymentSuccessfulEvent(\Auth::user()));
 
             //check if expiry_on is less than now or greater than
             // if($subscription->expiry_on < date('Y-m-d h:i:s')){
@@ -1352,11 +1400,6 @@ class HomeController extends Controller
         // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
         // &pesapal_merchant_reference=5f2ad92d9dc87
     }
-    public function getIPNn(){
-        $pesapalMerchantReference = "5f6b3d2b1d637";
-        $transact = MyTransactions::where('reference',$pesapalMerchantReference)->first();
-        dd($transact);
-    }
 
     public function getIPN(Request $request){
         /*gets the instant payment notification from pesapal
@@ -1388,50 +1431,7 @@ class HomeController extends Controller
         echo $resp;
         ob_flush();
         exit;
-        
-        // if($dbUpdateSuccessful) $dbupdated = "True"; else  $dbupdated = 'False';
-        
-        // //test if IPN runs on status change
-        // $to      = 'evansmwenda.em@gmail.com';
-        // $subject = 'IPN: '.$pesapalNotification;
-        // $message = '<b>Merchant Reference: </b>'.$pesapalMerchantReference.'<br> ';
-        // $message .= '<b>Tracking ID: </b>'.$pesapalTrackingId.'<br> ';
-        // $message .= '<b>Payment Method: </b>'.$transactionDetails['payment_method'].'<br> ';
-        // $message .= '<b>Database update: </b>'.$dbupdated.'<br> ';
-        // $headers = 'From: ipntester@pesapal.com' . "\r\n";
-        // $headers .= 'MIME-Version: 1.0' . "\r\n";
-        // $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        // 'Reply-To: no-reply@noreplyx.com' . "\r\n" .
-        // 'X-Mailer: PHP/' . phpversion();
-        
-        // mail($to, $subject, $message, $headers);
-            
-        // //If there was a status change and you updated your db successfully && the change is not to a Pending state 
-        // if($pesapalNotification=="CHANGE"){
-            
-        //     //Notify me when the IPN for this transaction is killed
-        //     $to      = '';
-        //     $subject = 'IPN Killer';
-        //     $message = '<b>Merchant Reference: </b>'.$pesapalMerchantReference.'<br> ';
-        //     $message .= '<b>Tracking ID: </b>'.$pesapalTrackingId.'<br> ';
-        //     $message .= '<b>Status: </b>'.$status.'<br> ';
-        //     $headers = 'From: ipntester@pesapal.com' . "\r\n";
-        //     $headers .= 'MIME-Version: 1.0' . "\r\n";
-        //     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n".
-        //     'Reply-To: no-reply@noreplyx.com' . "\r\n" .
-        //     'X-Mailer: PHP/' . phpversion();
-            
-        //     mail($to, $subject, $message, $headers);
-            
-        //     $resp   = "pesapal_notification_type=$pesapalNotification".     
-        //               "&pesapal_transaction_tracking_id=$pesapalTrackingId".
-        //               "&pesapal_merchant_reference=$pesapalMerchantReference";
-                      
-        //     ob_start();
-        //     echo $resp;
-        //     ob_flush();
-        //     exit; //this is mandatory. If you dont exit, Pesapal will not get your response.
-        // }
+
     }
 
     public function updateTransactionByIPN($transaction){
@@ -1446,7 +1446,23 @@ class HomeController extends Controller
         $transact->payment_method=$payment_method;
         $transact->tracking_id=$pesapalTrackingId;
         $transact->reference=$pesapalMerchantReference;
+        $transact->is_used="1";
         $transact->save();
+
+        //payment successful->1.award subscription
+        $subscription = Subscription::where('user_id',$user_id)->first();
+        $subscription->expiry_on = Date('Y-m-d h:i:s', strtotime('+31 days')) ;
+        $subscription->save();
+
+        // //2.set is_used to true so that payment is not used to buy another subscription
+        // $transactions = MyTransactions::where('reference',$reference)->first();
+        // if(!is_null($transactions)){
+        //     //found transaction->updated details
+        //     $transactions->is_used="1";
+        //     $transactions->save();  
+        // }
+        //TODO ADD PAYMENT SUCCESSFUL EVENT
+        event(new PaymentSuccessfulEvent(\Auth::user()));
         
         return true;
 
