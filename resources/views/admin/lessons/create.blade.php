@@ -59,7 +59,7 @@
     <div class="row">
         <div class="col-xs-12 form-group">
             {!! Form::label('short_text', 'Short text', ['class' => 'control-label']) !!}
-            {!! Form::textarea('short_text', old('short_text'), ['class' => 'form-control ', 'placeholder' => '']) !!}
+            {!! Form::textarea('short_text', old('short_text'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
             <p class="help-block"></p>
             @if($errors->has('short_text'))
                 <p class="help-block">

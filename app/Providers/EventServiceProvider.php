@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Registered' => [
             'App\Listeners\AwardFreeTrialListener',
         ],
+        'App\Events\PaymentSuccessfulEvent' => [
+            'App\Listeners\SendPaymentNotificationListener',
+        ],
     ];
 
     /**

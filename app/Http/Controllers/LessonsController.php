@@ -55,6 +55,7 @@ class LessonsController extends Controller
         }
 
         //dd($lesson->test);
+        $questions_count=0;
         if($lesson->test == null){
             $questions =0;
         }else{

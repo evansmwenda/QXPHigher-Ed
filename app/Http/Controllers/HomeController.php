@@ -29,6 +29,8 @@ use DateInterval;
 use DatePeriod;
 use Auth;
 use Session;
+use App\Events\PaymentSuccessfulEvent;
+use AfricasTalking\SDK\AfricasTalking;
 
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
@@ -45,6 +47,50 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function sendPaymentNotification(){
+        //test function to send sms
+        if(!is_null(\Auth::id())){
+            $data = \Auth::user();
+            // dd($data);
+            $sms_recipients="";//empty string
+
+            $username = getenv("AFRICASTALKING_USERNAME");
+            $apiKey   = getenv("AFRICASTALKING_API_KEY");
+
+            $AT       = new AfricasTalking($username, $apiKey);
+            // Get one of the services
+            $sms      = $AT->sms();
+
+            // Set the numbers you want to send to in international format
+            $recipients='+254718145956';//$data['phone'];//'+254712345678'
+
+            // Set your message
+            $message    = "Dear Customer,your payment was successful.";
+
+            // Set your shortCode or senderId
+            $from       = "QXP";
+            // Get one of the services
+            try {
+                // Thats it, hit send and we'll take care of the rest
+                $result = $sms->send([
+                    'to'      => $recipients,
+                    'message' => $message,
+                    'from'    => $from
+                    
+                ]);
+
+                // print_r($result);
+                    
+            } catch (Exception $e) {
+                //echo "Error: ".$e->getMessage();
+                $result=$e->getMessage();
+                // print_r($result);
+            }
+        }
+        // dd("logged out");
+        
+    }
+
     public function allquizzes(){
         //fetch the quizes in the courses the student is enrolled to
         $course_ids_array = $this->fetchEnrolledCourseIDs();
@@ -1302,6 +1348,8 @@ class HomeController extends Controller
                 $transactions->is_used="1";
                 $transactions->save();  
             }
+            //TODO ADD PAYMENT SUCCESSFUL EVENT
+            event(new PaymentSuccessfulEvent(\Auth::user()));
 
             //check if expiry_on is less than now or greater than
             // if($subscription->expiry_on < date('Y-m-d h:i:s')){
