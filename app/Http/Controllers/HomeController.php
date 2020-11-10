@@ -1440,14 +1440,18 @@ class HomeController extends Controller
         $payment_method             = $transaction['payment_method'];
         $pesapalMerchantReference   = $transaction['pesapal_merchant_reference'];
         $pesapalTrackingId          = $transaction['pesapal_transaction_tracking_id'];
+        
 
         $transact = MyTransactions::where('reference',$pesapalMerchantReference)->first();
+        $user = $transact['user_id'];
         $transact->status=$status;
         $transact->payment_method=$payment_method;
         $transact->tracking_id=$pesapalTrackingId;
         $transact->reference=$pesapalMerchantReference;
         $transact->is_used="1";
         $transact->save();
+
+         
 
         //payment successful->1.award subscription
         $subscription = Subscription::where('user_id',$user_id)->first();
