@@ -148,6 +148,8 @@ class HomeController extends Controller
     }
 
     public function index(){
+        //always check if any payments made that dont havent been used
+        $this->checkPaymentStatusDashboard();
 
         $purchased_courses = NULL;
         if (\Auth::check()) {
@@ -203,6 +205,7 @@ class HomeController extends Controller
         }else{
             $logged_in=true;
         }
+        $this->checkPaymentStatusDashboard();
 
 
         $enrolled_course = DB::table('enrolled_courses')
@@ -1373,6 +1376,7 @@ class HomeController extends Controller
     public function checkPaymentStatusDashboard(){
         //check on dashboard if user's payment was successful
         $user = \Auth::user();
+        // dd($user);
 
         $my_transaction = MyTransactions::where([
             ['user_id','=',$user['id']],
@@ -1426,6 +1430,9 @@ class HomeController extends Controller
         $status = $value[$transactionDetails['status']];
         
         $dbUpdateSuccessful = $this->updateTransactionByIPN($transactionDetails);
+        $resp	= "pesapal_notification_type=$pesapalNotification".		
+				  "&pesapal_transaction_tracking_id=$pesapalTrackingId".
+				  "&pesapal_merchant_reference=$pesapalMerchantReference";
 
         ob_start();
         echo $resp;
@@ -1454,7 +1461,7 @@ class HomeController extends Controller
          
 
         //payment successful->1.award subscription
-        $subscription = Subscription::where('user_id',$user_id)->first();
+        $subscription = Subscription::where('user_id',\Auth::id())->first();
         $subscription->expiry_on = Date('Y-m-d h:i:s', strtotime('+31 days')) ;
         $subscription->save();
 
