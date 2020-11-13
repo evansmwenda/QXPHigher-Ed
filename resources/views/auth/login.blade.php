@@ -87,64 +87,57 @@
 @endsection --}}
 
 @section('main')
-<div class="row qxp-login">
-    <div class="qxp-overlay qxp-overlay-education">
-        <div class="container " style="height: 200px;">
-            <div class="row">
-                <div class="col-5">
-                    <div class="spacer">
-                        <h1>Connecting People Together</h1>
-                      <p>For meeting and working online with teleconferencing, video conference, remote working, work from home and work from anywhere</p> 
-                    </div>
+<div class="meeting-login-design">
+    <div class="login-pref login-meeting-overlay">
+        
+            
+                <div class="meeting-spacer">
+                    <h1><strong>Connecting People Together</strong></h1>
+                  <p>For meeting and working online with teleconferencing, video conference, remote working, work from home and work from anywhere</p> 
                 </div>
-                <div class="col-4">
-                    <div class="custom-login">
-                        <div class="text-center">
-                            <img class="text-center" src="{{asset('images/logo/logo.svg')}}" width="100" height="100">
-                        </div>
-                        @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul style="list-style: none">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                          {{-- login form --}}
-                          <form class="form-horizontal" role="form" method="POST" action="{{ url('login') }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                
-                            <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Username" name="email" value="{{ old('email') }}">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password" name="password">
-                            </div>
-                            <div class="form-group">
-                               
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember me
-                                    </label>
+                <div class="meeting-custom-login">
+                    <div class="text-center">
+                        <img class="text-center" src="{{asset('images/logo/bgAsset8.svg')}}" width="100" height="100">
+                    </div>
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul style="list-style: none">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('login') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Username | Email Address" name="email" value="{{ old('email') }}">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" name="password">
+                    </div>
+                    <div class="form-group">
+                       
+                            <label>
+                                <input type="checkbox" name="remember"> Remember me
+                            </label>
 
-                            </div>
-                            <div class="form-group">  
-                                <button type="submit" class="btn btn-warning">
-                                    Login
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <a href="{{ route('auth.password.reset') }}">Forgot your password?</a>
-                            </div>
-                            <div class="form-group">
-                                    <a href="/register">Sign Up</a>
-                            </div>
-                          </form>
-                
                     </div>
+                    <div class="form-group">  
+                        <button type="submit" class="btn btn-warning" style="background: #71CA52; border:1px solid transparent">
+                            Login
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <a href="{{ route('auth.password.reset') }}">Forgot your password?</a>
+                    </div>
+                    <div class="form-group">
+                            <a href="https://qxp-global.com//register">Sign Up</a>
+                    </div>
+                  </form>
+            
                 </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
