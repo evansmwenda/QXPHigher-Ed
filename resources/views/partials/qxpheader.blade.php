@@ -178,7 +178,7 @@
                      <a href="/"><button type="submit" class="btn btn-warning">Go to lms</button></a>
                     
                 @else
-                   <button data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-warning">Login</button>
+               <a href="{{url('/login')}}"><button class="btn btn-warning">Login</button></a>
                 @endif
 
           </nav>
@@ -189,44 +189,3 @@
     <!-- End tw head -->
  </header>
  <!-- End of Header area=-->
- 
- 
- {{-- Login modal preview --}}
- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="background: #fff">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content qxp-login">
-        <div class="container">
-           
-           <div class="row pull-right">
-              <span data-dismiss="modal">x</span>
-           </div>
-           <div class="row">
-              <div class="col-md-5 business-login" onclick="location.href='https://business.qxp-global.com/login';">
-                <img src="{{asset('images/logo/bgAsset9.svg')}}" width="100">
-                <h2>QXP For Business</h2>
-                <p>Remain Connected, Stay Organized</p>
-                </div>
-              <div class="col-md-5 meeting-login business-login"onclick="location.href='http://qxp-global.com/login-for-meeting';">
-                 <img src="{{asset('images/logo/bgAsset7.svg')}}" width="100">
-                <h2>QXP For Meetings</h2>
-               <p>Reaching Anyone, Anytime, Anywhere.</p>
-              </div>
-           </div>
-     
-           <div class="row">
-             <div class="col-md-5 academy-login business-login" onclick="location.href='http://academy.qxp-global.com/login';">
-                <img src="{{asset('images/logo/bgAsset6.svg')}}" width="100">
-                <h2>QXP For Academy</h2>
-               <p>QXP for Pre Primary, Primary and Secondary Education (K-12)</p>
-             </div>
-             <div class="col-md-5 higher-login business-login" onclick="location.href='/login';">
-                <img src="{{asset('images/logo/bgAsset8.svg')}}" width="100">
-                <h2>QXP For Higher Ed</h2>
-               <p>Immersively Engaging Tertiary Education</p>
-             </div>
-          </div>
-        </div>
-       </div>
-      </div>
-    </div>
-  </div>

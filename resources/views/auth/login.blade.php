@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Password</label>
+                            <label class="col-md-4 control-label">Passord</label>
 
                             <div class="col-md-6">
                                 <input type="password"
@@ -112,11 +112,19 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
                     <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Username | Email Address" name="email" value="{{ old('email') }}">
+                        <input type="email" class="form-control" placeholder="Email Address" name="email" value="{{ old('email') }}">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Password" name="password">
                     </div>
+                    <div class="form-group">
+                        <select id="role_id" class="form-control @error('role_id') is-invalid @enderror" 
+                     name="role_id" value="{{ old('role_id') }}"  required autocomplete="role_id" autofocus>
+                       <option value="">Log in as</option>
+                       <option v alue="3">Student</option>
+                       <option value="2">Teacher</option>
+                     </select>
+                   </div>
                     <div class="form-group">
                        
                             <label>
@@ -133,7 +141,7 @@
                         <a href="{{ route('auth.password.reset') }}">Forgot your password?</a>
                     </div>
                     <div class="form-group">
-                            <a href="https://qxp-global.com//register">Sign Up</a>
+                            <a href="/register">Sign Up</a>
                     </div>
                   </form>
             
