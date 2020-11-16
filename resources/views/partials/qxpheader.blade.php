@@ -22,7 +22,7 @@
       <!-- Col End -->
       <div class="col-md-8 ml-auto text-right">
          <div class="top-contact-info">
-            <span><i class="fa fa-user"></i><a href="http://qxp-global.com/register" target="new">Sign up</a></span>
+            <span><i class="fa fa-user"></i><a href="{{url('/register')}}">Sign up</a></span>
             <span><i class="fa fa-comment"></i><a href="http://qxp-global.com/login-for-meeting" target="new"> Join Meeting</a></span>
             <span><i class="fa fa-envelope"></i><a href="#">info@qxp-global.com</a></span>
          </div>

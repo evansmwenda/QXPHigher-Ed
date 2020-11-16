@@ -187,3 +187,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
 
 
 });
+Route::match(['get','post'],'/register2', 'HomeController@register2')->name('register2');
+Route::match(['get','post'],'/verify2', 'HomeController@verify')->name('verify2');
+Route::post('/register/activate', 'HomeController@sendActivate')->name('send_activate');
+Route::get('/register/activate/{id}', 'HomeController@accountActivate')->name('account_activate');

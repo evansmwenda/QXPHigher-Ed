@@ -37,7 +37,10 @@ use Illuminate\Http\Request;
 // use Request;
 use App\Http\Requests;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterMail;
+use Illuminate\Support\Facades\Hash;
+use App\Events\NewUserRegisteredEvent;
 
 class HomeController extends Controller
 {
@@ -197,13 +200,58 @@ class HomeController extends Controller
         $courses = Course::where('published', 1)->orderBy('id', 'desc')->get(); 
         return view('index', compact('courses', 'purchased_courses','test_details','assignments','result_array'));
     }
-
+    public function verify(){
+        $email= \Auth::user()->email;
+        return view('auth.verify_email')->with(compact('email'));
+    }
+    public function sendActivate(Request $request){
+        //this function sends activation email to those  who havent activated their accounts
+        $user = User::where('email',$request->email)->get()->first();
+        // dump($user);
+        //generate new token
+        $token = str_random(15);
+        // dump($token);
+        $update = User::where('email',$request->email)->update(['token'=>$token]);
+        // dump($update);
+        if($update) {
+            //write code to send activation email
+            //http://localhost.com/register/activate/9TT0e3YmDUV20f8
+            $url = url('register/activate/'.$token);
+            // dump($url);
+            $data=array(
+                'link'=>$url,
+                'name' => $user->name,
+                'email'=>$request->email
+            );
+            Mail::to($request->email)->send(new RegisterMail($data));
+            return back()->with('flash_message_success', 'Account Activation Email Sent');
+        }
+    }
+    public function accountActivate($token=null){
+        //this function checks if token exists and updates the activation status and redirects to home page
+        $user = User::where('token',$token)->first();
+        // dd($user);
+        if(!is_null($user)){
+            //token valid
+            $user->verified = 1;
+            $user->token = NULL;
+            $user->save();
+            return redirect()->route('home');
+        }
+        
+    }
     public function landing(){
-        if(! \Auth::check()){
+        if(!\Auth::check()){
              $logged_in = false;
             return redirect('/welcome');
         }else{
             $logged_in=true;
+                $status = User::where('email',\Auth::user()->email)->value('verified');
+                if($status == '0'){
+                    return redirect()->route('verify2');
+                
+            }
+          
         }
         $this->checkPaymentStatusDashboard();
 
@@ -1497,5 +1545,78 @@ class HomeController extends Controller
         ->get();
 
         return view('students.browselessons')->with(compact('my_classes'));
+    }
+    public function register2(Request $request){
+        if($request->isMethod('post')){
+            //user submitting register request
+            // dd($request->all());
+            
+            //check if any of the required fields is empty
+            if(empty($request->name) || 
+                empty($request->phone) || 
+                empty($request->email) ||
+                // empty($request->role_id) || 
+                empty($request->password) ||
+                empty($request->password_confirmation)){
+                //missing details on form submit by 'enter key'
+                return redirect()->back()->with('flash_message_error','Please fill all details');
+            }
+
+            $duplicateUser= User::where('phone',$request->number)->first();
+            $duplicateEmail = User::where('email',$request->email)->first();
+
+            if($duplicateUser)
+            {
+                // $request->session()->flash('Error','duplicate_user');
+                return redirect()->back()->with('flash_message_error','Phone already exists');
+            }
+            if($duplicateEmail)
+            {
+                // $request->session()->flash('Error','duplicate_email');
+                return redirect()->back()->with('flash_message_error','Email already exists');
+            }
+            if($request->password != $request->password_confirmation)
+            {
+                $request->session()->flash('Error','password_not_same');
+                return redirect()->back()->with('msg',trans('main.pass_confirmation_same'));
+            }
+            $token = str_random(15);
+            //http://localhost.com/register/activate/9TT0e3YmDUV20f8
+            $url = url('register/activate/'.$token);
+
+
+            //id,name,email,phone,verified,password,remember_token,created_at,updated)at
+            $newUser = [
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'phone'=>$request->phone,
+                'verified'=>0,
+                'password'=>Hash::make($request->password),//encrypt($request->password),
+                'token'=>$token
+            ];
+
+            // print_r($newUser);die();
+            $newUser = User::create($newUser);
+            // dd($newUser);
+
+            $data=array(
+                'id' =>$newUser['id'],
+                'link'=>$url,
+                'name' => $request->name,
+                'email'=>$request->email
+            );
+            event(new NewUserRegisteredEvent($data));
+
+            //assign user to selected role
+            // DB::table('role_user')->insert(
+            //     [
+            //         "user_id" => $newUser['id'],
+            //         "role_id" => $request->role_id
+            //     ]
+            // );
+
+            return redirect('/login');
+        }
+        return view('auth.register');
     }
 }
