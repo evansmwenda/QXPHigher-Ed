@@ -1480,4 +1480,7 @@ class DashboardController extends Controller
     public function requests(){
         return view('admin.students.requests');
     }
+    public function requestDetails(){
+        return view('admin.students.request_details');
+    }
 }

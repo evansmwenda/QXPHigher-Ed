@@ -190,6 +190,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::get('/enroll','Admin\DashboardController@enroll');
     Route::get('/studentlist','Admin\DashboardController@studentlist');
     Route::get('/studentrequests','Admin\DashboardController@requests');
+    Route::get('/request_details','Admin\DashboardController@requestDetails');
+    
 
 });
 Route::match(['get','post'],'/register2', 'HomeController@register2')->name('register2');

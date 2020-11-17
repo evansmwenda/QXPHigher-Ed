@@ -1330,6 +1330,35 @@ font-weight:600 ;
 float: left;
 color: #060646;
 }
+.student-details{
+    box-shadow: 3px 3px 20px;
+    background: #fff;
+    padding: 5px;
+    margin-top: 20px;
+    color: #fff;
+    background: #FD6C03;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.student-inner-details{
+
+    padding: 30px;
+    box-shadow: 3px 3px 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.student-inner-details button{
+padding: 8px;
+color: #fff;
+width: 100px;
+border: 1px solid transparent;
+border-radius: 10px;
+}
+.student-inner-details h4{
+color: #060646;
+font-size: 15px;
+}
+
 .student-search button{
     background: #FD6C03;
     border:1px solid transparent;

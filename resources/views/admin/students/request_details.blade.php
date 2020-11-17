@@ -36,35 +36,40 @@
 
   <div class="row" style="background: #fff;">
     <div class="col-md-8 students">
-       <h3> Students Requests</h3>
+       <h3> Student Request Details</h3>
        <br>
-       <i>The following students have requested to join your courses as below</i>
-       
-    <table class="table table-striped table-bordered table-stripped">
-        <thead >
-            <tr>
-                <td>#</td>
-                <td>Student Name</td>
-                <td>Email Address</td>
-                <td>Course Requested</td>
-                <td>Options</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>johndoe@gmail.com</td>
-                <td>Biology 101</td>
-                <td>
-                <a href="{{url('admin/request_details')}}"><button>View</button></a> 
-                </td>
-            </tr>
-          
-        </tbody>
-        </table>
-    </div>
+       <i>Student Request Details</i>
 
+       <div class="student-details">
+        <h4>Geoffrey Mutua</h4>
+
+       </div>
+       <div class=" student-inner-details">
+           <div class="row">
+               <div class="col-md-6">
+                   <h3 style=" font-size:20px">School Details</h3>
+                    <h4>Institution </h4>
+                    <span><strong>Nairobi University</strong></span>
+                    <h4>Rquested Course </h4>
+                    <span><strong>Biology 101</strong></span>
+               </div>
+
+                <div class="col-md-6">
+                    <h3 style=" font-size:20px">Student Contacts</h3>
+                    <h4>Student Email :</h4>
+                    <i>Johndoe@gmail.com</i>
+                    <h4>Student Number</h4>
+                    <i>+125488854484848</i>
+                    <hr>
+                    <button style="background: #11BECC">Accept</button>
+                    <button style="background: #dc3545">Reject</button>
+                </div>
+           </div>
+
+
+
+       </div>
+    </div>
     <div class="col-md-4">
         @include('admin.recents')
     </div>
