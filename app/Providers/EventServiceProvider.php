@@ -17,10 +17,14 @@ class EventServiceProvider extends ServiceProvider
         //     'App\Listeners\AwardFreeTrialListener',
         // ],
         'Illuminate\Auth\Events\Registered' => [
+            'App\Listeners\SendRegistrationEmailListener',
             'App\Listeners\AwardFreeTrialListener',
         ],
         'App\Events\PaymentSuccessfulEvent' => [
             'App\Listeners\SendPaymentNotificationListener',
+        ],
+        'App\Events\MeetingCreatedEvent' => [
+            'App\Listeners\SendMeetingNotificationListener',
         ],
     ];
 
