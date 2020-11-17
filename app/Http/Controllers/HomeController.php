@@ -1139,7 +1139,17 @@ class HomeController extends Controller
         }
     }
     public function getSubscription(){
-        return view('students.subscribe');
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription[0]->expiry_on;
+        if($expiry_on > $date_now){
+            $active = true;//subscription is active
+        }else{
+            $active = false;//expired or is on free trial
+        }
+        // dd($subscription);
+        return view('students.subscribe')->with(compact('subscription', 'active','expiry_on'));
     }
     public function startSubscription($id=null){
         $user = \Auth::user();
@@ -1662,11 +1672,20 @@ class HomeController extends Controller
                 ]
             );
 
+            if($request->role_id){
+                //student
+                $package_id = 3;
+            }else{
+                //teacher
+                $package_id = 2;
+            }
+
             $data=array(
                 'id' =>$newUser['id'],
                 'link'=>$url,
                 'name' => $request->name,
-                'email'=>$request->email
+                'email'=>$request->email,
+                'package_id'=>$package_id
             );
             event(new NewUserRegisteredEvent($data));
 

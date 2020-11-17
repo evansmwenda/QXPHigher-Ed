@@ -29,10 +29,23 @@
                       <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
                       <div class="card-body">
                         <h5 class="card-title">
-                          Package: Student - QXP Academy <span style="color:green">(Active)</span>
+                          Package: {{$subscription[0]->package->name}} 
+                          @if($active)
+                          <span style="color:green">(Active)</span>
+                          @else
+                          <span style="color:red">(Expired)</span>
+                          @endif
+                          
                           </h5>
-                        <p class="card-text">Expiry Date : <span style="color:green;">09-12-2020 10:00AM</span></p>
-                        <a href="/subscribe/1" class="btn btn-primary">Renew Subscription</a>
+                        <p class="card-text">
+                          Expiry Date : 
+                          @if($active)
+                            <span style="color:green;">{{$expiry_on}}</span>
+                          @else
+                           <span style="color:red;">{{$expiry_on}}</span>
+                          @endif  
+                        </p>
+                        <a href="{{url('/subscribe/'.$subscription[0]->package_id)}}" class="btn btn-primary">Renew Subscription</a>
                       </div>
                     </div>
                     
