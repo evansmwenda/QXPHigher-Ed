@@ -60,6 +60,29 @@ class HomeController extends Controller
 
         event(new NewUserRegisteredEvent($data));
     }
+    public function checkMySubscriptionStatus(){
+        //get package status
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
+        // dd($subscription);
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription[0]->expiry_on;
+        if($expiry_on > $date_now){
+            //subscription valid for either trial period or a specific plan
+            if($subscription[0]->package_id == '0'){
+                //user is on free trial
+                $active = false;//user is on free trial
+            }else{
+                //user has a valid paid plan
+                $active = true;//subscription is active
+            }
+           
+        }else{
+            //even if its free version(0) , it has expired
+            $active = false;//expired or is on free trial
+        }
+        return $active;
+    }
     public function sendPaymentNotification(){
         //test function to send sms
         if(!is_null(\Auth::id())){
@@ -120,7 +143,7 @@ class HomeController extends Controller
             // $update = User::find($user->id);
             // $user = new User;
             $user->name=$request->username;
-            // $user->email=$request->email;
+            $user->phone=$request->phone;
             $user->save();
             return redirect()->back()->with("flash_message_success","User Details Updated Successfully");
 
@@ -204,11 +227,18 @@ class HomeController extends Controller
 
                     // dd($test_details);
 
+        $active=$this->checkMySubscriptionStatus();
 
         $assignments = $this->fetchAssignments();
 
         $courses = Course::where('published', 1)->orderBy('id', 'desc')->get(); 
-        return view('index', compact('courses', 'purchased_courses','test_details','assignments','result_array'));
+        return view('index', 
+        compact('courses', 
+        'purchased_courses',
+        'test_details',
+        'assignments',
+        'active',
+        'result_array'));
     }
     public function verify(){
         $email= \Auth::user()->email;
@@ -271,6 +301,8 @@ class HomeController extends Controller
                     return redirect()->route('verify2');
                 
             }
+            //user verified->check if have active subscription
+            $active=$this->checkMySubscriptionStatus();
           
         }
         $this->checkPaymentStatusDashboard();
@@ -953,8 +985,11 @@ class HomeController extends Controller
         ->orderBy('id','DESC')
         ->get();
 
+        //user verified->check if have active subscription
+        $active=$this->checkMySubscriptionStatus();
+
         
-         return view('students.liveclasses')->with(compact('my_classes'));
+         return view('students.liveclasses')->with(compact('my_classes','active'));
     }
     public function joinLiveClass($meetingID){
         $user = \Auth::user();
@@ -1104,7 +1139,19 @@ class HomeController extends Controller
         }
     }
     public function getSubscription(){
-        return view('students.subscribe');
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->first();
+        // dd($subscription);
+
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription->expiry_on;
+        if($expiry_on > $date_now){
+            $active = true;//subscription is active
+        }else{
+            $active = false;//expired or is on free trial
+        }
+        
+        return view('students.subscribe')->with(compact('subscription', 'active','expiry_on'));
     }
     public function startSubscription($id=null){
         $user = \Auth::user();
@@ -1120,6 +1167,15 @@ class HomeController extends Controller
             return back()->with('flash_message_error','Please login to renew subscription');
         }
         // dd($packages);
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->first();
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription->expiry_on;
+        if($expiry_on > $date_now){
+            $active = true;//subscription is active
+        }else{
+            $active = false;//expired or is on free trial
+        }
 
         
         $isDemo = env('PESAPAL_IS_DEMO',true);//check if we are in sandbox mode
@@ -1155,7 +1211,7 @@ class HomeController extends Controller
         }
         
         $email =$user['email'];
-        $phonenumber ="";
+        $phonenumber =$user['phone'];
 
         $is_used="0";
         $status = 'PLACED';
@@ -1210,8 +1266,15 @@ class HomeController extends Controller
         $iframe_src->sign_request($signature_method, $consumer, $token);
 
         // return view('user.payments.iframe')->with(compact('iframe_src','amount','package_name'));
-
-         return view('students.subscribe')->with(compact('iframe_src','amount','package_name'));
+// dd($subscription);
+         return view('students.subscribe')->with(compact(
+             'iframe_src',
+             'amount',
+             'package_name',
+             'subscription', 
+             'active',
+             'expiry_on'
+            ));
     }
     public function getCallback(Request $request){
         $user= \Auth::user();
@@ -1627,11 +1690,20 @@ class HomeController extends Controller
                 ]
             );
 
+            if($request->role_id == '3'){
+                //student
+                $package_id = 3;
+            }else{
+                //teacher
+                $package_id = 4;
+            }
+
             $data=array(
                 'id' =>$newUser['id'],
                 'link'=>$url,
                 'name' => $request->name,
-                'email'=>$request->email
+                'email'=>$request->email,
+                'package_id'=>$package_id
             );
             event(new NewUserRegisteredEvent($data));
 
