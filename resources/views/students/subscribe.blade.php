@@ -29,7 +29,7 @@
                       <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
                       <div class="card-body">
                         <h5 class="card-title">
-                          Package: {{$subscription[0]->package->name}} 
+                          Package: {{$subscription->package->name}} 
                           @if($active)
                           <span style="color:green">(Active)</span>
                           @else
@@ -45,7 +45,7 @@
                            <span style="color:red;">{{$expiry_on}}</span>
                           @endif  
                         </p>
-                        <a href="{{url('/subscribe/'.$subscription[0]->package_id)}}" class="btn btn-primary">Renew Subscription</a>
+                        <a href="{{url('/subscribe/'.$subscription->package_id)}}" class="btn btn-primary">Renew Subscription</a>
                       </div>
                     </div>
                     

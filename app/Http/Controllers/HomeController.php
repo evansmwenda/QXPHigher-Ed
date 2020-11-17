@@ -1139,16 +1139,18 @@ class HomeController extends Controller
         }
     }
     public function getSubscription(){
-        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->first();
+        // dd($subscription);
+
         // Date('Y-m-d h:i:s', strtotime('+14 days')),       
         $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
-        $expiry_on =$subscription[0]->expiry_on;
+        $expiry_on =$subscription->expiry_on;
         if($expiry_on > $date_now){
             $active = true;//subscription is active
         }else{
             $active = false;//expired or is on free trial
         }
-        // dd($subscription);
+        
         return view('students.subscribe')->with(compact('subscription', 'active','expiry_on'));
     }
     public function startSubscription($id=null){
@@ -1165,6 +1167,15 @@ class HomeController extends Controller
             return back()->with('flash_message_error','Please login to renew subscription');
         }
         // dd($packages);
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->first();
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription->expiry_on;
+        if($expiry_on > $date_now){
+            $active = true;//subscription is active
+        }else{
+            $active = false;//expired or is on free trial
+        }
 
         
         $isDemo = env('PESAPAL_IS_DEMO',true);//check if we are in sandbox mode
@@ -1200,7 +1211,7 @@ class HomeController extends Controller
         }
         
         $email =$user['email'];
-        $phonenumber ="";
+        $phonenumber =$user['email'];
 
         $is_used="0";
         $status = 'PLACED';
@@ -1255,8 +1266,15 @@ class HomeController extends Controller
         $iframe_src->sign_request($signature_method, $consumer, $token);
 
         // return view('user.payments.iframe')->with(compact('iframe_src','amount','package_name'));
-
-         return view('students.subscribe')->with(compact('iframe_src','amount','package_name'));
+// dd($subscription);
+         return view('students.subscribe')->with(compact(
+             'iframe_src',
+             'amount',
+             'package_name',
+             'subscription', 
+             'active',
+             'expiry_on'
+            ));
     }
     public function getCallback(Request $request){
         $user= \Auth::user();
