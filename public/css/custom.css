@@ -1311,6 +1311,43 @@ background: #060646;
     background: #FD6C03;
     
 }
+.btn-enroll button{
+    border: 1px solid transparent;
+    padding:8px;
+    margin-top: 10px;
+    background: #FD6C03;
+    color: #fff;
+    border-radius: 30px;
+}
+.btn-enroll button:hover{
+background: #11BECC;
+}
+.students{
+    height:650px;
+     overflow-y:scroll
+}
+.students h3{
+    color: #FD6C03;
+    font-weight: 900;
+    font-size: 25px;
+}
+.students table thead{
+   
+    color: #060646;
+    font-weight: 900;
+    font-size: 15px;
+}
+.students table tbody tr{
+    color: #000;
+    font-weight: 400;
+}
+.students table  tbody tr td button {
+    background: #060646;
+    width: 100px;
+    color: #fff;
+    border-radius: 10px;
+    border: 1px solid transparent;
+}
 .admin-news{
     height: 250px;
     color: #000;

@@ -1468,4 +1468,7 @@ class DashboardController extends Controller
                     ->get();//has events data for the current month
         return $monthly;            
     }
+    public function students(){
+        return view('admin.students.index');
+    }
 }

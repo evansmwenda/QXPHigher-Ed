@@ -57,6 +57,14 @@
                 </ul>
             </li>
             @endcan
+            @can('question_access')
+            <li class="{{ $request->segment(2) == 'students' ? 'active' : '' }}">
+                <a href="{{ url('/admin/students') }}">
+                    <i class="fa fa-user"></i>
+                    <span class="title">Enroll Students</span>
+                </a>
+            </li>
+            @endcan
             @can('course_access')
             <li class="{{ $request->segment(2) == 'courses' ? 'active' : '' }}">
                 <a href="{{ route('admin.courses.index') }}">

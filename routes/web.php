@@ -185,6 +185,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::post('live-classes/join','Admin\DashboardController@joinClassByID');
     Route::get('live-classes/live/{meetingID}','Admin\DashboardController@joinLiveClass');
 
+    //for students
+    Route::get('/students','Admin\DashboardController@students');
 
 });
 Route::match(['get','post'],'/register2', 'HomeController@register2')->name('register2');
