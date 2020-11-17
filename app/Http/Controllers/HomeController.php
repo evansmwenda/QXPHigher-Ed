@@ -1672,12 +1672,12 @@ class HomeController extends Controller
                 ]
             );
 
-            if($request->role_id){
+            if($request->role_id == '3'){
                 //student
                 $package_id = 3;
             }else{
                 //teacher
-                $package_id = 2;
+                $package_id = 4;
             }
 
             $data=array(
