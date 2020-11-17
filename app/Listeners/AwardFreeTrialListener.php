@@ -23,7 +23,7 @@ class AwardFreeTrialListener
             [
                 "user_id" => $event->data['id'],
                 "expiry_on" => Date('Y-m-d h:i:s', strtotime('+14 days')),
-                "package_id" => '0'
+                "package_id" => $event->data['package_id']
             ]
         );
     }

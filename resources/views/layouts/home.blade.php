@@ -92,7 +92,7 @@
                 <li class="{{ $request->segment(1) == 'subscribe' ? 'active' : '' }}">
                     <a href="/subscribe">
                         <i class="fa fa-wallet"></i>
-                        <span class="title">Subscribe</span>
+                        <span class="title">Billing</span>
                     </a>
                 </li>
                 
