@@ -1322,6 +1322,21 @@ background: #060646;
 .btn-enroll button:hover{
 background: #11BECC;
 }
+.student-search input {
+border-radius: 10px;
+padding: 20px;
+
+font-weight:600 ;
+float: left;
+color: #060646;
+}
+.student-search button{
+    background: #FD6C03;
+    border:1px solid transparent;
+    padding: 8px;
+    border-radius: 10px;
+    color: #fff;
+}
 .students{
     height:650px;
      overflow-y:scroll

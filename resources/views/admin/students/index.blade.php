@@ -40,7 +40,7 @@
             <h3>Enrolled Students</h3>
         </div>
     <div class="pull-right btn-enroll">
-        <button >Enroll New Students</button>
+    <a href="{{url('admin\enroll')}}"><button >Enroll New Students</button></a>
     </div>
     <table class="table table-striped table-bordered table-stripped">
         <thead >

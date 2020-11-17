@@ -22,5 +22,30 @@
         </div>
     </div>
 
+    <div class="lecturer" style="background: #11BECC">
+        <h2>Requests for student enrolment</h2>
+    </div>
+      <div class="admin-news" style="overflow-y:scroll">
+        <table class="table tab-default table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Student Name</td>
+              <td>Requested Course</td>
+            </tr>
+
+          </thead>
+          <tbody>
+             <a href=""><tr>
+                <td>1</td>
+                <td>John Doe</td>
+                <td>Biology</td>
+              </tr>
+             </a>
+
+          </tbody>
+        </table>
+    </div>
+
 
 
