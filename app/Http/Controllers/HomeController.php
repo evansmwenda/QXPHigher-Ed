@@ -60,6 +60,29 @@ class HomeController extends Controller
 
         event(new NewUserRegisteredEvent($data));
     }
+    public function checkMySubscriptionStatus(){
+        //get package status
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
+        // dd($subscription);
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription[0]->expiry_on;
+        if($expiry_on > $date_now){
+            //subscription valid for either trial period or a specific plan
+            if($subscription[0]->package_id == '0'){
+                //user is on free trial
+                $active = false;//user is on free trial
+            }else{
+                //user has a valid paid plan
+                $active = true;//subscription is active
+            }
+           
+        }else{
+            //even if its free version(0) , it has expired
+            $active = false;//expired or is on free trial
+        }
+        return $active;
+    }
     public function sendPaymentNotification(){
         //test function to send sms
         if(!is_null(\Auth::id())){
@@ -204,11 +227,18 @@ class HomeController extends Controller
 
                     // dd($test_details);
 
+        $active=$this->checkMySubscriptionStatus();
 
         $assignments = $this->fetchAssignments();
 
         $courses = Course::where('published', 1)->orderBy('id', 'desc')->get(); 
-        return view('index', compact('courses', 'purchased_courses','test_details','assignments','result_array'));
+        return view('index', 
+        compact('courses', 
+        'purchased_courses',
+        'test_details',
+        'assignments',
+        'active',
+        'result_array'));
     }
     public function verify(){
         $email= \Auth::user()->email;
@@ -271,6 +301,8 @@ class HomeController extends Controller
                     return redirect()->route('verify2');
                 
             }
+            //user verified->check if have active subscription
+            $active=$this->checkMySubscriptionStatus();
           
         }
         $this->checkPaymentStatusDashboard();
@@ -953,8 +985,11 @@ class HomeController extends Controller
         ->orderBy('id','DESC')
         ->get();
 
+        //user verified->check if have active subscription
+        $active=$this->checkMySubscriptionStatus();
+
         
-         return view('students.liveclasses')->with(compact('my_classes'));
+         return view('students.liveclasses')->with(compact('my_classes','active'));
     }
     public function joinLiveClass($meetingID){
         $user = \Auth::user();
