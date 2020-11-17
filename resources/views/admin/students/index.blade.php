@@ -57,7 +57,7 @@
                 <td>Biology</td>
                 <td>256</td>
                 <td>
-                    <button>View</button>
+                <a href="{{url('admin/studentlist')}}"><button>View</button></a>
                 </td>
             </tr>
             <tr>
