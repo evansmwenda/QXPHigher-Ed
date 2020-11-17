@@ -86,9 +86,9 @@
                               </div>
                             </div>
                             <div class="form-group row form-row">
-                                <label for="inputSchool3" class="col-sm-2 col-form-label" style="color: #fff">School</label>
+                                <label for="phone" class="col-sm-2 col-form-label" style="color: #fff">Phone </label>
                                 <div class="col-sm-7">
-                                  <input type="text" class="form-control" id="inputSchool3" name="school_name" placeholder="School" value="{{$user->school->name or ''}}">
+                                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" value="{{$user->phone or ''}}">
                                 </div>
                               </div>
                             <div class="form-group row form-row">

@@ -143,7 +143,7 @@ class HomeController extends Controller
             // $update = User::find($user->id);
             // $user = new User;
             $user->name=$request->username;
-            // $user->email=$request->email;
+            $user->phone=$request->phone;
             $user->save();
             return redirect()->back()->with("flash_message_success","User Details Updated Successfully");
 
