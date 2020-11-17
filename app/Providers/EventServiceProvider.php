@@ -16,7 +16,7 @@ class EventServiceProvider extends ServiceProvider
         // 'App\Events\NewUserRegisteredEvent' => [
         //     'App\Listeners\AwardFreeTrialListener',
         // ],
-        'Illuminate\Auth\Events\Registered' => [
+        'App\Events\NewUserRegisteredEvent' => [
             'App\Listeners\SendRegistrationEmailListener',
             'App\Listeners\AwardFreeTrialListener',
         ],

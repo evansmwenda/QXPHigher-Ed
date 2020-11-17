@@ -50,6 +50,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function test(){
+        $data=array(
+            'id' =>19,
+            'link'=>"https://www.google.com",
+            'name' => 'Evans Mwenda',
+            'email'=>"evansmwenda.em@gmail.com"
+        );
+
+        event(new NewUserRegisteredEvent($data));
+    }
     public function sendPaymentNotification(){
         //test function to send sms
         if(!is_null(\Auth::id())){
@@ -229,14 +239,24 @@ class HomeController extends Controller
     }
     public function accountActivate($token=null){
         //this function checks if token exists and updates the activation status and redirects to home page
-        $user = User::where('token',$token)->first();
-        // dd($user);
+        $user = User::with('role')->where('token',$token)->first();
+        // dd($user->role[0]->id);
         if(!is_null($user)){
             //token valid
             $user->verified = 1;
             $user->token = NULL;
             $user->save();
-            return redirect()->route('home');
+            //check if user is student or teacher
+            switch($user->role[0]->id){
+                case 2:
+                    #teacher
+                    return redirect('/admin/home');
+                    break;
+                case 3:
+                    #student
+                    return redirect()->route('home-user');
+                    break;
+            }
         }
         
     }
@@ -1599,6 +1619,14 @@ class HomeController extends Controller
             $newUser = User::create($newUser);
             // dd($newUser);
 
+            //assign user to selected role
+            DB::table('role_user')->insert(
+                [
+                    "user_id" => $newUser['id'],
+                    "role_id" => $request->role_id
+                ]
+            );
+
             $data=array(
                 'id' =>$newUser['id'],
                 'link'=>$url,
@@ -1607,13 +1635,7 @@ class HomeController extends Controller
             );
             event(new NewUserRegisteredEvent($data));
 
-            //assign user to selected role
-            DB::table('role_user')->insert(
-                [
-                    "user_id" => $newUser['id'],
-                    "role_id" => $request->role_id
-                ]
-            );
+            
 
             return redirect('/login');
         }
