@@ -48,7 +48,7 @@ class DashboardController extends Controller
         $courses = CourseUser::with('course')
         ->where('user_id',\Auth::id())
         ->orderBy('course_id','DESC')
-        ->get();
+        ->paginate(6);
 
         $this->getSummaryCount();
 
@@ -105,6 +105,7 @@ class DashboardController extends Controller
             'count_exams',
             'resources'
         ));
+        
     }
     public function getSummaryCount(){
         //courses

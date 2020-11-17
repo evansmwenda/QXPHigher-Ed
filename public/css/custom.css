@@ -371,8 +371,18 @@ font-size: 18px;
     padding-top: 20px;
     height: 70px;
 }
+.top-header-2-teacher{
+    background: #060646;
+    margin-top: -20px;
+    margin-left: -40px;
+    padding-top: 20px;
+    height: 70px;
+}
 .top-header-2 span{
     color: #060646;
+}
+.top-header-2-teacher span{
+    color: #FD6C03;
 }
 .top-header input{
     background: #D6DBDF;
@@ -382,14 +392,27 @@ font-size: 18px;
 .top-header span{
     color: #FD6C03;
 }
-
+.teacher-overview{
+    width: 45%;
+}
+.teacher-courses-dashboard h3{
+    color: #060646;
+    font-weight: 900;
+    font-size: 20px;
+    margin-left: 20px;
+}
+.teacher-overview2{
+    width: 45%;
+    float: right;
+}
 .qxp-back{
     background: #060646;
-    height:220px;
+    /* height:220px; */
     margin-top: -10px;
     padding-top: 30px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+    padding-bottom: 10px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 .qxp-back h3{
     color: #fff;
@@ -413,11 +436,11 @@ font-size: 18px;
 .custom-search-button{
     color: #fff;
     background: #FD6C03;
-    padding: 5px;
+    padding: 4px;
     border: 1px #FD6C03 solid;
     width: 15%;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 19px;
 }
 .light-bg{
     background: #30307c;
@@ -613,6 +636,12 @@ color: #060646;
     padding: 16px;
     text-align: right;
 }
+.top-right-teacher{
+    background: #060646 ;
+    margin-top: -20px;
+    padding: 25px;
+    text-align: right;
+}
 .header2-top-right{
     background: #D5D8DC ;
     margin-top: -20px;
@@ -628,6 +657,15 @@ color: #060646;
     border-radius: 50%;
     margin-right: 20px;
 }
+.top-right-teacher i{
+color: #fff;
+padding-right: 10px;
+
+}
+.top-right-teacher a{
+    color: #fff;
+    padding-left: 20px;
+}
 .header2-top-right i{
     background: #CCD1D1;
     padding: 5px;
@@ -638,7 +676,7 @@ color: #060646;
 .top-right span{
    vertical-align: middle;
     margin-top: 10px;
-    color: #ABB2B9;
+    color: #fff;
     margin-right: 20px;
 }
 .header2-top-right span{
@@ -1264,35 +1302,61 @@ background: #060646;
     border-radius: 10px;
 }
 .lecturer{
-    padding:8px;
-    background: #EBEDEF;
+    padding: 1px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background: #FD6C03;
+    
+}
+.admin-news{
+    height: 250px;
+    color: #000;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border:1px solid #ccc;
+    background: #fff;
+    
+}
+.admin-news table tbody tr{
+    cursor: pointer;
+}
+.admin-news table tbody tr:hover{
+    background: #060646;
+    color: #fff;
+}
+.admin-news-content{
+    background: #EAECEE;
+    text-align: center;
+    width: 43%;
+    height: 100px;
+    margin: 10px;
+    float: left;
     border-radius: 5px;
 }
-.lecturer span{
-    float:  left;
-    width: 15%;
-    background: #FD6C03;
-    padding: 10px;
-    color: #fff;
-   
-    border-radius: 30px;
-}
-.lecturer h2{
+.admin-news-content h2{
+    font-weight: 900;
+    font-size: 45px;
     color: #060646;
-    margin-top: 0px;
-    width: 100%;
-    padding-left: 30px;
+   margin-top: -2px;
+}
+.admin-news-content:hover{
+    background:#FD6C03 ;
+    cursor: pointer;
+}
+.admin-news-content p{
+    font-weight: 800px;
+    color: #060646;
+    font-size:18px;
+}
+
+.lecturer h2{
+    color: #fff;
     font-size: 15px;
     font-weight: 600;
     
-}
-.lecturer i{
-    color: #060646;
-    font-size: 12px;
-    margin-top: -1px;
-    margin-top: -2px;
-    font-weight: 300;
-    margin-left: 5px;
 }
 .admin-display{
     text-align: center;
