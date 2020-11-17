@@ -5,7 +5,7 @@
 Route::get('/welcome', 'HomeController@qxplanding');
 Route::get('/ipn', 'HomeController@getIPN');
 // QXP redirects
-Route::get('/','HomeController@landing');
+Route::get('/','HomeController@landing')->name('home-user');
 // Route::get('/sms','HomeController@sms');
 
 //we have been redirected from QXP->initiate receipt
@@ -105,7 +105,7 @@ $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
 
 Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/home', 'Admin\DashboardController@index');
+    Route::get('/home', 'Admin\DashboardController@index')->name('homeadmin');
     Route::resource('permissions', 'Admin\PermissionsController');
     Route::post('permissions_mass_destroy', ['uses' => 'Admin\PermissionsController@massDestroy', 'as' => 'permissions.mass_destroy']);
     Route::resource('roles', 'Admin\RolesController');

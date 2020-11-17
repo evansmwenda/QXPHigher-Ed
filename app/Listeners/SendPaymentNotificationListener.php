@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use AfricasTalking\SDK\AfricasTalking;
 
 class SendPaymentNotificationListener
 {
@@ -26,16 +27,7 @@ class SendPaymentNotificationListener
      */
     public function handle(PaymentSuccessfulEvent $event)
     {
-        //
-        //$event->user;
-        //give user free trial
-        // DB::table('subscriptions')->insert(
-        //     [
-        //         "user_id" => $event->user->id,
-        //         "expiry_on" => Date('Y-m-d h:i:s', strtotime('+14 days')),
-        //         "package_id" => '0'
-        //     ]
-        // );
-        app('App\Http\Controllers\HomeController')->sendPaymentNotification();
+        //send sms upon successful payment
+        app('App\Http\Controllers\HomeController')->sendPaymentNotification($event->user);
     }
 }

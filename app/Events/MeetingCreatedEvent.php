@@ -10,19 +10,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewUserRegisteredEvent
+class MeetingCreatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $data;
-
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $data
      * @return void
      */
     public function __construct($data)
     {
+        //
         $this->data = $data;
     }
 
