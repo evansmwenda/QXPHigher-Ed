@@ -1280,7 +1280,7 @@ ul.tw-dropdown-menu li.active a {
   border: none;
   width: 80%;
   margin-top: 0px;
-  /*margin-left: 240px;*/
+  margin-left: 130px; 
   overflow: hidden;
   z-index: -1;
   padding: 37px 18px 27px 40px;

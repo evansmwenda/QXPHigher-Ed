@@ -1,255 +1,131 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- At glance boxes --}}
-<div class="row">
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box qxp-info text-center">
-      <div class="inner">
-        <h3>150</h3>
-      </div>
-      <div class="icon">
-        {{-- <i class="fa fa-book"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Registered Courses</a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box bg-success text-center">
-      <div class="inner">
-        <h3>53</h3>
-      </div>
-      <div class="icon">
-        {{-- <i class="fa fa-calendar"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Created Events</a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box qxp-warning text-center">
-      <div class="inner">
-        <h3>44</h3>
-
-      </div>
-      <div class="icon">
-        {{-- <i class="ion ion-person-add"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Exams</a>
-    </div>
-  </div>
-  <!-- ./col -->
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box qxp-danger text-center">
-      <div class="inner">
-        <h3>65</h3>
-
-        <p></p>
-      </div>
-      <div class="icon">
-        {{-- <i class="ion ion-pie-graph"></i> --}}
-      </div>
-      <a href="#" class="small-box-footer">Quizes </a>
-    </div>
-  </div>
-  <!-- ./col -->
-</div>
-{{-- Coarses and Schedukled events --}}
-<div class="row">
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Registered Coarses</div>
-            <div class="panel-body">
-               <table class="table table-striped">
-                 <tr>
-                   <thead class="bg-info">
-                    <td style="width: 10px">#</td>
-                     <td>Coarse Name</td>
-                     <td>Student Enrolled</td>
-                     <td>Pricing</td>
-                   </thead>
-                 </tr>
-                 <tbody>
-                   <tr>
-                    <td>1</td>
-                     <td>Biology 101</td>
-                     <td>25</td>
-                     <td>$12</td>
-                   </tr>
-                   <tr>
-                    <td>2</td>
-                    <td>Microsoft Package</td>
-                    <td>5</td>
-                    <td>$12</td>
-                  </tr>
-                 </tbody>
-               </table>
-               <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
+<div class="col-md-8">
+  <div class="row top-header-2-teacher">
+      <div class="col-md-12 col-sm-12" >
+          <div class="col-sm-6">
+              <div class="form-group has-search">
+                  <input type="text" class="form-control" placeholder="Search">
+              </div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-sm-2">
+                <span class="fa fa-shield-alt fa-2x"></span>
             </div>
+            <div class="col-sm-2">
+                <span class="fa fa-bell fa-2x"></span>
+            </div>
+            <div class="col-sm-2">
+                <span class="fa fa-calendar-alt fa-2x"></span>
+            </div>
+          </div>
+
+      </div> 
+  </div>
+</div>
+<div class="col-md-4 dashboard-right">
+  <div class="row top-right-teacher">
+  <a href=""><i class="fa fa-user"></i>  {{\Auth::user()->name}}</a> 
+          <a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="fa fa-bars"></span>
+          </a> 
+  </div>
+</div>
+
+
+{{-- Main Body --}}
+<div class="row" style="background: #fff">
+
+  <div class="col-md-8">
+		<div class="qxp-back">
+        <div class="custom-search">
+          <p>You have 3 days left for your subscription</p>
+        </div>
+
+        <button class="custom-search-button">Renew</button>
+
+        <div class="row light-bg">
+          <p>Show All</p>
+          <button>All</button>
+          <button>Confirmed</button>
+        </div>
+        <h3 style="color: #FD6C03">Overview</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Account Type : Teacher</h3>
+            <h3>Institution : None</h3>
+          </div>
+          <div class="col-sm-5">
+            <h3>Package : Premium</h3>
+            <h3>Enrolled Students : 385</h3>
+          </div>
         </div>
     </div>
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">Scheduled Live Events</div>
-        <div class="panel-body">
-           <table class="table table-striped">
-             <tr>
-               <thead class="bg-info">
-                <td style="width: 10px">#</td>
-                 <td>Meeting Group</td>
-                 <td>Date</td>
-                 <td>Decription</td>
-                 <td>Action</td>
-               </thead>
-             </tr>
-             <tbody>
-               <tr>
+
+      <div class="row teacher-courses-dashboard">
+        <h3>My Registered Courses</h3>
+        @foreach($courses as $course)
+        <div class="col-sm-12 col-lg-3 col-md-3" style="margin-bottom: 20px;">
+            <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><div class="coarse-list"></div></a>
+            <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
+            @for ($star = 1; $star <= 5; $star++)
+            @if ($course->rating >= $star)
+                <span class="glyphicon glyphicon-star" style="font-size: 10px;"></span>
+            @else
+                <span class="glyphicon glyphicon-star-empty" style="font-size: 10px;"></span>
+            @endif
+            @endfor
+
+                <div class="row ">
+                    <a href="{{url('admin/lessons?course_id='.$course->id)}}">
+                        <button class="coarse-button" style="height:30px;">LESSONS <i class="fa fa-web"></i></button>
+                    </a>
+                    
+                    <a href="{{url('admin/courses/'.$course->id.'/edit')}}">
+                        <button class="coarse-button-2" style="height: 30px;">EDIT 
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </a>
+                </div>
+        </div>
+        @endforeach
+
+      </div>
+      <div class="row">
+        {{$courses->render()}}
+      </div>
+
+     <div class="row">Assignments</div>
+
+  </div>
+  <div class="col-md-4">
+      @include('admin.recents')
+      <div class="lecturer" style="background: #11BECC">
+        <h2>Requests for student enrolment</h2>
+    </div>
+      <div class="admin-news" style="overflow-y:scroll">
+        <table class="table tab-default table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Student Name</td>
+              <td>Requested Course</td>
+            </tr>
+
+          </thead>
+          <tbody>
+             <a href=""><tr>
                 <td>1</td>
-                <td>
-                  <p style="margin-bottom: 0px !important">Title</p>
-                  <span style="font-size: .8em;color: grey;padding-top: 0px !important;">Subject</span>
-                </td>
-                <td>22/01/2020 12:00</td>
-                <td>
-                  Lorem Ipsum isLorem since the 1500s, when an unknown prias
-                </td>
-                <td><a href="">View</a></td>                     
-               </tr>
+                <td>John Doe</td>
+                <td>Biology</td>
+              </tr>
+             </a>
 
-             </tbody>
-           </table>
-           <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
+          </tbody>
+        </table>
     </div>
   </div>
 </div>
-{{-- Exams and Asignments --}}
-<div class="row">
-  <div class="col-md-6">
-      <div class="panel panel-default">
-          <div class="panel-heading">Exams</div>
-          <div class="panel-body">
-             <table class="table table-striped">
-               <tr>
-                 <thead class="bg-info">
-                  <td style="width: 10px">#</td>
-                   <td>Coarse Name</td>
-                   <td>Exam Title</td>
-                   <td>State | Published</td>
-                 </thead>
-               </tr>
-               <tbody>
-                 <tr>
-                  <td>1</td>
-                   <td>Biology 101</td>
-                   <td>Biology</td>
-                   <td>Not Published</td>
-                 </tr>
-
-               </tbody>
-             </table>
-             <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">Assignments</div>
-      <div class="panel-body">
-         <table class="table table-striped">
-           <tr>
-             <thead class="bg-info">
-              <td style="width: 10px">#</td>
-               <td>Assignment Name</td>
-               <td>Course</td>
-               <td>Submitted Learners</td>
-              
-             </thead>
-           </tr>
-           <tbody>
-             <tr>
-              <td>1</td>
-              <td>Microsoft Dynamics Business central 365</td>
-              <td>Microsoft Package</td>
-              <td>1</td>      
-             </tr>
-
-           </tbody>
-         </table>
-         <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
-      </div>
-  </div>
-</div>
-</div>
-
-{{-- Need Grading --}}
-<div class="row">
-  <div class="col-md-12">
-      <div class="panel panel-default">
-          <div class="panel-heading">Need Grading</div>
-          <div class="panel-body">
-             <table class="table table-striped">
-               <tr>
-                 <thead class="bg-info">
-                  <td style="width: 10px">#</td>
-                   <td>Student</td>
-                   <td>Course</td>
-                   <td>Assign Name</td>
-                   <td>Grade/Marks/Score</td>
-                 </thead>
-               </tr>
-               <tbody>
-                 <tr>
-                  <td>1</td>
-                   <td>Elizaben Keen</td>
-                   <td>Microsoft Dynamics</td>
-                   <td>Payroll Integration addons</td>
-                   <td>25/30</td>
-                 </tr>
-
-               </tbody>
-             </table>
-             <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-      </div>
-  </div>
-</div>
-
-{{-- Resources --}}
-<div class="row">
-  <div class="col-md-12">
-      <div class="panel panel-default">
-          <div class="panel-heading">Resources participation</div>
-          <div class="panel-body">
-             <table class="table table-striped">
-               <tr>
-                 <thead class="bg-info">
-                  <td style="width: 10px">#</td>
-                   <td>Resource</td>
-                   <td>Course</td>
-                   <td>No. Views</td>
-                   
-                 </thead>
-               </tr>
-               <tbody>
-                 <tr>
-                  <td>1</td>
-                   <td>Resource Name</td>
-                   <td>Microsoft Dynamics</td>
-                   <td>25/30</td>
-                 </tr>
-
-               </tbody>
-             </table>
-             <a href="#" class="small-box-footer pull-right">View all <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-      </div>
-  </div>
-</div>
-
 @endsection
