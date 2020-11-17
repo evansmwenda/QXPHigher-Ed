@@ -32,16 +32,18 @@
               <td>#</td>
               <td>Student Name</td>
               <td>Requested Course</td>
+              <td>View</td>
             </tr>
 
           </thead>
           <tbody>
-             <a href=""><tr>
+          
                 <td>1</td>
                 <td>John Doe</td>
                 <td>Biology</td>
+          <td><a href="{{url('admin/studentrequests')}}"><span></span>View</a></td>
               </tr>
-             </a>
+             
 
           </tbody>
         </table>

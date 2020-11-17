@@ -1477,4 +1477,7 @@ class DashboardController extends Controller
     public function studentlist(){
         return view('admin.students.list');
     }
+    public function requests(){
+        return view('admin.students.requests');
+    }
 }
