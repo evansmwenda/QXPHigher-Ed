@@ -1750,15 +1750,8 @@ class HomeController extends Controller
     }
     public function findCourse(Request $request)
     {
-        // $courses = CourseUser::with('course')
-        // ->where ( 'title', 'LIKE', '%' . $request->course . '%' )->orWhere ( 'slug', 'LIKE', '%' . $request->course . '%' )->orderBy('title','DESC')->get ();
-        // return redirect()->back()->with('results',$all);   
-       $all = DB::table('courses')
-       ->select('id','title','price')
-       ->join('course_user','course_user.course_id','=' ,'courses.id')
-        //->join('users', 'users.id', '=', 'course_user.user_id')
-        ->where ( 'title', 'LIKE', '%' . $request->course . '%' )->orWhere ( 'slug', 'LIKE', '%' . $request->course . '%' )->orderBy('title','DESC')->get ();
-        // ->where ( 'title', 'LIKE', '%'. $request->course . '%')->get ();
+        $query = $request->course;
+        $all = Course::with('teachers')->where('title', 'LIKE', '%'.$query.'%')->get();
         // dd($all);
         return view('students.results')->with('results',$all);    
     }

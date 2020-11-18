@@ -32,36 +32,36 @@
                 <td>#</td>
                 <td>Course Name</td>
                 <td>Author/Teacher/Lecturer</td>
-                <td>Institution</td>
+                {{-- <td>Institution</td> --}}
                 <td>Request Enrollement</td>
 
             </tr>
         </thead>
         <tbody>
-            @foreach ($results as $result)
-              {{-- @if(count($results >0)) --}}
-                <tr>
-                    <td>1</td>
-                   <td>{{$result->title}}</td>
-                    <td>*</td>
-                    <td>*</td>
-                    <td>
-                        <form action="{{ url('/student_sendrequest') }}" method="post">
-                        <input type="hidden" value="{{$result->id}}" name="course">
-                        <input type="hidden" value="{{$result->title}}" name="title">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                           <button style="background: #079DFF;font-size:13px" type="submit">Send Request</button>
-                        </form>
-                    
-                    </td>
-                </tr>
-                {{-- @else
-                <tr style="text-align: center">
-                    <td colspan="5">No Results Found matching your search</td>
-                    </tr> 
-                @endif --}}
+            @if(count($results) >0)
+                @foreach ($results as $key=>$result)
+                    <tr>
+                        <td>{{++$key}}</td>
+                        <td>{{$result->title}}</td>
+                        <td>{{$result->teachers[0]->name}}</td>
+                        {{-- <td>*</td> --}}
+                        <td>
+                            <form action="{{ url('/student_sendrequest') }}" method="post">
+                                <input type="hidden" value="{{$result->id}}" name="course">
+                                <input type="hidden" value="{{$result->title}}" name="title">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <button style="background: #079DFF;font-size:13px" type="submit">Send Request</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+            <tr style="text-align: center">
+                <td colspan="5">No results found matching your search</td>
+            </tr> 
+            @endif
 
-            @endforeach          
+                      
         </tbody>
         </table>
     </div>
