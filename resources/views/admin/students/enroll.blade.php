@@ -67,7 +67,7 @@
                     </div>
                     <div class="form-group col-md-8">
                         <label for="">Search Student</label>
-                        <input type="text" class="form-control typeahead" name="search" placeholder="Search Student" required>
+                        <input type="text" class="form-control typeahead" name="search" placeholder="Search Student" required autocomplete="off">
                     </div>
                     <div class=" form-group col-md-4"><br>
                     <button>Enroll Student</button>
@@ -98,7 +98,8 @@
                         <td>{{$enrollment->user_email}}</td>
                         <td>{{$enrollment->course_title}}</td>
                         <td>
-                            <button>Remove</button>
+                            <a href="{{url('admin/students/list/'.$enrollment->course_id.'/remove/'.$enrollment->id)}}" 
+                                class="btn btn-primary">Remove</a>
                         </td>
                     </tr>
                 @endforeach

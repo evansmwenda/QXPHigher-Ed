@@ -1485,7 +1485,7 @@ class DashboardController extends Controller
         $course_ids = $this->fetchEnrolledCourseIDs();
         //fetch latest student enrollments in your course ids
         $enrollments = DB::table('enrolled_courses')
-        ->select('enrolled_courses.id as id','courses.title as course_title',
+        ->select('enrolled_courses.id as id','enrolled_courses.course_id as course_id','courses.title as course_title',
         'users.name as user_name','users.email as user_email')
         ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
         ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
@@ -1498,21 +1498,31 @@ class DashboardController extends Controller
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         if($request->isMethod('post')){
             // dd($request->all());
-            $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
-            // dd($total_lessons);
-            $newEnrolledCourse = [
-                'course_id' => $request->course_id,
-                'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
-                'user_id' => \Auth::id(),
-                'total_lessons' => $total_lessons->count()
-            ];
-            // dd($newEnrolledCourse);
+            //get user details from name
+            $user = User::where('name', $request->search)->first();
+            // dd($user);
+            if($user){
+                //we have found a user
+                $user_id = $user->id;
+                $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
+                // dd($total_lessons);
+                $newEnrolledCourse = [
+                    'course_id' => $request->course_id,
+                    'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
+                    'user_id' => $user_id,
+                    'total_lessons' => $total_lessons->count()
+                ];
+                // dd($newEnrolledCourse);
 
-            $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
-            if($newEnrolledCourse){
-                //course enrolled
-                return redirect()->back()->with('flash_message_success','User enrolled to course successfully');
+                $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
+                if($newEnrolledCourse){
+                    //course enrolled
+                    return redirect()->back()->with('flash_message_success','User enrolled to course successfully');
+                }
+            }else{
+                return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
             }
+            
         }
         // dd($my_courses);
         return view('admin.students.enroll')->with(compact('my_courses','enrollments'));
@@ -1529,12 +1539,13 @@ class DashboardController extends Controller
     }
 
     public function studentlist($id=null){
+        $course = Course::find($id);
         $course_ids =$this->fetchEnrolledCourseIDs();
         $enrollments =(object) array();
         if(in_array($id,$course_ids)){
             //user owns the course
             $enrollments = DB::table('enrolled_courses')
-            ->select('enrolled_courses.id as id','courses.title as course_title',
+            ->select('enrolled_courses.id as id','enrolled_courses.course_id as course_id','courses.title as course_title',
             'users.name as user_name','users.email as user_email')
             ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
             ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
@@ -1544,8 +1555,19 @@ class DashboardController extends Controller
         }else{
             return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
         }
-        // dd($enrollments);
-        return view('admin.students.list')->with(compact('enrollments'));
+        // dd($course);
+        return view('admin.students.list')->with(compact('enrollments','course'));
+    }
+    public function studentlistRemove($course_id=null,$id=null){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+        $enrollments =(object) array();
+        if(in_array($course_id,$course_ids)){
+            $course = EnrolledCourses::where('id', $id)->delete();
+            return redirect()->back()->with('flash_message_error', "User removed from list");
+        }else{
+            return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
+        }
+        
     }
     public function requests(){
         return view('admin.students.requests');
