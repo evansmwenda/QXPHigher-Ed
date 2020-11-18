@@ -192,11 +192,13 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::get('live-classes/live/{meetingID}','Admin\DashboardController@joinLiveClass');
 
     //for students
-    Route::get('/students','Admin\DashboardController@students');
-    Route::get('/enroll','Admin\DashboardController@enroll');
-    Route::get('/studentlist','Admin\DashboardController@studentlist');
-    Route::get('/studentrequests','Admin\DashboardController@requests');
-    Route::get('/request_details','Admin\DashboardController@requestDetails');
+    Route::get('students','Admin\DashboardController@students');
+    Route::match(['get','post'],'students/enroll','Admin\DashboardController@enroll');
+    Route::get('autocomplete','Admin\DashboardController@autocomplete')->name('autocomplete');
+    Route::get('students/list/{id}','Admin\DashboardController@studentlist');
+    Route::get('students/list/{course_id}/remove/{id}','Admin\DashboardController@studentlistRemove');
+    Route::get('studentrequests','Admin\DashboardController@requests');
+    Route::get('request_details','Admin\DashboardController@requestDetails');
     
 
 });

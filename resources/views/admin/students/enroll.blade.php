@@ -39,28 +39,44 @@
         <div class="row" style="margin-left: 10px">
             <h3>Enroll New Students</h3>
         </div>
-        <div class="row student-search">
-            <form action="">
-                <div class="form-group col-md-6">
-                    <select name="" id="" class="form-control">
-                        <option value="">Course Name 1</option>
-                        <option value="">Course Name 1</option>
-                        <option value="">Course Name 1</option>
-                        <option value="">Course Name 1</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-8">
-                    <label for="">Search Student</label>
-                    <input type="text"  placeholder="Search Student" class="form-control">
-                </div>
-            <div class=" form-group col-md-4">
-<br>
-               <button>Enroll Student</button>
-            </div>
+        @if(Session::has("flash_message_error")) 
+            <div class="alert alert-error alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_error') !!}</strong>
+            </div> 
+        @endif 
 
-            </form>
-            
-        </div>
+        @if(Session::has("flash_message_success")) 
+            <div class="alert alert-info alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div> 
+        @endif
+        @if(count($my_courses) > 0)
+            <div class="row student-search">
+                <form method="POST" action="{{url('admin/students/enroll')}}">{{ csrf_field() }}
+                    <div class="form-group col-md-6">
+                        <select name="course_id" id="" class="form-control" required>
+                            <option value="">Select Course</option>
+                            @foreach ($my_courses as $course)
+                            <option value="{{$course->course->id}}">
+                                {{$course->course->title}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="">Search Student</label>
+                        <input type="text" class="form-control typeahead" name="search" placeholder="Search Student" required autocomplete="off">
+                    </div>
+                    <div class=" form-group col-md-4"><br>
+                    <button>Enroll Student</button>
+                    </div>
+
+                </form>
+            </div>
+        @endif
+        
        <h3>Enrolled Students</h3>
        
     <table class="table table-striped table-bordered table-stripped">
@@ -69,22 +85,35 @@
                 <td>#</td>
                 <td>Student Name</td>
                 <td>Email Address</td>
-                <td>Coourse Enrolled</td>
+                <td>Course Enrolled</td>
                 <td>Options</td>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Biology</td>
-                <td>256</td>
-                <td></td>
-                <td>
-                    <button>Remove</button>
+            @if(!$enrollments->isEmpty())
+                @foreach ($enrollments as $key=>$enrollment)
+                    <tr>
+                        <td>{{++$key}}</td>
+                        <td>{{$enrollment->user_name}}</td>
+                        <td>{{$enrollment->user_email}}</td>
+                        <td>{{$enrollment->course_title}}</td>
+                        <td>
+                            <a href="{{url('admin/students/list/'.$enrollment->course_id.'/remove/'.$enrollment->id)}}" 
+                                class="btn btn-primary">Remove</a>
+                        </td>
+                    </tr>
+                @endforeach
+ 
+            @else 
+            <tr class="text-center">
+                <td colspan="5">
+                    You have no enrolled students in your course(s)
                 </td>
             </tr>
-          
+               
+            @endif
         </tbody>
+        
         </table>
     </div>
 
@@ -94,4 +123,18 @@
   </div>
 
 
+@endsection
+@section('javascript')
+<script type="text/javascript">
+    // console.log({{ url('/admin/autocomplete') }});
+            var route = "{{ url('/admin/autocomplete') }}";
+            $('input.typeahead').typeahead({
+                source:function(terms,process){
+                    return $.get(route,{terms:terms},function(data){
+                        console.log(data[0]['id']);
+                        return process(data);
+                    });
+                },
+            });
+    </script>    
 @endsection

@@ -37,8 +37,21 @@
   <div class="row" style="background: #fff;">
     <div class="col-md-8 students">
        <h3>Course Students</h3>
+       @if(Session::has("flash_message_error")) 
+            <div class="alert alert-error alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_error') !!}</strong>
+            </div> 
+        @endif 
+
+        @if(Session::has("flash_message_success")) 
+            <div class="alert alert-info alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div> 
+        @endif
        <br>
-       <h3>Biology</h3>
+       <h3>{{$course->title}}</h3>
        <i>Students enrolled to Biology Course</i>
        
     <table class="table table-striped table-bordered table-stripped">
@@ -47,20 +60,31 @@
                 <td>#</td>
                 <td>Student Name</td>
                 <td>Email Address</td>
-                <td>Coourse Enrolled</td>
                 <td>Options</td>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Biology</td>
-                <td>256</td>
-                <td></td>
-                <td>
-                    <button>Remove</button>
+            @if(!$enrollments->isEmpty())
+                @foreach ($enrollments as $key=>$enrollment)
+                    <tr>
+                        <td>{{++$key}}</td>
+                        <td>{{$enrollment->user_name}}</td>
+                        <td>{{$enrollment->user_email}}</td>
+                        <td>
+                            <a href="{{url('admin/students/list/'.$enrollment->course_id.'/remove/'.$enrollment->id)}}" 
+                                class="btn btn-primary">Remove</a>
+                        </td>
+                    </tr>
+                @endforeach
+ 
+            @else 
+            <tr class="text-center">
+                <td colspan="5">
+                    You have no enrolled students in your course
                 </td>
             </tr>
+               
+            @endif
           
         </tbody>
         </table>
