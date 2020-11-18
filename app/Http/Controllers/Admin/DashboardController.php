@@ -638,8 +638,6 @@ class DashboardController extends Controller
          //get
         // return view('admin.events.edit')->with(compact('my_courses','event_details'));
     }
-    
-
     public function getExams(Request $request,String $exam_id=null){
         $titles_array= [];
         $my_questions= [];
@@ -1473,6 +1471,19 @@ class DashboardController extends Controller
         return view('admin.students.index');
     }
     public function enroll(Request $request){
+        //get my courses ids
+        $course_ids = $this->fetchEnrolledCourseIDs();
+        //fetch latest student enrollments in your course ids
+        $enrollments = DB::table('enrolled_courses')
+        ->select('enrolled_courses.id as id','courses.title as course_title',
+        'users.name as user_name','users.email as user_email')
+        ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
+        ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
+        ->whereIn('course_id',$course_ids)
+        ->orderBy('enrolled_courses.id','DESC')
+        ->get();
+
+        // dd($enrollments);
         //get my courses
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         if($request->isMethod('post')){
@@ -1481,7 +1492,7 @@ class DashboardController extends Controller
             // dd($total_lessons);
             $newEnrolledCourse = [
                 'course_id' => $request->course_id,
-                'lesson_id' => $total_lessons[0]->id,
+                'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
                 'user_id' => \Auth::id(),
                 'total_lessons' => $total_lessons->count()
             ];
@@ -1494,7 +1505,7 @@ class DashboardController extends Controller
             }
         }
         // dd($my_courses);
-        return view('admin.students.enroll')->with(compact('my_courses'));
+        return view('admin.students.enroll')->with(compact('my_courses','enrollments'));
     }
 
     public function autocomplete(Request $request){
