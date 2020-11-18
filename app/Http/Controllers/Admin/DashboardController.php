@@ -16,6 +16,7 @@ use App\QuestionsOption;
 use App\SubmittedAssignments;
 use App\ExamSubmits;
 use App\ExamAnswers;
+use App\EnrolledCourses;
 use App\User;
 use App\QuestionTest;
 use App\TestsResult;
@@ -1471,9 +1472,41 @@ class DashboardController extends Controller
     public function students(){
         return view('admin.students.index');
     }
-    public function enroll(){
-        return view('admin.students.enroll');
+    public function enroll(Request $request){
+        //get my courses
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        if($request->isMethod('post')){
+            // dd($request->all());
+            $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
+            // dd($total_lessons);
+            $newEnrolledCourse = [
+                'course_id' => $request->course_id,
+                'lesson_id' => $total_lessons[0]->id,
+                'user_id' => \Auth::id(),
+                'total_lessons' => $total_lessons->count()
+            ];
+            // dd($newEnrolledCourse);
+
+            $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
+            if($newEnrolledCourse){
+                //course enrolled
+                return redirect()->back()->with('flash_message_success','User enrolled to course successfully');
+            }
+        }
+        // dd($my_courses);
+        return view('admin.students.enroll')->with(compact('my_courses'));
     }
+
+    public function autocomplete(Request $request){
+        //   $search = $request->get('term');
+          $result = User::where('name', 'LIKE', '%'. $request->terms. '%')->get();
+        //   $response = array();
+        //   foreach($result as $user){
+        //      $response[] = array("value"=>$user->id,"label"=>$user->name);
+        //   }
+          return response()->json($result);    
+    }
+
     public function studentlist(){
         return view('admin.students.list');
     }
