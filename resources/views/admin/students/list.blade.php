@@ -50,7 +50,10 @@
                 <strong>{!! session('flash_message_success') !!}</strong>
             </div> 
         @endif
-       <br>
+        {{-- <a href="{{url('admin/students')}}" class="btn btn-warning">Back to list</a> --}}
+        <div class="btn-enroll">
+            <a href="{{url('admin/students')}}"><button>Back to list</button></a>
+            </div>
        <h3>{{$course->title}}</h3>
        <i>Students enrolled to Biology Course</i>
        
