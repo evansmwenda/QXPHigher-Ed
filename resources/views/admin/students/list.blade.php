@@ -47,20 +47,30 @@
                 <td>#</td>
                 <td>Student Name</td>
                 <td>Email Address</td>
-                <td>Coourse Enrolled</td>
                 <td>Options</td>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Biology</td>
-                <td>256</td>
-                <td></td>
-                <td>
-                    <button>Remove</button>
+            @if(!$enrollments->isEmpty())
+                @foreach ($enrollments as $key=>$enrollment)
+                    <tr>
+                        <td>{{++$key}}</td>
+                        <td>{{$enrollment->user_name}}</td>
+                        <td>{{$enrollment->user_email}}</td>
+                        <td>
+                            <button>Remove</button>
+                        </td>
+                    </tr>
+                @endforeach
+ 
+            @else 
+            <tr class="text-center">
+                <td colspan="5">
+                    You have no enrolled students in your course
                 </td>
             </tr>
+               
+            @endif
           
         </tbody>
         </table>

@@ -1468,7 +1468,17 @@ class DashboardController extends Controller
         return $monthly;            
     }
     public function students(){
-        return view('admin.students.index');
+        //get my courses
+        $count_arr = array();
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        foreach($my_courses as $course){
+            $students = EnrolledCourses::where('course_id',$course->course->id)->get();
+            $count = $students->count();
+            array_push($count_arr,$count);
+        }
+        // dd($count_arr);
+
+        return view('admin.students.index')->with(compact('my_courses','count_arr'));
     }
     public function enroll(Request $request){
         //get my courses ids
@@ -1518,8 +1528,24 @@ class DashboardController extends Controller
           return response()->json($result);    
     }
 
-    public function studentlist(){
-        return view('admin.students.list');
+    public function studentlist($id=null){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+        $enrollments =(object) array();
+        if(in_array($id,$course_ids)){
+            //user owns the course
+            $enrollments = DB::table('enrolled_courses')
+            ->select('enrolled_courses.id as id','courses.title as course_title',
+            'users.name as user_name','users.email as user_email')
+            ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
+            ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
+            ->where('course_id',$id)
+            ->orderBy('enrolled_courses.id','DESC')
+            ->get();
+        }else{
+            return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
+        }
+        // dd($enrollments);
+        return view('admin.students.list')->with(compact('enrollments'));
     }
     public function requests(){
         return view('admin.students.requests');
