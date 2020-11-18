@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Course;
 use App\EnrolledCourses;
+use App\RequestEnrollment;
 use App\Events;
 use App\Test;
 use App\TestsResult;
@@ -412,7 +413,7 @@ class HomeController extends Controller
         $count_exams = count($test_details);
         $count_events = count($monthly);
         // dd($enrolled_course);
-
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
         return view('students.home_user')->with(compact(
             'test_details',
             'result_array',
@@ -426,7 +427,8 @@ class HomeController extends Controller
             'count_assignments',
             'count_courses',
             'count_exams',
-            'count_events'
+            'count_events',
+            'messages'
         ));
     }
     public function getCalender(){
@@ -1462,7 +1464,7 @@ class HomeController extends Controller
         
         //transaction status
         $elements = preg_split("/=/",substr($response, $header_size));
-        $pesapal_response_data = $elements[1];
+        $pesapal_response_data = $elements[0];
         
         return $pesapal_response_data;
     }
@@ -1713,4 +1715,86 @@ class HomeController extends Controller
         }
         return view('auth.register');
     }
+    public function searchCourse()
+    {
+        //get notifications from request enrollment table  
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+        return view('students.search')->with('messages',$messages);
+    }
+    public function findCourse(Request $request)
+    {
+        // $courses = CourseUser::with('course')
+        // ->where ( 'title', 'LIKE', '%' . $request->course . '%' )->orWhere ( 'slug', 'LIKE', '%' . $request->course . '%' )->orderBy('title','DESC')->get ();
+        // return redirect()->back()->with('results',$all);   
+       $all = DB::table('courses')
+       ->select('id','title','price')
+       ->join('course_user','course_user.course_id','=' ,'courses.id')
+        //->join('users', 'users.id', '=', 'course_user.user_id')
+        ->where ( 'title', 'LIKE', '%' . $request->course . '%' )->orWhere ( 'slug', 'LIKE', '%' . $request->course . '%' )->orderBy('title','DESC')->get ();
+        // ->where ( 'title', 'LIKE', '%'. $request->course . '%')->get ();
+        // dd($all);
+        return view('students.results')->with('results',$all);    
+    }
+    public function sendRequest(Request $request, RequestEnrollment $datatable)
+    {
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+        
+        $courseID=$request->course;
+       //check if the student is already enrolled to the course
+       $status = EnrolledCourses::where('user_id',\Auth::user()->id)
+                    ->where('course_id',$courseID)->get();
+                    $exists=count($status);
+                    // dd($exists);
+        //check if the student has already send a request for the course enrollment
+        $already_send = RequestEnrollment::where('student_id',\Auth::user()->id)
+        ->where('course_id',$courseID)->get();
+        $if_already_send=count($already_send);
+
+        if($exists==1){      
+            Session::flash('flash_message_error','You are already enrolled to this course');
+            return view('students.search')->with('messages',$messages);
+        }else if($if_already_send==1){
+            //return back
+            Session::flash('flash_message_error','You have already send the request for enrollment to '.$request->title.'');
+            return view('students.search')->with('messages',$messages);
+        }else
+        {
+            //send request to teacher
+            $datatable->student_id=\Auth::user()->id;
+            $datatable->course_id=$courseID;
+            $datatable->status='Pending';
+            $datatable->read='0';
+            $datatable->save();
+
+            Session::flash('flash_message_success','Your request for enrollment to '.$request->title.' has been send successfully');
+            return view('students.search')->with('messages',$messages);
+        }
+    }
+           
+        // studentNofications
+        public function updateMessage(Request $request)
+        {
+            //check if its already updated
+            $already_read= RequestEnrollment::where('id',$request->id)->value('read');
+            
+            if($already_read=='0'){
+                RequestEnrollment::where ('id',$request->id)
+                ->update(array('read' => '1'));
+                $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+                $details = RequestEnrollment::where('id',$request->id)->get();
+                //  dd($details);
+                return view('students.notifications')->with('messages',$messages)->with('details',$details);
+                //  return redirect()->route('notifications', ['id' => $request->id])->with('messages',$messages);
+                
+            }else{
+
+                $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+                $details = RequestEnrollment::where('id',$request->id)->get();
+                //  dd($details);
+                return view('students.notifications')->with('messages',$messages)->with('details',$details);
+                //  return redirect()->route('notifications', ['id' => $request->id])->with('messages',$messages);
+                
+            }
+        }
+              
 }

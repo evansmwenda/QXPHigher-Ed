@@ -103,7 +103,9 @@
 			</div>
 		</div> -->
 		{{-- end of row --}}
+		@include('students.recentNotifications')
 		@include('partials.recentactivity')
+
 		
 	</div>
 	{{-- end of Dashboard right-side view --}}

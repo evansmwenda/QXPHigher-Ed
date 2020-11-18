@@ -365,7 +365,7 @@ font-size: 18px;
     height: 60px;
 }
 .top-header-2{
-    background: #D6DBDF;
+    background: #060646;
     margin-top: -20px;
     margin-left: -40px;
     padding-top: 20px;
@@ -379,7 +379,7 @@ font-size: 18px;
     height: 70px;
 }
 .top-header-2 span{
-    color: #060646;
+    color: #FD6C03;
 }
 .top-header-2-teacher span{
     color: #FD6C03;
@@ -631,9 +631,9 @@ color: #060646;
     padding-left: 20px;
 }
 .top-right{
-    background: #D5D8DC ;
+    background: #060646 ;
     margin-top: -20px;
-    padding: 16px;
+    padding: 25px;
     text-align: right;
 }
 .top-right-teacher{
@@ -651,11 +651,12 @@ color: #060646;
     text-align: right;
 }
 .top-right i{
-    background: #CCD1D1;
-    padding: 5px;
+padding-right: 10px;
+}
+.top-right a{
     color: #fff;
-    border-radius: 50%;
-    margin-right: 20px;
+    padding-right: 10px;
+    margin-top: -5px;
 }
 .top-right-teacher i{
 color: #fff;
@@ -719,10 +720,21 @@ text-align: center;
 }
 /* Courses */
 .course-breadcrumb h3{
-    font-size: 25px;
+    font-size: 30px;
     color: #060646;
-    font-weight: 400;
+    font-weight: 900;
     margin-left: 20px;
+}
+.course-breadcrumb button{
+    margin-top: -40px;
+    border: 1px solid transparent;
+    padding: 5px;
+    width: 150px;
+    color: #fff;
+    background: #FD6C03;
+    margin-right: 50px;
+    border-radius: 10px;
+
 }
 .courses p{
  margin-left: 20px;
@@ -1321,6 +1333,65 @@ background: #060646;
 }
 .btn-enroll button:hover{
 background: #11BECC;
+}
+.enroll-error{
+    background: #dc3545;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+.notification-messages{
+    border: 1px solid #EAECEE;
+    margin-top: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+.notification-messages table tbody tr td{
+    color: #060646;
+    font-weight: 200;
+    font-size: 15px;
+    cursor: pointer;
+}
+.notification-messages table tbody tr td button{
+border: 1px solid transparent;
+background: #fff;
+}
+.notification-messages table tbody tr td:hover{
+    color:#FD6C03 ;
+    font-weight: 900;
+
+}
+.notification-messages table tbody tr td i{
+color:#FD6C03 ;
+padding-right: 15px;
+}
+.message-header{
+    background: #11BECC;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 2px;
+}
+.message-header h3{
+    color: #fff;
+    font-size: 20px;
+    padding-left: 20px;
+}
+.enroll-error button{
+    color: #fff !important;
+    margin-top: 0px;
+    opacity: 1 !important;
+}
+.enroll-success button{
+    color: #fff !important;
+    margin-top: 0px;
+    opacity: 1 !important;
+}
+.enroll-success{
+    background: #11BECC;
+    color: #fff;
+    padding: 25px;
+    border-radius: 10px;
 }
 .student-search input {
 border-radius: 10px;
