@@ -187,7 +187,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
 
     //for students
     Route::get('students','Admin\DashboardController@students');
-    Route::match(['get','post'],'enroll','Admin\DashboardController@enroll');
+    Route::match(['get','post'],'students/enroll','Admin\DashboardController@enroll');
     Route::get('autocomplete','Admin\DashboardController@autocomplete')->name('autocomplete');
     Route::get('students/list/{id}','Admin\DashboardController@studentlist');
     Route::get('students/list/{course_id}/remove/{id}','Admin\DashboardController@studentlistRemove');

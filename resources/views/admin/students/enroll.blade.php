@@ -54,7 +54,7 @@
         @endif
         @if(count($my_courses) > 0)
             <div class="row student-search">
-                <form method="POST" action="{{url('admin/enroll')}}">{{ csrf_field() }}
+                <form method="POST" action="{{url('admin/students/enroll')}}">{{ csrf_field() }}
                     <div class="form-group col-md-6">
                         <select name="course_id" id="" class="form-control" required>
                             <option value="">Select Course</option>

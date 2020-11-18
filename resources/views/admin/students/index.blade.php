@@ -52,9 +52,9 @@
                 <strong>{!! session('flash_message_success') !!}</strong>
             </div> 
         @endif
-        
+
     <div class="pull-right btn-enroll">
-    <a href="{{url('admin\enroll')}}"><button >Enroll New Students</button></a>
+    <a href="{{url('admin/students/enroll')}}"><button >Enroll New Students</button></a>
     </div>
     <table class="table table-striped table-bordered table-stripped">
         <thead >
