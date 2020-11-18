@@ -189,12 +189,34 @@ class HomeController extends Controller
 
         $purchased_courses = NULL;
         if (\Auth::check()) {
+            $enrollments = DB::table('enrolled_courses')
+                ->select(
+                'enrolled_courses.course_id as id',
+                'courses.title as title',
+                'courses.slug as slug',
+                'courses.description as description',
+                'courses.price as price',
+                'courses.course_image as course_image',
+                'courses.start_date as start_date',
+                'courses.published as published',
+                'courses.created_at as updated_at',
+                'courses.updated_at as course_updated_at',
+                'courses.deleted_at as deleted_at'
+                )
+                ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
+                ->where('user_id',\Auth::id())
+                ->orderBy('enrolled_courses.id','DESC')
+                ->get();
+            // dd($enrollments);
             $purchased_courses = Course::whereHas('students', function($query) {
                 $query->where('id', \Auth::id());
             })
             ->with('lessons')
             ->orderBy('id', 'desc')
             ->get();
+            // dd($purchased_courses);
+            //purchased courses are the onees that the student has paid for or rated,
+            //enrolled courses are the ones they have been enrolled into
         }
         $tests_ids="";
         $my_results="";
@@ -238,6 +260,7 @@ class HomeController extends Controller
         'test_details',
         'assignments',
         'active',
+        'enrollments',
         'result_array'));
     }
     public function verify(){
@@ -324,8 +347,12 @@ class HomeController extends Controller
             $ids = explode(",", $course->lesson_id);
             $count = count(array_unique($ids));
             
-
-            $percentage = ($count/$course->total_lessons)*100;
+            if($course->total_lessons > 0){
+                $percentage = ($count/$course->total_lessons)*100 ;
+            }else{
+                $percentage = 0;
+            }
+            // $percentage = empty(($count/$course->total_lessons)*100) ? 0: ($count/$course->total_lessons)*100;
             if($percentage > 100){
                 $percentage = 100.0;
             }

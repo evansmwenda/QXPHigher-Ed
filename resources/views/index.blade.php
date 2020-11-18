@@ -45,17 +45,17 @@
 			
 				<div class="row courses">
 					<p>All My Courses</p>
-					@foreach($purchased_courses as $course)
+					@foreach($enrollments as $course)
 						<div class="col-sm-12 col-lg-3 col-md-3" style="margin-bottom: 20px;">
 						<a href="{{url('course/'.$course->slug)}}"><div class="coarse-list"></div></a>
 						<a href="{{url('course/'.$course->slug)}}"><p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
-						@for ($star = 1; $star <= 5; $star++)
+						{{-- @for ($star = 1; $star <= 5; $star++)
 						@if ($course->rating >= $star)
 							<span class="glyphicon glyphicon-star" style="font-size: 10px;"></span>
 						@else
 							<span class="glyphicon glyphicon-star-empty" style="font-size: 10px;"></span>
 						@endif
-						@endfor
+						@endfor --}}
 
 							<div class="row ">
 								<button class="coarse-button" style="height:30px;">FAVOURITE <i class="fa fa-web"></i></button>
