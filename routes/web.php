@@ -66,9 +66,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //tregister a teacher automatically from QXP
     // Route::post('tregister', 'Auth\RegisterController@register')->name('auth.tregister');;
-    Route::get('/search','HomeController@searchCourse');
-    Route::post('/student_search_course','HomeController@findCourse');
-    Route::post('/student_sendrequest','HomeController@sendRequest');
+    Route::get('/courses/search','HomeController@searchCourse');
+    Route::post('/courses/results','HomeController@findCourse');
+    Route::post('/courses/request','HomeController@sendRequest');
 
     //Student Notofication
     Route::post('/notifications/{id}','HomeController@notifications');

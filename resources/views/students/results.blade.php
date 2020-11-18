@@ -46,7 +46,7 @@
                         <td>{{$result->teachers[0]->name}}</td>
                         {{-- <td>*</td> --}}
                         <td>
-                            <form action="{{ url('/student_sendrequest') }}" method="post">
+                            <form action="{{ url('/courses/request') }}" method="post">
                                 <input type="hidden" value="{{$result->id}}" name="course">
                                 <input type="hidden" value="{{$result->title}}" name="title">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

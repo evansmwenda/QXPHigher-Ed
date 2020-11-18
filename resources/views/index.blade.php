@@ -10,7 +10,7 @@
 			@if (!is_null($purchased_courses))
 				<div class="row course-breadcrumb">
 					<h3>Enrolled Courses</h3>
-				<a href="{{url('/search')}}"><button class="pull-right">Search Course</button></a>
+				<a href="{{url('/courses/search')}}"><button class="pull-right">Search Course</button></a>
 				</div>
 			
 				<div class="row courses">

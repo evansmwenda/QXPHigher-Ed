@@ -9,7 +9,7 @@
     <div class="col-md-8 students">
         <br>
         <div class="row student-search">
-            <form action="{{ url('/student_search_course') }}" method="post">
+            <form action="{{ url('/courses/results') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group col-md-8">
                     <label for="">Search Course</label>
