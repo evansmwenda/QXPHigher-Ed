@@ -199,6 +199,11 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::get('students/list/{course_id}/remove/{id}','Admin\DashboardController@studentlistRemove');
     Route::get('studentrequests','Admin\DashboardController@requests');
     Route::get('request_details','Admin\DashboardController@requestDetails');
+
+    //for admin subscriptions & payments
+    Route::get('subscribe', 'Admin\DashboardController@getSubscription');
+    Route::get('subscribe/{id}', 'Admin\DashboardController@startSubscription');
+    Route::get('redirect', 'Admin\DashboardController@getCallback');
     
 
 });

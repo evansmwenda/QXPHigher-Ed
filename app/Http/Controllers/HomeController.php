@@ -91,6 +91,13 @@ class HomeController extends Controller
             // dd($data);
             $sms_recipients="";//empty string
 
+            $data=array(
+                'link'=>"payment was successful",
+                'name' => "mwendamwe",
+                'email'=>"evansmwenda.em@gmail.com"
+            );
+            Mail::to($request->email)->send(new RegisterMail($data));
+
             $username = getenv("AFRICASTALKING_USERNAME");
             $apiKey   = getenv("AFRICASTALKING_API_KEY");
 
