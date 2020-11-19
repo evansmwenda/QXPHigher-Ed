@@ -36,7 +36,7 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($request as $item)
+            @foreach ($request as $key => $item)
                 
                 @if($item->status =='Pending')
                 <tr style="font-weight: 900">

@@ -1644,7 +1644,7 @@ class DashboardController extends Controller
                     RequestEnrollment::where ('id',$request->enroll_id)
                    ->update(array('status' => 'Accepted','read'=>'0'));
                     Session::flash('flash_message_success','You have successfully accepted the user request and has been enrolled to the course successfully');
-                    return view('admin.students.requests')->with('requests',$requests);
+                    return view('admin.students.requests')->with('request',$requests);
                   }else{
                     Session::flash('flash_message_error','An error occurred, please try again later');
                     return view('admin.students.requests')->with('request',$requests);
