@@ -9,6 +9,7 @@ use App\Events;
 use App\CourseUser;
 use App\Course;
 use App\Assignments;
+use App\RequestEnrollment;
 use App\Test;
 use App\Lesson;
 use App\Question;
@@ -24,6 +25,7 @@ use App\LiveClasses;
 use App\LiveClassRecordings;
 use App\Media;
 use DB;
+use Session;
 use GuzzleHttp\Client;
 
 class DashboardController extends Controller
@@ -94,6 +96,12 @@ class DashboardController extends Controller
 
         //fetch things needing grading
         //fetch resources for download
+        $request =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
+        ->where('teacher_id',\Auth::user()->id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
+
         return view('home')->with(compact(
             'courses',
             'count_courses',
@@ -104,7 +112,8 @@ class DashboardController extends Controller
             'submitted_assignments_array',
             'exams',
             'count_exams',
-            'resources'
+            'resources',
+            'request'
         ));
         
     }
@@ -1468,7 +1477,15 @@ class DashboardController extends Controller
         return $monthly;            
     }
     public function students(){
+        // enroll-details
+        $request =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
+        ->where('teacher_id',\Auth::user()->id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
+// dd(  $request);
         //get my courses
+
         $count_arr = array();
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         foreach($my_courses as $course){
@@ -1478,9 +1495,10 @@ class DashboardController extends Controller
         }
         // dd($count_arr);
 
-        return view('admin.students.index')->with(compact('my_courses','count_arr'));
+        return view('admin.students.index')->with(compact('my_courses','count_arr','request'));
     }
     public function enroll(Request $request){
+
         //get my courses ids
         $course_ids = $this->fetchEnrolledCourseIDs();
         //fetch latest student enrollments in your course ids
@@ -1539,6 +1557,12 @@ class DashboardController extends Controller
     }
 
     public function studentlist($id=null){
+        $request =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
+        ->where('teacher_id',\Auth::user()->id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
+        
         $course = Course::find($id);
         $course_ids =$this->fetchEnrolledCourseIDs();
         $enrollments =(object) array();
@@ -1556,7 +1580,7 @@ class DashboardController extends Controller
             return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
         }
         // dd($course);
-        return view('admin.students.list')->with(compact('enrollments','course'));
+        return view('admin.students.list')->with(compact('enrollments','course','request'));
     }
     public function studentlistRemove($course_id=null,$id=null){
         $course_ids =$this->fetchEnrolledCourseIDs();
@@ -1570,9 +1594,77 @@ class DashboardController extends Controller
         
     }
     public function requests(){
-        return view('admin.students.requests');
+        //get requests that belongs to the logged in user
+        $request =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
+        ->where('teacher_id',\Auth::user()->id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
+        //  dd($request);
+        return view('admin.students.requests')->with('request',$request);
     }
-    public function requestDetails(){
-        return view('admin.students.request_details');
+    public function requestDetails(Request $req){
+        $request =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email','users.phone','request_enrollments.student_id','request_enrollments.course_id')
+        ->where('request_enrollments.id',$req->request_id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->get();
+        // dd( $requests);
+        return view('admin.students.request_details')->with('request',$request);
+    }
+    public function acceptRequest(Request $request){
+        $requests =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
+        ->where('teacher_id',\Auth::user()->id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->get();
+
+        $course_ids = $this->fetchEnrolledCourseIDs();
+
+        //get my courses
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        if($request->isMethod('post')){
+            // dd($request->all());
+                //we have found a user
+                $user_id = $request->user_id;
+                $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
+                // dd($total_lessons);
+                $newEnrolledCourse = [
+                    'course_id' => $request->course_id,
+                    'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
+                    'user_id' => $user_id,
+                    'total_lessons' => $total_lessons->count()
+                ];
+                // dd($newEnrolledCourse);
+
+                $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
+                
+                if($newEnrolledCourse){
+                    //update the enrollment table status
+                    RequestEnrollment::where ('id',$request->enroll_id)
+                   ->update(array('status' => 'Accepted','read'=>'0'));
+                    Session::flash('flash_message_success','You have successfully accepted the user request and has been enrolled to the course successfully');
+                    return view('admin.students.requests')->with('requests',$requests);
+                  }else{
+                    Session::flash('flash_message_error','An error occurred, please try again later');
+                    return view('admin.students.requests')->with('request',$requests);
+                }
+            
+        }
+        return view('admin.students.requests')->with('request',$requests);
+    }
+    public function rejectRequest(Request $request)
+    {
+        $requests =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
+        ->where('teacher_id',\Auth::user()->id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->get();
+
+        //update the enrollment table status
+        RequestEnrollment::where ('id',$request->enroll_id)
+        ->update(array('status' => 'Rejected','read'=>'0'));
+        Session::flash('flash_message_success','You have successfully rejected the user request');
+        return view('admin.students.requests')->with('request',$requests);
     }
 }

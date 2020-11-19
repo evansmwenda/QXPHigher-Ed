@@ -17,6 +17,7 @@ class CreateRequestEnrollmentsTable extends Migration
             $table->increments('id');
             $table->integer('student_id');
             $table->integer('course_id');
+            $table->integer('teacher_id');
             $table->string('status');
             $table->integer('read');
             $table->timestamps();

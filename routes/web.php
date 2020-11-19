@@ -198,7 +198,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::get('students/list/{id}','Admin\DashboardController@studentlist');
     Route::get('students/list/{course_id}/remove/{id}','Admin\DashboardController@studentlistRemove');
     Route::get('studentrequests','Admin\DashboardController@requests');
-    Route::get('request_details','Admin\DashboardController@requestDetails');
+    Route::post('request_details/{request_id}','Admin\DashboardController@requestDetails');
+    Route::post('accept_request','Admin\DashboardController@acceptRequest');
+    Route::post('reject','Admin\DashboardController@rejectRequest');
     
 
 });

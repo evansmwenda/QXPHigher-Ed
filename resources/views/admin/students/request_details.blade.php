@@ -33,36 +33,60 @@
             </a> 
     </div>
   </div>
-
-  <div class="row" style="background: #fff;">
+   @foreach ($request as $item)
+   <div class="row" style="background: #fff;">
     <div class="col-md-8 students">
        <h3> Student Request Details</h3>
        <br>
        <i>Student Request Details</i>
 
        <div class="student-details">
-        <h4>Geoffrey Mutua</h4>
+       <h4>{{$item->name}}</h4>
 
        </div>
        <div class=" student-inner-details">
            <div class="row">
                <div class="col-md-6">
                    <h3 style=" font-size:20px">School Details</h3>
-                    <h4>Institution </h4>
+                    <h4>N/A </h4>
                     <span><strong>Nairobi University</strong></span>
                     <h4>Rquested Course </h4>
-                    <span><strong>Biology 101</strong></span>
+                    <span><strong>{{$item->title}}</strong></span>
                </div>
 
                 <div class="col-md-6">
                     <h3 style=" font-size:20px">Student Contacts</h3>
                     <h4>Student Email :</h4>
-                    <i>Johndoe@gmail.com</i>
+                    <i>{{$item->email}}</i>
                     <h4>Student Number</h4>
-                    <i>+125488854484848</i>
+                    <i>{{$item->phone}}</i>
                     <hr>
-                    <button style="background: #11BECC">Accept</button>
-                    <button style="background: #dc3545">Reject</button>
+                    @if($item->status =='Pending')
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form action="{{ url('admin/accept_request') }}" method="post">
+                                    <input type="hidden" value="{{$item->student_id}}" name="user_id">
+                                    <input type="hidden" value="{{$item->id}}" name="enroll_id">
+                                    <input type="hidden" value="{{$item->course_id}}" name="course_id">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button style="background: #11BECC;font-size:13px" type="submit">Accept</button>
+                                </form>
+                            </div>
+                            <form action="{{ url('admin/reject') }}" method="post">
+                                <input type="hidden" value="{{$item->student_id}}" name="user_id">
+                                <input type="hidden" value="{{$item->id}}" name="enroll_id">
+                                <input type="hidden" value="{{$item->course_id}}" name="course_id">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <button style="background: #dc3545;font-size:13px" type="submit">Reject</button>
+                                
+                            </form>
+                        </div>
+                        @else
+                        <h4>Request {{$item->status}}</h4>
+                    @endif
+
+                   
+                 
                 </div>
            </div>
 
@@ -74,6 +98,8 @@
         @include('admin.recents')
     </div>
   </div>
+   @endforeach
+
 
 
 @endsection
