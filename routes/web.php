@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/payments/redirect', 'HomeController@getCallback');
 
     
+    
 
     //faq
     Route::get('/faq', 'HomeController@getFAQ');

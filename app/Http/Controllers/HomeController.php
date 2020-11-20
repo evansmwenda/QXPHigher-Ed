@@ -1491,7 +1491,8 @@ class HomeController extends Controller
         
         //transaction status
         $elements = preg_split("/=/",substr($response, $header_size));
-        $pesapal_response_data = $elements[0];
+        $pesapal_response_data = $elements[0];//when offline
+        // $pesapal_response_data = $elements[1];//when online
         
         return $pesapal_response_data;
     }
