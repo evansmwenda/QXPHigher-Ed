@@ -38,6 +38,20 @@
     <div class="col-md-8 students">
        <h3> Students Requests</h3>
        <br>
+       @if(Session::has("flash_message_error")) 
+       <div class="alert enroll-error">
+           <button type="button" class="close" data-dismiss="alert">x</button>
+           {!! session('flash_message_error') !!}
+           
+       </div>
+       @endif
+       @if(Session::has("flash_message_success")) 
+       <div class="alert enroll-success">
+       <button type="button" class="close" data-dismiss="alert">x</button>
+       {!! session('flash_message_success') !!}
+       </div>
+       @endif
+       <br>
        <i>The following students have requested to join your courses as below</i>
        
     <table class="table table-striped table-bordered table-stripped">
@@ -51,15 +65,43 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($request)>0)
+                @foreach ($request as $key => $request)
+                    <tr
+                    <?php
+                        if($request->status =='Pending'){
+                              ?>
+                             style ="font-weight:900"
+                              <?php
+                        }else{
+                              ?>
+                               style ="font-weight:300"
+                              <?php      
+                        }
+                        ?>
+                       >
+                        <td>{{++$key}}</td>
+                        <td>{{$request->name}}</td>
+                        <td>{{$request->email}}</td>
+                        <td>{{$request->title}}</td>
+                        <td>
+                            <form action="{{ url('admin/request_details',$request->id) }}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" value="{{$request->id}}" name="request_id">          
+                                <button style="background: #079DFF;font-size:13px" type="submit">View Request</button>
+                            </form>
+                        {{-- <a href="{{url('admin/request_details')}}"><button>View</button></a>  --}}
+                        </td>
+                    </tr>
+                @endforeach
+
+            @else
             <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>johndoe@gmail.com</td>
-                <td>Biology 101</td>
-                <td>
-                <a href="{{url('admin/request_details')}}"><button>View</button></a> 
-                </td>
+                <td colspan="5" style="text-align: center">No requests found</td>
+ 
             </tr>
+            @endif
+
           
         </tbody>
         </table>

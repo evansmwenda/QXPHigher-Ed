@@ -47,7 +47,7 @@
         <h2>Quizzes</h2>
         <div class="exam-top-buttons"> 
             @can('test_create')   
-            <a href="{{ url('admin/tests/create') }}"><button style="background: #060646"><i class="fa fa-plus"></i>Create</button></a>  
+            <a href="{{ url('admin/tests/create/new') }}"><button style="background: #060646"><i class="fa fa-plus"></i>Create</button></a>  
             @endcan 
             @if(empty($questions_array))
             {{-- //do nothing  $questions_array->isEmpty() ||  --}}

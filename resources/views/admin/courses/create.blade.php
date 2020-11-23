@@ -3,6 +3,7 @@
 @section('content')
 <div class="row">
     @include('students.header')
+
 </div>
 <div class="row create-lesson">
     <h3 class="page-title">@lang('global.courses.title')</h3>
@@ -114,7 +115,17 @@
             {!! Form::submit(trans('global.app_save'), ['class' => 'btn btn-danger']) !!}
             {!! Form::close() !!}
 </div>
-
+    <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
+    <script>
+        $('.editor').each(function () {
+                  CKEDITOR.replace($(this).attr('id'),{
+                    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
+                    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
+            });
+        });
+    </script>
 @stop
 
 @section('javascript')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Course;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -20,6 +21,7 @@ class CoursesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+
         if (! Gate::allows('course_access')) {
             return abort(401);
         }

@@ -119,6 +119,7 @@ class TestsController extends Controller
 
     public function getTestDetails(Request $request,String $exam_id=null){
         $titles_array= [];
+        
         if($exam_id != null){
             $exam_details = Test::find($exam_id);
 
@@ -150,6 +151,7 @@ class TestsController extends Controller
         $my_questions= [];
         $exam_id='';
         $questions_array= [];
+       $course_title='';
         // $questions_array = $this->fetchExamQuestions($exam_id);
         if($request->isMethod('post')){
             //user is posting data

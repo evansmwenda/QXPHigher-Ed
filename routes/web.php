@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/payments/redirect', 'HomeController@getCallback');
 
     
+    
 
     //faq
     Route::get('/faq', 'HomeController@getFAQ');
@@ -198,12 +199,16 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::get('students/list/{id}','Admin\DashboardController@studentlist');
     Route::get('students/list/{course_id}/remove/{id}','Admin\DashboardController@studentlistRemove');
     Route::get('studentrequests','Admin\DashboardController@requests');
-    Route::get('request_details','Admin\DashboardController@requestDetails');
 
     //for admin subscriptions & payments
     Route::get('subscribe', 'Admin\DashboardController@getSubscription');
     Route::get('subscribe/{id}', 'Admin\DashboardController@startSubscription');
     Route::get('redirect', 'Admin\DashboardController@getCallback');
+
+    Route::post('request_details/{request_id}','Admin\DashboardController@requestDetails');
+    Route::post('accept_request','Admin\DashboardController@acceptRequest');
+    Route::post('reject','Admin\DashboardController@rejectRequest');
+
     
 
 });

@@ -440,7 +440,7 @@ class HomeController extends Controller
         $count_exams = count($test_details);
         $count_events = count($monthly);
         // dd($enrolled_course);
-        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->orderBy('read','ASC')->get();
         return view('students.home_user')->with(compact(
             'test_details',
             'result_array',
@@ -1509,7 +1509,8 @@ class HomeController extends Controller
         
         //transaction status
         $elements = preg_split("/=/",substr($response, $header_size));
-        $pesapal_response_data = $elements[0];
+        $pesapal_response_data = $elements[0];//when offline
+        // $pesapal_response_data = $elements[1];//when online
         
         return $pesapal_response_data;
     }
@@ -1763,7 +1764,7 @@ class HomeController extends Controller
     public function searchCourse()
     {
         //get notifications from request enrollment table  
-        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->orderBy('read','ASC')->get();
         return view('students.search')->with('messages',$messages);
     }
     public function findCourse(Request $request)
@@ -1775,7 +1776,9 @@ class HomeController extends Controller
     }
     public function sendRequest(Request $request, RequestEnrollment $datatable)
     {
-        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+
+        
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->orderBy('read','ASC')->get();
         
         $courseID=$request->course;
        //check if the student is already enrolled to the course
@@ -1800,6 +1803,7 @@ class HomeController extends Controller
             //send request to teacher
             $datatable->student_id=\Auth::user()->id;
             $datatable->course_id=$courseID;
+            $datatable->teacher_id=$request->teacher_id;
             $datatable->status='Pending';
             $datatable->read='0';
             $datatable->save();
@@ -1826,7 +1830,7 @@ class HomeController extends Controller
                 
             }else{
 
-                $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->get();
+                $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->orderBy('read','ASC')->get();
                 $details = RequestEnrollment::where('id',$request->id)->get();
                 //  dd($details);
                 return view('students.notifications')->with('messages',$messages)->with('details',$details);

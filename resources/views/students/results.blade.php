@@ -9,7 +9,7 @@
     <div class="col-md-8 students">
         <br>
         <div class="row student-search">
-            <form action="{{ url('/student_search_course') }}" method="post">
+            <form action="{{ url('/courses/results') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group col-md-8">
                     <label for="">Search Course</label>
@@ -22,7 +22,7 @@
 
             </form>
             
-        </div>
+        </div>  
        <h3>Searched Results</h3>
        
        
@@ -39,22 +39,23 @@
         </thead>
         <tbody>
             @if(count($results) >0)
-                @foreach ($results as $key=>$result)
-                    <tr>
-                        <td>{{++$key}}</td>
-                        <td>{{$result->title}}</td>
-                        <td>{{$result->teachers[0]->name}}</td>
-                        {{-- <td>*</td> --}}
-                        <td>
-                            <form action="{{ url('/courses/request') }}" method="post">
-                                <input type="hidden" value="{{$result->id}}" name="course">
-                                <input type="hidden" value="{{$result->title}}" name="title">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <button style="background: #079DFF;font-size:13px" type="submit">Send Request</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
+            @foreach ($results as $key=>$result)
+            <tr>
+                <td>{{++$key}}</td>
+                <td>{{$result->title}}</td>
+                {{-- <td>{{$result->teachers[0]->name}}</td> --}}
+                <td>*</td>
+                <td>
+                    <form action="{{ url('/courses/request') }}" method="post">
+                        <input type="hidden" value="{{$result->id}}" name="course">
+                        <input type="hidden" value="{{$result->title}}" name="title">
+                        <input type="hidden" value="{{$result->teachers[0]->id}}" name="teacher_id">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <button style="background: #079DFF;font-size:13px" type="submit">Send Request</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
             @else
             <tr style="text-align: center">
                 <td colspan="5">No results found matching your search</td>

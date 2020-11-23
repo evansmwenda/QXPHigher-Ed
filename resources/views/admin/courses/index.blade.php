@@ -47,7 +47,7 @@
         </div>
         {{-- right side --}}
         <div class="col-md-4">
-            @include('admin.recents')
+            {{-- @include('admin.recents') --}}
         </div>
     </div>
 @stop

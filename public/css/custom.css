@@ -1404,10 +1404,10 @@ color: #060646;
 .student-details{
     box-shadow: 3px 3px 20px;
     background: #fff;
-    padding: 5px;
+    padding: 3px;
     margin-top: 20px;
     color: #fff;
-    background: #FD6C03;
+    background: #11BECC;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -1475,10 +1475,7 @@ font-size: 15px;
 .admin-news table tbody tr{
     cursor: pointer;
 }
-.admin-news table tbody tr:hover{
-    background: #060646;
-    color: #fff;
-}
+
 .admin-news-content{
     background: #EAECEE;
     text-align: center;

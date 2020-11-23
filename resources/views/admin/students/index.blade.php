@@ -99,15 +99,20 @@
                         <td>Student Name</td>
                         <td>Email</td>
                         <td>Requested Course</td>
+                        <td>State</td>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($request as $key=>$item)
                     <tr>
-                        <td>1</td>
-                        <td>John Cena</td>
-                        <td>Johncena@gmail.com</td>
-                        <td>Biology</td>
+                    <td>{{++$key}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{$item->email}}</td>
+                    <td>{{$item->title}}</td>
+                    <td>{{$item->status}}</td>
                     </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>
