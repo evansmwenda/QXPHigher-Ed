@@ -29,12 +29,13 @@ use App\Package;
 use App\Media;
 use DB;
 use Session;
-use GuzzleHttp\Client;
-use GuzzleHttp\Ring\Exception\ConnectException;
-use App\library\OAuth;
+// use GuzzleHttp\Client;
+// use GuzzleHttp\Ring\Exception\ConnectException;
+
 use App\Events\PaymentSuccessfulEvent;
 use App\Mail\MeetingEmail;
 use App\Mail\RegisterMail;
+use App\library\OAuth;
 
 class DashboardController extends Controller
 {
@@ -1491,7 +1492,6 @@ class DashboardController extends Controller
         ->where('teacher_id',\Auth::user()->id)
         ->join('users','users.id','=','request_enrollments.student_id')
         ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
-// dd(  $request);
         //get my courses
 
         $count_arr = array();
@@ -1813,6 +1813,7 @@ class DashboardController extends Controller
             ));
     }
     public function getCallback(Request $request){
+        dump(function_exists('curl_version'));
         $user= \Auth::user();
         // $status='UNKNOWN';
         // dd($request->all());
@@ -1826,7 +1827,8 @@ class DashboardController extends Controller
           *getMoreDetails() - returns status, payment method, merchant reference and pesapal tracking id
         **/
         
-        //$status           = $this->checkStatusByMerchantRef($reference);
+        $statusArray           = $this->checkStatusByMerchantRef($reference);
+        dd($statusArray);
         $responseArray    = $this->getTransactionDetails($reference,$tracking_id);
         // $status             = $this->checkStatusUsingTrackingIdandMerchantRef($reference,$tracking_id);
         // dd($responseArray);
@@ -1930,6 +1932,8 @@ class DashboardController extends Controller
         //Kenyan Merchant
         $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
         $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
+        dump($consumer_key);
+        dump($consumer_secret);
 
         $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
         $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
@@ -1940,15 +1944,17 @@ class DashboardController extends Controller
         else
             $api = 'https://www.pesapal.com'; 
             
-        // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
         // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
-        $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
+        // $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
+
+        dump($QueryPaymentStatus);
 
         $request_status = \OAuthRequest::from_consumer_and_token(
                                 $consumer, 
                                 $token, 
                                 "GET", 
-                                $querypaymentdetails,//$querypaymentdetails, 
+                                $QueryPaymentStatus,//$querypaymentdetails, 
                                 $params
                             );
         $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
@@ -1956,9 +1962,10 @@ class DashboardController extends Controller
         $request_status->sign_request($signature_method, $consumer, $token);
     
         $responseData = $this->curlRequest($request_status);
+        dump($token);
         
         $pesapalResponse = explode(",", $responseData);
-        dd($responseData);
+        // dd($responseData);
 
         $pesapalResponseArray=array('pesapal_transaction_tracking_id'=>$pesapalResponse[0],
                    'payment_method'=>$pesapalResponse[1],
