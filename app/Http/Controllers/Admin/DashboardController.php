@@ -1676,8 +1676,8 @@ class DashboardController extends Controller
         return view('admin.students.requests')->with('request',$requests);
     }
     public function getSubscription(){
-        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->first();
-
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->firstOrFail();
+        // dd($subscription);
         // Date('Y-m-d h:i:s', strtotime('+14 days')),       
         $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
         $expiry_on =$subscription->expiry_on;
