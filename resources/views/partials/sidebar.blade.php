@@ -135,6 +135,12 @@
                     <span class="title">Live Classes</span>
                 </a>
             </li>
+            <li class="{{ $request->segment(2) == 'subscribe' ? 'active' : '' }}">
+                <a href="/admin/subscribe">
+                    <i class="fa fa-wallet"></i>
+                    <span class="title">Billing</span>
+                </a>
+            </li>
 
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
                 <a href="{{ route('auth.change_password') }}">
