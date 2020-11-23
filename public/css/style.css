@@ -3283,7 +3283,7 @@ input.round-btn {
 }
 .footer-top h3{
   color: #ffffff;
-  font-size: 45px;
+  font-size: 35px;
   font-weight: 600;
 }
 .tw-footer {
@@ -3433,8 +3433,11 @@ input.round-btn {
  font-size: 15px;
 }
 .footer-widget li {
-  
-  font-size: 12px;
+
+  font-weight: 100;
+  font-size: 13px;
+  padding: 0px;
+  margin-top: -8px;
 }
 .footer-widget ul li span{
   padding-right: 10px;
@@ -3546,12 +3549,13 @@ input.round-btn {
 .copyright {
   background-color: #0707A4;
   padding-top: 10px;
+  margin-top: 30px;
 }
 
 .copyright span,
 .copyright a {
-  color: #fff;
-  font-size: 15px;
+  color: #cfcccc;
+  font-size: 13px;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
@@ -7644,4 +7648,10 @@ line-height: 40px;
   margin-top: -50px;
   border-radius: 10px;
   margin-bottom: 50px;
+}
+.top-contact-info .reg-user{
+  background: #FD6C03;
+  border-radius: 5px;
+  border: 1px solid transparent;
+
 }
