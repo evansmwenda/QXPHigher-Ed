@@ -1848,15 +1848,15 @@ class DashboardController extends Controller
         else
             $api = 'https://www.pesapal.com'; 
             
-        $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
         // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
-        // $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
+        $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
 
         $request_status = \OAuthRequest::from_consumer_and_token(
                                 $consumer, 
                                 $token, 
                                 "GET", 
-                                $QueryPaymentStatus,//$querypaymentdetails, 
+                                $querypaymentdetails,//$querypaymentdetails, 
                                 $params
                             );
         $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
