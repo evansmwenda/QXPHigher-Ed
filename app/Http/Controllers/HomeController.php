@@ -91,13 +91,6 @@ class HomeController extends Controller
             // dd($data);
             $sms_recipients="";//empty string
 
-            $data=array(
-                'link'=>"payment was successful",
-                'name' => "mwendamwe",
-                'email'=>"evansmwenda.em@gmail.com"
-            );
-            Mail::to($request->email)->send(new RegisterMail($data));
-
             $username = getenv("AFRICASTALKING_USERNAME");
             $apiKey   = getenv("AFRICASTALKING_API_KEY");
 
@@ -1302,7 +1295,6 @@ class HomeController extends Controller
         $iframe_src->sign_request($signature_method, $consumer, $token);
 
         // return view('user.payments.iframe')->with(compact('iframe_src','amount','package_name'));
-// dd($subscription);
          return view('students.subscribe')->with(compact(
              'iframe_src',
              'amount',
@@ -1313,11 +1305,23 @@ class HomeController extends Controller
             ));
     }
     public function getCallback(Request $request){
+        //get package status
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription[0]->expiry_on;
+        if($expiry_on > $date_now){
+            $active = true;//subscription is active
+        }else{
+            $active = false;//expired or is on free trial
+        }
+
         $user= \Auth::user();
         // $status='UNKNOWN';
         // dd($request->all());
         $tracking_id = $request['pesapal_transaction_tracking_id'];
         $reference = $request['pesapal_merchant_reference'];
+        // dump($request->all());
 
         /** check status of the transaction made
           *There are 3 available API
@@ -1352,7 +1356,12 @@ class HomeController extends Controller
         //the status has changed for UNKNOWN to PENDING/COMPLETED/FAILED
 
         //make query to check status here
-        return view('students.redirect')->with(compact('status','reference','tracking_id'));
+        return view('students.redirect')->with(compact('status',
+        'reference',
+        'tracking_id',
+        'subscription',
+        'active',
+        'expiry_on'));
     }
     public function checkStatusUsingTrackingIdandMerchantRef($pesapalMerchantReference,$pesapalTrackingId){
         //checkStatusUsingTrackingIdandMerchantRef($pesapalMerchantReference,$pesapalTrackingId)
@@ -1442,7 +1451,8 @@ class HomeController extends Controller
             
         // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
         // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
-        $querypaymentdetails              =   $api.'/API/querypaymentdetails';
+        $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
+        // dump($querypaymentdetails);
 
         $request_status = \OAuthRequest::from_consumer_and_token(
                                 $consumer, 
@@ -1456,6 +1466,7 @@ class HomeController extends Controller
         $request_status->sign_request($signature_method, $consumer, $token);
     
         $responseData = $this->curlRequest($request_status);
+        // dd($responseData);
         
         $pesapalResponse = explode(",", $responseData);
         $pesapalResponseArray=array('pesapal_transaction_tracking_id'=>$pesapalResponse[0],
