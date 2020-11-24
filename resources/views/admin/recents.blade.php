@@ -44,7 +44,7 @@
                     <td>{{$item->name}}</td>
                     <td>{{$item->title}}</td>
                     <td>
-                        <form action="{{ url('admin/request_details',$item->id) }}" method="post">
+                        <form action="{{ url('admin/students/requests/details',$item->id) }}" method="post">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" value="{{$item->id}}" name="request_id">          
                             <button style="background: #079DFF;color:#fff; border-radius:10px; border:1px solid transparent; font-size:10px" type="submit">View</button>
@@ -55,7 +55,7 @@
                 @endif
             @endforeach
             <tr>
-            <td colspan="5" style="text-align: center;color:#060646;"><a href="{{url('admin/studentrequests')}}">All Requests</a> </td>
+            <td colspan="5" style="text-align: center;color:#060646;"><a href="{{url('admin/students/requests')}}">All Requests</a> </td>
             </tr>
           </tbody>
         </table>

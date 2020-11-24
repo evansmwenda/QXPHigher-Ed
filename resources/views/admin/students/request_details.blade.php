@@ -33,10 +33,11 @@
             </a> 
     </div>
   </div>
-   @foreach ($request as $item)
+   @foreach ($student_request as $item)
    <div class="row" style="background: #fff;">
     <div class="col-md-8 students">
        <h3> Student Request Details</h3>
+       <a href="{{url('admin/students/requests')}}"><button class="btn btn-primary">Go Back</button></a>
        <br>
        <i>Student Request Details</i>
 
@@ -64,7 +65,7 @@
                     @if($item->status =='Pending')
                         <div class="row">
                             <div class="col-md-6">
-                                <form action="{{ url('admin/accept_request') }}" method="post">
+                                <form action="{{ url('admin/students/accept') }}" method="post">
                                     <input type="hidden" value="{{$item->student_id}}" name="user_id">
                                     <input type="hidden" value="{{$item->id}}" name="enroll_id">
                                     <input type="hidden" value="{{$item->course_id}}" name="course_id">
@@ -72,7 +73,7 @@
                                     <button style="background: #11BECC;font-size:13px" type="submit">Accept</button>
                                 </form>
                             </div>
-                            <form action="{{ url('admin/reject') }}" method="post">
+                            <form action="{{ url('admin/students/reject') }}" method="post">
                                 <input type="hidden" value="{{$item->student_id}}" name="user_id">
                                 <input type="hidden" value="{{$item->id}}" name="enroll_id">
                                 <input type="hidden" value="{{$item->course_id}}" name="course_id">
