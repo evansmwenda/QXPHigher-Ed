@@ -62,28 +62,16 @@ class DashboardController extends Controller
         ->where('user_id',\Auth::id())
         ->orderBy('course_id','DESC')
         ->paginate(6);
+        // dd($courses[0]);
 
         $highlights = $this->getSummaryCount();
-        // dump($highlights);
-
-        $course_ids = CourseUser::where('user_id',\Auth::id())->pluck('course_id');
 
         //get number of resources
         // $resources = $this->getResourcesList($course_ids);
 
 
         //fetch student enrollment requests
-        $request_enrollments =DB::table('request_enrollments')
-        ->select('request_enrollments.id',
-        'request_enrollments.status',
-        'courses.title',
-        'users.name',
-        'users.email')
-        ->where('teacher_id',\Auth::id())
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')
-        ->orderBy('id','DESC')->get();
-        // dump($request_enrollments);
+        $request_enrollments = $this->getRequestEnrollments();
 
         return view('home')->with(compact(
             'courses',
@@ -123,6 +111,44 @@ class DashboardController extends Controller
         );
         return $my_summary_count;
     }
+    public function getRequestEnrollments(){
+        $request_enrollments =DB::table('request_enrollments')
+        ->select('request_enrollments.id',
+        'request_enrollments.status',
+        'courses.title',
+        'users.name',
+        'users.email')
+        ->where('teacher_id',\Auth::id())
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')
+        ->orderBy('id','DESC')->get();
+
+        return $request_enrollments;
+    }
+    public function students(){
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+
+        $count_arr = array();
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        foreach($my_courses as $course){
+            //get count of students enrolled to that course
+            $students = EnrolledCourses::where('course_id',$course->course->id)->get();
+            $count = $students->count();
+            array_push($count_arr,$count);
+        }
+
+        return view('admin.students.index')
+        ->with(compact('my_courses',
+        'count_arr',
+        'request_enrollments',
+        'highlights'
+        ));
+    }
+
     public function getAssignmentsb(Request $request){
         $course_ids = $this->fetchEnrolledCourseIDs();
         $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
@@ -1451,26 +1477,7 @@ class DashboardController extends Controller
                     ->get();//has events data for the current month
         return $monthly;            
     }
-    public function students(){
-        // enroll-details
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
-        //get my courses
-
-        $count_arr = array();
-        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
-        foreach($my_courses as $course){
-            $students = EnrolledCourses::where('course_id',$course->course->id)->get();
-            $count = $students->count();
-            array_push($count_arr,$count);
-        }
-        // dd($count_arr);
-
-        return view('admin.students.index')->with(compact('my_courses','count_arr','request'));
-    }
+    
     public function enroll(Request $requests){
         //get my courses ids
         $course_ids = $this->fetchEnrolledCourseIDs();
