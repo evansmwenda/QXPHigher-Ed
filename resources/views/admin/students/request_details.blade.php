@@ -37,7 +37,9 @@
    <div class="row" style="background: #fff;">
     <div class="col-md-8 students">
        <h3> Student Request Details</h3>
-       <a href="{{url('admin/students/requests')}}"><button class="btn btn-primary">Go Back</button></a>
+       <div class="btn-enroll">
+            <a href="{{url('admin/students/requests')}}"><button style="padding:10px 15px;">Back to list</button></a>
+        </div>
        <br>
        <i>Student Request Details</i>
 

@@ -69,16 +69,62 @@ class LessonsController extends Controller
         if (! Gate::allows('lesson_create')) {
             return abort(401);
         }
+        
         $request = $this->saveFiles($request);
-        $lesson = Lesson::create($request->all()
-            + ['position' => Lesson::where('course_id', $request->course_id)->max('position') + 1]);
+        // dump($request->course_id);
+        // dump($request->all());
 
-        foreach ($request->input('downloadable_files_id', []) as $index => $id) {
-            $model          = config('laravel-medialibrary.media_model');
-            $file           = $model::find($id);
-            $file->model_id = $lesson->id;
-            $file->save();
+        $newLesson = [
+            'course_id' => $request['course_id'] ,
+            'title' => $request['title'],
+            'slug' => $request['slug'],
+            'lesson_image' => NULL,
+            'short_text' => $request['short_text'],
+            'full_text' => $request['full_text'],
+            'position' => Lesson::where('course_id', $request->course_id)->max('position') + 1,
+            'free_lesson' => $request['free_lesson'],
+            'published' =>$request['published'] 
+        ];
+        // dump($newLesson);
+        // dump($request['downloadable_files']);
+
+        
+        // dump("end");
+        $lesson = Lesson::create($newLesson);
+
+        if(!empty($request['downloadable_files'])){
+            //teacher has uploaded media for the lesson
+            dump("not empty");
+            $name  = explode(".",$request['downloadable_files']);
+
+            $media = new \App\Media();
+            $media->model_id = $lesson->id;
+            $media->model_type= 'App\Lesson';
+            $media->collection_name= 'downloadable_files';
+            $media->name=$name[0];
+            $media->file_name=$request['downloadable_files'];
+            $media->disk='media';
+            $media->size=1;
+            $media->manipulations='';
+            $media->custom_properties='';
+            $media->order_column=0;
+            $media->save();
+            // dump($media);
         }
+        
+
+
+        
+        // $lesson = Lesson::create($request->all()
+        //     + ['position' => Lesson::where('course_id', $request->course_id)->max('position') + 1]);
+
+        //     dump($lesson);
+        // foreach ($request->input('downloadable_files_id', []) as $index => $id) {
+        //     $model          = config('laravel-medialibrary.media_model');
+        //     $file           = $model::find($id);
+        //     $file->model_id = $lesson->id;
+        //     $file->save();
+        // }
 
         return redirect()->route('admin.lessons.index', ['course_id' => $request->course_id]);
     }

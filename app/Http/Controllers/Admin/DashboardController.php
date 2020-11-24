@@ -298,12 +298,12 @@ class DashboardController extends Controller
     }
 
     public function studentlist($id=null){
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
-        
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+
         $course = Course::find($id);
         $course_ids =$this->fetchEnrolledCourseIDs();
         $enrollments =(object) array();
@@ -321,7 +321,11 @@ class DashboardController extends Controller
             return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
         }
         // dd($course);
-        return view('admin.students.list')->with(compact('enrollments','course','request'));
+        return view('admin.students.list')
+        ->with(compact('enrollments',
+        'course',
+        'highlights',
+        'request_enrollments'));
     }
     public function studentlistRemove($course_id=null,$id=null){
         $course_ids =$this->fetchEnrolledCourseIDs();

@@ -52,8 +52,9 @@
                 <strong>{!! session('flash_message_success') !!}</strong>
             </div> 
         @endif
-        <a href="{{url('admin/students')}}"><button class="btn btn-primary">Go Back</button></a>
-        <br/><br>
+        <div class="btn-enroll">
+            <a href="{{url('admin/students')}}"><button style="padding:10px 15px;">Back to list</button></a>
+        </div><br>
         @if(count($my_courses) > 0)
             <div class="row student-search">
                 <form method="POST" action="{{url('admin/students/enroll')}}">{{ csrf_field() }}

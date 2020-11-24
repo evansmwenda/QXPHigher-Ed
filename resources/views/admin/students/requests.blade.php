@@ -51,7 +51,9 @@
        {!! session('flash_message_success') !!}
        </div>
        @endif
-       <a href="{{url('admin/students')}}"><button class="btn btn-primary">Go Back</button></a>
+       <div class="btn-enroll">
+            <a href="{{url('admin/students')}}"><button style="padding:10px 15px;">Back to list</button></a>
+        </div>
        <br/>
        <i>The following students have requested to join your courses as below</i>
        
