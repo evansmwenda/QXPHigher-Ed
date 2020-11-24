@@ -311,6 +311,11 @@ class HomeController extends Controller
                     return redirect()->route('home-user');
                     break;
             }
+        }else{
+            // dump("its null");
+            $url = url('/login');
+            // dd($url);
+            return redirect()->away($url);
         }
         
     }
@@ -322,7 +327,7 @@ class HomeController extends Controller
             $logged_in=true;
                 $status = User::where('email',\Auth::user()->email)->value('verified');
                 if($status == '0'){
-                    return redirect()->route('verify2');
+                    return redirect()->route('verify-user');
                 
             }
             //user verified->check if have active subscription

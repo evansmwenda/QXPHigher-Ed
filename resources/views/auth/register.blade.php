@@ -42,7 +42,7 @@
                         <strong style="color:white;">{!! session('flash_message_success') !!}</strong>
                     </div> 
                     @endif
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('register2') }}">
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('register-user') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <select id="role_id" class="form-control @error('role_id') is-invalid @enderror" 
@@ -55,7 +55,7 @@
 
                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 
-                            <input id="name" placeholder="Full Name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                            <input id="name" placeholder="Full Names" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                             @if ($errors->has('name'))
                                 <span class="help-block">
