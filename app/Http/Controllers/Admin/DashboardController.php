@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+// use Request;
 use App\Http\Controllers\Controller;
 use App\Events;
 use App\CourseUser;
@@ -62,67 +63,32 @@ class DashboardController extends Controller
         ->orderBy('course_id','DESC')
         ->paginate(6);
 
-        $this->getSummaryCount();
+        $highlights = $this->getSummaryCount();
+        // dump($highlights);
 
         $course_ids = CourseUser::where('user_id',\Auth::id())->pluck('course_id');
-        $count_courses = count($courses);
-
-        //fetch my events
-        $events = $this->fetchFutureEvents();
-        $count_events = count($events);
-      
-        //fetch my assignments
-        $assignments = Assignments::with('submitted_assignments')
-        ->whereIn('course_id',$course_ids)
-        ->orderBy('id','DESC')
-        ->get();
-
-        $submitted_assignments_array =[];
-        $assignment_ids="";
-        foreach ($assignments as $key => $value) {
-            $assignment_ids .= $value->id .",";
-
-            $submitted_assignments = SubmittedAssignments::with(['user'])
-            ->where(['assignment_id'=>$value->id])->get();
-
-            $submitted_assignments_array += [
-                $value->id => $submitted_assignments,
-            ];
-        }
-        // dd($submitted_assignments_array[1]);
-        $count_assignments = count($assignments);
 
         //get number of resources
-        $resources = $this->getResourcesList($course_ids);
+        // $resources = $this->getResourcesList($course_ids);
 
-        //fetch my exams
-        $exams = Test::with('course')
-        ->whereIn('course_id',$course_ids)
-        ->orderBy('id','DESC')
-        ->get();
-        $count_exams = count($exams);
-        // dd($exams);
 
-        //fetch things needing grading
-        //fetch resources for download
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
+        //fetch student enrollment requests
+        $request_enrollments =DB::table('request_enrollments')
+        ->select('request_enrollments.id',
+        'request_enrollments.status',
+        'courses.title',
+        'users.name',
+        'users.email')
+        ->where('teacher_id',\Auth::id())
         ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
+        ->join('courses','courses.id','=','request_enrollments.course_id')
+        ->orderBy('id','DESC')->get();
+        // dump($request_enrollments);
 
         return view('home')->with(compact(
             'courses',
-            'count_courses',
-            'events',
-            'count_events',
-            'assignments',
-            'count_assignments',
-            'submitted_assignments_array',
-            'exams',
-            'count_exams',
-            'resources',
-            'request'
+            'highlights',
+            'request_enrollments'
         ));
         
     }
@@ -1505,8 +1471,7 @@ class DashboardController extends Controller
 
         return view('admin.students.index')->with(compact('my_courses','count_arr','request'));
     }
-    public function enroll(Request $request){
-
+    public function enroll(Request $requests){
         //get my courses ids
         $course_ids = $this->fetchEnrolledCourseIDs();
         //fetch latest student enrollments in your course ids
@@ -1529,18 +1494,20 @@ class DashboardController extends Controller
         //get my courses
 
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
-        if($request->isMethod('post')){
+        // dd(Request::method() =='GET');
+        if($requests->isMethod('post')){
+        // if(Request::method() == 'POST'){
             // dd($request->all());
             //get user details from name
-            $user = User::where('name', $request->search)->first();
+            $user = User::where('name', $requests->search)->first();
             // dd($user);
             if($user){
                 //we have found a user
                 $user_id = $user->id;
-                $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
+                $total_lessons = Lesson::where(['course_id'=> $requests->course_id])->get();
                 // dd($total_lessons);
                 $newEnrolledCourse = [
-                    'course_id' => $request->course_id,
+                    'course_id' => $requests->course_id,
                     'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
                     'user_id' => $user_id,
                     'total_lessons' => $total_lessons->count()

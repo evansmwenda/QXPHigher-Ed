@@ -4,20 +4,20 @@
     </div>
     <div class="admin-news">
         <div class="admin-news-content">
-            <h2>{{ $my_summary_count['courses'] or 0}}</h2>
+            <h2>{{ $highlights['courses'] or 0}}</h2>
             <p>Courses</p>
             
         </div>
         <div class="admin-news-content">
-            <h2>{{ $my_summary_count['events'] or 0}}</h2>
+            <h2>{{ $highlights['events'] or 0}}</h2>
             <p>Events</p>
         </div>
         <div class="admin-news-content">
-            <h2>{{ $my_summary_count['exams'] or 0}}</h2>
+            <h2>{{ $highlights['exams'] or 0}}</h2>
             <p>Exams</p>
         </div>
         <div class="admin-news-content">
-            <h2>{{ $my_summary_count['assignments'] or 0}}</h2>
+            <h2>{{ $highlights['assignments'] or 0}}</h2>
             <p>Assignments</p>
         </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="admin-news" style="overflow-y:scroll">
         <table class="table tab-default table-bordered table-striped">
           <thead>
-            <tr>
+            <tr style="font-weight: 900">
               <td>#</td>
               <td>Student Name</td>
               <td>Requested Course</td>
@@ -36,10 +36,10 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($request as $key => $item)
+            @foreach ($request_enrollments as $key => $item)
                 
                 @if($item->status =='Pending')
-                <tr style="font-weight: 900">
+                <tr style="font-weight: 500">
                     <td>{{++$key}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{$item->title}}</td>
