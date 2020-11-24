@@ -30,14 +30,16 @@ class LessonsController extends Controller
         if ($request->input('course_id')) {
             $lessons = $lessons->where('course_id', $request->input('course_id'));
         }
+        
         if (request('show_deleted') == 1) {
             if (! Gate::allows('lesson_delete')) {
                 return abort(401);
             }
-            $lessons = $lessons->onlyTrashed()->get();
+            $lessons = $lessons->onlyTrashed()->ORDERBY('id','DESC')->get();
         } else {
-            $lessons = $lessons->get();
+            $lessons = $lessons->ORDERBY('id','DESC')->get();
         }
+        // dd($lessons);
         $my_summary_count= app('App\Http\Controllers\Admin\DashboardController')->getSummaryCount();
 // dd($lessons);
         return view('admin.lessons.index', compact('lessons','my_summary_count'));
