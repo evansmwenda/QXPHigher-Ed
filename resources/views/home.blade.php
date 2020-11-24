@@ -102,7 +102,6 @@
   </div>
   <div class="col-md-4">
       @include('admin.recents')
-
   </div>
 </div>
 @endsection

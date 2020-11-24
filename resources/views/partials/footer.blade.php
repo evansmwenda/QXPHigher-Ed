@@ -26,6 +26,8 @@
               <li> <span class="fa fa-angle-right"></span><a href="https://business.qxp-global.com"> QXP Business</a></li>
               <li> <span class="fa fa-angle-right"></span><a href="https://meetings.qxp-global.com"> QXP Meeting</a></li>
               <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/features"> Features</a></li>
+                  <li> <span class="fa fa-angle-right"></span><a href="/features"> Learning Management System</a></li>
+          
            </ul>
            </div>
            <!-- End Footer Widget -->
@@ -46,7 +48,7 @@
         </div>
         <div class="col-6 col-md-3" style="margin-top:10px">
            <div class="footer-widget">
-           <h3>QXP For</h3>
+           <h3>Industries</h3>
            <ul>
               <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/education">Education</a></li>
               <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/healthcare">Health Care</a></li>
@@ -67,7 +69,10 @@
               <li> <span class="fa fa-angle-right"></span><a href="#">Video Tutorials</a></li>
               <li> <span class="fa fa-angle-right"></span><a href="#">Support Centre</a></li>
               <li> <span class="fa fa-angle-right"></span><a href="#">Knowledge Base</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="#">Accessibility Resources</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#">Accessibility Resources</a>
+              </li>
+                  <li> <span class="fa fa-angle-right"></span><a href="/features"> Downloads</a></li>
+          
            </ul>
            </div>
            <!-- End Footer Widget -->

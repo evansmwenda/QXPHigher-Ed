@@ -2,7 +2,7 @@
 
 @section('main')
  <div class="qxp-higered text-center">
-    <img class="qxp-logo" src="{{asset('images/logo/bgAsset8.svg')}}" style="margin-top: 100px 0px" width="300" height="200">
+    <img class="qxp-logo" src="{{asset('images/logo/bgAsset-2-2.svg')}}" style="margin-top: 100px 0px" width="300" height="200">
  </div>
 
  <div class="tw-hero-slider owl-carousel">

@@ -117,9 +117,9 @@
         </table>
     </div>
 
-    {{-- <div class="col-md-4">
+    <div class="col-md-4">
         @include('admin.recents')
-    </div> --}}
+    </div>
   </div>
 
 

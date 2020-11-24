@@ -1520,7 +1520,14 @@ class DashboardController extends Controller
         ->get();
 
         // dd($enrollments);
+        $request =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
+        ->where('teacher_id',\Auth::user()->id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
+        
         //get my courses
+
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
         if($request->isMethod('post')){
             // dd($request->all());
@@ -1551,7 +1558,7 @@ class DashboardController extends Controller
             
         }
         // dd($my_courses);
-        return view('admin.students.enroll')->with(compact('my_courses','enrollments'));
+        return view('admin.students.enroll')->with(compact('my_courses','enrollments','request'));
     }
 
     public function autocomplete(Request $request){
@@ -1676,8 +1683,8 @@ class DashboardController extends Controller
         return view('admin.students.requests')->with('request',$requests);
     }
     public function getSubscription(){
-        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->first();
-
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->firstOrFail();
+        // dd($subscription);
         // Date('Y-m-d h:i:s', strtotime('+14 days')),       
         $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
         $expiry_on =$subscription->expiry_on;

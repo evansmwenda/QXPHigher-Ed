@@ -97,7 +97,7 @@
                 </div>
                 <div class="meeting-custom-login">
                     <div class="text-center">
-                        <img class="text-center" src="{{asset('images/logo/bgAsset8.svg')}}" width="100" height="100">
+                        <img class="text-center" src="{{asset('images/logo/bgAsset-2-2.svg')}}" width="100" height="100">
                     </div>
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
