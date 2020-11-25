@@ -39,7 +39,7 @@
                     <div style="float: right;margin-right: 30px;">
                       <button class="btn btn-primary whited"
                       onclick="window.parent.location = window.parent.location.href">Check Status</button>
-                    <a style="margin-left:15px;text-decoration:none;color:#fff;padding:5px 10px;" href="/" class="btn btn-primary whited" role="button" aria-pressed="true">Goto Homepage</a>
+                    <a style="margin-left:15px;text-decoration:none;color:#fff;padding:5px 10px;" href="/admin/home" class="btn btn-primary whited" role="button" aria-pressed="true">Goto Homepage</a>
                     </div><br/><br/><br/>
                   </div>
 

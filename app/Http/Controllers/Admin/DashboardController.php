@@ -66,6 +66,9 @@ class DashboardController extends Controller
 
         $highlights = $this->getSummaryCount();
 
+        //check for unused payments
+        $this->checkPaymentStatusDashboard();
+
         //get number of resources
         // $resources = $this->getResourcesList($course_ids);
 
@@ -79,6 +82,37 @@ class DashboardController extends Controller
             'request_enrollments'
         ));
         
+    }
+    public function checkPaymentStatusDashboard(){
+        //check on dashboard if user's payment was successful
+        $user = \Auth::user();
+        // dd($user);
+
+        $my_transaction = MyTransactions::where([
+            ['user_id','=',$user['id']],
+            ['is_used','=','0']
+        ])->latest()->first();
+        // dd($my_transaction);
+        if(!is_null($my_transaction)){
+            //logic here
+            $status = $this->checkStatusByMerchantRef($my_transaction->reference);
+            if($status == 'COMPLETED'){
+                //payment is successful
+                //1.update the status column 
+                $my_transaction->status = $status;
+                $my_transaction->save();
+                //2.award subscription
+                $this->buySubscription($user['id'],$status,$my_transaction->reference); 
+            }
+            // dd($status);
+        }
+        
+        // http://localhost:8000
+        // /user/payments/redirect?pesapal_transaction_tracking_id=23f64864-f610-4c39-b8cc-4a0417349a10&pesapal_merchant_reference=5f4e9cde85297
+
+        // https://skytoptechnologies.com
+        // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
+        // &pesapal_merchant_reference=5f2ad92d9dc87
     }
     public function getSummaryCount(){
         //courses
@@ -2070,37 +2104,5 @@ class DashboardController extends Controller
             //payment not successful
             //do not give user subscription
         }
-    }
-
-    public function checkPaymentStatusDashboard(){
-        //check on dashboard if user's payment was successful
-        $user = \Auth::user();
-        // dd($user);
-
-        $my_transaction = MyTransactions::where([
-            ['user_id','=',$user['id']],
-            ['is_used','=','0']
-        ])->latest()->first();
-        // dd($my_transaction);
-        if(!is_null($my_transaction)){
-            //logic here
-            $status = $this->checkStatusByMerchantRef($my_transaction->reference);
-            if($status == 'COMPLETED'){
-                //payment is successful
-                //1.update the status column 
-                $my_transaction->status = $status;
-                $my_transaction->save();
-                //2.award subscription
-                $this->buySubscription($user['id'],$status,$my_transaction->reference); 
-            }
-            // dd($status);
-        }
-        
-        // http://localhost:8000
-        // /user/payments/redirect?pesapal_transaction_tracking_id=23f64864-f610-4c39-b8cc-4a0417349a10&pesapal_merchant_reference=5f4e9cde85297
-
-        // https://skytoptechnologies.com
-        // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
-        // &pesapal_merchant_reference=5f2ad92d9dc87
     }
 }
