@@ -319,7 +319,7 @@ class HomeController extends Controller
         }
         
     }
-    public function landing(){
+    public function landing(Request $request){
         if(!\Auth::check()){
              $logged_in = false;
             return redirect('/welcome');
