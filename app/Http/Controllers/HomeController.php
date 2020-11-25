@@ -1245,7 +1245,7 @@ class HomeController extends Controller
         }
         
         $email =$user['email'];
-        $phonenumber ="";
+        $phonenumber =$user['phone'];
 
         $is_used="0";
         $status = 'PLACED';

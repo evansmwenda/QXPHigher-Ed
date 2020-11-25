@@ -1843,7 +1843,6 @@ class DashboardController extends Controller
             ));
     }
     public function getCallback(Request $request){
-        dump(function_exists('curl_version'));
         $user= \Auth::user();
         // $status='UNKNOWN';
         // dd($request->all());
@@ -1857,8 +1856,7 @@ class DashboardController extends Controller
           *getMoreDetails() - returns status, payment method, merchant reference and pesapal tracking id
         **/
         
-        $statusArray           = $this->checkStatusByMerchantRef($reference);
-        dd($statusArray);
+        // $statusArray           = $this->checkStatusByMerchantRef($reference);
         $responseArray    = $this->getTransactionDetails($reference,$tracking_id);
         // $status             = $this->checkStatusUsingTrackingIdandMerchantRef($reference,$tracking_id);
         // dd($responseArray);
@@ -1962,8 +1960,6 @@ class DashboardController extends Controller
         //Kenyan Merchant
         $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
         $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
-        dump($consumer_key);
-        dump($consumer_secret);
 
         $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
         $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
@@ -1974,17 +1970,15 @@ class DashboardController extends Controller
         else
             $api = 'https://www.pesapal.com'; 
             
-        $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
         // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
-        // $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
-
-        dump($QueryPaymentStatus);
+        $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
 
         $request_status = \OAuthRequest::from_consumer_and_token(
                                 $consumer, 
                                 $token, 
                                 "GET", 
-                                $QueryPaymentStatus,//$querypaymentdetails, 
+                                $querypaymentdetails,
                                 $params
                             );
         $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
@@ -1992,7 +1986,6 @@ class DashboardController extends Controller
         $request_status->sign_request($signature_method, $consumer, $token);
     
         $responseData = $this->curlRequest($request_status);
-        dump($token);
         
         $pesapalResponse = explode(",", $responseData);
         // dd($responseData);
@@ -2037,7 +2030,7 @@ class DashboardController extends Controller
         
         //transaction status
         $elements = preg_split("/=/",substr($response, $header_size));
-        $pesapal_response_data = $elements[0];
+        $pesapal_response_data = $elements[1];
         
         return $pesapal_response_data;
     }
