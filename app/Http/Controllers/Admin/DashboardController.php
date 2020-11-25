@@ -1238,6 +1238,9 @@ class DashboardController extends Controller
         $moderatorPW=$meeting['moderatorPW'];
         $owner=$meeting['owner'];
 
+        //user verified->check if have active subscription
+        $active=$this->checkMySubscriptionStatus();
+
         // dd($meeting);
         $user = \Auth::user();
 
@@ -1245,14 +1248,20 @@ class DashboardController extends Controller
         $salt = env("BBB_SALT", "0");
         //get BBB server
         $bbb_server = env("BBB_SERVER", "0");
+        $logout_url = env("BBB_LOGOUT_URL", "http://higher-ed.qxp-global.com/");
 
-        //2.get the checksum(to be computer) and store it in column
-        
-            //name=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
-            //(a)==> prepend the action to the entire query
-        $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW";
+        //check active subscription and set time for meeting
+        if($active){
+            //no timeout set
+            $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&logoutURL=$logout_url";
+        }else{
+            //timer set to 45 mins
+            $timer = 45;
+            $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&duration=$timer&logoutURL=$logout_url";
+        }
 
         $newCreateString="create".$create_string;
+
                 // createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444
         //createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
 
@@ -1460,7 +1469,7 @@ class DashboardController extends Controller
                 $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&logoutURL=$logout_url";
             }else{
                 //timer set to 45 mins
-                $timer = 5;
+                $timer = 45;
                 $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&duration=$timer&logoutURL=$logout_url";
             }
             
