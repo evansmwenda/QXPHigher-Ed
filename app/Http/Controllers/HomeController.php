@@ -1245,7 +1245,7 @@ class HomeController extends Controller
         }
         
         $email =$user['email'];
-        $phonenumber =$user['phone'];
+        $phonenumber ="";
 
         $is_used="0";
         $status = 'PLACED';
@@ -1310,7 +1310,6 @@ class HomeController extends Controller
             ));
     }
     public function getCallback(Request $request){
-        dump(function_exists('curl_version'));
         //get package status
         $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
         // Date('Y-m-d h:i:s', strtotime('+14 days')),       
@@ -1472,7 +1471,6 @@ class HomeController extends Controller
         $request_status->sign_request($signature_method, $consumer, $token);
     
         $responseData = $this->curlRequest($request_status);
-        dd($responseData);
         
         $pesapalResponse = explode(",", $responseData);
         $pesapalResponseArray=array('pesapal_transaction_tracking_id'=>$pesapalResponse[0],
@@ -1490,8 +1488,7 @@ class HomeController extends Controller
         return $pesapalResponseArray;
     }
 
-    public function curlRequest($request_status){
-        
+    public function curlRequest($request_status){        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $request_status);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -1515,8 +1512,8 @@ class HomeController extends Controller
         
         //transaction status
         $elements = preg_split("/=/",substr($response, $header_size));
-        $pesapal_response_data = $elements[0];//when offline
-        // $pesapal_response_data = $elements[1];//when online
+        // $pesapal_response_data = $elements[1];
+        $pesapal_response_data = $elements[1];//when offline
         
         return $pesapal_response_data;
     }
