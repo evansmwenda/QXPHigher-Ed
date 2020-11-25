@@ -126,6 +126,9 @@ class DashboardController extends Controller
         return $request_enrollments;
     }
     public function students(){
+        //user verified->check if have active subscription
+        $active=$this->checkMySubscriptionStatus();
+
         // enroll-details
         $request_enrollments = $this->getRequestEnrollments();
 
@@ -145,8 +148,32 @@ class DashboardController extends Controller
         ->with(compact('my_courses',
         'count_arr',
         'request_enrollments',
-        'highlights'
+        'highlights',
+        'active'
         ));
+    }
+    public function checkMySubscriptionStatus(){
+        //get package status
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
+        // dd($subscription);
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription[0]->expiry_on;
+        if($expiry_on > $date_now){
+            //subscription valid for either trial period or a specific plan
+            if($subscription[0]->package_id == '0'){
+                //user is on free trial
+                $active = false;//user is on free trial
+            }else{
+                //user has a valid paid plan
+                $active = true;//subscription is active
+            }
+           
+        }else{
+            //even if its free version(0) , it has expired
+            $active = false;//expired or is on free trial
+        }
+        return $active;
     }
     public function requestDetails(Request $request){
         $student_request =DB::table('request_enrollments')
@@ -1372,6 +1399,9 @@ class DashboardController extends Controller
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
 
         if($request->isMethod('post')){
+            //user verified->check if have active subscription
+            $active=$this->checkMySubscriptionStatus();
+
             $data=$request->all();
             // dd($data);
             //post method
@@ -1413,33 +1443,30 @@ class DashboardController extends Controller
             // dd($event_start_end);
 
             $meetingID=str_random(6);
+            $classTime=$request->classTime;
             $attendeePW=str_random(6);//"ap";//$request->attendeePW;
             $moderatorPW=str_random(6);//"mp";//$request->moderatorPW;
-
+            $duration='30';
 
             //get the secure salt
             $salt = env("BBB_SALT", "0");
             //get BBB server
             $bbb_server = env("BBB_SERVER", "0");
+            $logout_url = env("BBB_LOGOUT_URL", "http://higher-ed.qxp-global.com/");
 
-            //2.get the checksum(to be computer) and store it in column
+            //check active subscription and set time for meeting
+            if($active){
+                //no timeout set
+                $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&logoutURL=$logout_url";
+            }else{
+                //timer set to 45 mins
+                $timer = 5;
+                $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&duration=$timer&logoutURL=$logout_url";
+            }
             
-                //name=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
-                //(a)==> prepend the action to the entire query
-            $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW";
-
             $newCreateString="create".$create_string;
-                    // createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444
-            //createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
 
-                //(b)==> append the secret salt to end of the new query string with the action
-                    //secret salt: 639259d4-9dd8-4b25-bf01-95f9567eaf4b
-                    // $newString = createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444639259d4-9dd8-4b25-bf01-95f9567eaf4b
-            //$newString = "createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW".$salt;
-                //(c)==> get the sha1 of the new string and save it as checksum
             $checksumCreate=sha1($newCreateString.$salt);
-            // echo $newCreateString;
-            // echo "<br/>".$checksumCreate;
 
 
             $createURL = $create_string."&checksum=".$checksumCreate;
@@ -1488,6 +1515,7 @@ class DashboardController extends Controller
                 'moderatorPW'=>$moderatorPW,//moderator password
                 'owner'=>$user->id
                 ];
+                // dd($newLiveClass);
 
 
                 $classRecord = [

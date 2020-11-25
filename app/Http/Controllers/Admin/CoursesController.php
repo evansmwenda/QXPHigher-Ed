@@ -34,10 +34,12 @@ class CoursesController extends Controller
         } else {
             $courses = Course::ofTeacher()->get();
         }
+        $active = true;
         $my_summary_count= app('App\Http\Controllers\Admin\DashboardController')->getSummaryCount();
         // dd($my_summary_count);
-
-        return view('admin.courses.index', compact('courses','my_summary_count'));
+        $active = app('App\Http\Controllers\Admin\DashboardController')->checkMySubscriptionStatus();
+        // dd($active);
+        return view('admin.courses.index', compact('courses','my_summary_count','active'));
     }
 
     /**
