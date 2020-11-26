@@ -36,27 +36,35 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($request_enrollments as $key => $item)
-                
-                @if($item->status =='Pending')
-                <tr style="font-weight: 500">
-                    <td>{{++$key}}</td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->title}}</td>
-                    <td>
-                        <form action="{{ url('admin/students/requests/details',$item->id) }}" method="post">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" value="{{$item->id}}" name="request_id">          
-                            <button style="background: #079DFF;color:#fff; border-radius:10px; border:1px solid transparent; font-size:10px" type="submit">View</button>
-                        </form>
-                    </td>
-                </tr>
+              @if(count($request_enrollments) > 0)
+                @foreach ($request_enrollments as $key => $item)
+                    @if($item->status =='Pending')
+                    <tr style="font-weight: 500">
+                        <td>{{++$key}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{$item->title}}</td>
+                        <td>
+                            <form action="{{ url('admin/students/requests/details',$item->id) }}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" value="{{$item->id}}" name="request_id">          
+                                <button style="background: #079DFF;color:#fff; border-radius:10px; border:1px solid transparent; font-size:10px" type="submit">View</button>
+                            </form>
+                        </td>
+                    </tr>
 
-                @endif
+                    @endif
             @endforeach
             <tr>
-            <td colspan="5" style="text-align: center;color:#060646;"><a href="{{url('admin/students/requests')}}">All Requests</a> </td>
+                <td colspan="5" style="text-align: center;color:#060646;"><a href="{{url('admin/students/requests')}}">All Requests</a> </td>
             </tr>
+              @else 
+                <tr>
+                    <td colspan="5" style="text-align: center;color:#060646;">
+                        No students have requested for enrollment
+                    </td>
+                </tr>
+              @endif
+            
           </tbody>
         </table>
     </div>

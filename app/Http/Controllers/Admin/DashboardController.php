@@ -75,6 +75,7 @@ class DashboardController extends Controller
 
         //fetch student enrollment requests
         $request_enrollments = $this->getRequestEnrollments();
+        // dd($request_enrollments);
 
         return view('home')->with(compact(
             'courses',
@@ -153,6 +154,7 @@ class DashboardController extends Controller
         'users.name',
         'users.email')
         ->where('teacher_id',\Auth::id())
+        ->where('status','Pending')
         ->join('users','users.id','=','request_enrollments.student_id')
         ->join('courses','courses.id','=','request_enrollments.course_id')
         ->orderBy('id','DESC')->get();
