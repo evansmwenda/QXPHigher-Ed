@@ -66,12 +66,12 @@
 
       <div class="row teacher-courses-dashboard">
         <h3>My Registered Courses</h3>
-        @foreach($courses as $course)
+        @foreach($courses as $key=>$course)
         <div class="col-sm-12 col-lg-3 col-md-3" style="margin-bottom: 20px;">
-            <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><div class="coarse-list"></div></a>
-            <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
+            <a href="{{url('admin/courses/'.$course->course_id.'/edit')}}"><div class="coarse-list"></div></a>
+            <a href="{{url('admin/courses/'.$course->course_id.'/edit')}}"><p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
             @for ($star = 1; $star <= 5; $star++)
-            @if ($course->rating >= $star)
+            @if ($course->course->rating >= $star)
                 <span class="glyphicon glyphicon-star" style="font-size: 10px;"></span>
             @else
                 <span class="glyphicon glyphicon-star-empty" style="font-size: 10px;"></span>
@@ -79,11 +79,11 @@
             @endfor
 
                 <div class="row ">
-                    <a href="{{url('admin/lessons?course_id='.$course->id)}}">
+                    <a href="{{url('admin/lessons?course_id='.$course->course_id)}}">
                         <button class="coarse-button" style="height:30px;">LESSONS <i class="fa fa-web"></i></button>
                     </a>
                     
-                    <a href="{{url('admin/courses/'.$course->id.'/edit')}}">
+                    <a href="{{url('admin/courses/'.$course->course_id.'/edit')}}">
                         <button class="coarse-button-2" style="height: 30px;">EDIT 
                             <i class="fa fa-arrow-right"></i>
                         </button>

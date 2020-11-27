@@ -51,7 +51,10 @@
        {!! session('flash_message_success') !!}
        </div>
        @endif
-       <br>
+       <div class="btn-enroll">
+            <a href="{{url('admin/students')}}"><button style="padding:10px 15px;">Back to list</button></a>
+        </div>
+       <br/>
        <i>The following students have requested to join your courses as below</i>
        
     <table class="table table-striped table-bordered table-stripped">
@@ -65,8 +68,8 @@
             </tr>
         </thead>
         <tbody>
-            @if(count($request)>0)
-                @foreach ($request as $key => $request)
+            @if(count($request_enrollments)>0)
+                @foreach ($request_enrollments as $key => $request)
                     <tr
                     <?php
                         if($request->status =='Pending'){
@@ -85,7 +88,7 @@
                         <td>{{$request->email}}</td>
                         <td>{{$request->title}}</td>
                         <td>
-                            <form action="{{ url('admin/request_details',$request->id) }}" method="post">
+                            <form action="{{ url('admin/students/requests/details',$request->id) }}" method="post">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" value="{{$request->id}}" name="request_id">          
                                 <button style="background: #079DFF;font-size:13px" type="submit">View Request</button>

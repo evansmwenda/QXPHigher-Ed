@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+// use Request;
 use App\Http\Controllers\Controller;
 use App\Events;
 use App\CourseUser;
@@ -29,12 +30,13 @@ use App\Package;
 use App\Media;
 use DB;
 use Session;
-use GuzzleHttp\Client;
-use GuzzleHttp\Ring\Exception\ConnectException;
-use App\library\OAuth;
+// use GuzzleHttp\Client;
+// use GuzzleHttp\Ring\Exception\ConnectException;
+
 use App\Events\PaymentSuccessfulEvent;
 use App\Mail\MeetingEmail;
 use App\Mail\RegisterMail;
+use App\library\OAuth;
 
 class DashboardController extends Controller
 {
@@ -60,68 +62,21 @@ class DashboardController extends Controller
         ->where('user_id',\Auth::id())
         ->orderBy('course_id','DESC')
         ->paginate(6);
+        // dd($courses[0]);
 
-        $this->getSummaryCount();
-
-        $course_ids = CourseUser::where('user_id',\Auth::id())->pluck('course_id');
-        $count_courses = count($courses);
-
-        //fetch my events
-        $events = $this->fetchFutureEvents();
-        $count_events = count($events);
-      
-        //fetch my assignments
-        $assignments = Assignments::with('submitted_assignments')
-        ->whereIn('course_id',$course_ids)
-        ->orderBy('id','DESC')
-        ->get();
-
-        $submitted_assignments_array =[];
-        $assignment_ids="";
-        foreach ($assignments as $key => $value) {
-            $assignment_ids .= $value->id .",";
-
-            $submitted_assignments = SubmittedAssignments::with(['user'])
-            ->where(['assignment_id'=>$value->id])->get();
-
-            $submitted_assignments_array += [
-                $value->id => $submitted_assignments,
-            ];
-        }
-        // dd($submitted_assignments_array[1]);
-        $count_assignments = count($assignments);
+        $highlights = $this->getSummaryCount();
 
         //get number of resources
-        $resources = $this->getResourcesList($course_ids);
+        // $resources = $this->getResourcesList($course_ids);
 
-        //fetch my exams
-        $exams = Test::with('course')
-        ->whereIn('course_id',$course_ids)
-        ->orderBy('id','DESC')
-        ->get();
-        $count_exams = count($exams);
-        // dd($exams);
 
-        //fetch things needing grading
-        //fetch resources for download
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
+        //fetch student enrollment requests
+        $request_enrollments = $this->getRequestEnrollments();
 
         return view('home')->with(compact(
             'courses',
-            'count_courses',
-            'events',
-            'count_events',
-            'assignments',
-            'count_assignments',
-            'submitted_assignments_array',
-            'exams',
-            'count_exams',
-            'resources',
-            'request'
+            'highlights',
+            'request_enrollments'
         ));
         
     }
@@ -156,6 +111,234 @@ class DashboardController extends Controller
         );
         return $my_summary_count;
     }
+    public function getRequestEnrollments(){
+        $request_enrollments =DB::table('request_enrollments')
+        ->select('request_enrollments.id',
+        'request_enrollments.status',
+        'courses.title',
+        'users.name',
+        'users.email')
+        ->where('teacher_id',\Auth::id())
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')
+        ->orderBy('id','DESC')->get();
+
+        return $request_enrollments;
+    }
+    public function students(){
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+
+        $count_arr = array();
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        foreach($my_courses as $course){
+            //get count of students enrolled to that course
+            $students = EnrolledCourses::where('course_id',$course->course->id)->get();
+            $count = $students->count();
+            array_push($count_arr,$count);
+        }
+
+        return view('admin.students.index')
+        ->with(compact('my_courses',
+        'count_arr',
+        'request_enrollments',
+        'highlights'
+        ));
+    }
+    public function requestDetails(Request $request){
+        $student_request =DB::table('request_enrollments')
+        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email','users.phone','request_enrollments.student_id','request_enrollments.course_id')
+        ->where('request_enrollments.id',$request->request_id)
+        ->join('users','users.id','=','request_enrollments.student_id')
+        ->join('courses','courses.id','=','request_enrollments.course_id')->get();
+        // dump( $student_request);
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+
+        //request of enrollment of other students
+        $request_enrollments = $this->getRequestEnrollments();
+
+        return view('admin.students.request_details')
+        ->with(compact('request_enrollments',
+        'student_request',
+        'highlights'));
+    }
+    public function acceptRequest(Request $request){
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+        if($request->isMethod('post')){
+            // dd($request->all());
+                //we have found a user
+                $user_id = $request->user_id;
+                $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
+                // dd($total_lessons);
+                $newEnrolledCourse = [
+                    'course_id' => $request->course_id,
+                    'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
+                    'user_id' => $user_id,
+                    'total_lessons' => $total_lessons->count()
+                ];
+                // dd($newEnrolledCourse);
+
+                $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
+                
+                if($newEnrolledCourse){
+                    //update the enrollment table status
+                    RequestEnrollment::where ('id',$request->enroll_id)
+                   ->update(array('status' => 'Accepted','read'=>'0'));
+                    Session::flash('flash_message_success','You have successfully accepted the user request and has been enrolled to the course successfully');
+                    return view('admin.students.requests')->with(compact('request_enrollments','highlights'));
+                  }else{
+                    Session::flash('flash_message_error','An error occurred, please try again later');
+                    return view('admin.students.requests')->with(compact('request_enrollments','highlights'));
+                }
+            
+        }
+        return view('admin.students.requests')->with(compact('request_enrollments','highlights'));
+    }
+    public function rejectRequest(Request $request)
+    {
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+
+        //update the enrollment table status
+        RequestEnrollment::where ('id',$request->enroll_id)
+        ->update(array('status' => 'Rejected','read'=>'0'));
+        Session::flash('flash_message_success','You have successfully rejected the user request');
+        return view('admin.students.requests')->with(compact('request_enrollments','highlights'));
+    }
+    public function requests(){
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+        return view('admin.students.requests')->with(compact('request_enrollments','highlights'));
+    }
+
+    public function enroll(Request $request){
+        //get my courses ids
+        $course_ids = $this->fetchEnrolledCourseIDs();
+        //fetch latest student enrollments in your course ids
+        $enrollments = DB::table('enrolled_courses')
+        ->select('enrolled_courses.id as id','enrolled_courses.course_id as course_id','courses.title as course_title',
+        'users.name as user_name','users.email as user_email')
+        ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
+        ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
+        ->whereIn('course_id',$course_ids)
+        ->orderBy('enrolled_courses.id','DESC')
+        ->get();
+
+        // dd($enrollments);
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+        
+        //get my courses
+
+        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
+        // dd(Request::method() =='GET');
+        if($request->isMethod('post')){
+        // if(Request::method() == 'POST'){
+            // dd($request->all());
+            //get user details from name
+            $user = User::where('name', $request->search)->first();
+            // dd($user);
+            if($user){
+                //we have found a user
+                $user_id = $user->id;
+                $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
+                // dd($total_lessons);
+                $newEnrolledCourse = [
+                    'course_id' => $request->course_id,
+                    'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
+                    'user_id' => $user_id,
+                    'total_lessons' => $total_lessons->count()
+                ];
+                // dd($newEnrolledCourse);
+
+                $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
+                if($newEnrolledCourse){
+                    //course enrolled
+                    return redirect()->back()->with('flash_message_success','User enrolled to course successfully');
+                }
+            }else{
+                return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
+            }
+            
+        }
+        // dd($my_courses);
+        return view('admin.students.enroll')
+        ->with(compact('my_courses',
+        'enrollments',
+        'highlights',
+        'request_enrollments'));
+    }
+
+    public function autocomplete(Request $request){
+        //   $search = $request->get('term');
+          $result = User::where('name', 'LIKE', '%'. $request->terms. '%')->get();
+        //   $response = array();
+        //   foreach($result as $user){
+        //      $response[] = array("value"=>$user->id,"label"=>$user->name);
+        //   }
+          return response()->json($result);    
+    }
+
+    public function studentlist($id=null){
+        // enroll-details
+        $request_enrollments = $this->getRequestEnrollments();
+
+        //highlights
+        $highlights = $this->getSummaryCount();
+
+        $course = Course::find($id);
+        $course_ids =$this->fetchEnrolledCourseIDs();
+        $enrollments =(object) array();
+        if(in_array($id,$course_ids)){
+            //user owns the course
+            $enrollments = DB::table('enrolled_courses')
+            ->select('enrolled_courses.id as id','enrolled_courses.course_id as course_id','courses.title as course_title',
+            'users.name as user_name','users.email as user_email')
+            ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
+            ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
+            ->where('course_id',$id)
+            ->orderBy('enrolled_courses.id','DESC')
+            ->get();
+        }else{
+            return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
+        }
+        // dd($course);
+        return view('admin.students.list')
+        ->with(compact('enrollments',
+        'course',
+        'highlights',
+        'request_enrollments'));
+    }
+    public function studentlistRemove($course_id=null,$id=null){
+        $course_ids =$this->fetchEnrolledCourseIDs();
+        $enrollments =(object) array();
+        if(in_array($course_id,$course_ids)){
+            $course = EnrolledCourses::where('id', $id)->delete();
+            return redirect()->back()->with('flash_message_error', "User removed from list");
+        }else{
+            return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
+        }
+        
+    }
+
     public function getAssignmentsb(Request $request){
         $course_ids = $this->fetchEnrolledCourseIDs();
         $my_assignments = Assignments::with(['course'])->whereIn('course_id',$course_ids)->get();
@@ -1484,204 +1667,7 @@ class DashboardController extends Controller
                     ->get();//has events data for the current month
         return $monthly;            
     }
-    public function students(){
-        // enroll-details
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
-// dd(  $request);
-        //get my courses
 
-        $count_arr = array();
-        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
-        foreach($my_courses as $course){
-            $students = EnrolledCourses::where('course_id',$course->course->id)->get();
-            $count = $students->count();
-            array_push($count_arr,$count);
-        }
-        // dd($count_arr);
-
-        return view('admin.students.index')->with(compact('my_courses','count_arr','request'));
-    }
-    public function enroll(Request $request){
-
-        //get my courses ids
-        $course_ids = $this->fetchEnrolledCourseIDs();
-        //fetch latest student enrollments in your course ids
-        $enrollments = DB::table('enrolled_courses')
-        ->select('enrolled_courses.id as id','enrolled_courses.course_id as course_id','courses.title as course_title',
-        'users.name as user_name','users.email as user_email')
-        ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
-        ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
-        ->whereIn('course_id',$course_ids)
-        ->orderBy('enrolled_courses.id','DESC')
-        ->get();
-
-        // dd($enrollments);
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
-        
-        //get my courses
-
-        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
-        if($request->isMethod('post')){
-            // dd($request->all());
-            //get user details from name
-            $user = User::where('name', $request->search)->first();
-            // dd($user);
-            if($user){
-                //we have found a user
-                $user_id = $user->id;
-                $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
-                // dd($total_lessons);
-                $newEnrolledCourse = [
-                    'course_id' => $request->course_id,
-                    'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
-                    'user_id' => $user_id,
-                    'total_lessons' => $total_lessons->count()
-                ];
-                // dd($newEnrolledCourse);
-
-                $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
-                if($newEnrolledCourse){
-                    //course enrolled
-                    return redirect()->back()->with('flash_message_success','User enrolled to course successfully');
-                }
-            }else{
-                return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
-            }
-            
-        }
-        // dd($my_courses);
-        return view('admin.students.enroll')->with(compact('my_courses','enrollments','request'));
-    }
-
-    public function autocomplete(Request $request){
-        //   $search = $request->get('term');
-          $result = User::where('name', 'LIKE', '%'. $request->terms. '%')->get();
-        //   $response = array();
-        //   foreach($result as $user){
-        //      $response[] = array("value"=>$user->id,"label"=>$user->name);
-        //   }
-          return response()->json($result);    
-    }
-
-    public function studentlist($id=null){
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
-        
-        $course = Course::find($id);
-        $course_ids =$this->fetchEnrolledCourseIDs();
-        $enrollments =(object) array();
-        if(in_array($id,$course_ids)){
-            //user owns the course
-            $enrollments = DB::table('enrolled_courses')
-            ->select('enrolled_courses.id as id','enrolled_courses.course_id as course_id','courses.title as course_title',
-            'users.name as user_name','users.email as user_email')
-            ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
-            ->join('users', 'users.id', '=', 'enrolled_courses.user_id')
-            ->where('course_id',$id)
-            ->orderBy('enrolled_courses.id','DESC')
-            ->get();
-        }else{
-            return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
-        }
-        // dd($course);
-        return view('admin.students.list')->with(compact('enrollments','course','request'));
-    }
-    public function studentlistRemove($course_id=null,$id=null){
-        $course_ids =$this->fetchEnrolledCourseIDs();
-        $enrollments =(object) array();
-        if(in_array($course_id,$course_ids)){
-            $course = EnrolledCourses::where('id', $id)->delete();
-            return redirect()->back()->with('flash_message_error', "User removed from list");
-        }else{
-            return redirect()->back()->with('flash_message_error', "An error occurred, please try again");
-        }
-        
-    }
-    public function requests(){
-        //get requests that belongs to the logged in user
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->orderBy('status','DESC')->get();
-        //  dd($request);
-        return view('admin.students.requests')->with('request',$request);
-    }
-    public function requestDetails(Request $req){
-        $request =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email','users.phone','request_enrollments.student_id','request_enrollments.course_id')
-        ->where('request_enrollments.id',$req->request_id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->get();
-        // dd( $requests);
-        return view('admin.students.request_details')->with('request',$request);
-    }
-    public function acceptRequest(Request $request){
-        $requests =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->get();
-
-        $course_ids = $this->fetchEnrolledCourseIDs();
-
-        //get my courses
-        $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
-        if($request->isMethod('post')){
-            // dd($request->all());
-                //we have found a user
-                $user_id = $request->user_id;
-                $total_lessons = Lesson::where(['course_id'=> $request->course_id])->get();
-                // dd($total_lessons);
-                $newEnrolledCourse = [
-                    'course_id' => $request->course_id,
-                    'lesson_id' => empty($total_lessons[0]->id) ? '0':$total_lessons[0]->id,
-                    'user_id' => $user_id,
-                    'total_lessons' => $total_lessons->count()
-                ];
-                // dd($newEnrolledCourse);
-
-                $newEnrolledCourse = EnrolledCourses::updateOrCreate($newEnrolledCourse);
-                
-                if($newEnrolledCourse){
-                    //update the enrollment table status
-                    RequestEnrollment::where ('id',$request->enroll_id)
-                   ->update(array('status' => 'Accepted','read'=>'0'));
-                    Session::flash('flash_message_success','You have successfully accepted the user request and has been enrolled to the course successfully');
-                    return view('admin.students.requests')->with('request',$requests);
-                  }else{
-                    Session::flash('flash_message_error','An error occurred, please try again later');
-                    return view('admin.students.requests')->with('request',$requests);
-                }
-            
-        }
-        return view('admin.students.requests')->with('request',$requests);
-    }
-    public function rejectRequest(Request $request)
-    {
-        $requests =DB::table('request_enrollments')
-        ->select('request_enrollments.id','request_enrollments.status','courses.title','users.name','users.email')
-        ->where('teacher_id',\Auth::user()->id)
-        ->join('users','users.id','=','request_enrollments.student_id')
-        ->join('courses','courses.id','=','request_enrollments.course_id')->get();
-
-        //update the enrollment table status
-        RequestEnrollment::where ('id',$request->enroll_id)
-        ->update(array('status' => 'Rejected','read'=>'0'));
-        Session::flash('flash_message_success','You have successfully rejected the user request');
-        return view('admin.students.requests')->with('request',$requests);
-    }
     public function getSubscription(){
         $subscription = Subscription::with('package')->where('user_id',\Auth::id())->firstOrFail();
         // dd($subscription);
@@ -1820,6 +1806,7 @@ class DashboardController extends Controller
             ));
     }
     public function getCallback(Request $request){
+        dump(function_exists('curl_version'));
         $user= \Auth::user();
         // $status='UNKNOWN';
         // dd($request->all());
@@ -1833,7 +1820,8 @@ class DashboardController extends Controller
           *getMoreDetails() - returns status, payment method, merchant reference and pesapal tracking id
         **/
         
-        //$status           = $this->checkStatusByMerchantRef($reference);
+        $statusArray           = $this->checkStatusByMerchantRef($reference);
+        dd($statusArray);
         $responseArray    = $this->getTransactionDetails($reference,$tracking_id);
         // $status             = $this->checkStatusUsingTrackingIdandMerchantRef($reference,$tracking_id);
         // dd($responseArray);
@@ -1937,6 +1925,8 @@ class DashboardController extends Controller
         //Kenyan Merchant
         $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
         $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
+        dump($consumer_key);
+        dump($consumer_secret);
 
         $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
         $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
@@ -1947,15 +1937,17 @@ class DashboardController extends Controller
         else
             $api = 'https://www.pesapal.com'; 
             
-        // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
         // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
-        $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
+        // $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
+
+        dump($QueryPaymentStatus);
 
         $request_status = \OAuthRequest::from_consumer_and_token(
                                 $consumer, 
                                 $token, 
                                 "GET", 
-                                $querypaymentdetails,//$querypaymentdetails, 
+                                $QueryPaymentStatus,//$querypaymentdetails, 
                                 $params
                             );
         $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
@@ -1963,9 +1955,10 @@ class DashboardController extends Controller
         $request_status->sign_request($signature_method, $consumer, $token);
     
         $responseData = $this->curlRequest($request_status);
+        dump($token);
         
         $pesapalResponse = explode(",", $responseData);
-        dd($responseData);
+        // dd($responseData);
 
         $pesapalResponseArray=array('pesapal_transaction_tracking_id'=>$pesapalResponse[0],
                    'payment_method'=>$pesapalResponse[1],

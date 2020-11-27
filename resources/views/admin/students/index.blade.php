@@ -103,7 +103,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($request as $key=>$item)
+                    @foreach ($request_enrollments as $key=>$item)
                     <tr>
                     <td>{{++$key}}</td>
                         <td>{{$item->name}}</td>

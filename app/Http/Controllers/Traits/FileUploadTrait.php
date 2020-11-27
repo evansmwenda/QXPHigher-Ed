@@ -47,8 +47,14 @@ trait FileUploadTrait
                     $image->save(public_path('uploads') . '/' . $filename);
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 } else {
-                    $filename = time() . '-' . $request->file($key)->getClientOriginalName();
-                    $request->file($key)->move(public_path('uploads'), $filename);
+                    //check this for future errors
+                    // dump($request->file($key)[0]);
+                    // dd($request->file($key)[$key]->getClientOriginalName());
+                    $filename = time() . '-' . $request->file($key)[0]->getClientOriginalName();
+                    // dump($filename);
+                    
+                    //here too
+                    $request->file($key)[0]->move(public_path('uploads'), $filename);
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 }
             }

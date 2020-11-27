@@ -311,6 +311,11 @@ class HomeController extends Controller
                     return redirect()->route('home-user');
                     break;
             }
+        }else{
+            // dump("its null");
+            $url = url('/login');
+            // dd($url);
+            return redirect()->away($url);
         }
         
     }
@@ -322,7 +327,7 @@ class HomeController extends Controller
             $logged_in=true;
                 $status = User::where('email',\Auth::user()->email)->value('verified');
                 if($status == '0'){
-                    return redirect()->route('verify2');
+                    return redirect()->route('verify-user');
                 
             }
             //user verified->check if have active subscription
@@ -1305,6 +1310,7 @@ class HomeController extends Controller
             ));
     }
     public function getCallback(Request $request){
+        dump(function_exists('curl_version'));
         //get package status
         $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
         // Date('Y-m-d h:i:s', strtotime('+14 days')),       
@@ -1466,7 +1472,7 @@ class HomeController extends Controller
         $request_status->sign_request($signature_method, $consumer, $token);
     
         $responseData = $this->curlRequest($request_status);
-        // dd($responseData);
+        dd($responseData);
         
         $pesapalResponse = explode(",", $responseData);
         $pesapalResponseArray=array('pesapal_transaction_tracking_id'=>$pesapalResponse[0],
