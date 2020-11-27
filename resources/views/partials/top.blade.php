@@ -36,6 +36,4 @@
 <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400&display=swap" rel="stylesheet">
 
 {{-- Favicon Links --}}
-<link rel="icon" href="http://qxp.blackbirddigilab.com/wp-content/uploads/2020/09/Asset-1@2x.png" sizes="32x32">
-<link rel="icon" href="http://qxp.blackbirddigilab.com/wp-content/uploads/2020/09/Asset-1@2x.png" sizes="192x192">
-<link rel="apple-touch-icon" href="http://qxp.blackbirddigilab.com/wp-content/uploads/2020/09/Asset-1@2x.png">
+<link rel="icon" href="{{ asset('images/icons/Asset-1@2x.png') }}" sizes="32x32">

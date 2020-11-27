@@ -8,7 +8,7 @@
         <div class="col-md-4 my-footer">
            <div class="row">
                  <button class="btn btn-primary" onclick="location.href='https://qxp-global.com/register'">SIGN UP ITS FREE</button>
-                 <button class="btn btn-warning" onclick="location.href='https://qxp-global.com/pricing'" style="margin-left: 6px;">SEE PRICING</button>
+                 <button class="btn btn-warning" onclick="location.href='https://qxp-global.com/pricing'"  style="margin-left: 6px;">SEE PRICING</button>
            </div>
         </div>
      </div>
@@ -21,12 +21,12 @@
            <div class="footer-widget">
            <h3>Products</h3>
            <ul>
-              <li> <span class="fa fa-angle-right"></span><a href="https://academy.qxp-global.com"> QXP Academy</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://higher-ed.qxp-global.com" target="new"> QXP Higher Ed</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://business.qxp-global.com"> QXP Business</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://meetings.qxp-global.com"> QXP Meeting</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/features"> Features</a></li>
-                  <li> <span class="fa fa-angle-right"></span><a href="/features"> Learning Management System</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#"> QXP Academy</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#" target="new"> QXP Higher Ed</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#"> QXP Business</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#"> QXP Meeting</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#"> Features</a></li>
+                  <li> <span class="fa fa-angle-right"></span><a href="#"> Learning Management System</a></li>
           
            </ul>
            </div>
@@ -36,12 +36,12 @@
            <div class="footer-widget">
            <h3>Company</h3>
            <ul>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/about"> Who We Are</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/leadership">Leadership</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="#"> Case Studies</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="#"> News Media</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="#"> Careers</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="#"> Contact</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/about" target="new">Who We Are</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/leadership" target="new">Leadership</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#">Case Studies</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#">News Media</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/career" target="new">Careers</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="#">Contact</a></li>
            </ul>
            </div>
            <!-- End Footer Widget -->
@@ -50,13 +50,13 @@
            <div class="footer-widget">
            <h3>Industries</h3>
            <ul>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/education">Education</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/healthcare">Health Care</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/organizations">Government</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/financial">Financial Institutions</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/startups">Start Ups</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/sports">Sports & Entertainment</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/manufacturing">Manufacturing</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/education" target="new">Education</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/healthcare" target="new">Health Care</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/organizations" target="new">Government</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/financial" target="new">Financial Institutions</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/startups" target="new">Start Ups</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/sports" target="new">Sports & Entertainment</a></li>
+              <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/industries/manufacturing" target="new">Manufacturing</a></li>
            </ul>
            </div>
            <!-- End Footer Widget -->
@@ -69,9 +69,9 @@
               <li> <span class="fa fa-angle-right"></span><a href="#">Video Tutorials</a></li>
               <li> <span class="fa fa-angle-right"></span><a href="#">Support Centre</a></li>
               <li> <span class="fa fa-angle-right"></span><a href="#">Knowledge Base</a></li>
-              <li> <span class="fa fa-angle-right"></span><a href="#">Accessibility Resources</a>
+              <li> <span class="fa fa-angle-right"></span><a href="#"target="new">Accessibility Resources</a>
               </li>
-                  <li> <span class="fa fa-angle-right"></span><a href="/features"> Downloads</a></li>
+                  <li> <span class="fa fa-angle-right"></span><a href="https://qxp-global.com/downloads" target="new"> Downloads</a></li>
           
            </ul>
            </div>

@@ -43,15 +43,15 @@
                     </div> 
                     @endif
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('register2') }}">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <select id="role_id" class="form-control @error('role_id') is-invalid @enderror" 
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+           {{-- <div class="form-group"> --}}
+                        {{-- <select id="role_id" class="form-control @error('role_id') is-invalid @enderror" 
                      name="role_id" value="{{ old('role_id') }}"  required autocomplete="role_id" autofocus>
                        <option value="">Register as</option>
                        <option value="3">Student</option>
                        <option value="2">Teacher</option>
                      </select>
-                   </div>
+                   </div>  --}}
 
                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 

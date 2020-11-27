@@ -47,6 +47,15 @@
                                        name="password">
                             </div>
                         </div>
+                                 <div class="form-group" >
+                                <select id="role_id" class="form-control" 
+                                name="role_id" value="{{ old('role_id') }}"  required autocomplete="role_id" autofocus>
+                                 <option value="">Login as</option>
+                                  <option value="3">Student</option>
+                                  <option value="2">Teacher</option>
+                                </select>
+                            </div> 
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -110,7 +119,14 @@
                 @endif
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('login') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        
+                    <div class="form-group">
+                        <select id="role_id" class="form-control @error('role_id') is-invalid @enderror" 
+                        name="role_id" value="{{ old('role_id') }}"  required autocomplete="role_id" autofocus>
+                        <option value="">Login as</option>
+                        <option value="3">Student</option>
+                        <option value="2">Teacher</option>
+                        </select>
+                   </div> 
                     <div class="form-group">
                         <input type="email" class="form-control" placeholder="Email Address" name="email" value="{{ old('email') }}">
                     </div>
@@ -125,6 +141,7 @@
                             </label>
 
                     </div>
+
                     <div class="form-group">  
                         <button type="submit" class="btn btn-warning" style="background: #71CA52; border:1px solid transparent">
                             Login
@@ -134,7 +151,7 @@
                         <a href="{{ route('auth.password.reset') }}">Forgot your password?</a>
                     </div>
                     <div class="form-group">
-                            <a href="/register">Sign Up</a>
+                            <a href="/register2">Sign Up</a>
                     </div>
                   </form>
             

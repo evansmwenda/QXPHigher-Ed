@@ -20,9 +20,9 @@
          </div>
       
       <!-- Col End -->
-      <div class="col-md-8 ml-auto text-right">
+      <div class="col-md-8 ml-auto">
          <div class="top-contact-info">
-              <span class="reg-user"><a href="/register-user" ><i class="fa fa-user"></i>Sign up</a></span>
+              <span class="reg-user"><a href="/register2" ><i class="fa fa-user"></i>Sign up</a></span>
          
             <span><i class="fa fa-comment"></i><a href="http://qxp-global.com/login-for-meeting" target="new"> Join Meeting</a></span>
             <span><i class="fa fa-envelope"></i><a href="#">info@qxp-global.com</a></span>
@@ -75,7 +75,7 @@
                             <div class="col-md-8">
                                <h3>Products</h3>
                                <hr style="border-top: 1px solid #ccc">
-                                     <div class="row products-menu" onclick="location.href='http://academy.qxp-global.com/';">
+                                     <div class="row products-menu" onclick="location.href='#';">
                                         <div class="col-sm-2" style="padding-top: 15px">
                                         <img src="{{asset('images/logo/bgAsset-3-2.svg')}}" width="85">
                                         </div>
@@ -85,7 +85,7 @@
                                         </div>
                                      </div>   
                                      {{-- <hr style="border-top: 1px solid #ccc"> --}}
-                                     <div class="row products-menu" onclick="location.href='http://higher-ed.qxp-global.com/';">
+                                     <div class="row products-menu" onclick="location.href='/';">
                                         <div class="col-sm-2" style="padding-top: 15px">
                                         <img src="{{asset('images/logo/bgAsset-2-2.svg')}}" width="85">
                                         </div>
@@ -95,17 +95,9 @@
                                         </div>
                                      </div>  
                                      
-                                     <div class="row products-menu" onclick="location.href='http://business.qxp-global.com/';">
-                                        <div class="col-sm-2" style="padding-top: 15px">
-                                        <img src="{{asset('images/logo/bgAsset-4-2.svg')}}" width="85">
-                                        </div>
-                                        <div class="col-md-1"></div>
-                                        <div class="col-sm-9" style="padding-top: 15px;">
-                                           Video Conferencing, Messaging & Content Sharing
-                                        </div>
-                                     </div>   
+   
                                      {{-- <hr style="border-top: 1px solid #ccc"> --}}
-                                     <div class="row products-menu" onclick="location.href='{{url('/login-for-meeting')}}';">
+                                     <div class="row products-menu" onclick="location.href='#';">
                                         <div class="col-sm-2" style="padding-top: 15px">
                                         <img src="{{asset('images/logo/bgAsset-1-1.svg')}}" width="85">
                                         </div>
@@ -114,14 +106,24 @@
                                            Suited For All Businesses Trainings and Webinars
                                         </div>
  
-                                     </div>  <br/>
+                                     </div>
+                                     <div class="row products-menu" onclick="location.href='https://qxp-global.com/login-for-meeting';">
+                                       <div class="col-sm-2" style="padding-top: 15px">
+                                       <img src="{{asset('images/logo/bgAsset-4-2.svg')}}" width="85">
+                                       </div>
+                                       <div class="col-md-1"></div>
+                                       <div class="col-sm-9" style="padding-top: 15px;">
+                                          Video Conferencing, Messaging & Content Sharing
+                                       </div>
+                                    </div>
+                                       <br/>
                             </div>
                             <div class="col-md-4 solutions">
                                <h3>Solutions</h3>
                                <hr style="border-top: 1px solid #ccc">
                                <ul>
                                   <li><a href="http://qxp-global.com/industries/education"><span class=" fa fa-angle-right"></span>Education</a></li>
-                                  <li><span><a href="http://qxp-global.com/industries/education"><span class=" fa fa-angle-right"></span>Education</a></li>
+        
                                   <li><span><a href="http://qxp-global.com/industries/legal"><span class=" fa fa-angle-right"></span>Legal</a></li>
                                   <li><span><a href="http://qxp-global.com/industries/financial-institutions"><span class=" fa fa-angle-right"></span>Financial Institutions</a>
                                   </li>

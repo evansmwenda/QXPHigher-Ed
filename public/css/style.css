@@ -1750,6 +1750,7 @@ li.dropdown:hover .tw-mega-menu {
 }
 
 .tw-hero-slider .owl-nav button i {
+  display: none;
   font-size: 50px;
   color: #000;
   -webkit-transition: all 0.3s linear;
