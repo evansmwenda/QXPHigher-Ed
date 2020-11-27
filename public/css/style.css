@@ -7656,3 +7656,27 @@ line-height: 40px;
   border: 1px solid transparent;
 
 }
+.error-404{
+  text-align: center;
+  background: #fff;
+  color: #060646;
+  padding: 100px;
+  }
+  .error-404 h1{
+    color: #079DFF;
+    font-weight: 900;
+    font-size: 50px;
+  }
+  .error-404 h3{
+    color: #079DFF;
+    font-weight: 900;
+    font-size: 25px;
+  }
+  .error-404 button{
+    padding: 8px;
+    border: 1px solid transparent;
+    color: #fff;
+    border-radius: 10px;
+    background: #FD6C03;
+    width: 150px;
+  }

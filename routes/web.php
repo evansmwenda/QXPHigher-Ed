@@ -198,23 +198,22 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin', 'as' => 'admin.'],
     Route::get('autocomplete','Admin\DashboardController@autocomplete')->name('autocomplete');
     Route::get('students/list/{id}','Admin\DashboardController@studentlist');
     Route::get('students/list/{course_id}/remove/{id}','Admin\DashboardController@studentlistRemove');
-    Route::get('students/requests','Admin\DashboardController@requests');
-    Route::post('students/requests/details/{request_id}','Admin\DashboardController@requestDetails');
-    Route::match(['get','post'],'students/accept','Admin\DashboardController@acceptRequest');
-    Route::post('students/reject','Admin\DashboardController@rejectRequest');
+    Route::get('studentrequests','Admin\DashboardController@requests');
 
+    
     //for admin subscriptions & payments
     Route::get('subscribe', 'Admin\DashboardController@getSubscription');
     Route::get('subscribe/{id}', 'Admin\DashboardController@startSubscription');
     Route::get('redirect', 'Admin\DashboardController@getCallback');
 
-    
-    
+    Route::post('request_details/{request_id}','Admin\DashboardController@requestDetails');
+    Route::post('accept_request','Admin\DashboardController@acceptRequest');
+    Route::post('reject','Admin\DashboardController@rejectRequest');
 
     
 
 });
-Route::match(['get','post'],'/register-user', 'HomeController@register2')->name('register-user');
-Route::match(['get','post'],'/verify-user', 'HomeController@verify')->name('verify-user');
+Route::match(['get','post'],'/register2', 'HomeController@register2')->name('register2');
+Route::match(['get','post'],'/verify2', 'HomeController@verify')->name('verify2');
 Route::post('/register/activate', 'HomeController@sendActivate')->name('send_activate');
 Route::get('/register/activate/{id}', 'HomeController@accountActivate')->name('account_activate');

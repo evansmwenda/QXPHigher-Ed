@@ -42,17 +42,10 @@
                         <strong style="color:white;">{!! session('flash_message_success') !!}</strong>
                     </div> 
                     @endif
-<<<<<<< HEAD
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('register2') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
            {{-- <div class="form-group"> --}}
                         {{-- <select id="role_id" class="form-control @error('role_id') is-invalid @enderror" 
-=======
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('register-user') }}">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <select id="role_id" class="form-control @error('role_id') is-invalid @enderror" 
->>>>>>> b5d04be0ef22e34495f2d070006fe9cdf40e6760
                      name="role_id" value="{{ old('role_id') }}"  required autocomplete="role_id" autofocus>
                        <option value="">Register as</option>
                        <option value="3">Student</option>
