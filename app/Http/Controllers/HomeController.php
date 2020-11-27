@@ -1760,9 +1760,6 @@ class HomeController extends Controller
                 'package_id'=>$package_id
             );
             event(new NewUserRegisteredEvent($data));
-
-            
-
             return redirect('/login');
         }
         return view('auth.register');
