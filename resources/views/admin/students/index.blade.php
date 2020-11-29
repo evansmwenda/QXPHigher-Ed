@@ -23,105 +23,113 @@
   
         </div> 
     </div>
-  </div>
-  <div class="col-md-4 dashboard-right">
+</div>
+<div class="col-md-4 dashboard-right">
     <div class="row top-right-teacher">
-    <a href=""><i class="fa fa-user"></i>  {{\Auth::user()->name}}</a> 
-            <a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="fa fa-bars"></span>
-            </a> 
+        <a href=""><i class="fa fa-user"></i>  {{\Auth::user()->name}}</a> 
+        <a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="fa fa-bars"></span>
+        </a> 
     </div>
-  </div>
+</div>
 
-  <div class="row" style="background: #fff;">
-    <div class="col-md-8 students">
-        <div class="pull-left">
-            <h3>Enrolled Students</h3>
-        </div>
-        @if(Session::has("flash_message_error")) 
-            <div class="alert alert-error alert-block">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong>{!! session('flash_message_error') !!}</strong>
-            </div> 
-        @endif 
-
-        @if(Session::has("flash_message_success")) 
-            <div class="alert alert-info alert-block">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong>{!! session('flash_message_success') !!}</strong>
-            </div> 
-        @endif
-
-    <div class="pull-right btn-enroll">
-    <a href="{{url('admin/students/enroll')}}"><button >Enroll New Students</button></a>
-    </div>
-    <table class="table table-striped table-bordered table-stripped">
-        <thead >
-            <tr>
-                {{-- <td>#</td> --}}
-                <td>Course Name</td>
-                <td>No. Students Enrolled</td>
-                <td>Options</td>
-            </tr>
-        </thead>
-        <tbody>
-            @if(!$my_courses->isEmpty())
-                @foreach ($my_courses as $key=>$course)
-                    <tr>
-                        {{-- <td>{{$key++}}</td> --}}
-                        <td>{{$course->course->title}}</td>
-                        <td>{{$count_arr[$key]}}</td>
-                        <td>
-                        <a href="{{url('admin/students/list/'.$course->course->id)}}"><button>View</button></a>
-                        </td>
-                    </tr>
-                @endforeach
-            
-            @else
-                <tr class="text-center">
-                    <td colspan="3">
-                        You have no published courses
-                    </td>
-                </tr> 
-            @endif
-        </tbody>
-        </table>
-        <div class=" requests">
-            <h3>Requests</h3>
-            <div class="lecturer" style="background: #060646">
-                <h2>Requests from students for enrollment</h2>
+<div class="row" style="background: #fff;">
+    @if($active)
+        <div class="col-md-8 students">
+            <div class="pull-left">
+                <h3>Enrolled Students</h3>
             </div>
-            <table class="table table-bordered table-stripped">
-                <thead>
+            @if(Session::has("flash_message_error")) 
+                <div class="alert alert-error alert-block">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>{!! session('flash_message_error') !!}</strong>
+                </div> 
+            @endif 
+
+            @if(Session::has("flash_message_success")) 
+                <div class="alert alert-info alert-block">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>{!! session('flash_message_success') !!}</strong>
+                </div> 
+            @endif
+
+            <div class="pull-right btn-enroll">
+            <a href="{{url('admin/students/enroll')}}"><button >Enroll New Students</button></a>
+            </div>
+            <table class="table table-striped table-bordered table-stripped">
+                <thead >
                     <tr>
-                        <td>#</td>
-                        <td>Student Name</td>
-                        <td>Email</td>
-                        <td>Requested Course</td>
-                        <td>State</td>
+                        {{-- <td>#</td> --}}
+                        <td>Course Name</td>
+                        <td>No. Students Enrolled</td>
+                        <td>Options</td>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($request_enrollments as $key=>$item)
-                    <tr>
-                    <td>{{++$key}}</td>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->email}}</td>
-                    <td>{{$item->title}}</td>
-                    <td>{{$item->status}}</td>
-                    </tr>
-                    @endforeach
-
+                    @if(!$my_courses->isEmpty())
+                        @foreach ($my_courses as $key=>$course)
+                            <tr>
+                                {{-- <td>{{$key++}}</td> --}}
+                                <td>{{$course->course->title}}</td>
+                                <td>{{$count_arr[$key]}}</td>
+                                <td>
+                                <a href="{{url('admin/students/list/'.$course->course->id)}}"><button>View</button></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    
+                    @else
+                        <tr class="text-center">
+                            <td colspan="3">
+                                You have no published courses
+                            </td>
+                        </tr> 
+                    @endif
                 </tbody>
             </table>
-        </div>
-    </div>
+            <div class=" requests">
+                <h3>Requests</h3>
+                <div class="lecturer" style="background: #060646">
+                    <h2>Requests from students for enrollment</h2>
+                </div>
+                <table class="table table-bordered table-stripped">
+                    <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>Student Name</td>
+                            <td>Email</td>
+                            <td>Requested Course</td>
+                            <td>State</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($request_enrollments as $key=>$item)
+                        <tr>
+                        <td>{{++$key}}</td>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->email}}</td>
+                        <td>{{$item->title}}</td>
+                        <td>{{$item->status}}</td>
+                        </tr>
+                        @endforeach
 
-    <div class="col-md-4">
-        @include('admin.recents')
-    </div>
-  </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            @include('admin.recents')
+        </div>
+    @else
+        <div class="row text-center" style="margin-top:70px;">
+            <p>Your subscription has expired, please click the button below to renew </p>
+            <a href="{{url('/admin/subscribe')}}" class="btn btn-warning">Renew</a>
+            {{-- <button  class="view-all">View All</button> --}}
+        </div>
+    @endif
+</div>
 
 
 @endsection
