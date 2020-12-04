@@ -22,22 +22,6 @@ class CoursesController extends Controller
      */
     public function index(){
 
-        if (! Gate::allows('course_access')) {
-            return abort(401);
-        }
-
-        if (request('show_deleted') == 1) {
-            if (! Gate::allows('course_delete')) {
-                return abort(401);
-            }
-            $courses = Course::onlyTrashed()->ofTeacher()->get();
-        } else {
-            $courses = Course::ofTeacher()->get();
-        }
-        $my_summary_count= app('App\Http\Controllers\Admin\DashboardController')->getSummaryCount();
-        // dd($my_summary_count);
-
-        return view('admin.courses.index', compact('courses','my_summary_count'));
     }
 
     /**

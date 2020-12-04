@@ -8,14 +8,14 @@
                   </div>
             </div>
             <div class="col-md-6">
-                <div class="col-sm-2">
+                {{-- <div class="col-sm-2">
                     <span class="fa fa-shield-alt fa-2x"></span>
                 </div>
                 <div class="col-sm-2">
                      <span class="fa fa-bell fa-2x"></span>
-                </div>
+                </div> --}}
                 <div class="col-sm-2">
-                     <span class="fa fa-calendar-alt fa-2x"></span>
+                     <a href="/calender"><span class="fa fa-calendar-alt fa-2x"></span></a>
                 </div>
             </div>
 

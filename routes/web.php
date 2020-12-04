@@ -8,6 +8,7 @@ Route::get('/ipn', 'HomeController@getIPN');
 Route::get('/','HomeController@landing')->name('home-user');
 // Route::get('/sms','HomeController@sms');
 
+
 //we have been redirected from QXP->initiate receipt
 // Route::group(['middleware' => ['guest']], function () {
 //     Route::post('/redirect', 'HomeController@getRedirect');

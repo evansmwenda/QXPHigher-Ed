@@ -47,7 +47,7 @@
         </div>
         {{-- right side --}}
         <div class="col-md-4">
-            {{-- @include('admin.recents') --}}
+            @include('admin.recents')
         </div>
     </div>
 @stop
@@ -57,6 +57,5 @@
         @can('course_delete')
             @if ( request('show_deleted') != 1 ) window.route_mass_crud_entries_destroy = '{{ route('admin.courses.mass_destroy') }}'; @endif
         @endcan
-
     </script>
 @endsection

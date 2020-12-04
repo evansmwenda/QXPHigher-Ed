@@ -1,6 +1,6 @@
 <div class="notification-messages">
     <div class="message-header">
-        <h3>System Messages</h3>
+        <h3>Recent Activities</h3>
     </div>
     <table class="table table-bordered">
         <tbody>
