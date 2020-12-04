@@ -66,12 +66,16 @@ class DashboardController extends Controller
 
         $highlights = $this->getSummaryCount();
 
+        //check for unused payments
+        $this->checkPaymentStatusDashboard();
+
         //get number of resources
         // $resources = $this->getResourcesList($course_ids);
 
 
         //fetch student enrollment requests
         $request_enrollments = $this->getRequestEnrollments();
+        // dd($request_enrollments);
 
         return view('home')->with(compact(
             'courses',
@@ -79,6 +83,37 @@ class DashboardController extends Controller
             'request_enrollments'
         ));
         
+    }
+    public function checkPaymentStatusDashboard(){
+        //check on dashboard if user's payment was successful
+        $user = \Auth::user();
+        // dd($user);
+
+        $my_transaction = MyTransactions::where([
+            ['user_id','=',$user['id']],
+            ['is_used','=','0']
+        ])->latest()->first();
+        // dd($my_transaction);
+        if(!is_null($my_transaction)){
+            //logic here
+            $status = $this->checkStatusByMerchantRef($my_transaction->reference);
+            if($status == 'COMPLETED'){
+                //payment is successful
+                //1.update the status column 
+                $my_transaction->status = $status;
+                $my_transaction->save();
+                //2.award subscription
+                $this->buySubscription($user['id'],$status,$my_transaction->reference); 
+            }
+            // dd($status);
+        }
+        
+        // http://localhost:8000
+        // /user/payments/redirect?pesapal_transaction_tracking_id=23f64864-f610-4c39-b8cc-4a0417349a10&pesapal_merchant_reference=5f4e9cde85297
+
+        // https://skytoptechnologies.com
+        // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
+        // &pesapal_merchant_reference=5f2ad92d9dc87
     }
     public function getSummaryCount(){
         //courses
@@ -119,6 +154,7 @@ class DashboardController extends Controller
         'users.name',
         'users.email')
         ->where('teacher_id',\Auth::id())
+        ->where('status','Pending')
         ->join('users','users.id','=','request_enrollments.student_id')
         ->join('courses','courses.id','=','request_enrollments.course_id')
         ->orderBy('id','DESC')->get();
@@ -126,6 +162,9 @@ class DashboardController extends Controller
         return $request_enrollments;
     }
     public function students(){
+        //user verified->check if have active subscription
+        $active=$this->checkMySubscriptionStatus();
+
         // enroll-details
         $request_enrollments = $this->getRequestEnrollments();
 
@@ -145,8 +184,32 @@ class DashboardController extends Controller
         ->with(compact('my_courses',
         'count_arr',
         'request_enrollments',
-        'highlights'
+        'highlights',
+        'active'
         ));
+    }
+    public function checkMySubscriptionStatus(){
+        //get package status
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->get();
+        // dd($subscription);
+        // Date('Y-m-d h:i:s', strtotime('+14 days')),       
+        $date_now = date("Y-m-d  h:i:s"); // this format is string comparable
+        $expiry_on =$subscription[0]->expiry_on;
+        if($expiry_on > $date_now){
+            //subscription valid for either trial period or a specific plan
+            if($subscription[0]->package_id == '0'){
+                //user is on free trial
+                $active = false;//user is on free trial
+            }else{
+                //user has a valid paid plan
+                $active = true;//subscription is active
+            }
+           
+        }else{
+            //even if its free version(0) , it has expired
+            $active = false;//expired or is on free trial
+        }
+        return $active;
     }
     public function requestDetails(Request $request){
         $student_request =DB::table('request_enrollments')
@@ -1211,6 +1274,9 @@ class DashboardController extends Controller
         $moderatorPW=$meeting['moderatorPW'];
         $owner=$meeting['owner'];
 
+        //user verified->check if have active subscription
+        $active=$this->checkMySubscriptionStatus();
+
         // dd($meeting);
         $user = \Auth::user();
 
@@ -1218,14 +1284,20 @@ class DashboardController extends Controller
         $salt = env("BBB_SALT", "0");
         //get BBB server
         $bbb_server = env("BBB_SERVER", "0");
+        $logout_url = env("BBB_LOGOUT_URL", "http://higher-ed.qxp-global.com/");
 
-        //2.get the checksum(to be computer) and store it in column
-        
-            //name=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
-            //(a)==> prepend the action to the entire query
-        $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW";
+        //check active subscription and set time for meeting
+        if($active){
+            //no timeout set
+            $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&logoutURL=$logout_url";
+        }else{
+            //timer set to 45 mins
+            $timer = 45;
+            $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&duration=$timer&logoutURL=$logout_url";
+        }
 
         $newCreateString="create".$create_string;
+
                 // createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444
         //createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
 
@@ -1372,6 +1444,9 @@ class DashboardController extends Controller
         $my_courses = CourseUser::with(['course'])->where(['user_id'=> \Auth::id()])->get();
 
         if($request->isMethod('post')){
+            //user verified->check if have active subscription
+            $active=$this->checkMySubscriptionStatus();
+
             $data=$request->all();
             // dd($data);
             //post method
@@ -1413,33 +1488,30 @@ class DashboardController extends Controller
             // dd($event_start_end);
 
             $meetingID=str_random(6);
+            $classTime=$request->classTime;
             $attendeePW=str_random(6);//"ap";//$request->attendeePW;
             $moderatorPW=str_random(6);//"mp";//$request->moderatorPW;
-
+            $duration='30';
 
             //get the secure salt
             $salt = env("BBB_SALT", "0");
             //get BBB server
             $bbb_server = env("BBB_SERVER", "0");
+            $logout_url = env("BBB_LOGOUT_URL", "http://higher-ed.qxp-global.com/");
 
-            //2.get the checksum(to be computer) and store it in column
+            //check active subscription and set time for meeting
+            if($active){
+                //no timeout set
+                $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&logoutURL=$logout_url";
+            }else{
+                //timer set to 45 mins
+                $timer = 45;
+                $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW&duration=$timer&logoutURL=$logout_url";
+            }
             
-                //name=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
-                //(a)==> prepend the action to the entire query
-            $create_string="name=$title&meetingID=$meetingID&record=true&attendeePW=$attendeePW&moderatorPW=$moderatorPW";
-
             $newCreateString="create".$create_string;
-                    // createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444
-            //createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW
 
-                //(b)==> append the secret salt to end of the new query string with the action
-                    //secret salt: 639259d4-9dd8-4b25-bf01-95f9567eaf4b
-                    // $newString = createname=Test+Meeting&meetingID=abc123&attendeePW=111222&moderatorPW=333444639259d4-9dd8-4b25-bf01-95f9567eaf4b
-            //$newString = "createname=$title&meetingID=$meetingID&attendeePW=$attendeePW&moderatorPW=$moderatorPW".$salt;
-                //(c)==> get the sha1 of the new string and save it as checksum
             $checksumCreate=sha1($newCreateString.$salt);
-            // echo $newCreateString;
-            // echo "<br/>".$checksumCreate;
 
 
             $createURL = $create_string."&checksum=".$checksumCreate;
@@ -1488,6 +1560,7 @@ class DashboardController extends Controller
                 'moderatorPW'=>$moderatorPW,//moderator password
                 'owner'=>$user->id
                 ];
+                // dd($newLiveClass);
 
 
                 $classRecord = [
@@ -1806,7 +1879,6 @@ class DashboardController extends Controller
             ));
     }
     public function getCallback(Request $request){
-        dump(function_exists('curl_version'));
         $user= \Auth::user();
         // $status='UNKNOWN';
         // dd($request->all());
@@ -1820,8 +1892,7 @@ class DashboardController extends Controller
           *getMoreDetails() - returns status, payment method, merchant reference and pesapal tracking id
         **/
         
-        $statusArray           = $this->checkStatusByMerchantRef($reference);
-        dd($statusArray);
+        // $statusArray           = $this->checkStatusByMerchantRef($reference);
         $responseArray    = $this->getTransactionDetails($reference,$tracking_id);
         // $status             = $this->checkStatusUsingTrackingIdandMerchantRef($reference,$tracking_id);
         // dd($responseArray);
@@ -1925,8 +1996,6 @@ class DashboardController extends Controller
         //Kenyan Merchant
         $consumer_key       = env('PESAPAL_CONSUMER_KEY','');
         $consumer_secret    = env('PESAPAL_CONSUMER_SECRET','');
-        dump($consumer_key);
-        dump($consumer_secret);
 
         $signature_method   = new \OAuthSignatureMethod_HMAC_SHA1();
         $consumer           = new \OAuthConsumer($consumer_key, $consumer_secret);
@@ -1937,17 +2006,15 @@ class DashboardController extends Controller
         else
             $api = 'https://www.pesapal.com'; 
             
-        $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
+        // $QueryPaymentStatus               =   $api.'/API/QueryPaymentStatus';
         // $QueryPaymentStatusByMerchantRef  =   $api.'/API/QueryPaymentStatusByMerchantRef';
-        // $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
-
-        dump($QueryPaymentStatus);
+        $querypaymentdetails              =   $api.'/API/QueryPaymentDetails';
 
         $request_status = \OAuthRequest::from_consumer_and_token(
                                 $consumer, 
                                 $token, 
                                 "GET", 
-                                $QueryPaymentStatus,//$querypaymentdetails, 
+                                $querypaymentdetails,
                                 $params
                             );
         $request_status->set_parameter("pesapal_merchant_reference", $pesapalMerchantReference);
@@ -1955,7 +2022,6 @@ class DashboardController extends Controller
         $request_status->sign_request($signature_method, $consumer, $token);
     
         $responseData = $this->curlRequest($request_status);
-        dump($token);
         
         $pesapalResponse = explode(",", $responseData);
         // dd($responseData);
@@ -2000,7 +2066,7 @@ class DashboardController extends Controller
         
         //transaction status
         $elements = preg_split("/=/",substr($response, $header_size));
-        $pesapal_response_data = $elements[0];
+        $pesapal_response_data = $elements[1];
         
         return $pesapal_response_data;
     }
@@ -2040,37 +2106,5 @@ class DashboardController extends Controller
             //payment not successful
             //do not give user subscription
         }
-    }
-
-    public function checkPaymentStatusDashboard(){
-        //check on dashboard if user's payment was successful
-        $user = \Auth::user();
-        // dd($user);
-
-        $my_transaction = MyTransactions::where([
-            ['user_id','=',$user['id']],
-            ['is_used','=','0']
-        ])->latest()->first();
-        // dd($my_transaction);
-        if(!is_null($my_transaction)){
-            //logic here
-            $status = $this->checkStatusByMerchantRef($my_transaction->reference);
-            if($status == 'COMPLETED'){
-                //payment is successful
-                //1.update the status column 
-                $my_transaction->status = $status;
-                $my_transaction->save();
-                //2.award subscription
-                $this->buySubscription($user['id'],$status,$my_transaction->reference); 
-            }
-            // dd($status);
-        }
-        
-        // http://localhost:8000
-        // /user/payments/redirect?pesapal_transaction_tracking_id=23f64864-f610-4c39-b8cc-4a0417349a10&pesapal_merchant_reference=5f4e9cde85297
-
-        // https://skytoptechnologies.com
-        // /?pesapal_transaction_tracking_id=058e9adb-d351-4092-9df7-0bd776900859
-        // &pesapal_merchant_reference=5f2ad92d9dc87
     }
 }

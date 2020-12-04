@@ -6,49 +6,66 @@
         @include('students.header')
     </div>
     <div class="row" style="background: #fff">
-        <div class="row">
-            <div class="col-md-8 course-top">
-                <h3>@lang('global.courses.title')</h3>
-                <h4>Running Courses</h4>
-            </div>
-            <div class="col-md-4 course-top">
-               
-                    <a href="{{ route('admin.courses.create') }}"><button><i class="fa fa-plus"></i> Add Course</button></a>                      
+        @if($active)
+            <div class="row">
+                <div class="col-md-8 course-top">
+                    <h3>@lang('global.courses.title')</h3>
+                    <h4>Running Courses</h4>
+                </div>
+                <div class="col-md-4 course-top">
                 
+                        <a href="{{ route('admin.courses.create') }}"><button><i class="fa fa-plus"></i> Add Course</button></a>                      
+                    
+                </div>
             </div>
-        </div>
-        {{-- courses list --}}
-        <div class="col-md-8">
-            @foreach($courses as $course)
-            <div class="col-sm-12 col-lg-3 col-md-3" style="margin-bottom: 20px;">
-                <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><div class="coarse-list"></div></a>
-                <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
-                @for ($star = 1; $star <= 5; $star++)
-                @if ($course->rating >= $star)
-                    <span class="glyphicon glyphicon-star" style="font-size: 10px;"></span>
-                @else
-                    <span class="glyphicon glyphicon-star-empty" style="font-size: 10px;"></span>
-                @endif
-                @endfor
+            {{-- courses list --}}
+            <div class="col-md-8">
+                @foreach($courses as $course)
+                <div class="col-sm-12 col-lg-3 col-md-3" style="margin-bottom: 20px;">
+                    <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><div class="coarse-list"></div></a>
+                    <a href="{{url('admin/courses/'.$course->id.'/edit')}}"><p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
+                    @for ($star = 1; $star <= 5; $star++)
+                    @if ($course->rating >= $star)
+                        <span class="glyphicon glyphicon-star" style="font-size: 10px;"></span>
+                    @else
+                        <span class="glyphicon glyphicon-star-empty" style="font-size: 10px;"></span>
+                    @endif
+                    @endfor
 
-                    <div class="row ">
-                        <a href="{{url('admin/lessons?course_id='.$course->id)}}">
-                            <button class="coarse-button" style="height:30px;">LESSONS <i class="fa fa-web"></i></button>
-                        </a>
-                        
-                        <a href="{{url('admin/courses/'.$course->id.'/edit')}}">
-                            <button class="coarse-button-2" style="height: 30px;">EDIT 
-                                <i class="fa fa-arrow-right"></i>
-                            </button>
-                        </a>
-                    </div>
+                        <div class="row ">
+                            <a href="{{url('admin/lessons?course_id='.$course->id)}}">
+                                <button class="coarse-button" style="height:30px;">LESSONS <i class="fa fa-web"></i></button>
+                            </a>
+                            
+                            <a href="{{url('admin/courses/'.$course->id.'/edit')}}">
+                                <button class="coarse-button-2" style="height: 30px;">EDIT 
+                                    <i class="fa fa-arrow-right"></i>
+                                </button>
+                            </a>
+                        </div>
+                </div>
+                @endforeach
             </div>
+            {{-- right side --}}
+            <div class="col-md-4">
+                {{-- @include('admin.recents') --}}
+            </div>
+        @else
+            <div class="row text-center" style="margin-top:40px;">
+                <p>Your subscription has expired, please click the button below to renew </p>
+                <a href="{{url('/admin/subscribe')}}" class="btn btn-warning">Renew</a>
+                {{-- <button  class="view-all">View All</button> --}}
+            </div>
+<<<<<<< HEAD
             @endforeach
         </div>
         {{-- right side --}}
         <div class="col-md-4">
             @include('admin.recents')
         </div>
+=======
+        @endif
+>>>>>>> f33716b4f8f33fc5c7de3c22823bbc0daf76f7db
     </div>
 @stop
 
