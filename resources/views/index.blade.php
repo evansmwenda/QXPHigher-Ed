@@ -4,7 +4,7 @@
 <div class="row">
   @include('students.header')
 </div>
-<div class="row" style="background: #fff">
+<div class="row">
 	@if($active)
 		<div class= "col-md-8">
 			@if (!is_null($purchased_courses))
@@ -14,11 +14,18 @@
 				</div>
 			
 				<div class="row courses">
-					<p>All My Courses</p>
+					
 					@foreach($enrollments as $course)
 						<div class="col-sm-12 col-lg-3 col-md-3" style="margin-bottom: 20px;">
-						<a href="{{url('course/'.$course->slug)}}"><div class="coarse-list"></div></a>
-						<a href="{{url('course/'.$course->slug)}}"><p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
+						<a href="{{url('course/'.$course->slug)}}"><div class="coarse-list">
+							@if ($course->course_image ==null)
+							<img src="{{asset('images/logo/logo_white.png')}}" style="margin-top: 20px" width="80" alt="">
+						
+							@endif
+						</div></a>
+						<a href="{{url('course/'.$course->slug)}}">
+							
+						<p style="color:#060646;margin: 0px !important">{{$course->title}}</p></a>
 						{{-- @for ($star = 1; $star <= 5; $star++)
 						@if ($course->rating >= $star)
 							<span class="glyphicon glyphicon-star" style="font-size: 10px;"></span>
@@ -28,7 +35,7 @@
 						@endfor --}}
 
 							<div class="row ">
-								<button class="coarse-button" style="height:30px;">FAVOURITE <i class="fa fa-web"></i></button>
+								<button class="coarse-button" style="height:30px;">COMPLETE <i class="fa fa-web"></i></button>
 								<a href="{{url('course/'.$course->slug)}}">
 									<button class="coarse-button-2" style="height: 30px;">VIEW 
 										<i class="fa fa-arrow-right"></i>
@@ -40,17 +47,18 @@
 					@endforeach
 				</div>
 			@endif
-			<div class="row text-center">
+			{{-- <div class="row text-center">
 				<button  class="view-all">View All</button>
 			</div>
 
 			<div class="row other-courses">
 				<h3>You can also view the following courses</h3>
 				<p>Enhance your literature skills</p>
-			</div>
+			</div> --}}
 
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 dashboard-right">
+			@include('students.recentNotifications')
 			@include('partials.recentactivity')
 		</div>
 	@else

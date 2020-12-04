@@ -1,41 +1,9 @@
 @extends('layouts.home')
 
 @section('main')
-	<div class="row">
-		<div class="col-md-8" >
-			<div class="row top-header-2">
-	
-				<div class="col-md-12 col-sm-12" >
-					<div class="col-sm-6">
-						<div class="form-group has-search">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<span class="fa fa-shield-alt fa-2x"></span>
-					</div>
-					<div class="col-sm-2">
-						<span class="fa fa-bell fa-2x"></span>
-					</div>
-					<div class="col-sm-2">
-						<span class="fa fa-calendar-alt fa-2x"></span>
-					</div>
-				</div> 
-	
-			</div>
-		</div>
-		<div class="col-md-4 dashboard-right">
-			<div class="row top-right">
-				<i class="fa fa-user fa-2x"></i> 
-					<a href="#" class="sidebar-toggle pull-right" data-toggle="offcanvas" role="button">
-					   <span class="sr-only">Toggle navigation</span>
-					   <span class="fa fa-bars"></span>
-				   </a> 
-	
-		   </div>
-		   {{-- @include('partials.recentactivity') --}}
-		  </div>
-	</div>
+<div class="row">
+	@include('students.header')
+</div>
 	<div class="row">
 		<div class="lessons-bg" style="">
 			<div class="lessons-overlay"></div>
@@ -86,45 +54,6 @@
 				</table>
         	</div>
         </div>
-       <!--  <div class="col-sm-12 col-md-5">
-        	<div class="card" style="border: 1px solid #00CED1;border-radius:6px;width: 100%">
-        		<table class="table table-borderless" style="width: 100%">
-					<thead>
-						<tr style="font-weight: bold;">
-							<td>Course</td>
-							<td>Name</td>
-							<td>Status</td>
-							<td>Term</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Biology 101</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2020-09-12</td>
-						</tr>
-						<tr>
-							<td>BASIC2-D DESIGN</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2019/20/SEM2</td>
-						</tr>
-						<tr>
-							<td>BASIC2-D DESIGN</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2020-09-12</td>
-						</tr>
-						<tr>
-							<td>Biology 101</td>
-							<td>Live Class Meeting</td>
-							<td>Scheduled</td>
-							<td>2019/20/SEM2</td>
-						</tr>
-					</tbody>
-				</table>
-        	</div>
-        </div> -->
+       
     </div>
 @endsection

@@ -30,7 +30,8 @@
 
 		{{-- right side --}}
 		<div class="col-md-4 dashboard-right">
-			@include('partials.recentactivity')  
+			@include('students.recentNotifications')
+			@include('partials.recentactivity')
 		</div>
 	</div>
 

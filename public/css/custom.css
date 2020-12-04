@@ -583,11 +583,13 @@ color: #060646;
 .live-units{
     background: #fff;
     margin-left: 20px;
+    
     margin-right: 20px;
     border-radius: 10px;
     border-left: 3px solid #FD6C03;
-    margin-top: -40px;
+    margin-top: -10px;
     padding-left: 20px;
+    padding: 10px;
 }
 
 .live-units h3{
@@ -595,10 +597,11 @@ color: #060646;
     color: #060646;
 }
 .live-units p{
-    font-size: 10px;
+    font-size: 12px;
 }
 .live-units .fa{
     color: #060646;
+    
 }
 .upcoming h3{
     margin-left: 50px;
@@ -745,6 +748,7 @@ text-align: center;
 .coarse-list{
 height: 80px;
 width: 100%;
+text-align: center;
 border-radius: 1px;
 background: #060646;
 }
@@ -1054,6 +1058,7 @@ width: 100px;
         text-align: center;
     
     }
+    
     .live-units{
         background: #fff;
         margin-left: 20px;
@@ -1160,6 +1165,12 @@ width: 100px;
     .card-form-group{
         margin-left: 0px;
     }
+}
+.light-bg button span{
+    border-radius: 50%;
+    font-size: 10px;
+    padding: 2px;
+    margin-left: 5px;
 }
 .course-details{
  border: 1px solid #E5E8E8;
@@ -1343,6 +1354,7 @@ background: #11BECC;
 .notification-messages{
     border: 1px solid #EAECEE;
     margin-top: 10px;
+    background: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
@@ -1367,10 +1379,10 @@ color:#FD6C03 ;
 padding-right: 15px;
 }
 .message-header{
-    background: #11BECC;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    padding: 2px;
+    background: #060646;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding:1px;
 }
 .message-header h3{
     color: #fff;
@@ -1600,27 +1612,3 @@ font-size: 15px;
     padding-right: 10px;
 
 }
-.error-404{
-    text-align: center;
-    background: #fff;
-    color: #060646;
-    padding: 100px;
-    }
-    .error-404 h1{
-      color: #079DFF;
-      font-weight: 900;
-      font-size: 50px;
-    }
-    .error-404 h3{
-      color: #079DFF;
-      font-weight: 900;
-      font-size: 25px;
-    }
-    .error-404 button{
-      padding: 8px;
-      border: 1px solid transparent;
-      color: #fff;
-      border-radius: 10px;
-      background: #FD6C03;
-      width: 150px;
-    }

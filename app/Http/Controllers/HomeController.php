@@ -253,14 +253,17 @@ class HomeController extends Controller
         $active=$this->checkMySubscriptionStatus();
 
         $assignments = $this->fetchAssignments();
-
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->orderBy('read','ASC')->get();
+       
         $courses = Course::where('published', 1)->orderBy('id', 'desc')->get(); 
+        // dd($courses);
         return view('index', 
         compact('courses', 
         'purchased_courses',
         'test_details',
         'assignments',
         'active',
+        'messages',
         'enrollments',
         'result_array'));
     }
@@ -335,8 +338,11 @@ class HomeController extends Controller
           
         }
         $this->checkPaymentStatusDashboard();
+        $subscription = Subscription::with('package')->where('user_id',\Auth::id())->first();
+    
+        $expiry_on =$subscription->expiry_on;
 
-
+        // dd($date_now-$expiry_on);
         $enrolled_course = DB::table('enrolled_courses')
         ->join('courses', 'courses.id', '=', 'enrolled_courses.course_id')
         // ->join('lessons', 'lessons.course_id', '=', 'courses.id')
@@ -444,7 +450,7 @@ class HomeController extends Controller
         $count_courses = count($enrolled_course);
         $count_exams = count($test_details);
         $count_events = count($monthly);
-        // dd($enrolled_course);
+        // dd($prog_parent);
         $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->orderBy('read','ASC')->get();
         return view('students.home_user')->with(compact(
             'test_details',
@@ -456,6 +462,7 @@ class HomeController extends Controller
             'prog_parent',
             'assignments',
             'monthly',
+            'expiry_on',
             'count_assignments',
             'count_courses',
             'count_exams',
@@ -704,11 +711,13 @@ class HomeController extends Controller
                     ->orderBy('tests.id','DESC')
                     ->get();
         // dd($test_details);
-        
+        $messages = RequestEnrollment::where('student_id',\Auth::user()->id)->orderBy('read','ASC')->get();
+       
         $method="GET";
         return view('students.assignments')
         ->with(compact(
         'method',
+        'messages',
         'assignments',
         'test_details',
         'result_array'));
@@ -1677,7 +1686,7 @@ class HomeController extends Controller
         })
         ->orderBy('id','DESC')
         ->get();
-
+        // dd($my_classes);
         return view('students.browselessons')->with(compact('my_classes'));
     }
     public function register2(Request $request){

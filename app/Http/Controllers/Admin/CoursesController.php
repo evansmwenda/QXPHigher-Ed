@@ -22,7 +22,7 @@ class CoursesController extends Controller
      */
     public function index(){
 
-        if (! Gate::allows('course_access')) {
+        if(!Gate::allows('course_access')) {
             return abort(401);
         }
 
