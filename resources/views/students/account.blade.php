@@ -94,7 +94,7 @@
                             <div class="form-group row form-row">
                                 <label for="inputSchID3" class="col-sm-2 col-form-label" style="color: #fff">School ID</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="inputSchID3" name="school_id" placeholder="School ID" value="{{$user->school->id or ''}}">
+                                    <input type="text" class="form-control" id="inputSchID3" name="school_id" placeholder="School ID" value="">
                                 </div>
                             </div>
                             <div class="form-group row form-row">

@@ -28,6 +28,7 @@ use App\Transaction as MyTransactions;
 use App\Subscription;
 use App\Package;
 use App\Media;
+use App\Role;
 use DB;
 use Session;
 // use GuzzleHttp\Client;
@@ -2106,5 +2107,16 @@ class DashboardController extends Controller
             //payment not successful
             //do not give user subscription
         }
+    }
+
+    public function massEnroll(Request $request){
+        // dump($request->all());
+        return view('admin.enrollments.index');
+    }
+    
+    public function massEnrollSave(Request $request){
+        $roles = Role::where('id','>','1')->get();
+        // dd($my_courses);
+        return view('admin.enrollments.create')->with(compact('roles'));
     }
 }
