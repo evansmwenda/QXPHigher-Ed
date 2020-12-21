@@ -38,16 +38,18 @@
 	                </div>
 
 	                <div class="col-xs-12 form-group">
+                    <label>Upload list of users in CSV</label>
+                    <p>Each user's details should  be on its own line<br>The first line should be name,email</p>
 	                	<div class="input-group">
 	                      <div class="custom-file">
-	                        <input type="file" name="assignment" class="custom-file-input" id="assignment" required>
+	                        <input type="file" name="usercsv" class="custom-file-input" id="assignment" required>
 	                      </div>
 	                    </div>
 	                </div>
 
 	                
 	                <div class="col-xs-12 form-group">
-	                	<button type="submit" class="btn btn-primary"> Create Assignment</button>
+	                	<button type="submit" class="btn btn-primary"> Upload List</button>
 	                </div>
 	                
 
@@ -55,7 +57,7 @@
     
             </div>
                 <p>
-			        <a href="{{ url('/admin/assignments') }}" class="btn btn-default">Back to list</a>
+			        <a href="{{ url('/admin/enrollments') }}" class="btn btn-default">Back to list</a>
 			    </p>
     
             

@@ -2116,7 +2116,70 @@ class DashboardController extends Controller
     
     public function massEnrollSave(Request $request){
         $roles = Role::where('id','>','1')->get();
-        // dd($my_courses);
+        
+        if($request->isMethod('post')){
+            $datas=$request->all();
+            dump($datas);
+            if($datas['role_id'] <= "1"){
+                return back()->with('flash_message_error','Please choose a role from the dropdown');
+            }
+            // $slug =  DB::table('courses')->where('id', $data['course_id'])->value('slug');
+            // dd($slug);
+            if($request->hasFile('usercsv')){
+                $image_tmp = $request->file('usercsv');
+
+                $extension = $image_tmp->getClientOriginalExtension();//txt,pdf,csv
+                dump($extension);
+                dump($file_path = $image_tmp->getRealPath());
+                if($extension != 'csv'){
+                    return back()->with('flash_message_error','Please choose a valid file type (.csv)');
+                }
+
+                $customerArr = $this->csvToArray($file_path);    
+
+                $date = [];
+                for ($i = 0; $i < count($customerArr); $i ++)//change this to 0 incase of errors
+                {
+                    $data[] = [
+                    'name'=>$customerArr[$i]['name'],
+                    'username'=>$customerArr[$i]['email'],
+                    'email'=>$customerArr[$i]['email'],
+                    'password'=>encrypt('academia2020'),
+                    'create_at'=>time(),
+                    'admin'=>0,//normal user accoutns
+                    'corporate_id' => \Auth::id(),
+                    'mode'=>'active',//get_option('user_register_mode','active'),
+                    'category_id'=>'0',
+                    'token'=>str_random(15)
+
+                    ];
+                    //User::firstOrCreate($customerArr[$i]);
+                }
+                dd($data);
+                // DB::table('users')->insert($data);
+                return redirect()->back()->with('msg',trans('main.thanks_reg'));
+            }
+        }
         return view('admin.enrollments.create')->with(compact('roles'));
+    }
+    function csvToArray($filename = '', $delimiter = ','){
+        if (!file_exists($filename) || !is_readable($filename))
+            return false;
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if (!$header)
+                    $header = $row;
+                else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($handle);
+        }
+
+        return $data;
     }
 }
