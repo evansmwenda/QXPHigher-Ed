@@ -34,10 +34,12 @@ use Session;
 // use GuzzleHttp\Client;
 // use GuzzleHttp\Ring\Exception\ConnectException;
 
+use App\Events\NewUserRegisteredEvent;
 use App\Events\PaymentSuccessfulEvent;
 use App\Mail\MeetingEmail;
 use App\Mail\RegisterMail;
 use App\library\OAuth;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
@@ -2130,34 +2132,68 @@ class DashboardController extends Controller
 
                 $extension = $image_tmp->getClientOriginalExtension();//txt,pdf,csv
                 dump($extension);
-                dump($file_path = $image_tmp->getRealPath());
+                $file_path = $image_tmp->getRealPath();
+                dump($file_path);
                 if($extension != 'csv'){
                     return back()->with('flash_message_error','Please choose a valid file type (.csv)');
                 }
 
-                $customerArr = $this->csvToArray($file_path);    
+                $customerArr = $this->csvToArray($file_path);  
+                
+                $token = str_random(15);
+                //http://localhost.com/register/activate/9TT0e3YmDUV20f8
+                $url = url('register/activate/'.$token);
 
-                $date = [];
+                $data = [];
+                $userEmailsArray = array();
                 for ($i = 0; $i < count($customerArr); $i ++)//change this to 0 incase of errors
                 {
                     $data[] = [
                     'name'=>$customerArr[$i]['name'],
-                    'username'=>$customerArr[$i]['email'],
                     'email'=>$customerArr[$i]['email'],
-                    'password'=>encrypt('academia2020'),
-                    'create_at'=>time(),
-                    'admin'=>0,//normal user accoutns
-                    'corporate_id' => \Auth::id(),
-                    'mode'=>'active',//get_option('user_register_mode','active'),
-                    'category_id'=>'0',
-                    'token'=>str_random(15)
-
+                    'phone'=>"",
+                    'verified'=>0,
+                    'password'=>Hash::make('academia2020'),//encrypt($request->password),
+                    'token'=>$token
                     ];
+
+                    $userEmailsArray[] = $customerArr[$i]['email'];
                     //User::firstOrCreate($customerArr[$i]);
                 }
-                dd($data);
+                dump($userEmailsArray);
+                dump($data);
+                User::insert($data);
+
+
+                //assign user to selected role
+                //first get their user ids
+                $userDataArray = User::whereIn('email',$userEmailsArray)->get();
+                dump($userDataArray);
+                $role_data = array();
+                $user_data = array();
+                for ($i = 0; $i < count($userDataArray); $i ++){
+                    $role_data[] = [
+                        "user_id" => $userDataArray[$i]['id'],
+                        "role_id" => $datas['role_id']
+                    ];
+                    $package_id = $datas['role_id'] == '3' ? 3 : 4 ;
+                    $user_data[] = [
+                        'id' =>$userDataArray[$i]['id'],
+                        'link'=>$url,
+                        'name' => $userDataArray[$i]['name'],
+                        'email'=>$userDataArray[$i]['email'],
+                        'package_id'=>$package_id
+                    ] ;
+                }
+                dump($role_data);
+                dump($user_data);
+                DB::table('role_user')->insert($role_data);
+                // Role::insert($role_data);
+
+                //award free trial
+                event(new NewUserRegisteredEvent($user_data));
                 // DB::table('users')->insert($data);
-                return redirect()->back()->with('msg',trans('main.thanks_reg'));
+                return redirect()->back()->with('flash_message_success','Users registered successfullly');
             }
         }
         return view('admin.enrollments.create')->with(compact('roles'));
