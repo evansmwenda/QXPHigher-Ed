@@ -2113,7 +2113,15 @@ class DashboardController extends Controller
 
     public function massEnroll(Request $request){
         // dump($request->all());
-        return view('admin.enrollments.index');
+        $users = DB::table('users')
+        ->select('users.id as id','users.name as name','users.email as email','roles.title as role')
+        ->join('role_user', 'role_user.user_id', '=', 'users.id')
+        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->orderBy('users.id','DESC')
+        ->paginate(10);
+        // ->get();
+        // dd($users);
+        return view('admin.enrollments.index')->with(compact('users'));
     }
     
     public function massEnrollSave(Request $request){

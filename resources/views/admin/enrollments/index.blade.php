@@ -44,23 +44,28 @@
                     <thead>
                         <tr>
                             <td>#</td>
-                            <td>Student Name</td>
+                            <td>User Name</td>
                             <td>Email</td>
-                            <td>Requested Course</td>
+                            <td>User Role</td>
                             <td>State</td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                          <td>0</td>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                        </tr>
-
+                    @foreach ($users as $key=>$user)
+                      <tr>
+                        <td>{{++$key}}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role }}</td>
+                        <td>#</td>
+                      </tr>
+                    @endforeach
                     </tbody>
+                    
+                  
+
                 </table>
+                {{ $users->links() }}
             </div>
         </div>
 
